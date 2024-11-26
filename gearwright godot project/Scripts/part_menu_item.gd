@@ -10,7 +10,7 @@ var item_data
 var hovering = false
 var popup_loaded = false
 
-signal item_selected(data)
+#signal item_selected(data)
 
 func _process(_delta):
 	if Input.is_action_just_pressed("mouse_rightclick") && hovering:

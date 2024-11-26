@@ -94,7 +94,7 @@ func set_data(a_Item_Data):
 		var temp_font_size = get_theme_default_font_size()
 		var text_height = get_theme_default_font().get_multiline_string_size(a_Item_Data["extra_rules"], HORIZONTAL_ALIGNMENT_CENTER, min_x, temp_font_size).y
 		
-		size.y = size.y + (text_height/8) + 30
+		size.y = size.y + int(text_height/8.0) + 30
 	
 	if a_Item_Data["action_data"]:
 		var action_data = a_Item_Data["action_data"]
@@ -124,7 +124,7 @@ func set_data(a_Item_Data):
 			var temp_font_size = get_theme_default_font_size()
 			var text_height = get_theme_default_font().get_multiline_string_size(action_data["action_text"], HORIZONTAL_ALIGNMENT_CENTER, min_x, temp_font_size).y
 			
-			size.y = size.y + (text_height/8) + 50
+			size.y = size.y + int(text_height/8.0) + 50
 		
 	if !(item_description_container.visible or item_rules_container.visible or range_damage_label.visible or engage_text_label.visible or temp_stats):
 		middle_text_container.visible = false

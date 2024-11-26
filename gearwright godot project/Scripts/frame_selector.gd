@@ -21,12 +21,12 @@ func _ready():
 	for frame in frame_data:
 		add_item(frame.capitalize())
 	
-	emit_signal.call_deferred("load_frame", frame_data[frame_data.keys()[0]], frame_data.keys()[0])
+	load_frame.emit.call_deferred(frame_data[frame_data.keys()[0]], frame_data.keys()[0])
 
 func _on_item_selected(index):
 	var frame_name = get_item_text(index).to_snake_case()
-	emit_signal("load_frame", frame_data[frame_name], frame_name)
+	load_frame.emit(frame_data[frame_name], frame_name)
 
 func _on_mech_builder_new_save_loaded(a_User_data):
 	select(frame_data.keys().find(a_User_data["frame"]))
-	emit_signal("load_frame", frame_data[a_User_data["frame"]], a_User_data["frame"])
+	load_frame.emit(frame_data[a_User_data["frame"]], a_User_data["frame"])

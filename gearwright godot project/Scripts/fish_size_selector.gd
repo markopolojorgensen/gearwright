@@ -57,4 +57,4 @@ func _on_item_selected(index):
 func _on_fish_builder_new_save_loaded(a_Fish_data):
 	select(fish_size_data.keys().find(a_Fish_data["size"]))
 	var container = fish_container_scenes[fish_container_scenes.keys()[fish_container_scenes.keys().find(fish_size_data.keys()[fish_size_data.keys().find(a_Fish_data["size"])] + "_fish_container.tscn")]]
-	emit_signal("load_fish_container", container, fish_size_data[a_Fish_data["size"]])
+	load_fish_container.emit(container, fish_size_data[a_Fish_data["size"]])

@@ -4,7 +4,7 @@ extends MenuButton
 @onready var file_dialog = $FileDialog
 @onready var menu = get_popup()
 @onready var export_popup = $ExportPopup
-@onready var callsign_input = $"../../ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/CallsignInput"
+@onready var callsign_input = %CallsignLineEdit
 
 signal new_gear_pressed
 signal load_save_data(user_data)
@@ -23,7 +23,7 @@ func _on_item_pressed(id):
 	
 	match (action.to_lower()):
 		"new gear":
-			emit_signal("new_gear_pressed")
+			new_gear_pressed.emit()
 		"save to file":
 			save_current_build()
 		"load from file":
@@ -45,7 +45,7 @@ func read_save_file(a_path):
 	var save_data = JSON.parse_string(file.get_as_text())
 	file.close()
 	
-	emit_signal("load_save_data", save_data)
+	load_save_data.emit(save_data)
 
 func save_screenshot():
 	callsign_input.release_focus()

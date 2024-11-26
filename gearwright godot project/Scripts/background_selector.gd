@@ -25,8 +25,8 @@ func _ready():
 
 func _on_item_selected(index):
 	var background_name = get_item_text(index).to_snake_case()
-	emit_signal("load_background", background_data[background_name])
+	load_background.emit(background_data[background_name])
 
 func _on_mech_builder_new_save_loaded(a_User_data):
 	select(background_data.keys().find(a_User_data["background"]))
-	emit_signal("load_background", background_data[a_User_data["background"]])
+	load_background.emit(background_data[a_User_data["background"]])

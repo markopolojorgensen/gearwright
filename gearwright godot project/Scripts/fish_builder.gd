@@ -173,7 +173,7 @@ func place_item():
 		grid_array[grid_to_check].state = grid_array[grid_to_check].States.TAKEN
 		grid_array[grid_to_check].installed_item = item_held
 	
-	emit_signal("item_installed", item_held)
+	item_installed.emit(item_held)
 	internals[current_slot.slot_ID] = item_held
 	
 	item_held = null
@@ -197,7 +197,7 @@ func pickup_item():
 	check_slot_availability(current_slot)
 	set_grids.call_deferred(current_slot)
 	
-	emit_signal("item_removed", item_held)
+	item_removed.emit(item_held)
 
 func drop_item():
 	if not item_held:
@@ -240,7 +240,7 @@ func install_item(a_Item_ID, a_Index):
 		grid_array[grid_to_check].state = grid_array[grid_to_check].States.TAKEN
 		grid_array[grid_to_check].installed_item = new_item
 	
-	emit_signal("item_installed", new_item)
+	item_installed.emit(new_item)
 	internals[a_Index] = new_item
 
 func internals_reset():
@@ -249,7 +249,7 @@ func internals_reset():
 			var grid_to_check = slot + grid[0] + grid[1] * grid_array[slot].get_parent().columns
 			grid_array[grid_to_check].state = grid_array[grid_to_check].States.FREE
 			grid_array[grid_to_check].installed_item = null
-		emit_signal("item_removed", internals[slot])
+		item_removed.emit(internals[slot])
 		internals[slot].queue_free()
 	internals.clear()
 
@@ -281,8 +281,8 @@ func _on_save_options_menu_load_save_data(a_New_data):
 	internals_reset()
 	fish_data = DataHandler.get_fish_template()
 	
-	emit_signal("new_save_loaded", a_New_data)
-	emit_signal("update_name", a_New_data["name"])
+	new_save_loaded.emit(a_New_data)
+	update_name.emit(a_New_data["name"])
 	
 	for grid in a_New_data["internals"]:
 		print("installing " + a_New_data["internals"][grid] + " at " + grid)

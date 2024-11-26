@@ -20,7 +20,7 @@ func _on_mutation_plus_button_button_down():
 	
 	stat_counter += 1
 	stat_count_label.text = str(stat_counter)
-	emit_signal("background_stat_changed", stat, true)
+	background_stat_changed.emit(stat, true)
 
 func _on_mutation_minus_button_button_down():
 	if stat_counter <= 0:
@@ -28,7 +28,7 @@ func _on_mutation_minus_button_button_down():
 	
 	stat_counter -= 1
 	stat_count_label.text = str(stat_counter)
-	emit_signal("background_stat_changed", stat, false)
+	background_stat_changed.emit(stat, false)
 
 func increase_stat_counter():
 	stat_counter += 1
@@ -38,4 +38,4 @@ func clear_stat_counter():
 	for i in range(stat_counter):
 		stat_counter -= 1
 		stat_count_label.text = str(stat_counter)
-		emit_signal("background_stat_changed", stat, false)
+		background_stat_changed.emit(stat, false)

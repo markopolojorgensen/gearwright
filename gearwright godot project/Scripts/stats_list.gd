@@ -131,17 +131,19 @@ func update_labels():
 		
 		label_dict[key].text = stat_name + ": " + temp_value
 	
-	emit_signal("update_unlock_label", unlock_tally, stats_to_display["unlocks"])
-	emit_signal("update_core_integrity", stats_to_display["core_integrity"])
-	emit_signal("update_repair_kits", stats_to_display["repair_kits"])
-	emit_signal("update_deep_words", hidden_stats["deep_words"])
-	emit_signal("update_curios_allowed", hidden_stats["curios_allowed"])
+	update_unlock_label.emit(unlock_tally, stats_to_display["unlocks"])
+	update_core_integrity.emit(stats_to_display["core_integrity"])
+	update_repair_kits.emit(stats_to_display["repair_kits"])
+	update_deep_words.emit(hidden_stats["deep_words"])
+	update_curios_allowed.emit(hidden_stats["curios_allowed"])
+	
 	
 	if stats_to_display["mental"] > 5:
 		hidden_stats["bonus_mental_maneuvers"] = 1
 	else: 
 		hidden_stats["bonus_mental_maneuvers"] = 0
-	emit_signal("update_mental_maneuvers", hidden_stats["bonus_mental_maneuvers"])
+	
+	update_mental_maneuvers.emit(hidden_stats["bonus_mental_maneuvers"])
 
 func _on_mech_builder_item_installed(a_Item):
 	for stat in stats_to_display:
@@ -223,14 +225,14 @@ func _on_level_selector_change_level(a_Level_data, _a_Level):
 
 func _on_mech_builder_incrememnt_lock_tally(a_Change):
 	unlock_tally += a_Change
-	emit_signal("update_unlock_label", unlock_tally, stats_to_display["unlocks"])
+	update_unlock_label.emit(unlock_tally, stats_to_display["unlocks"])
 
 func unlocks_remaining() -> bool:
 	return unlock_tally < stats_to_display["unlocks"] or ignoring_unlock_cap
 
 func _on_mech_builder_reset_lock_tally():
 	unlock_tally = 0
-	emit_signal("update_unlock_label", unlock_tally, stats_to_display["unlocks"])
+	update_unlock_label.emit(unlock_tally, stats_to_display["unlocks"])
 
 func is_under_weight_limit(a_Item):
 	var under_limit = a_Item["weight"] + stats_to_display["weight"] <= a_Item["weight_cap"] + stats_to_display["weight_cap"]

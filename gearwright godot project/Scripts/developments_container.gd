@@ -59,10 +59,10 @@ func add_development(development):
 	else:
 		for container in development_containers:
 			container.option_button.set_item_disabled(development_data.keys().find(development), true)
-	emit_signal("development_added", development_data[development])
+	development_added.emit(development_data[development])
 
 func remove_development(development):
 	current_developments.erase(development)
 	for container in development_containers:
 		container.option_button.set_item_disabled(development_data.keys().find(development), false)
-	emit_signal("development_removed", development_data[development])
+	development_removed.emit(development_data[development])

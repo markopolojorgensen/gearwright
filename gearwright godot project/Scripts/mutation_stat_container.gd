@@ -18,7 +18,7 @@ func _on_mutation_plus_button_button_down():
 	
 	mutation_counter += 1
 	mutation_count_label.text = str(mutation_counter)
-	emit_signal("mutation_count_changed", stat, true)
+	mutation_count_changed.emit(stat, true)
 
 func _on_mutation_minus_button_button_down():
 	if mutation_counter <= 0:
@@ -26,7 +26,7 @@ func _on_mutation_minus_button_button_down():
 	
 	mutation_counter -= 1
 	mutation_count_label.text = str(mutation_counter)
-	emit_signal("mutation_count_changed", stat, false)
+	mutation_count_changed.emit(stat, false)
 
 func increase_mutation_counter():
 	mutation_counter += 1
@@ -36,4 +36,4 @@ func clear_mutation_counter():
 	for i in range(mutation_counter):
 		mutation_counter -= 1
 		mutation_count_label.text = str(mutation_counter)
-		emit_signal("mutation_count_changed", stat, false)
+		mutation_count_changed.emit(stat, false)

@@ -27,7 +27,7 @@ func _ready():
 	points_remaining_label.text = str(remaining_points)
 
 func stat_update(stat, was_added):
-	emit_signal("background_stat_updated", stat, available_bonuses[stat], was_added)
+	background_stat_updated.emit(stat, available_bonuses[stat], was_added)
 	remaining_points -= stat_costs[stat] if was_added else -1 * stat_costs[stat]
 	
 	points_remaining_label.text = str(remaining_points)
@@ -46,7 +46,7 @@ func _on_mech_builder_new_save_loaded(user_data):
 	if user_data.has("custom_background"):
 		for stat in user_data["custom_background"]:
 			remaining_points -= stat_costs[stat]
-			emit_signal("background_stat_updated", stat, available_bonuses[stat], true)
+			background_stat_updated.emit(stat, available_bonuses[stat], true)
 			stat_containers[stat].increase_stat_counter()
 	
 	points_remaining_label.text = str(remaining_points)

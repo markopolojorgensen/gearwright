@@ -35,7 +35,7 @@ func _on_button_button_down():
 				free_idx = i
 				option_button.select(free_idx)
 				break
-		emit_signal("maneuver_added", locations_in_menu[free_idx])
+		maneuver_added.emit(locations_in_menu[free_idx])
 		current_maneuver = locations_in_menu[free_idx]
 		set_label_text(maneuver_data[locations_in_menu[free_idx]]["name"])
 		initial_load = true
@@ -43,10 +43,10 @@ func _on_button_button_down():
 
 func _on_maneuvers_option_button_item_selected(index):
 	if current_maneuver:
-		emit_signal("maneuver_removed", current_maneuver)
+		maneuver_removed.emit(current_maneuver)
 	
 	current_maneuver = locations_in_menu[index]
-	emit_signal("maneuver_added", current_maneuver)
+	maneuver_added.emit(current_maneuver)
 	
 	option_button.hide()
 	

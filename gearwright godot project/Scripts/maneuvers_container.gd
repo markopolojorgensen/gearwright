@@ -44,13 +44,13 @@ func add_maneuver(maneuver):
 	current_maneuvers.append(maneuver)
 	for container in maneuver_containers:
 		container.option_button.set_item_disabled(container.locations_in_menu.find(maneuver), true)
-	emit_signal("maneuver_added", maneuver_data[maneuver])
+	maneuver_added.emit(maneuver_data[maneuver])
 
 func remove_maneuver(maneuver):
 	current_maneuvers.erase(maneuver)
 	for container in maneuver_containers:
 		container.option_button.set_item_disabled(container.locations_in_menu.find(maneuver), false)
-	emit_signal("maneuver_removed", maneuver_data[maneuver])
+	maneuver_removed.emit(maneuver_data[maneuver])
 
 func _on_stats_list_update_mental_maneuvers(value):
 	bonus_mental_maneuvers = value

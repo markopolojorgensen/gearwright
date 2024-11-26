@@ -14,4 +14,4 @@ func _ready():
 			add_tab(" %s " % label.capitalize())
 
 func _on_tab_changed(tab):
-	emit_signal("tab_chosen", tab_labels[tab])
+	tab_chosen.emit(tab_labels[tab])

@@ -5,7 +5,8 @@ extends VBoxContainer
 @onready var internals_grid_scene = preload("res://Scenes/internals_grid.tscn")
 @onready var margin_container = $MarginContainer
 
-@onready var mech_builder = $"../../../VBoxContainer/HBoxContainer/MechBuilder"
+# @onready var mech_builder = $"../../../VBoxContainer/HBoxContainer/MechBuilder"
+signal item_spawned(item_id)
 
 var section_list := {"head": null, "chest": null, "arm": null, "leg": null, "curios": null}
 var sections_for_armor := ["head", "chest", "arm", "leg"]
@@ -19,7 +20,7 @@ func _ready():
 		var new_grid = internals_grid_scene.instantiate()
 		new_scroll.add_child(new_grid)
 		margin_container.add_child(new_scroll)
-		new_grid.spawn_item.connect(mech_builder.on_item_inventory_spawn_item)
+		new_grid.spawn_item.connect(func(item_id): item_spawned.emit(item_id))
 		section_list[part] = new_grid
 	
 	var item_array := []

@@ -28,7 +28,7 @@ func _on_button_button_down():
 				free_idx = i
 				option_button.select(free_idx)
 				break
-		emit_signal("deep_word_added", deep_word_data.keys()[free_idx])
+		deep_word_added.emit(deep_word_data.keys()[free_idx])
 		current_deep_word = deep_word_data.keys()[free_idx]
 		set_label_text(deep_word_data[deep_word_data.keys()[free_idx]]["short_name"])
 		initial_load = true
@@ -36,10 +36,10 @@ func _on_button_button_down():
 
 func _on_deep_words_option_button_item_selected(index):
 	if current_deep_word:
-		emit_signal("deep_word_removed", current_deep_word)
+		deep_word_removed.emit(current_deep_word)
 	
 	current_deep_word = deep_word_data.keys()[index]
-	emit_signal("deep_word_added", current_deep_word)
+	deep_word_added.emit(current_deep_word)
 	
 	option_button.hide()
 	

@@ -23,7 +23,7 @@ func _on_item_pressed(id):
 	
 	match (action):
 		"New Fish":
-			emit_signal("new_fish_pressed")
+			new_fish_pressed.emit()
 		"Save to file":
 			save_current_build()
 		"Load from file":
@@ -39,7 +39,7 @@ func read_save_file(a_path):
 	var save_data = JSON.parse_string(file.get_as_text())
 	file.close()
 	
-	emit_signal("load_save_data", save_data)
+	load_save_data.emit(save_data)
 
 func save_screenshot():
 	file_dialog.visible = false

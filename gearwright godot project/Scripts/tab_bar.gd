@@ -9,7 +9,7 @@ func _ready():
 		add_tab(label.capitalize())
 
 func _on_tab_changed(tab):
-	emit_signal("tab_chosen", tab_labels[tab])
+	tab_chosen.emit(tab_labels[tab])
 
 func _on_stats_list_update_curios_allowed(value):
 	set_tab_disabled(tab_labels.find("curios"), not bool(value))

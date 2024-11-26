@@ -28,7 +28,7 @@ func _on_button_button_down():
 				free_idx = i
 				option_button.select(free_idx)
 				break
-		emit_signal("development_added", development_data.keys()[free_idx])
+		development_added.emit(development_data.keys()[free_idx])
 		current_development = development_data.keys()[free_idx]
 		set_label_text(development_data[current_development]["name"])
 		initial_load = true
@@ -36,10 +36,10 @@ func _on_button_button_down():
 
 func _on_developments_option_button_item_selected(index):
 	if current_development:
-		emit_signal("development_removed", current_development)
+		development_removed.emit(current_development)
 	
 	current_development = development_data.keys()[index]
-	emit_signal("development_added", current_development)
+	development_added.emit(current_development)
 	
 	option_button.hide()
 	

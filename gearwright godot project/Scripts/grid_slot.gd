@@ -34,8 +34,8 @@ func _process(_delta):
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if not is_hovering:
 			is_hovering = true
-			emit_signal("slot_entered", self)
+			slot_entered.emit(self)
 	else:
 		if is_hovering:
 			is_hovering = false
-			emit_signal("slot_exited")
+			slot_exited.emit(self)

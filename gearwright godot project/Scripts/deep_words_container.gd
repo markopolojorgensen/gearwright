@@ -38,13 +38,13 @@ func add_deep_word(deep_word):
 	current_deep_words.append(deep_word)
 	for container in deep_word_containers:
 		container.option_button.set_item_disabled(deep_word_data.keys().find(deep_word), true)
-	emit_signal("deep_word_added", deep_word_data[deep_word])
+	deep_word_added.emit(deep_word_data[deep_word])
 
 func remove_deep_word(deep_word):
 	current_deep_words.erase(deep_word)
 	for container in deep_word_containers:
 		container.option_button.set_item_disabled(deep_word_data.keys().find(deep_word), false)
-	emit_signal("deep_word_removed", deep_word_data[deep_word])
+	deep_word_removed.emit(deep_word_data[deep_word])
 
 func _on_stats_list_update_deep_words(deep_words_known):
 	var difference = deep_words_known - deep_word_containers.size()
@@ -67,5 +67,5 @@ func _on_mech_builder_new_save_loaded(user_data):
 		for deep_word in user_data["deep_words"]:
 			add_preselected_container(deep_word)
 
-func add_preselected_container(deep_word):
+func add_preselected_container(_deep_word):
 	pass

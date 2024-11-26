@@ -4,9 +4,18 @@ Q1 2025, definitely before May
 Questions
   numbers vs no_numbers export?
 
+
+
+stats_container shouldn't store data
+  "stats_list.gd"
+annihilate data storage in views
+
+
+
+
+
+
 Fish data missing artwork, all fucked up
-
-
 
 show known saves (duh)
 
@@ -29,7 +38,7 @@ probably about a million little QoL things
   hovering over weight should cause all equipped internals to display their weight
   some way to clear currently selected internal (right click?) (this already works mark you dummy)
 
-test 4.3 program export & download templates
+test 4.3 program export
 
 right click on developments and maneuvers in gear builder?
 
@@ -115,6 +124,10 @@ Do you want a "battle" mode, where you can track all the stuff you currently tra
 
 
 
+signals & code cleanup, moved mech_builder to be higher in hierarchy, use more %, starting to pull logic out of ui elements, new sparse grid data construct (unused)
 
-
+DONE
+  old mech builder moved into top level mech builder script
+  emit_signal("whatever") -> whatever.emit()
+  download export templates
 

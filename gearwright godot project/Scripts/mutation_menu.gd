@@ -24,7 +24,7 @@ func _ready():
 		add_child(temp_container)
 
 func mutation_update(stat, was_added):
-	emit_signal("mutation_updated", stat, available_mutations[stat], was_added)
+	mutation_updated.emit(stat, available_mutations[stat], was_added)
 	remaining_mutations -= 1 if was_added else -1
 	
 	mutations_remaining_label.text = str(remaining_mutations)
@@ -41,7 +41,7 @@ func _on_template_selector_load_template(template):
 	
 	if cached_mutations:
 		for stat in cached_mutations:
-			emit_signal("mutation_updated", stat, available_mutations[stat], true)
+			mutation_updated.emit(stat, available_mutations[stat], true)
 			mutation_containers[stat].increase_mutation_counter()
 		cached_mutations.clear()
 
