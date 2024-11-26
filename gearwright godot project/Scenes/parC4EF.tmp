@@ -1,0 +1,116 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx8s4iaox16a2"]
+
+[ext_resource type="Script" path="res://Scripts/part_menu_item.gd" id="1_hhkp4"]
+[ext_resource type="Script" path="res://Scripts/item_popup.gd" id="2_makmb"]
+
+[node name="PartMenuItem" type="ColorRect"]
+custom_minimum_size = Vector2(130, 75)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.215686, 0.215686, 0.215686, 1)
+script = ExtResource("1_hhkp4")
+
+[node name="Texture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemPopup" type="Popup" parent="."]
+position = Vector2i(200, 100)
+size = Vector2i(400, 160)
+visible = true
+mouse_passthrough = true
+min_size = Vector2i(400, 160)
+content_scale_aspect = 1
+script = ExtResource("2_makmb")
+
+[node name="ColorRect" type="ColorRect" parent="ItemPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.333333, 0.333333, 0.333333, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ItemPopup/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ItemPopup/ColorRect/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ItemNameLabel" type="Label" parent="ItemPopup/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Big Gun"
+
+[node name="ItemTypeLabel" type="Label" parent="ItemPopup/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Ranged Weapon"
+
+[node name="RangeDamageLabel" type="Label" parent="ItemPopup/ColorRect/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "pog"
+horizontal_alignment = 1
+
+[node name="ItemDescriptionLabel" type="RichTextLabel" parent="ItemPopup/ColorRect/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+
+[node name="ItemTagsLabel" type="RichTextLabel" parent="ItemPopup/ColorRect/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+bbcode_enabled = true
+text = "hmmm"
+fit_content = true
+
+[node name="ItemStatsLabel" type="RichTextLabel" parent="ItemPopup/ColorRect/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="TextureButton" to="." method="_on_texture_button_button_down"]
+[connection signal="mouse_entered" from="TextureButton" to="." method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="TextureButton" to="." method="_on_texture_button_mouse_exited"]

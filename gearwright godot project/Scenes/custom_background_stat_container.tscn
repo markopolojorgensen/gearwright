@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfwhvufknbpc"]
+
+[ext_resource type="Script" path="res://Scripts/custom_background_stat_container.gd" id="1_tho3p"]
+[ext_resource type="Texture2D" uid="uid://cxejjrndubskb" path="res://Assets/minus_icon.png" id="2_5wcu8"]
+[ext_resource type="Texture2D" uid="uid://c7i2vstthocql" path="res://Assets/plus_icon.png" id="3_ows7u"]
+
+[node name="CustomBackgroundStatContainer" type="HBoxContainer"]
+custom_minimum_size = Vector2(140, 30)
+theme_override_constants/separation = 5
+alignment = 1
+script = ExtResource("1_tho3p")
+
+[node name="CustomBackgroundStatLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Evasion (+1)"
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="BackgroundStatMinusButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("2_5wcu8")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BackgroundStatCountLabel" type="Label" parent="."]
+layout_mode = 2
+text = "0"
+
+[node name="BackgroundStatPlusButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("3_ows7u")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="button_down" from="BackgroundStatMinusButton" to="." method="_on_mutation_minus_button_button_down"]
+[connection signal="button_down" from="BackgroundStatPlusButton" to="." method="_on_mutation_plus_button_button_down"]

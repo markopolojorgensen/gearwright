@@ -1,0 +1,266 @@
+[gd_scene load_steps=11 format=3 uid="uid://co3tgplgb8ego"]
+
+[ext_resource type="Script" path="res://Scripts/fish_save_options_menu.gd" id="1_735o3"]
+[ext_resource type="Script" path="res://Scripts/fish_item_inventory.gd" id="1_wdkh4"]
+[ext_resource type="Script" path="res://Scripts/fish_builder.gd" id="2_bwekp"]
+[ext_resource type="Script" path="res://Scripts/fish_item_tab_bar.gd" id="2_jjwgj"]
+[ext_resource type="Script" path="res://Scripts/fish_size_selector.gd" id="4_d5w8l"]
+[ext_resource type="Script" path="res://Scripts/fish_stats_list.gd" id="4_pwufw"]
+[ext_resource type="Script" path="res://Scripts/internals_reset_button.gd" id="5_t4h7l"]
+[ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://Scenes/export_popup.tscn" id="7_yusas"]
+[ext_resource type="Script" path="res://Scripts/template_selector.gd" id="12_obu5o"]
+[ext_resource type="Script" path="res://Scripts/back_button.gd" id="18_k0m5r"]
+
+[node name="FishLayout" type="Control"]
+custom_minimum_size = Vector2(1650, 890)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1650.0
+offset_bottom = 890.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(350, 1080)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PartMenu" type="ColorRect" parent="ScrollContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="ItemInventory" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+script = ExtResource("1_wdkh4")
+
+[node name="TabBar" type="TabBar" parent="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+script = ExtResource("2_jjwgj")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Top Spacer" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="FishBuilder" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1000, 800)
+layout_mode = 2
+size_flags_vertical = 0
+color = Color(0.0823529, 0.109804, 0.294118, 1)
+script = ExtResource("2_bwekp")
+
+[node name="ColorRect" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 136.0
+offset_top = 90.0
+offset_right = -198.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder"]
+layout_mode = 2
+offset_left = 148.0
+offset_top = 101.0
+offset_right = 791.0
+offset_bottom = 744.0
+color = Color(0.0823529, 0.109804, 0.294118, 1)
+
+[node name="MenuHeader" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 10.0
+offset_top = 9.0
+offset_right = -8.0
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="FishSizeSelectContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader"]
+layout_mode = 2
+
+[node name="FishSizeSelectLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/FishSizeSelectContainer"]
+layout_mode = 2
+text = "  Fish Size:"
+
+[node name="FishSizeSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/FishSizeSelectContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("4_d5w8l")
+
+[node name="SelectorSpacer" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="SaveOptionsMenu" type="MenuButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+text = "Save/Load"
+flat = false
+script = ExtResource("1_735o3")
+
+[node name="ExportPopup" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/SaveOptionsMenu" instance=ExtResource("7_yusas")]
+
+[node name="FileDialog" type="FileDialog" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/SaveOptionsMenu"]
+title = "Open a File"
+initial_position = 1
+size = Vector2i(800, 600)
+ok_button_text = "Open"
+file_mode = 0
+access = 1
+root_subfolder = "Saves"
+
+[node name="InternalsResetButton2" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+text = "Reset Internals"
+script = ExtResource("5_t4h7l")
+
+[node name="InternalsResetConfirmDialog" type="ConfirmationDialog" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/InternalsResetButton2"]
+title = "Reset Internals?"
+initial_position = 2
+size = Vector2i(200, 80)
+
+[node name="ContainerContainer" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 164.0
+offset_top = 147.0
+offset_right = -234.0
+offset_bottom = -95.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FishNameInputContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder"]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 122.0
+offset_right = 357.0
+offset_bottom = 189.0
+
+[node name="FishNameLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/FishNameInputContainer"]
+layout_mode = 2
+text = "Fish Name:"
+
+[node name="FishNameInput" type="LineEdit" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/FishNameInputContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Stats Spacer" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "Main Menu
+"
+script = ExtResource("18_k0m5r")
+
+[node name="Control2" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="TemplateSelectorLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Template:
+"
+
+[node name="TemplateSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+script = ExtResource("12_obu5o")
+
+[node name="Control" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Stats" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 620)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="FishStatsList" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+script = ExtResource("4_pwufw")
+
+[node name="Bottom Spacer" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ActionLayout" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(1000, 500)
+layout_mode = 2
+size_flags_horizontal = 0
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[connection signal="tab_changed" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_tab_changed"]
+[connection signal="tab_chosen" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" method="_on_tab_bar_tab_chosen"]
+[connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/FishSizeSelectContainer/FishSizeSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
+[connection signal="load_fish_container" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/FishSizeSelectContainer/FishSizeSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder" method="_on_fish_size_selector_load_fish_container"]
+[connection signal="load_save_data" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/SaveOptionsMenu" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder" method="_on_save_options_menu_load_save_data"]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/InternalsResetButton2" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/InternalsResetButton2" method="_on_button_down"]
+[connection signal="confirmed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder/MenuHeader/InternalsResetButton2/InternalsResetConfirmDialog" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/FishBuilder" method="_on_internals_reset_confirm_dialog_confirmed"]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackButton" method="_on_button_down"]
+[connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/TemplateSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/TemplateSelector" method="_on_item_selected"]

@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx8s4iaox16a2"]
+
+[ext_resource type="Script" path="res://Scripts/part_menu_item.gd" id="1_hhkp4"]
+[ext_resource type="Script" path="res://Scenes/item_popup.gd" id="2_kdlk0"]
+
+[node name="PartMenuItem" type="ColorRect"]
+custom_minimum_size = Vector2(130, 75)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.215686, 0.215686, 0.215686, 1)
+script = ExtResource("1_hhkp4")
+
+[node name="Texture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemPopup" type="Popup" parent="."]
+position = Vector2i(200, 100)
+size = Vector2i(400, 300)
+visible = true
+mouse_passthrough = true
+script = ExtResource("2_kdlk0")
+
+[node name="ColorRect" type="ColorRect" parent="ItemPopup"]
+custom_minimum_size = Vector2(400, 300)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ItemPopup/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -79.0
+offset_right = 20.0
+offset_bottom = 79.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ItemPopup/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "pog"
+
+[node name="Label2" type="Label" parent="ItemPopup/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "pog"
+
+[node name="Label3" type="Label" parent="ItemPopup/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "pog"
+
+[node name="Label4" type="Label" parent="ItemPopup/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "pog"
+
+[node name="Label5" type="Label" parent="ItemPopup/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "pog"
+
+[node name="Label6" type="Label" parent="ItemPopup/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "pog"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="TextureButton" to="." method="_on_texture_button_button_down"]
+[connection signal="mouse_entered" from="TextureButton" to="." method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="TextureButton" to="." method="_on_texture_button_mouse_exited"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://chsjbb3f0ojd1"]
+
+[ext_resource type="Script" path="res://Scripts/internal_menu_item.gd" id="1_ny6b7"]
+
+[node name="InternalMenuItem" type="HBoxContainer"]
+offset_right = 70.0
+offset_bottom = 26.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("1_ny6b7")
+
+[node name="InternalNumberLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 17
+vertical_alignment = 2
+
+[node name="InternalNameLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 17
+text = "
+"
+vertical_alignment = 1

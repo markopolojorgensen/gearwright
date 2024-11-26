@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbrp7qumf1aqh"]
+
+[ext_resource type="Texture2D" uid="uid://tom6ginlw3h" path="res://Assets/Core Integrity.png" id="1_4xbw0"]
+
+[node name="TextureRect" type="TextureRect"]
+custom_minimum_size = Vector2(60, 60)
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_4xbw0")
+expand_mode = 1
+stretch_mode = 4

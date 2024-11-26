@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvw486r7metmw"]
+
+[ext_resource type="Script" path="res://Scripts/export_popup.gd" id="1_ficay"]
+
+[node name="ExportPopup" type="Popup"]
+initial_position = 2
+size = Vector2i(200, 160)
+visible = true
+script = ExtResource("1_ficay")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "File Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_to_text_length = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = ".fsh"
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Export"
+
+[connection signal="button_down" from="VBoxContainer/Button" to="." method="_on_button_button_down"]

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://miq2d7g2v54r"]
+
+[node name="LongSectionLabel" type="GridContainer"]
+custom_minimum_size = Vector2(180, 23)
+theme_override_constants/h_separation = 21
+columns = 6
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+text = "   1"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+text = "2"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+text = "3"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+text = "4"
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+text = "5"
+
+[node name="Label6" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+text = "6"

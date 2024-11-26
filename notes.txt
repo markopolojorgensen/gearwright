@@ -1,0 +1,118 @@
+TODO
+Q1 2025, definitely before May
+
+Questions
+  numbers vs no_numbers export?
+
+
+
+show known saves (duh)
+
+tab switcher - narrative profile
+  labels descriptor equipment
+
+fish builder might be actually a copy paste of gear builder -_-
+
+where does that .fsh file come from
+  zipped up bunch of files
+  are you editing all these json files by hand?
+
+program shouldn't crash if you try to use it without loading data
+startup time seems a bit slow?
+fish creator does weird things with internals
+
+probably about a million little QoL things
+  non-head sections should grey out if you pick up a head internal, same for all internals/sections
+  fish mutation editing box is messy
+  hovering over weight should cause all equipped internals to display their weight
+  some way to clear currently selected internal (right click?) (this already works mark you dummy)
+
+test 4.3 program export & download templates
+
+right click on developments and maneuvers in gear builder?
+
+
+
+
+
+=GENERAL CREATION=
+
+X Limited - Some Internals can only be installed X times, Gearwright should not let you install more.
+
+X Bulky - Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise) this might be the hardest thing, Genie
+was unsure if she could do it. Having this feature would be really really strong.
+
+
+=MECH CREATION=
+
+X Adjust the Fisher stat box to be inside the Fisher Mech - Screenshot rectangle
+
+X Sort Gear Internals with sub-headers per section ( Weapons, Active, Passive, etc)
+
+X Developments and Maneuvers and Deepwords need to be right-clickable so you can see what they do
+
+X Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible.
+
+X Curio Internals are currently only visible when you take the development to take one, they should always be visible. Maybe make them only equippable when you take the development.
+Curios are also obtainable outside of the development though so that also needs to be an option. Perhaps a disclaimer in the curio section is enough and they are freely available
+
+X Deep Words are currently only available via Developments, Fishers sometimes are able to pick up Deep-Words via progression during Campaign play so they need to be more accessible during creation.
+
+X gear builder: weight cap & weight -> top right under unlocks
+remove weight cap & weight from bottom right
+
+
+=FISH CREATION=
+
+X Created Fish have little number bubbles on their internals so they can be associated with their names in the legend.
+- > Can the numbers be smaller? Right now they are covering a bunch of the artwork. - If not, the number bubble must be moved for some internals,
+otherwise it covers critical parts of the art.
+- > Make number bubbles toggle-able. Turn them on and off
+
+X Fish Legend
+-> Some names of some internals are all over the place, the fish part legend just doesnt look neat at all currently
+we can make the names of some fish internals shorter but overall this just needs to be tidier.
+-> Underlay the names of the Fish Internals with the color that they are (purple, pink, orange, green, blue)
+
+X Leviathans are multi-grid fish
+-> in Gearwright their grids are currently named section 1, 2 and 3 etc. In the rules we have labeled them as body parts with distinct names.
+
+X When making a Screenshot of a Fish it should automatically de-select the name bar. perhaps there is a different way to export a PNG other than screenshot.
+
+X Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common".
+
+
+=QUALITY ASSURANCE=
+
+X Ralf goes through everything and sees if all the stats are correct for everything and if everything is there, some developments are missing for example.
+
+
+=BUG FIXES=
+
+X Internals that have a weird shape that leaves many spaces inside them open overlay internals with their empty spaces, making it impossible to click these "integrated" internals.
+
+X Loading a fish with a template will set the "Mutations remaining" value to max (even if you have already spent the mutations).
+
+X Fisher advancements are not displayed when loading a save
+
+X Fisher saves can still have overlapping internals (discarded internals are not consistently removed from the file)
+
+
+=IF SANTA IS GOOD TO ME THIS YEAR=
+
+X I am commissioning Terrain for Fathomless Gears, coupled with the fact that its a simple square grid and that all maps are 20x20 and all terrain pieces are
+rectangles it really shouldn't be to hard to throw a map editor into the program. It would be the cherry on top of everything.
+
+Do you want a "battle" mode, where you can track all the stuff you currently track by drawing Xs on stuff in real time?
+  (it would be a pretty sizeable undertaking)
+
+
+
+
+
+
+
+
+
+
+
