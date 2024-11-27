@@ -3,6 +3,7 @@ Q1 2025, definitely before May
 
 Questions
   numbers vs no_numbers export?
+  power saving mode?
 
 
 
@@ -121,10 +122,7 @@ Do you want a "battle" mode, where you can track all the stuff you currently tra
 
 
 
-
-
-
-signals & code cleanup, moved mech_builder to be higher in hierarchy, use more %, starting to pull logic out of ui elements, new sparse grid data construct (unused)
+splitting data out of views: grid_slot/grid_slot_control, gear_section/gear_section_control, also starting to refactor mech_builder grid_array
 
 DONE
   old mech builder moved into top level mech builder script

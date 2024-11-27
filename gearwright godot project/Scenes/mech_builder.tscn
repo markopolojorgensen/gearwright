@@ -1,9 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=37 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="2_htuaq"]
 [ext_resource type="Script" path="res://Scripts/tab_bar.gd" id="3_d0si5"]
 [ext_resource type="Script" path="res://Scripts/old_mech_builder.gd" id="4_7aspa"]
+[ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://Scenes/gear_section_control.tscn" id="5_n5byg"]
 [ext_resource type="PackedScene" uid="uid://b8wo2uevk7j00" path="res://Scenes/short_section_label.tscn" id="5_ot1pe"]
 [ext_resource type="Script" path="res://Scripts/Grid Container Scripts/HeadContainer.gd" id="6_qo67n"]
 [ext_resource type="PackedScene" uid="uid://miq2d7g2v54r" path="res://Scenes/long_section_label.tscn" id="7_2sy4s"]
@@ -149,7 +150,21 @@ offset_right = 646.0
 offset_bottom = 330.5
 grow_vertical = 2
 
+[node name="HeadGearSectionControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 300.0
+offset_top = 44.0
+offset_right = -345.0
+offset_bottom = -590.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="HeadSectionLabel" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_ot1pe")]
+visible = false
 layout_mode = 0
 offset_left = 300.0
 offset_top = 44.0
@@ -158,6 +173,7 @@ offset_bottom = 67.0
 
 [node name="HeadContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(90, 90)
 layout_mode = 1
 anchors_preset = 5
@@ -175,6 +191,7 @@ script = ExtResource("6_qo67n")
 capacity = 9
 
 [node name="HeadBottomLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
+visible = false
 layout_mode = 2
 offset_left = 300.0
 offset_top = 160.0

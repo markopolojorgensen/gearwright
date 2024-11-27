@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://ct6d6kdknygnl"]
 
-[ext_resource type="Texture2D" uid="uid://butsvck7ilv1o" path="res://Assets/gridBackground.png" id="1_tq8io"]
-[ext_resource type="Script" path="res://Scripts/grid_slot.gd" id="2_q65a0"]
-[ext_resource type="Texture2D" uid="uid://bud7gj80ocsfc" path="res://Assets/padlock.png" id="3_cd6xw"]
+[ext_resource type="Texture2D" uid="uid://butsvck7ilv1o" path="res://Assets/gridBackground.png" id="1_fdtyn"]
+[ext_resource type="Script" path="res://Scripts/grid_slot_control.gd" id="2_u53nv"]
+[ext_resource type="Texture2D" uid="uid://bud7gj80ocsfc" path="res://Assets/padlock.png" id="3_oqgua"]
 
-[node name="GridSlot" type="TextureRect"]
+[node name="GridSlotControl" type="TextureRect"]
 custom_minimum_size = Vector2(30, 30)
-texture = ExtResource("1_tq8io")
+texture = ExtResource("1_fdtyn")
 expand_mode = 1
-script = ExtResource("2_q65a0")
+script = ExtResource("2_u53nv")
 
 [node name="StatusFilter" type="ColorRect" parent="."]
 layout_mode = 1
@@ -30,5 +30,5 @@ offset_right = -3.0
 offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_cd6xw")
+texture = ExtResource("3_oqgua")
 expand_mode = 1

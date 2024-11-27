@@ -1,7 +1,7 @@
 extends Control
 
 const item_scene = preload("res://Scenes/item.tscn")
-const slot_scene = preload("res://Scenes/grid_slot.tscn")
+# const slot_scene = preload("res://Scenes/grid_slot.tscn")
 
 signal item_installed(item)
 signal item_removed(item)
@@ -36,7 +36,15 @@ signal reset_lock_tally
 	%LegContainer,
 ]
 
-var grid_array := []
+var gear_sections = {
+	chest     = GearSection.new(Vector2i(6, 6)),
+	left_arm  = GearSection.new(Vector2i(6, 3)),
+	right_arm = GearSection.new(Vector2i(6, 3)),
+	head      = GearSection.new(Vector2i(3, 3)),
+	leg       = GearSection.new(Vector2i(3, 6)),
+}
+
+#var grid_array := [] #WHEREWASI yeeting this
 enum Modes {EQUIP, PLACE, UNLOCK}
 var mode = Modes.EQUIP
 var item_held
@@ -57,20 +65,20 @@ var custom_background := []
 #region initialization
 
 func _ready():
+	%HeadGearSectionControl.initialize(gear_sections.head)
+	
 	#item_inventory_container.item_spawned.connect(_on_item_inventory_item_spawned)
-	for container in containers:
-		for i in container.capacity:
-			create_slot(container)
-	print(str(grid_array))
-	breakpoint
+	#for container in containers:
+		#for i in container.capacity:
+			#create_slot(container)
 
-func create_slot(container):
-	var new_slot = slot_scene.instantiate()
-	new_slot.slot_ID = grid_array.size()
-	container.add_child(new_slot)
-	grid_array.push_back(new_slot)
-	new_slot.slot_entered.connect(_on_slot_mouse_entered)
-	new_slot.slot_exited.connect(_on_slot_mouse_exited)
+#func create_slot(container):
+	#var new_slot = slot_scene.instantiate()
+	#new_slot.slot_ID = grid_array.size()
+	#container.add_child(new_slot)
+	#grid_array.push_back(new_slot)
+	#new_slot.slot_entered.connect(_on_slot_mouse_entered)
+	#new_slot.slot_exited.connect(_on_slot_mouse_exited)
 
 #endregion
 

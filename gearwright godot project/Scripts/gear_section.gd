@@ -1,11 +1,15 @@
-extends VBoxContainer
+extends RefCounted
+class_name GearSection
+
+var name := "GearSection"
+var dice_string := "(0-1)"
+var grid := SparseGrid.new()
+
+func _init(dimensions: Vector2i = Vector2i(1, 1)):
+	set_section_dimensions(dimensions)
+
+func set_section_dimensions(dimensions: Vector2i):
+	grid.size = dimensions
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
