@@ -1,8 +1,12 @@
 extends RefCounted
 class_name SparseGrid
 
-# 2D grid with arbitrary keys
+# 2D "grid" with arbitrary keys
 # i.e. negative keys are fine
+# really, this is just a dictionary where the key is a pair of things instead of one thing
+# maybe it should be called PairKeyDictionary
+# maybe it should be called ParakeetDictionary
+# (although it's assumed that the keys are all integers)
 
 # set size to positive values to enforce strict get/set
 var size := Vector2i(-1, -1)

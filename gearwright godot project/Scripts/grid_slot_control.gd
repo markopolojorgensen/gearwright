@@ -1,10 +1,11 @@
 extends TextureRect
 
-signal slot_entered(slot)
-signal slot_exited(slot)
+signal slot_entered
+signal slot_exited
 
 @onready var filter = $StatusFilter
 @onready var padlock = $Padlock
+@onready var hovered_color_rect: ColorRect = $HoveredColorRect
 
 #var slot_ID
 var is_hovering := false
@@ -41,8 +42,10 @@ func _process(_delta):
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if not is_hovering:
 			is_hovering = true
-			slot_entered.emit(self)
+			hovered_color_rect.show()
+			slot_entered.emit()
 	else:
 		if is_hovering:
 			is_hovering = false
-			slot_exited.emit(self)
+			hovered_color_rect.hide()
+			slot_exited.emit()

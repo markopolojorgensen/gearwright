@@ -63,12 +63,14 @@ func set_grid_and_icon_data():
 			item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
 	
 	if fish_item_data:
-		for item in fish_item_data.keys():
-			var temp_grid_array := []
-			for point in fish_item_data[item]["grid"]:
-				temp_grid_array.push_back(point.split(","))
-			fish_item_grid_data[item] = temp_grid_array
-			fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
+		pass
+		# FIXME
+		#for item in fish_item_data.keys():
+			#var temp_grid_array := []
+			#for point in fish_item_data[item]["grid"]:
+				#temp_grid_array.push_back(point.split(","))
+			#fish_item_grid_data[item] = temp_grid_array
+			#fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
 
 func reload_items():
 	item_data = load_data(item_data_path)

@@ -121,8 +121,7 @@ Do you want a "battle" mode, where you can track all the stuff you currently tra
 
 
 
-
-splitting data out of views: grid_slot/grid_slot_control, gear_section/gear_section_control, also starting to refactor mech_builder grid_array
+slot hover highlight, GearSection/GridSlot overhaul continues, GearSectionControls have replaced containers, lots of broken functionality
 
 DONE
   old mech builder moved into top level mech builder script

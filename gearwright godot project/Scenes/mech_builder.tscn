@@ -158,8 +158,60 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 300.0
 offset_top = 44.0
-offset_right = -345.0
-offset_bottom = -590.0
+offset_right = 301.0
+offset_bottom = 71.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="TorsoGearSectionControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 253.0
+offset_top = 184.0
+offset_right = 254.0
+offset_bottom = 211.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="LeftArmGearSectionControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 44.0
+offset_top = 184.0
+offset_right = 45.0
+offset_bottom = 211.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="RightArmGearSectionControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 462.0
+offset_top = 184.0
+offset_right = 463.0
+offset_bottom = 211.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="LegsGearSectionControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 302.0
+offset_top = 416.0
+offset_right = 303.0
+offset_bottom = 443.0
 grow_horizontal = 1
 grow_vertical = 1
 
@@ -202,6 +254,7 @@ theme_override_font_sizes/font_size = 13
 text = "Head (2-3)"
 
 [node name="ChestColumnLabel" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("7_2sy4s")]
+visible = false
 layout_mode = 0
 offset_left = 253.0
 offset_top = 184.0
@@ -210,6 +263,7 @@ offset_bottom = 207.0
 
 [node name="ChestContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
 unique_name_in_owner = true
+visible = false
 material = SubResource("ShaderMaterial_6m6hc")
 custom_minimum_size = Vector2(180, 180)
 layout_mode = 1
@@ -233,6 +287,7 @@ script = ExtResource("8_k1yp2")
 capacity = 36
 
 [node name="ChestBottomLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
+visible = false
 layout_mode = 2
 offset_left = 254.0
 offset_top = 392.0
@@ -243,6 +298,7 @@ theme_override_font_sizes/font_size = 13
 text = "Torso (6-8)"
 
 [node name="LeftArmColumnLabel" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("7_2sy4s")]
+visible = false
 layout_mode = 0
 offset_left = 44.0
 offset_top = 184.0
@@ -251,6 +307,7 @@ offset_bottom = 207.0
 
 [node name="LeftArmContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(180, 90)
 layout_mode = 1
 anchors_preset = 4
@@ -268,6 +325,7 @@ script = ExtResource("9_eg54b")
 capacity = 18
 
 [node name="LeftArmBottomLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
+visible = false
 layout_mode = 0
 offset_left = 143.0
 offset_top = 301.0
@@ -278,6 +336,7 @@ theme_override_font_sizes/font_size = 13
 text = "Left Arm (4-5)"
 
 [node name="RightArmColumnLabel" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("7_2sy4s")]
+visible = false
 layout_mode = 0
 offset_left = 462.0
 offset_top = 184.0
@@ -286,6 +345,7 @@ offset_bottom = 207.0
 
 [node name="RightArmContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(180, 90)
 layout_mode = 1
 anchors_preset = 6
@@ -305,6 +365,7 @@ script = ExtResource("10_syy5i")
 capacity = 18
 
 [node name="RightArmBottomLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
+visible = false
 layout_mode = 0
 offset_left = 464.0
 offset_top = 301.0
@@ -315,6 +376,7 @@ theme_override_font_sizes/font_size = 13
 text = "Right Arm (9-10)"
 
 [node name="LegSectionLabel" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer" instance=ExtResource("5_ot1pe")]
+visible = false
 layout_mode = 0
 offset_left = 302.0
 offset_top = 416.0
@@ -323,6 +385,7 @@ offset_bottom = 439.0
 
 [node name="LegContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(90, 180)
 layout_mode = 1
 anchors_preset = 7
@@ -343,6 +406,7 @@ script = ExtResource("11_7hxhv")
 capacity = 18
 
 [node name="LegBottomLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer"]
+visible = false
 layout_mode = 0
 offset_left = 304.0
 offset_top = 624.0
@@ -901,6 +965,16 @@ script = ExtResource("33_1qdfs")
 [connection signal="item_spawned" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" to="." method="_on_item_inventory_item_spawned"]
 [connection signal="tab_changed" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_tab_changed"]
 [connection signal="tab_chosen" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" method="_on_tab_bar_tab_chosen"]
+[connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/HeadGearSectionControl" to="." method="_on_head_gear_section_control_slot_entered"]
+[connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/HeadGearSectionControl" to="." method="_on_head_gear_section_control_slot_exited"]
+[connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/TorsoGearSectionControl" to="." method="_on_chest_gear_section_control_slot_entered"]
+[connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/TorsoGearSectionControl" to="." method="_on_chest_gear_section_control_slot_exited"]
+[connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LeftArmGearSectionControl" to="." method="_on_left_arm_gear_section_control_slot_entered"]
+[connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LeftArmGearSectionControl" to="." method="_on_left_arm_gear_section_control_slot_exited"]
+[connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RightArmGearSectionControl" to="." method="_on_right_arm_gear_section_control_slot_entered"]
+[connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RightArmGearSectionControl" to="." method="_on_right_arm_gear_section_control_slot_exited"]
+[connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_entered"]
+[connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_exited"]
 [connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_developments_container_development_added"]
 [connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_developments_container_development_removed"]
 [connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" method="_on_item_selected"]
