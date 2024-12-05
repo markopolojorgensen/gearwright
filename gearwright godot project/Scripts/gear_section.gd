@@ -20,5 +20,9 @@ func get_total_equipped_weight() -> int:
 	push_error("gear_section: get_total_equipped_weight")
 	return 0
 
+func reset():
+	for coords in grid.get_valid_entries():
+		grid.get_contents_v(coords).reset()
+
 func _to_string() -> String:
 	return "<GearSection: %s %s | size: %dx%d>" % [name, dice_string, grid.size.x, grid.size.y]

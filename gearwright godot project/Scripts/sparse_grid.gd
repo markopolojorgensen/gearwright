@@ -53,5 +53,6 @@ func is_within_size(x: int, y: int):
 	
 	return true
 
-
+func is_within_size_v(coords: Vector2i):
+	return is_within_size(coords.x, coords.y)
 

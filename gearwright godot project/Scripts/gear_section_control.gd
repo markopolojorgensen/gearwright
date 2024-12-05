@@ -1,4 +1,5 @@
 extends VBoxContainer
+class_name GearSectionControl
 
 signal slot_entered(slot_info: Dictionary)
 signal slot_exited(slot_info: Dictionary)

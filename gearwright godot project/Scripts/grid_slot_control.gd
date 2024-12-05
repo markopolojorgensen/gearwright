@@ -1,4 +1,5 @@
 extends TextureRect
+class_name GridSlotControl
 
 signal slot_entered
 signal slot_exited
@@ -15,20 +16,27 @@ var is_hovering := false
 #var installed_item = null
 
 func update(grid_slot: GridSlot):
-	set_color(grid_slot.state)
-	if grid_slot.locked:
+	if grid_slot.is_locked:
 		padlock.visible = true
 	else:
 		padlock.visible = false
+	
+	filter.color = Color(Color.WHITE, 0.0) # clear
 
-func set_color(a_state = GridSlot.states.DEFAULT):
-	match a_state:
-		GridSlot.states.DEFAULT:
-			filter.color = Color(Color.WHITE, 0.0)
-		GridSlot.states.TAKEN:
-			filter.color = Color(Color.DARK_ORANGE, 0.3)
-		GridSlot.states.FREE:
-			filter.color = Color(Color.GREEN, 0.3)
+func color_valid_equip():
+	filter.color = Color(Color.GREEN, 0.3)
+
+func color_invalid_equip():
+	filter.color = Color(Color.DARK_ORANGE, 0.3)
+
+#func set_color(a_state = GridSlot.states.DEFAULT):
+	#match a_state:
+		#GridSlot.states.DEFAULT:
+			#filter.color = Color(Color.WHITE, 0.0)
+		#GridSlot.states.TAKEN:
+			#filter.color = Color(Color.DARK_ORANGE, 0.3)
+		#GridSlot.states.FREE:
+			#filter.color = Color(Color.GREEN, 0.3)
 
 #func lock():
 	#locked = true

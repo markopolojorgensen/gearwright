@@ -14,10 +14,6 @@ var popup_loaded = false
 var x_offset = 0
 var y_offset = 0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if selected:
@@ -61,7 +57,7 @@ func load_item(a_itemID : String):
 func snap_to(destination: Vector2):
 	var tween = get_tree().create_tween()
 	
-	tween.tween_property(self, "global_position", destination, 0.01).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "global_position", destination, 0.05).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	selected = false
 
 func _on_icon_mouse_entered():

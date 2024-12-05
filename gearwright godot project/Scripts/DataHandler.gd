@@ -64,7 +64,7 @@ func set_grid_and_icon_data():
 	
 	if fish_item_data:
 		pass
-		# FIXME
+		# TODO make sure this works
 		#for item in fish_item_data.keys():
 			#var temp_grid_array := []
 			#for point in fish_item_data[item]["grid"]:

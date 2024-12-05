@@ -962,6 +962,13 @@ script = ExtResource("33_1qdfs")
 
 [node name="WeightLabelShaker" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" instance=ExtResource("34_dotfp")]
 
+[node name="ModeDebugLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 319.0
+offset_top = 11.0
+offset_right = 359.0
+offset_bottom = 34.0
+
 [connection signal="item_spawned" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" to="." method="_on_item_inventory_item_spawned"]
 [connection signal="tab_changed" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_tab_changed"]
 [connection signal="tab_chosen" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" method="_on_tab_bar_tab_chosen"]
