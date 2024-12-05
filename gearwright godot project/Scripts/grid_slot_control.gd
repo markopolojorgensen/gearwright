@@ -23,10 +23,10 @@ func update(grid_slot: GridSlot):
 	
 	filter.color = Color(Color.WHITE, 0.0) # clear
 
-func color_valid_equip():
+func color_good():
 	filter.color = Color(Color.GREEN, 0.3)
 
-func color_invalid_equip():
+func color_bad():
 	filter.color = Color(Color.DARK_ORANGE, 0.3)
 
 #func set_color(a_state = GridSlot.states.DEFAULT):

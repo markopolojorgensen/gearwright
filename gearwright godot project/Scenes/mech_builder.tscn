@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=38 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="2_htuaq"]
@@ -35,6 +35,7 @@
 [ext_resource type="Script" path="res://Scripts/background_edit_menu.gd" id="32_8sc6q"]
 [ext_resource type="Script" path="res://Scripts/stats_list.gd" id="33_1qdfs"]
 [ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://Scenes/label_shaker.tscn" id="34_dotfp"]
+[ext_resource type="Script" path="res://Scripts/stats_list_control.gd" id="36_ilok7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6m6hc"]
 
@@ -947,7 +948,7 @@ layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[node name="StatsVBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats"]
+[node name="OldStatsVBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -960,7 +961,15 @@ size_flags_vertical = 4
 alignment = 1
 script = ExtResource("33_1qdfs")
 
-[node name="WeightLabelShaker" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" instance=ExtResource("34_dotfp")]
+[node name="WeightLabelShaker" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" instance=ExtResource("34_dotfp")]
+
+[node name="StatsListControl" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats"]
+layout_mode = 0
+offset_right = 215.0
+offset_bottom = 620.0
+script = ExtResource("36_ilok7")
+
+[node name="WeightLabelShaker" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsListControl" instance=ExtResource("34_dotfp")]
 
 [node name="ModeDebugLabel" type="Label" parent="."]
 layout_mode = 0
@@ -982,17 +991,17 @@ offset_bottom = 34.0
 [connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RightArmGearSectionControl" to="." method="_on_right_arm_gear_section_control_slot_exited"]
 [connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_entered"]
 [connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_exited"]
-[connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_developments_container_development_added"]
-[connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_developments_container_development_removed"]
+[connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_added"]
+[connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_removed"]
 [connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" method="_on_item_selected"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="." method="_on_frame_selector_load_frame"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_frame_selector_load_frame"]
-[connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_frame_selector_load_frame"]
+[connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_frame_selector_load_frame"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="." method="_on_level_selector_change_level"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" method="_on_level_selector_change_level"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer" method="_on_level_selector_change_level"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_level_selector_change_level"]
-[connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_level_selector_change_level"]
+[connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_level_selector_change_level"]
 [connection signal="value_changed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" method="_on_value_changed"]
 [connection signal="load_save_data" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/SaveOptionsMenu" to="." method="_on_save_options_menu_load_save_data"]
 [connection signal="new_gear_pressed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/SaveOptionsMenu" to="." method="_on_save_options_menu_new_gear_pressed"]
@@ -1007,22 +1016,22 @@ offset_bottom = 34.0
 [connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/HardpointsResetButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/HardpointsResetButton" method="_on_button_down"]
 [connection signal="confirmed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/HardpointsResetButton/HardpointsResetConfirmDialog" to="." method="_on_hardpoints_reset_confirm_dialog_confirmed"]
 [connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/UnlockToggle" to="." method="_on_unlock_toggle_button_down"]
-[connection signal="toggled" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ToggleContainer/WeightCapOverrideToggle/WeightCapCheckButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_weight_cap_check_button_toggled"]
-[connection signal="toggled" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ToggleContainer/UnlocksOverrideToggle/UnlocksCheckButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_unlocks_check_button_toggled"]
+[connection signal="toggled" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ToggleContainer/WeightCapOverrideToggle/WeightCapCheckButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_weight_cap_check_button_toggled"]
+[connection signal="toggled" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ToggleContainer/UnlocksOverrideToggle/UnlocksCheckButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_unlocks_check_button_toggled"]
 [connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackButton" method="_on_button_down"]
 [connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" method="_on_item_selected"]
 [connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="." method="_on_background_selector_load_background"]
 [connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_background_selector_load_background"]
 [connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" method="_on_background_selector_load_background"]
 [connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" method="_on_background_selector_load_background"]
-[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_background_selector_load_background"]
+[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_selector_load_background"]
 [connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" method="_on_button_down"]
 [connection signal="focus_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" method="_on_background_edit_popup_focus_exited"]
 [connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="." method="_on_background_edit_menu_background_stat_updated"]
-[connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" method="_on_background_edit_menu_background_stat_updated"]
-[connection signal="update_core_integrity" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/CoreIntegrity/CoreIconContainer" method="_on_stats_list_update_core_integrity"]
-[connection signal="update_curios_allowed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_stats_list_update_curios_allowed"]
-[connection signal="update_deep_words" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DeepWordsContainer" method="_on_stats_list_update_deep_words"]
-[connection signal="update_mental_maneuvers" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer" method="_on_stats_list_update_mental_maneuvers"]
-[connection signal="update_repair_kits" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RepairKits/RepairIconContainer" method="_on_stats_list_update_repair_kits"]
-[connection signal="update_unlock_label" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/UnlocksRemaining/UnlocksRemainingLabel" method="_on_stats_list_update_unlock_label"]
+[connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_edit_menu_background_stat_updated"]
+[connection signal="update_core_integrity" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/CoreIntegrity/CoreIconContainer" method="_on_stats_list_update_core_integrity"]
+[connection signal="update_curios_allowed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_stats_list_update_curios_allowed"]
+[connection signal="update_deep_words" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DeepWordsContainer" method="_on_stats_list_update_deep_words"]
+[connection signal="update_mental_maneuvers" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer" method="_on_stats_list_update_mental_maneuvers"]
+[connection signal="update_repair_kits" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RepairKits/RepairIconContainer" method="_on_stats_list_update_repair_kits"]
+[connection signal="update_unlock_label" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/UnlocksRemaining/UnlocksRemainingLabel" method="_on_stats_list_update_unlock_label"]

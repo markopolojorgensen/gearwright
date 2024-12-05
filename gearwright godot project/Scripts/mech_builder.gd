@@ -221,14 +221,12 @@ func place_item():
 	
 	var item_cells := get_item_held_cells()
 	var top_left_cell = item_cells.reduce(func(best: Vector2i, current: Vector2i):
-		if current.distance_squared_to(Vector2i()) < best.distance_squared_to(Vector2i()):
-			return current
-		else:
-			return best
+		best.x = min(best.x, current.x)
+		best.y = min(best.y, current.y)
+		return best
 		, Vector2i(1000, 1000))
 	var gear_section_control: GearSectionControl = current_slot_info.gear_section_control
 	var anchor_grid_slot_control: GridSlotControl = gear_section_control.control_grid.get_contents_v(top_left_cell)
-	# TODO icon_anchor is an enigma wrapped in a mystery
 	
 	item_held.get_parent().remove_child(item_held)
 	#current_slot.get_parent().add_child(item_held)
@@ -281,6 +279,7 @@ func toggle_current_slot_lock():
 	#	return 
 	
 	current_slot_info.grid_slot.is_locked = not current_slot_info.grid_slot.is_locked
+	gear_data["unlocks"] = get_unlocked_slots()
 	update_gear_section_controls()
 	
 	#if not current_slot or not is_lock_toggleable(current_slot):
@@ -288,7 +287,7 @@ func toggle_current_slot_lock():
 	#
 	#if current_slot.is_locked:
 		#current_slot.unlock()
-		#gear_data["unlocks"].push_back(current_slot.slot_ID) # TODO
+		#gear_data["unlocks"].push_back(current_slot.slot_ID)
 		#incrememnt_lock_tally.emit(1) # TODO
 		#
 	#else:
@@ -332,9 +331,8 @@ func drop_item():
 	#
 	#return true
 
-func set_grids(slot):
-	pass
-	# TODO maybe uncomment?
+# TODO maybe uncomment? maybe yeet?
+#func set_grids(slot):
 	#var column_count = slot.get_parent().columns
 	#for grid in item_held.item_grids:
 		#var grid_to_check = slot.slot_ID + grid[0] + grid[1] * column_count
@@ -464,8 +462,6 @@ func _on_item_inventory_item_spawned(item_id):
 	mode = Modes.PLACE
 	stats_container.update_weight_label_effect(item_held.item_data)
 
-
-
 func _on_level_selector_change_level(_a_Level_data, a_Level):
 	gear_data["level"] = a_Level
 
@@ -476,8 +472,9 @@ func _on_save_options_menu_load_save_data(a_New_data):
 	new_save_loaded.emit(a_New_data)
 	
 	var temp_unlocks = PackedInt32Array(a_New_data["unlocks"])
-	for index in temp_unlocks:
+	for index in temp_unlocks: # TODO definitely borked, see get_unlocked_slots()
 		if index in gear_data["unlocks"]:
+			breakpoint # tsnh?
 			continue
 		
 		grid_array[index].unlock()
@@ -524,6 +521,8 @@ func _on_unlock_toggle_button_down():
 		#for grid in grid_array:
 			#if default_unlocks.has(grid.slot_ID):
 				#grid.set_color(grid.States.TAKEN)
+	
+	update_gear_section_controls()
 
 func _on_background_selector_load_background(a_Background_data):
 	current_background = a_Background_data["background"].to_snake_case()
@@ -684,6 +683,7 @@ func update_gear_section_controls():
 		gear_section_control.update()
 	
 	update_held_item_highlights()
+	update_unlock_mode()
 
 func update_held_item_highlights():
 	if item_held == null:
@@ -704,14 +704,41 @@ func update_held_item_highlights():
 	if can_place_current_item():
 		for grid_slot_control in grid_slot_controls:
 			if grid_slot_control != null:
-				grid_slot_control.color_valid_equip()
+				grid_slot_control.color_good()
 	else:
 		for grid_slot_control in grid_slot_controls:
 			if grid_slot_control != null:
-				grid_slot_control.color_invalid_equip()
+				grid_slot_control.color_bad()
 
+func update_unlock_mode():
+	if mode != Modes.UNLOCK:
+		return
+	
+	# default frame unlocks
+	for id in gear_section_controls.keys():
+		var gear_section_control: GearSectionControl = gear_section_controls[id]
+		var gear_section: GearSection = gear_section_control.gear_section
+		var cells := gear_section.grid.get_valid_entries()
+		for cell in cells:
+			# cell is Vector2i
+			var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
+			var grid_slot_control: GridSlotControl = gear_section_control.control_grid.get_contents_v(cell)
+			if grid_slot.is_default_unlock:
+				grid_slot_control.color_bad()
+	
+	update_current_unlock_highlight()
 
-
+func update_current_unlock_highlight():
+	if current_slot_info.is_empty():
+		return
+	
+	var grid_slot: GridSlot = current_slot_info.grid_slot
+	if grid_slot.is_default_unlock:
+		return
+	
+	# if unlocks remain: # TODO
+	current_slot_info.grid_slot_control.color_good()
+	# else: color bad
 
 #endregion
 
@@ -790,6 +817,24 @@ func get_item_held_cells() -> Array:
 	var current_slot_coord := Vector2i(current_slot_info.x, current_slot_info.y)
 	var item_cells := item_cell_offsets.map(func(offset): return current_slot_coord + offset)
 	return item_cells
+
+# returns a list of dictionaries
+# does not include slots that are unlocked by default on the frame
+# these are only slots that player has unlocked
+func get_unlocked_slots():
+	var result := []
+	for id in gear_sections.keys():
+		var gear_section: GearSection = gear_sections[id]
+		for coords in gear_section.grid.get_valid_entries():
+			# coords is a vector2i
+			var grid_slot: GridSlot = gear_section.grid.get_contents_v(coords)
+			if (not grid_slot.is_locked) and (not grid_slot.is_default_unlock):
+				var info = {
+					gear_section_id = id, # int
+					grid_slot_coords = coords, # vector2i
+				}
+				result.append(info)
+	return result
 
 #endregion
 

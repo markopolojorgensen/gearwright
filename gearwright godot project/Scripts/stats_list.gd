@@ -19,7 +19,8 @@ var stats_to_display := {
 	"unlocks": 0,
 	"weight_cap": 0,
 	"weight": 0,
-	"ballast": 0}
+	"ballast": 0,
+}
 
 var base_stats := {
 	"background": "",
@@ -39,14 +40,15 @@ var base_stats := {
 	"default_unlocks": [],
 	"weight_cap": 0,
 	"weight": 0,
-	"ballast": 0}
+	"ballast": 0,
+}
 
 var hidden_stats := {
 	"close_range_bonus": 0,
 	"lightweight_modifier": 0,
 	"curios_allowed": 0,
 	"deep_words": 0,
-	"bonus_mental_maneuvers": 0
+	"bonus_mental_maneuvers": 0,
 }
 
 var mutated_stats := {

@@ -40,6 +40,10 @@ func get_valid_entries() -> Array:
 			result.append(Vector2i(x, y))
 	return result
 
+# returns a list of whatever, without key info
+func get_values() -> Array:
+	return get_valid_entries().map(func(coords: Vector2i): return get_contents_v(coords))
+
 func is_within_size(x: int, y: int):
 	# size not configured, skip it
 	if (size.x <= 0) and (size.y <= 0):
