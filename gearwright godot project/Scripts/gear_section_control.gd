@@ -6,29 +6,33 @@ signal slot_exited(slot_info: Dictionary)
 
 const grid_slot_control_scene = preload("res://Scenes/grid_slot_control.tscn")
 
+@export var gear_section_id := GearwrightCharacter.gear_section_ids.TORSO
+
 @onready var grid_container := $GridContainer
 @onready var label := $Label
 
 var initialized := false
 var control_grid := SparseGrid.new()
 
-var gear_section: GearSection
+# var gear_section: GearSection
 
 func _ready():
 	if global_util.was_run_directly(self):
-		var fake_gear_section := GearSection.new()
-		fake_gear_section.set_section_dimensions(Vector2i(3, 3))
-		fake_gear_section.name = "Head"
-		fake_gear_section.dice_string = "(2-3)"
+		var fake_character := GearwrightCharacter.new()
+		#var fake_gear_section := GearSection.new()
+		#fake_gear_section.set_section_dimensions(Vector2i(3, 3))
+		#fake_gear_section.name = "Head"
+		#fake_gear_section.dice_string = "(2-3)"
 		global_position = Vector2(200, 200)
 		slot_entered.connect(func(slot_info): print("slot entered: ", str(slot_info)))
 		slot_exited.connect(func(slot_info): print("slot exited: ", str(slot_info)))
-		initialize(fake_gear_section)
-		update()
+		update(fake_character.gear_sections[GearwrightCharacter.gear_section_ids.TORSO])
 
-func initialize(new_gear_section: GearSection):
+func initialize():
 	initialized = true
-	gear_section = new_gear_section
+	var fake_character = GearwrightCharacter.new()
+	#gear_section = new_gear_section
+	var gear_section: GearSection = fake_character.gear_sections[gear_section_id]
 	
 	label.text = "%s %s" % [gear_section.name, gear_section.dice_string]
 	
@@ -46,9 +50,10 @@ func initialize(new_gear_section: GearSection):
 		for x in range(gear_section.grid.size.x):
 			var grid_slot_control = grid_slot_control_scene.instantiate()
 			var slot_info := {
-				"gear_section"         : gear_section,
+				#"gear_section"         : gear_section,
+				"gear_section_id"      : gear_section_id,
 				"gear_section_control" : self,
-				"grid_slot"            : gear_section.grid.get_contents(x, y),
+				#"grid_slot"            : gear_section.grid.get_contents(x, y),
 				"grid_slot_control"    : grid_slot_control,
 				"x" : x,
 				"y" : y,
@@ -58,7 +63,9 @@ func initialize(new_gear_section: GearSection):
 			grid_container.add_child(grid_slot_control)
 			control_grid.set_contents(x, y, grid_slot_control)
 
-func update():
+func update(gear_section: GearSection):
+	if not initialized:
+		initialize()
 	assert(initialized)
 	
 	for coords in control_grid.get_valid_entries():

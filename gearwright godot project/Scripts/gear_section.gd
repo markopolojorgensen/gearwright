@@ -4,7 +4,7 @@ class_name GearSection
 
 var name := "GearSection"
 var dice_string := "(0-1)"
-# top left is 0, 0
+# 0, 0 is top left
 var grid := SparseGrid.new()
 
 func _init(dimensions: Vector2i = Vector2i(1, 1)):
@@ -17,8 +17,15 @@ func set_section_dimensions(dimensions: Vector2i):
 			grid.set_contents(x, y, GridSlot.new())
 
 func get_total_equipped_weight() -> int:
-	push_error("gear_section: get_total_equipped_weight")
-	return 0
+	var sum := 0
+	var used_items := []
+	for cell in grid.get_valid_entries():
+		var grid_slot: GridSlot = grid.get_contents_v(cell)
+		var item = grid_slot.installed_item
+		if (item != null) and (not item in used_items):
+			used_items.append(item)
+			sum += grid_slot.installed_item.item_data.weight
+	return sum
 
 func reset():
 	for coords in grid.get_valid_entries():

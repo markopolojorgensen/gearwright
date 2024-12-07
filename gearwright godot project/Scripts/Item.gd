@@ -5,7 +5,7 @@ extends Node2D
 
 var item_grids := []
 var selected = false
-var grid_anchor = null
+var grid_anchor = null # GridSlotControl
 var item_data := {}
 
 var hovering = false

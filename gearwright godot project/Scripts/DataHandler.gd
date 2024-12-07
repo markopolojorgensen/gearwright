@@ -10,7 +10,7 @@ var item_data_path = "user://LocalData/item_data.json"
 var fish_item_data_path = "user://LocalData/npc_item_data.json"
 var update_data_path = "user://latest_update.pck"
 
-var gear_data_template := {
+const gear_data_template := {
 	"callsign": "",
 	"frame": "",
 	"internals": {},

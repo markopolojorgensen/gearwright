@@ -17,6 +17,9 @@ func _ready():
 	else: 
 		return
 	file.close()
+	
+	_on_value_changed(value) # feeds initial character level info
+	# TODO probably going to break when we load saves?
 
 func _on_value_changed(a_Value):
 	var temp_value = str(a_Value)
