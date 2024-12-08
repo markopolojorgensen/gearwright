@@ -155,6 +155,9 @@ func _process(_delta):
 		request_update_controls = false
 		update_controls.call_deferred()
 	
+	update_floating_explanation_control()
+
+func update_floating_explanation_control():
 	if floating_explanation_control.is_visible_in_tree():
 		floating_explanation_control.size = Vector2()
 		floating_explanation_control.global_position = get_global_mouse_position()
@@ -452,6 +455,7 @@ func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
 	explanation_label.text = current_character.get_stat_explanation(stat_name)
 	if not explanation_label.text.is_empty():
 		floating_explanation_control.show()
+		update_floating_explanation_control()
 
 func _on_stats_list_control_stat_mouse_exited() -> void:
 	floating_explanation_control.hide()
@@ -789,7 +793,7 @@ func can_place_current_item() -> bool:
 	return true
 
 func is_overweight_with_held_item():
-	var weight := current_character.get_total_equipped_weight()
+	var weight := current_character.get_weight()
 	if item_held:
 		weight += item_held.item_data.weight
 	if weight > current_character.get_weight_cap():

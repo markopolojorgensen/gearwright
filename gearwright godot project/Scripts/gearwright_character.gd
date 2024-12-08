@@ -152,11 +152,19 @@ func get_equipped_items() -> Dictionary:
 		result[gear_section_id] = list
 	return result
 
-func get_total_equipped_weight() -> int:
-	return gear_sections.values().reduce(
-			func(sum, gear_section: GearSection):
-				return sum + gear_section.get_total_equipped_weight(),
-			0)
+# all internals, without gear_section info
+func get_equipped_items_list() -> Array:
+	return get_equipped_items().values().reduce(func(result: Array, list: Array):
+			result.append_array(list)
+			return result,
+			[]
+		)
+
+#func get_total_equipped_weight() -> int:
+	#return gear_sections.values().reduce(
+			#func(sum, gear_section: GearSection):
+				#return sum + gear_section.get_total_equipped_weight(),
+			#0)
 	#var sections := gear_sections.values()
 	#var sum := 0
 	#for i in range(sections.size()):
@@ -183,49 +191,41 @@ func get_unlocked_slots() -> Array:
 				result.append(info)
 	return result
 
-# background + level + developments TODO
-func get_max_unlocks() -> int:
-	return background_stats.unlocks + level_stats.unlocks
-
-func has_unlocks_remaining():
-	return get_unlocked_slots().size() < get_max_unlocks()
-
-# background + frame + level + developments TODO
-func get_weight_cap_info():
-	var result := {}
-	result.background = background_stats.weight_cap
-	result.frame = frame_stats.weight_cap
-	result.level = level_stats.weight_cap
-	return result
-
-func get_weight_cap():
-	return sum_array(get_weight_cap_info().values())
-
-func get_max_marbles_info():
-	return {
-		background = background_stats.marbles
-	}
-
-# background + developments TODO
-func get_max_marbles():
-	return sum_array(get_max_marbles_info().values())
-
 # return value keys: label_text, explanation_text
 func get_stat_label_text(stat: String) -> String:
 	var snake_stat := stat.to_snake_case()
+	if snake_stat in [
+			"close",
+			"far",
+			"mental",
+			"power",
+			"evasion",
+			"willpower",
+			"ap",
+			"speed",
+			"sensors",
+			"repair_kits",
+			"weight",
+			"weight_cap",
+			"ballast",
+			]:
+		var value = call("get_%s" % snake_stat)
+		return "%s: %s" % [stat, value]
+	
 	match snake_stat:
 		"background":
 			return "%s: %s" % [stat, background_stats.background]
 		"marbles":
 			return "%s: %s" % [stat, get_max_marbles()]
-		"weight_cap":
-			return "%s: %s" % [stat, get_weight_cap()]
+		"core_integrity":
+			return "%s: %s" % [stat, frame_stats.core_integrity]
+		"unlocks":
+			return "%s: %s" % [stat, get_max_unlocks()]
 		"":
 			return ""
 		_:
 			push_error("GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat)
 			return ""
-	
 	
 	#var sl
 	#sl = stat_lines["weight"]
@@ -242,20 +242,39 @@ func get_stat_label_text(stat: String) -> String:
 
 func get_stat_explanation(stat: String) -> String:
 	var snake_stat := stat.to_snake_case()
+	if snake_stat in [
+			"close",
+			"far",
+			"mental",
+			"power",
+			"evasion",
+			"willpower",
+			"ap",
+			"speed",
+			"sensors",
+			"repair_kits",
+			"weight",
+			"weight_cap",
+			"ballast",
+			]:
+		var info: Dictionary = call("get_%s_info" % snake_stat)
+		return info_to_explanation_text(info)
+	
 	match snake_stat:
 		"background":
 			return ""
 			# TODO: custom background explanation_text, probably
 		"marbles":
 			return info_to_explanation_text(get_max_marbles_info())
-		"weight_cap":
-			return info_to_explanation_text(get_weight_cap_info())
+		"core_integrity":
+			return info_to_explanation_text({frame = frame_stats.core_integrity})
+		"unlocks":
+			return info_to_explanation_text(get_max_unlocks_info())
 		"":
 			return ""
 		_:
 			push_error("GearwrightCharacter: get_stat_explanation: unknown stat: %s" % stat)
 			return ""
-	return ""
 
 func sum_array(list: Array):
 	return list.reduce(func(sum, value): return sum + value, 0)
@@ -265,15 +284,194 @@ func info_to_explanation_text(info: Dictionary) -> String:
 	for key in info.keys():
 		var number: int = info[key]
 		var number_string := ""
-		if 0 <= number:
+		if 0 < number:
 			number_string = "+%d" % number
+		elif number < 0:
+			number_string = "%d" % number
 		else:
-			number_string = "-%d" % number
+			number_string = "-"
 		
 		result += "%s: %s\n" % [key, number_string]
 	return result
 
+func sum_internals_for_stat(stat: String) -> int:
+	return sum_array(get_equipped_items_list().map(
+			func(item): return item.item_data.get(stat, 0)))
+
+func has_unlocks_remaining() -> bool:
+	return get_unlocked_slots().size() < get_max_unlocks()
+
 #endregion
+
+
+
+
+
+
+
+
+
+
+
+#region Stat Info
+
+
+
+func get_max_marbles_info() -> Dictionary:
+	return {
+		background = background_stats.marbles
+	}
+
+# background + developments TODO
+func get_max_marbles() -> int:
+	return sum_array(get_max_marbles_info().values())
+
+
+func get_close_info() -> Dictionary:
+	return {
+		frame = frame_stats.close,
+		internals = sum_internals_for_stat("close")
+	}
+
+func get_close() -> int:
+	return sum_array(get_close_info().values())
+
+func get_far_info() -> Dictionary:
+	return {
+		frame = frame_stats.far,
+		internals = sum_internals_for_stat("far")
+	}
+
+func get_far() -> int:
+	return sum_array(get_far_info().values())
+
+func get_mental_info() -> Dictionary:
+	return {
+		background = background_stats.mental,
+		# developments TODO
+		# internals TODO fish have this
+	}
+
+func get_mental() -> int:
+	return sum_array(get_mental_info().values())
+
+func get_power_info() -> Dictionary:
+	return {
+		frame = frame_stats.power,
+		internals = sum_internals_for_stat("power"),
+	}
+
+func get_power() -> int:
+	return sum_array(get_power_info().values())
+
+func get_evasion_info() -> Dictionary:
+	return {
+		frame = frame_stats.evasion,
+		internals = sum_internals_for_stat("evasion")
+	}
+
+func get_evasion() -> int:
+	return sum_array(get_evasion_info().values())
+
+func get_willpower_info() -> Dictionary:
+	return {
+		background = background_stats.willpower
+		# developments TODO
+		# fish internals TODO
+	}
+
+func get_willpower() -> int:
+	return sum_array(get_willpower_info().values())
+
+func get_ap_info() -> Dictionary:
+	return {
+		frame = frame_stats.ap,
+		internals = sum_internals_for_stat("ap"),
+	}
+
+func get_ap() -> int:
+	return sum_array(get_ap_info().values())
+
+func get_speed_info() -> Dictionary:
+	return {
+		frame = frame_stats.speed,
+		internals = sum_internals_for_stat("speed"),
+	}
+
+func get_speed() -> int:
+	return sum_array(get_speed_info().values())
+
+func get_sensors_info() -> Dictionary:
+	return {
+		frame = frame_stats.sensors,
+		internals = sum_internals_for_stat("sensors"),
+	}
+
+func get_sensors() -> int:
+	return sum_array(get_sensors_info().values())
+
+func get_repair_kits_info() -> Dictionary:
+	return {
+		frame = frame_stats.repair_kits,
+		internals = sum_internals_for_stat("repair_kits"),
+		# developments TODO
+	}
+
+func get_repair_kits() -> int:
+	return sum_array(get_repair_kits_info().values())
+
+# background + level + developments TODO
+func get_max_unlocks_info() -> Dictionary:
+	return {
+		background = background_stats.unlocks,
+		level = level_stats.unlocks,
+	}
+
+func get_max_unlocks() -> int:
+	return sum_array(get_max_unlocks_info().values())
+
+func get_weight_info() -> Dictionary:
+	return {
+		internals = sum_internals_for_stat("weight")
+	}
+
+func get_weight() -> int:
+	return sum_array(get_weight_info().values())
+
+# background + frame + level + developments TODO
+func get_weight_cap_info() -> Dictionary:
+	var result := {
+		background = background_stats.weight_cap,
+		frame = frame_stats.weight_cap,
+		level = level_stats.weight_cap,
+	}
+	return result
+
+func get_weight_cap() -> int:
+	return sum_array(get_weight_cap_info().values())
+
+func get_ballast_info() -> Dictionary:
+	return {
+		frame = frame_stats.ballast,
+		internals = sum_internals_for_stat("ballast"),
+	}
+
+func get_ballast() -> int:
+	return sum_array(get_ballast_info().values())
+
+
+
+
+#func get__info() -> Dictionary:
+	#return {
+		#
+	#}
+#
+#func get_() -> int:
+	#return sum_array(get__info().values())
+
+#endregion
+
 
 
 

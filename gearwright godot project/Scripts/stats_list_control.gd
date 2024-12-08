@@ -3,6 +3,7 @@ extends VBoxContainer
 signal stat_mouse_entered(stat_name: String)
 signal stat_mouse_exited
 
+const label_scene := preload("res://Scenes/stat_label.tscn")
 const pretty_stat_names := [
 	"Background",
 	"Marbles",
@@ -41,53 +42,39 @@ var hovered_stat := ""
 func _ready():
 	for i in range(pretty_stat_names.size()):
 		var stat_name: String = pretty_stat_names[i]
-		var label := Label.new()
-		# WHEREWASI
-		# TODO these labels probably should be busted out in their own scene
-		#  especially given that we're going to move weight / weight_cap
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.custom_minimum_size.x = 180
-		label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		label.text = stat_name
 		# TODO maybe key these to make sure we don't end up in a fugue state?
-		# FIXME Label's mouse_entered and mouse_exited cause flickering...?
-		#label.mouse_filter = Control.MOUSE_FILTER_STOP
-		#label.mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
-		#label.mouse_exited.connect(func(): stat_mouse_exited.emit())
+		var label := label_scene.instantiate()
+		label.stat_name = stat_name
+		label.safe_mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
+		label.safe_mouse_exited.connect(func(): stat_mouse_exited.emit())
 		add_child(label)
 		labels[stat_name] = label
-		#var sane_stat_name: String = stat_name.to_snake_case()
-		#labels[sane_stat_name] = label
-		#stat_lines[sane_stat_name] = {
-			#"name": stat_name,
-			#"label": label,
-		#}
 	
 	#weight_label_shaker.target_label = stat_lines["weight"].label # magic constants, yippee
 	weight_label_shaker.target_label = labels["Weight"] # magic constants, yippee
 
-func _process(delta: float) -> void:
-	process_mouse_hover()
-
-func process_mouse_hover():
-	var mouse := get_global_mouse_position()
-	if not get_global_rect().has_point(mouse):
-		return
-	
-	var has_mouse := false
-	
-	for stat_name in labels.keys():
-		var label: Label = labels[stat_name]
-		if label.get_global_rect().has_point(mouse):
-			has_mouse = true
-			if hovered_stat != stat_name:
-				hovered_stat = stat_name
-				stat_mouse_entered.emit(stat_name)
-			break
-	
-	if (hovered_stat != "") and not has_mouse:
-		hovered_stat = ""
-		stat_mouse_exited.emit()
+#func _process(delta: float) -> void:
+	#process_mouse_hover()
+#
+#func process_mouse_hover():
+	#var mouse := get_global_mouse_position()
+	#if not get_global_rect().has_point(mouse):
+		#return
+	#
+	#var has_mouse := false
+	#
+	#for stat_name in labels.keys():
+		#var label: Label = labels[stat_name]
+		#if label.get_global_rect().has_point(mouse):
+			#has_mouse = true
+			#if hovered_stat != stat_name:
+				#hovered_stat = stat_name
+				#stat_mouse_entered.emit(stat_name)
+			#break
+	#
+	#if (hovered_stat != "") and not has_mouse:
+		#hovered_stat = ""
+		#stat_mouse_exited.emit()
 
 
 func update(character: GearwrightCharacter):

@@ -32,8 +32,8 @@ func get_equipped_items() -> Array:
 			result.append(item)
 	return result
 
-func get_total_equipped_weight() -> int:
-	return get_equipped_items().reduce(func(sum, item): return sum + item.item_data.weight, 0)
+#func get_total_equipped_weight() -> int:
+	#return get_equipped_items().reduce(func(sum, item): return sum + item.item_data.weight, 0)
 	#var sum := 0
 	#var used_items := []
 	#for cell in grid.get_valid_entries():
