@@ -68,7 +68,16 @@ func update(gear_section: GearSection):
 		initialize()
 	assert(initialized)
 	
+	clear_grey_out()
+	
 	for coords in control_grid.get_valid_entries():
 		var grid_slot: GridSlot = gear_section.grid.get_contents_v(coords)
 		control_grid.get_contents_v(coords).update(grid_slot)
 
+func grey_out():
+	for coords in control_grid.get_valid_entries():
+		control_grid.get_contents_v(coords).grey_out()
+
+func clear_grey_out():
+	for coords in control_grid.get_valid_entries():
+		control_grid.get_contents_v(coords).clear_grey_out()

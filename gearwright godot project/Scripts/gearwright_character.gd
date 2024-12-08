@@ -49,7 +49,6 @@ enum gear_section_ids {
 	RIGHT_ARM,
 	HEAD,
 	LEGS,
-	ANY,
 }
 
 # from load_frame()
@@ -143,13 +142,27 @@ func create_gear_sections() -> Dictionary:
 
 #region Interrogation
 
+# return value keys are gear_section_ids
+func get_equipped_items() -> Dictionary:
+	var result := {}
+	for gear_section_id in gear_section_ids.values():
+		var list := []
+		var gear_section: GearSection = gear_sections[gear_section_id]
+		list.append_array(gear_section.get_equipped_items())
+		result[gear_section_id] = list
+	return result
+
 func get_total_equipped_weight() -> int:
-	var sections := gear_sections.values()
-	var sum := 0
-	for i in range(sections.size()):
-		var gear_section: GearSection = sections[i]
-		sum += gear_section.get_total_equipped_weight()
-	return sum
+	return gear_sections.values().reduce(
+			func(sum, gear_section: GearSection):
+				return sum + gear_section.get_total_equipped_weight(),
+			0)
+	#var sections := gear_sections.values()
+	#var sum := 0
+	#for i in range(sections.size()):
+		#var gear_section: GearSection = sections[i]
+		#sum += gear_section.get_total_equipped_weight()
+	#return sum
 
 # returns a list of dictionaries
 #   keys are gear_section_id and grid_slot_coords
@@ -178,18 +191,120 @@ func has_unlocks_remaining():
 	return get_unlocked_slots().size() < get_max_unlocks()
 
 # background + frame + level + developments TODO
+func get_weight_cap_info():
+	var result := {}
+	result.background = background_stats.weight_cap
+	result.frame = frame_stats.weight_cap
+	result.level = level_stats.weight_cap
+	return result
+
 func get_weight_cap():
-	var sum := 0
-	sum += background_stats.weight_cap
-	sum += frame_stats.weight_cap
-	sum += level_stats.weight_cap
-	return sum
+	return sum_array(get_weight_cap_info().values())
+
+func get_max_marbles_info():
+	return {
+		background = background_stats.marbles
+	}
+
+# background + developments TODO
+func get_max_marbles():
+	return sum_array(get_max_marbles_info().values())
+
+# return value keys: label_text, explanation_text
+func get_stat_label_text(stat: String) -> String:
+	var snake_stat := stat.to_snake_case()
+	match snake_stat:
+		"background":
+			return "%s: %s" % [stat, background_stats.background]
+		"marbles":
+			return "%s: %s" % [stat, get_max_marbles()]
+		"weight_cap":
+			return "%s: %s" % [stat, get_weight_cap()]
+		"":
+			return ""
+		_:
+			push_error("GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat)
+			return ""
+	
+	
+	#var sl
+	#sl = stat_lines["weight"]
+	#sl.label.text = "%s: %s" % [sl.name, character.get_total_equipped_weight()]
+	#
+	#sl = stat_lines["weight_cap"]
+	#sl.label.text = "%s: %s" % [sl.name, character.get_weight_cap()]
+	#
+	#sl = stat_lines["marbles"]
+	#sl.label.text = "%s: %s" % [sl.name, character.get_max_marbles()]
+	#
+	#sl = stat_lines["core_integrity"]
+	#sl.label.text = "%s: %s" % [sl.name, character.frame_stats.core_integrity]
+
+func get_stat_explanation(stat: String) -> String:
+	var snake_stat := stat.to_snake_case()
+	match snake_stat:
+		"background":
+			return ""
+			# TODO: custom background explanation_text, probably
+		"marbles":
+			return info_to_explanation_text(get_max_marbles_info())
+		"weight_cap":
+			return info_to_explanation_text(get_weight_cap_info())
+		"":
+			return ""
+		_:
+			push_error("GearwrightCharacter: get_stat_explanation: unknown stat: %s" % stat)
+			return ""
+	return ""
+
+func sum_array(list: Array):
+	return list.reduce(func(sum, value): return sum + value, 0)
+
+func info_to_explanation_text(info: Dictionary) -> String:
+	var result = ""
+	for key in info.keys():
+		var number: int = info[key]
+		var number_string := ""
+		if 0 <= number:
+			number_string = "+%d" % number
+		else:
+			number_string = "-%d" % number
+		
+		result += "%s: %s\n" % [key, number_string]
+	return result
 
 #endregion
 
 
 
 
+
+#region Mutation
+
+# yeets all equipped internals
+# resets unlocks to nothing
+# reapplies default unlocks from frame
+func reset_gear_sections():
+	unequip_all_internals()
+	for gear_section_id in gear_section_ids.values():
+		var gear_section: GearSection = gear_sections[gear_section_id]
+		gear_section.reset()
+	
+	var default_unlocks: Array = frame_stats.default_unlocks
+	for index in default_unlocks:
+		#grid_array[index].unlock()
+		var info := grid_array_index_to_gear_section_info(index)
+		var grid_slot: GridSlot = info.grid_slot
+		grid_slot.is_locked = false
+		grid_slot.is_default_unlock = true
+
+# yeets all equipped internals
+func unequip_all_internals():
+	for gear_section_id in gear_section_ids.values():
+		var gear_section: GearSection = gear_sections[gear_section_id]
+		gear_section.unequip_all_internals()
+
+#endregion
 
 
 
@@ -202,18 +317,8 @@ func load_frame(data: Dictionary, name: String):
 	frame_name = name
 	#current_frame = a_Frame_name
 	
-	for gear_section in gear_sections.values():
-		gear_section.reset()
-	
 	frame_stats = data
-	var default_unlocks: Array = frame_stats.default_unlocks
-	
-	for index in default_unlocks:
-		#grid_array[index].unlock()
-		var info := grid_array_index_to_gear_section_info(index)
-		var grid_slot: GridSlot = info.grid_slot
-		grid_slot.is_locked = false
-		grid_slot.is_default_unlock = true
+	reset_gear_sections()
 	
 	#gear_data["unlocks"].clear()
 	#reset_lock_tally.emit()
@@ -299,6 +404,27 @@ func marshal_as_string() -> String:
 			#return "legs"
 		#_:
 			#return "unknown gear section id: %d" % id
+
+# section_name is from item_data.json
+static func item_section_to_valid_section_ids(section_name: String) -> Array:
+	match section_name:
+		"leg":
+			return [gear_section_ids.LEGS]
+		"arm":
+			var arms = [
+				gear_section_ids.LEFT_ARM,
+				gear_section_ids.RIGHT_ARM,
+			]
+			return arms
+		"head":
+			return [gear_section_ids.HEAD]
+		"chest":
+			return [gear_section_ids.TORSO]
+		"any":
+			return gear_section_ids.values()
+		_:
+			push_error("gearwright_character: unknown item section: %s" % section_name)
+			return []
 
 #endregion
 

@@ -7,6 +7,7 @@ signal slot_exited
 @onready var filter = $StatusFilter
 @onready var padlock = $Padlock
 @onready var hovered_color_rect: ColorRect = $HoveredColorRect
+@onready var greyed_color_rect: ColorRect = $GreyedColorRect
 
 #var slot_ID
 var is_hovering := false
@@ -33,6 +34,12 @@ func color_good():
 
 func color_bad():
 	filter.color = Color(Color.DARK_ORANGE, 0.3)
+
+func grey_out():
+	greyed_color_rect.show()
+
+func clear_grey_out():
+	greyed_color_rect.hide()
 
 #func set_color(a_state = GridSlot.states.DEFAULT):
 	#match a_state:

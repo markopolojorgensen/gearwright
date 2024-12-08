@@ -7,9 +7,9 @@ Questions
 
 
 
-stats_container shouldn't store data
-  "stats_list.gd"
-annihilate data storage in views
+
+
+
 
 
 
@@ -23,7 +23,7 @@ show known saves (duh)
 tab switcher - narrative profile
   labels descriptor equipment
 
-fish builder might be actually a copy paste of gear builder -_-
+fish builder is actually a copy paste of gear builder -_-
 
 where does that .fsh file come from
   zipped up bunch of files
@@ -34,7 +34,6 @@ startup time seems a bit slow?
 fish creator does weird things with internals
 
 probably about a million little QoL things
-  non-head sections should grey out if you pick up a head internal, same for all internals/sections
   fish mutation editing box is messy
   hovering over weight should cause all equipped internals to display their weight
   some way to clear currently selected internal (right click?) (this already works mark you dummy)
@@ -42,6 +41,14 @@ probably about a million little QoL things
 test 4.3 program export
 
 right click on developments and maneuvers in gear builder?
+
+warn when data would be lost
+  exit w/out saving
+  ->main menu w/out saving
+  load w/out saving
+
+hovering over stats should show calculation / sources breakdown
+
 
 
 
@@ -120,11 +127,17 @@ Do you want a "battle" mode, where you can track all the stuff you currently tra
 
 
 
-equipment hover starting to work again
 
-DONE
-  slot hover hightlight
+NEW FEATURES LIST
+  Stat list now shows breakdown on hover
+  non-head sections grey out if you pick up a head internal, same for all internals/sections
+  li'l slot hover hightlight
+OTHER DONE STUFF
   old mech builder moved into top level mech builder script
   emit_signal("whatever") -> whatever.emit()
   download export templates
+
+
+
+
 

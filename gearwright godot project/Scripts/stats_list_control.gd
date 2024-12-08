@@ -1,5 +1,8 @@
 extends VBoxContainer
 
+signal stat_mouse_entered(stat_name: String)
+signal stat_mouse_exited
+
 const pretty_stat_names := [
 	"Background",
 	"Marbles",
@@ -30,32 +33,91 @@ const pretty_stat_names := [
 # values are dictionaries:
 #   name -> String
 #   label -> Label
-var stat_lines := {}
+#var stat_lines := {}
+
+var labels := {}
+var hovered_stat := ""
 
 func _ready():
 	for i in range(pretty_stat_names.size()):
 		var stat_name: String = pretty_stat_names[i]
 		var label := Label.new()
+		# WHEREWASI
+		# TODO these labels probably should be busted out in their own scene
+		#  especially given that we're going to move weight / weight_cap
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.custom_minimum_size.x = 180
 		label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		label.text = stat_name
+		# TODO maybe key these to make sure we don't end up in a fugue state?
+		# FIXME Label's mouse_entered and mouse_exited cause flickering...?
+		#label.mouse_filter = Control.MOUSE_FILTER_STOP
+		#label.mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
+		#label.mouse_exited.connect(func(): stat_mouse_exited.emit())
 		add_child(label)
-		var sane_stat_name: String = stat_name.to_snake_case()
-		stat_lines[sane_stat_name] = {
-			"name": stat_name,
-			"label": label,
-		}
+		labels[stat_name] = label
+		#var sane_stat_name: String = stat_name.to_snake_case()
+		#labels[sane_stat_name] = label
+		#stat_lines[sane_stat_name] = {
+			#"name": stat_name,
+			#"label": label,
+		#}
 	
-	weight_label_shaker.target_label = stat_lines["weight"].label # magic constants, yippee
+	#weight_label_shaker.target_label = stat_lines["weight"].label # magic constants, yippee
+	weight_label_shaker.target_label = labels["Weight"] # magic constants, yippee
+
+func _process(delta: float) -> void:
+	process_mouse_hover()
+
+func process_mouse_hover():
+	var mouse := get_global_mouse_position()
+	if not get_global_rect().has_point(mouse):
+		return
+	
+	var has_mouse := false
+	
+	for stat_name in labels.keys():
+		var label: Label = labels[stat_name]
+		if label.get_global_rect().has_point(mouse):
+			has_mouse = true
+			if hovered_stat != stat_name:
+				hovered_stat = stat_name
+				stat_mouse_entered.emit(stat_name)
+			break
+	
+	if (hovered_stat != "") and not has_mouse:
+		hovered_stat = ""
+		stat_mouse_exited.emit()
+
 
 func update(character: GearwrightCharacter):
-	var sl
-	sl = stat_lines["weight"]
-	sl.label.text = "%s: %s" % [sl.name, character.get_total_equipped_weight()]
+	for i in range(pretty_stat_names.size()):
+		var stat_name: String = pretty_stat_names[i]
+		var label: Label = labels[stat_name]
+		#var sane_stat_name: String = stat_name.to_snake_case()
+		# keys: label_text, explanation_text
+		label.text = character.get_stat_label_text(stat_name)
 	
-	sl = stat_lines["weight_cap"]
-	sl.label.text = "%s: %s" % [sl.name, character.get_weight_cap()]
+	#var sl
+	#sl = stat_lines["weight"]
+	#sl.label.text = "%s: %s" % [sl.name, character.get_total_equipped_weight()]
+	#
+	#sl = stat_lines["weight_cap"]
+	#sl.label.text = "%s: %s" % [sl.name, character.get_weight_cap()]
+	#
+	#sl = stat_lines["background"]
+	#sl.label.text = "%s: %s" % [sl.name, character.background_stats.background]
+	#
+	#sl = stat_lines["marbles"]
+	#sl.label.text = "%s: %s" % [sl.name, character.get_max_marbles()]
+	#
+	#sl = stat_lines["core_integrity"]
+	#sl.label.text = "%s: %s" % [sl.name, character.frame_stats.core_integrity]
+	
+	
+	
+	
+	
 	
 	#stats_to_display["ballast"] = int(base_stats["ballast"] + cringe_ballast_tracker + (clamp(stats_to_display["weight"] - hidden_stats["lightweight_modifier"], 0, stats_to_display["weight"]))/5)
 	#
