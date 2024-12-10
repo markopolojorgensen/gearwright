@@ -6,11 +6,22 @@ var item_grid_data := {}
 var fish_item_data = {}
 var fish_item_grid_data := {}
 
-var item_data_path = "user://LocalData/item_data.json"
-var fish_item_data_path = "user://LocalData/npc_item_data.json"
-var update_data_path = "user://latest_update.pck"
+var frame_data := {}
+var background_data := {}
+var level_data := {}
+var maneuver_data := {}
+var development_data := {}
 
-const gear_data_template := {
+var item_data_path          = "user://LocalData/item_data.json"
+var fish_item_data_path     = "user://LocalData/npc_item_data.json"
+var update_data_path        = "user://latest_update.pck"
+const frame_data_path       = "user://LocalData/frame_data.json"
+const background_data_path  = "user://LocalData/fisher_backgrounds.json"
+const level_data_path       = "user://LocalData/level_data.json"
+const maneuver_data_path    = "user://LocalData/fisher_maneuvers.json"
+const development_data_path = "user://LocalData/fisher_developments.json"
+
+const gear_data_template := { # TODO yeet?
 	"callsign": "",
 	"frame": "",
 	"internals": {},
@@ -23,7 +34,7 @@ const gear_data_template := {
 	"level": "1"
 }
 
-var fish_data_template := {
+var fish_data_template := { # TODO yeet?
 	"name": "",
 	"size": "",
 	"internals": {},
@@ -31,27 +42,118 @@ var fish_data_template := {
 	"mutations": []
 }
 
+const frame_stats_template := {
+	ap = 0,
+	ballast = 0,
+	close = 0,
+	core_integrity = 1,
+	default_unlocks = [],
+	evasion = 0,
+	far = 0,
+	gear_ability = "Please select a Frame",
+	gear_ability_name = "",
+	power = 0,
+	repair_kits = 1,
+	sensors = 0,
+	speed = 0,
+	weight = 0,
+	weight_cap = 0,
+}
+
+# from localData/fisher_backgrounds.json
+const background_stats_template := {
+	background = "None",
+	marbles = 0,
+	mental = 0,
+	willpower = 0,
+	deep_words = 0,
+	weight_cap = 0,
+	unlocks = 0,
+	description = "Please select a background",
+}
+
+# from level_data.json
+const level_stats_template := {
+	unlocks = 0,
+	maneuvers = 0,
+	developments = 0,
+	weight_cap = 0,
+	shore_leave_stat = 0,
+}
+
+const maneuver_stats_template := {
+	name = "",
+	category = "",
+	ap_cost = 0,
+	action_text = "",
+}
+
+# developments sometimes have other keys for stats they affect
+const development_stats_template := {
+	name = "",
+	description = "",
+	repeatable = false,
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	item_data = load_data(item_data_path)
 	fish_item_data = load_data(fish_item_data_path)
+	frame_data = load_data(frame_data_path)
+	background_data = load_data(background_data_path)
+	level_data = load_data(level_data_path)
+	maneuver_data = load_data(maneuver_data_path)
+	development_data = load_data(development_data_path)
 	
 	set_grid_and_icon_data()
 
-func load_data(a_path):
+func load_data(path):
 	ProjectSettings.load_resource_pack(update_data_path, true)
-	if not FileAccess.file_exists(a_path):
+	if not FileAccess.file_exists(path):
 		printerr("file not found")
-	var file = FileAccess.open(a_path, FileAccess.READ)
-	var temp_data = JSON.parse_string(file.get_as_text())
+		push_error("file not found: %s" % path)
+	var file = FileAccess.open(path, FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
 	file.close()
-	return temp_data
+	return data
 
 func get_gear_template():
 	return gear_data_template.duplicate(true)
 
 func get_fish_template():
 	return fish_data_template.duplicate(true)
+
+# pops up error messages if things go badly
+func get_thing_nicely(data_type: String, key):
+	var data
+	var default
+	match data_type:
+		"background":
+			data = background_data
+			default = background_stats_template.duplicate(true)
+		"frame":
+			data = frame_data
+			default = frame_stats_template.duplicate(true)
+		"level":
+			key = str(key) # might be an int
+			data = level_data
+			default = level_stats_template.duplicate(true)
+		"development":
+			data = development_data
+			default = development_stats_template.duplicate(true)
+		"maneuver":
+			default = maneuver_stats_template.duplicate(true)
+		_:
+			push_error("DataHandler: unknown data type: %s" % data_type)
+			breakpoint
+	
+	if data.has(key):
+		return data[key]
+	else:
+		var title := "Bad %s" % data_type.capitalize()
+		var message := "Failed to find %s data for '%s'\n(Have you imported the game data from the main menu?)" % [data_type, key]
+		global_util.popup_warning(title, message)
+		return default
 
 func set_grid_and_icon_data():
 	if item_data:

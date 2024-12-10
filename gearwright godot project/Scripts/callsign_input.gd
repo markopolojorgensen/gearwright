@@ -1,5 +1,7 @@
 extends LineEdit
 
+# TODO yeet this script
+
 func _on_mech_builder_new_save_loaded(user_data):
 	text = user_data["callsign"]
 

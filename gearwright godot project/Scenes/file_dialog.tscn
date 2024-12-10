@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dblq4eyop75be"]
+
+[node name="FileDialog" type="FileDialog"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 1
+size = Vector2i(800, 600)
+ok_button_text = "Open"
+file_mode = 0
+access = 1
+root_subfolder = "Saves"

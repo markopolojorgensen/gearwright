@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=39 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="2_htuaq"]
@@ -38,6 +38,9 @@
 [ext_resource type="Script" path="res://Scripts/stats_list_control.gd" id="36_ilok7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6m6hc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdefs"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 0.784314)
 
 [node name="MechBuilder" type="Control"]
 custom_minimum_size = Vector2(1650, 890)
@@ -449,7 +452,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="GearAbilityLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/GearAbility/VBoxContainer"]
+[node name="GearAbilityTitle" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/GearAbility/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 0
@@ -459,6 +463,7 @@ text = "Gear Ability:
 horizontal_alignment = 1
 
 [node name="GearAbilityText" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/GearAbility/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(216, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -606,6 +611,7 @@ offset_right = 296.0
 offset_bottom = 103.0
 
 [node name="LevelBackgroundNameplate" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -642,6 +648,7 @@ text = "  Gear:
 "
 
 [node name="FrameSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -661,6 +668,7 @@ text = "Level:
 "
 
 [node name="LevelSelector" type="SpinBox" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 min_value = 1.0
@@ -723,16 +731,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Export"
 
-[node name="FileDialog" type="FileDialog" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/SaveOptionsMenu"]
-unique_name_in_owner = true
-title = "Open a File"
-initial_position = 1
-size = Vector2i(800, 600)
-ok_button_text = "Open"
-file_mode = 0
-access = 1
-root_subfolder = "Saves"
-
 [node name="InternalsResetButton" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
@@ -784,6 +782,7 @@ color = Color(0.215686, 0.215686, 0.215686, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="UnlocksRemainingLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/UnlocksRemaining"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -990,12 +989,13 @@ unique_name_in_owner = true
 layout_mode = 0
 offset_right = 123.0
 offset_bottom = 53.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gdefs")
 
 [node name="MarginContainer" type="MarginContainer" parent="FloatingExplanationControl"]
 layout_mode = 2
-theme_override_constants/margin_left = 2
+theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
+theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 2
 
 [node name="ExplanationLabel" type="Label" parent="FloatingExplanationControl/MarginContainer"]
@@ -1020,6 +1020,7 @@ horizontal_alignment = 2
 [connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_exited"]
 [connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_added"]
 [connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_removed"]
+[connection signal="text_changed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/CallsignLineEdit" to="." method="_on_callsign_line_edit_text_changed"]
 [connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" method="_on_item_selected"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="." method="_on_frame_selector_load_frame"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_frame_selector_load_frame"]

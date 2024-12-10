@@ -4,6 +4,8 @@ Q1 2025, definitely before May
 Questions
   numbers vs no_numbers export?
   power saving mode?
+  permission to align stats list left and right instead of all centered?
+  how attached are you to current crunchy visual look, are rounded corners okay?
 
 
 
@@ -11,10 +13,8 @@ Questions
 
 
 
-
-
-
-
+UI polish pass
+yeet all commented code
 
 Fish data missing artwork, all fucked up
 

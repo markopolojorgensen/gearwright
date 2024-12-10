@@ -1,7 +1,9 @@
 extends MenuButton
+
 @onready var screenshot_popup = $ScreenshotPopup
 @onready var mech_border_container = $"../../ColorRect"
-@onready var file_dialog = $FileDialog
+const file_dialog_scene = preload("res://Scenes/file_dialog.tscn")
+@onready var file_dialog: FileDialog
 @onready var menu = get_popup()
 @onready var export_popup = $ExportPopup
 @onready var callsign_input = %CallsignLineEdit
@@ -16,7 +18,6 @@ func _ready():
 		menu.add_item(button_name)
 	
 	menu.id_pressed.connect(_on_item_pressed)
-	file_dialog.file_selected.connect(read_save_file)
 
 func _on_item_pressed(id):
 	var action = buttons_to_add[id]
@@ -27,6 +28,9 @@ func _on_item_pressed(id):
 		"save to file":
 			save_current_build()
 		"load from file":
+			file_dialog = file_dialog_scene.instantiate()
+			add_child(file_dialog)
+			file_dialog.file_selected.connect(read_save_file)
 			file_dialog.popup()
 		"open saves folder":
 			open_folder("Saves")
@@ -41,6 +45,9 @@ func save_current_build():
 	export_popup.popup()
 
 func read_save_file(a_path):
+	file_dialog.file_selected.disconnect(read_save_file)
+	file_dialog.queue_free()
+	
 	var file = FileAccess.open(a_path, FileAccess.READ)
 	var save_data = JSON.parse_string(file.get_as_text())
 	file.close()
@@ -68,3 +75,10 @@ func open_folder(folder_name):
 	else:
 		path = OS.get_user_data_dir().path_join(folder_name)
 	OS.shell_show_in_file_manager(path, true)
+
+func is_popup_active():
+	return ((file_dialog != null)
+			and is_instance_valid(file_dialog)
+			and file_dialog.visible
+	)
+

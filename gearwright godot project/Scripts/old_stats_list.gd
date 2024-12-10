@@ -65,11 +65,16 @@ var spacer_locations := ["core_integrity", "power", "willpower", "repair_kits"]
 var stats_to_cap := {"close":9, "far":9, "mental":9, "power":9, "evasion":16, "willpower":16}
 var label_dict := {}
 
+@warning_ignore("unused_signal")
 signal update_core_integrity(value)
+@warning_ignore("unused_signal")
 signal update_repair_kits(value)
 signal update_unlock_label(current, maximum)
+@warning_ignore("unused_signal")
 signal update_deep_words(value)
+@warning_ignore("unused_signal")
 signal update_curios_allowed(value)
+@warning_ignore("unused_signal")
 signal update_mental_maneuvers(value)
 var unlock_tally = 0
 
@@ -174,56 +179,60 @@ func _on_mech_builder_item_removed(a_Item):
 	
 	update_labels()
 
-func _on_frame_selector_load_frame(a_Frame_data, _a_Frame_name):
-	if current_frame:
-		for stat in base_stats:
-			if current_frame.has(stat) and stat != "default_unlocks":
-				if stats_to_display.has(stat):
-					stats_to_display[stat] -= current_frame[stat]
-				if base_stats.has(stat):
-					base_stats[stat] -= current_frame[stat]
-	
-	for stat in base_stats:
-		if a_Frame_data.has(stat) and stat != "default_unlocks":
-			if stats_to_display.has(stat):
-				stats_to_display[stat] += a_Frame_data[stat]
-			if base_stats.has(stat):
-				base_stats[stat] += a_Frame_data[stat]
-	
-	current_frame = a_Frame_data
-	
-	update_labels()
+#func _on_frame_selector_load_frame(a_Frame_data, _a_Frame_name):
+func _on_frame_selector_load_frame(_a_Frame_name):
+	pass
+	#if current_frame:
+		#for stat in base_stats:
+			#if current_frame.has(stat) and stat != "default_unlocks":
+				#if stats_to_display.has(stat):
+					#stats_to_display[stat] -= current_frame[stat]
+				#if base_stats.has(stat):
+					#base_stats[stat] -= current_frame[stat]
+	#
+	#for stat in base_stats:
+		#if a_Frame_data.has(stat) and stat != "default_unlocks":
+			#if stats_to_display.has(stat):
+				#stats_to_display[stat] += a_Frame_data[stat]
+			#if base_stats.has(stat):
+				#base_stats[stat] += a_Frame_data[stat]
+	#
+	#current_frame = a_Frame_data
+	#
+	#update_labels()
 
-func _on_background_selector_load_background(a_Background_data):
-	if current_background:
-		for stat in base_stats:
-			if a_Background_data.has(stat) and stat != "background":
-				if stats_to_display.has(stat):
-					stats_to_display[stat] -= current_background[stat]
-				if base_stats.has(stat):
-					base_stats[stat] -= current_background[stat]
-	
-	for stat in base_stats:
-		if a_Background_data.has(stat) and stat != "background":
-				if stats_to_display.has(stat):
-					stats_to_display[stat] += a_Background_data[stat]
-				if base_stats.has(stat):
-					base_stats[stat] += a_Background_data[stat]
-	
-	stats_to_display["background"] = a_Background_data["background"]
-	current_background = a_Background_data
-	update_labels()
+func _on_background_selector_load_background(_bg_name): # changed to string
+	pass
+	#if current_background:
+		#for stat in base_stats:
+			#if a_Background_data.has(stat) and stat != "background":
+				#if stats_to_display.has(stat):
+					#stats_to_display[stat] -= current_background[stat]
+				#if base_stats.has(stat):
+					#base_stats[stat] -= current_background[stat]
+	#
+	#for stat in base_stats:
+		#if a_Background_data.has(stat) and stat != "background":
+				#if stats_to_display.has(stat):
+					#stats_to_display[stat] += a_Background_data[stat]
+				#if base_stats.has(stat):
+					#base_stats[stat] += a_Background_data[stat]
+	#
+	#stats_to_display["background"] = a_Background_data["background"]
+	#current_background = a_Background_data
+	#update_labels()
 
-func _on_level_selector_change_level(a_Level_data, _a_Level):
-	if current_level:
-		for stat in stats_to_display:
-			if stats_to_display.has(stat) and current_level.has(stat):
-				stats_to_display[stat] -= current_level[stat]
-	
-	for stat in stats_to_display:
-		if stats_to_display.has(stat) and a_Level_data.has(stat):
-			stats_to_display[stat] += a_Level_data[stat]
-	current_level = a_Level_data
+#func _on_level_selector_change_level(a_Level_data, _a_Level):
+func _on_level_selector_change_level(_a_Level):
+	#if current_level:
+		#for stat in stats_to_display:
+			#if stats_to_display.has(stat) and current_level.has(stat):
+				#stats_to_display[stat] -= current_level[stat]
+	#
+	#for stat in stats_to_display:
+		#if stats_to_display.has(stat) and a_Level_data.has(stat):
+			#stats_to_display[stat] += a_Level_data[stat]
+	#current_level = a_Level_data
 	update_labels()
 
 func _on_mech_builder_incrememnt_lock_tally(a_Change):

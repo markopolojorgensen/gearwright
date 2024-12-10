@@ -547,3 +547,13 @@ func circle_fill_points(radius: int) -> Array:
 		y += 1
 	return points
 
+func popup_warning(title: String, text: String):
+	var warning := AcceptDialog.new()
+	warning.title = title
+	warning.get_label().text = text
+	warning.confirmed.connect(func(): warning.queue_free())
+	warning.canceled.connect(func(): warning.queue_free())
+	add_child(warning)
+	warning.popup_centered.call_deferred()
+
+

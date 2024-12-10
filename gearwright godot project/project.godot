@@ -22,6 +22,7 @@ config/windows_native_icon="res://Assets/icon.ico"
 LocalDataHandler="*res://Scripts/LocalDataHandler.gd"
 DataHandler="*res://Scripts/DataHandler.gd"
 global_util="*res://Scripts/global_util.gd"
+version="*res://Scripts/version.gd"
 
 [display]
 

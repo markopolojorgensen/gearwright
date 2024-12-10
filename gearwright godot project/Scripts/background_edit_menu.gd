@@ -32,8 +32,8 @@ func stat_update(stat, was_added):
 	
 	points_remaining_label.text = str(remaining_points)
 
-func _on_background_selector_load_background(background_data):
-	if background_data["background"].to_lower() != "custom":
+func _on_background_selector_load_background(bg_name: String):
+	if bg_name.to_lower() != "custom":
 		for stat in available_bonuses:
 			stat_containers[stat].clear_stat_counter()
 

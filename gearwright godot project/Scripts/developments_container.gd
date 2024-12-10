@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# TODO
+
 var development_file_path = "user://LocalData/fisher_developments.json"
 
 signal development_added(development_data)
@@ -36,7 +38,9 @@ func remove_development_container():
 	development_containers.back().queue_free()
 	development_containers.erase(development_containers.back())
 
-func _on_level_selector_change_level(level_data, _level):
+#func _on_level_selector_change_level(level_data, _level):
+func _on_level_selector_change_level(new_level: int):
+	var level_data: Dictionary = DataHandler.get_thing_nicely("level", new_level)
 	var difference = level_data["developments"] - development_containers.size()
 	if difference == 0:
 		return

@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# TODO
+
 var maneuver_file_path = "user://LocalData/fisher_maneuvers.json"
 
 signal maneuver_added(maneuver_data)
@@ -36,9 +38,12 @@ func remove_maneuver_container():
 	maneuver_containers.back().queue_free()
 	maneuver_containers.erase(maneuver_containers.back())
 
-func _on_level_selector_change_level(level_data, _level):
-	maneuvers_from_level = level_data["maneuvers"]
-	adjust_maneuver_amount()
+#func _on_level_selector_change_level(level_data, _level):
+func _on_level_selector_change_level(_level: int):
+	pass
+	# TODO
+	#maneuvers_from_level = level_data["maneuvers"]
+	#adjust_maneuver_amount()
 
 func add_maneuver(maneuver):
 	current_maneuvers.append(maneuver)

@@ -6,21 +6,20 @@ const item_scene = preload("res://Scenes/item.tscn")
 signal item_installed(item)
 signal item_removed(item)
 
-signal set_gear_ability(frame_data)
+#signal set_gear_ability(frame_data)
 
 signal new_save_loaded(user_data)
 
-signal incrememnt_lock_tally(change)
-signal reset_lock_tally
+#signal incrememnt_lock_tally(change)
+#signal reset_lock_tally
 
-
+# TODO go through all these and yeet unused ones
 #@onready var item_inventory_container: Container = %ItemInventory
 #@onready var stats_container: Container = %StatsVBoxContainer
 @onready var stats_list_control: Control = %StatsListControl
-
 @onready var export_popup: Popup = %ExportPopup
 @onready var screenshot_popup: Popup = %ScreenshotPopup
-@onready var file_dialog: FileDialog = %FileDialog
+#@onready var file_dialog: FileDialog = %FileDialog
 @onready var save_menu: MenuButton = %SaveOptionsMenu
 @onready var save_menu_popup: PopupMenu = save_menu.get_popup()
 @onready var callsign_line_edit: LineEdit = %CallsignLineEdit
@@ -29,6 +28,14 @@ signal reset_lock_tally
 @onready var deep_words_container = %DeepWordsContainer
 @onready var floating_explanation_control: Control = %FloatingExplanationControl
 @onready var explanation_label: Label = %ExplanationLabel
+
+# for control updates
+@onready var frame_selector: OptionButton = %FrameSelector
+@onready var level_selector: SpinBox = %LevelSelector
+@onready var unlocks_remaining: Label = %UnlocksRemainingLabel
+@onready var nameplate: Label = %LevelBackgroundNameplate
+@onready var gear_ability_title: Label = %GearAbilityTitle
+@onready var gear_ability_text: Label = %GearAbilityText
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -94,6 +101,7 @@ var request_update_controls := false
 
 func _ready():
 	floating_explanation_control.hide()
+	#current_character.load_frame("lonestar")
 	#for gear_section_id in gear_section_ids.values():
 		#print(gear_section_id)
 		#print(typeof(gear_section_id))
@@ -128,7 +136,11 @@ func _process(_delta):
 	$ModeDebugLabel.text = "Mode: %s" % str(Modes.find_key(mode))
 	
 	if Input.is_action_just_pressed("mouse_leftclick"):
-		if export_popup.visible or file_dialog.visible or screenshot_popup.visible or save_menu_popup.visible:
+		if (export_popup.visible
+				or save_menu.is_popup_active() # file dialog
+				or screenshot_popup.visible
+				or save_menu_popup.visible
+		):
 			return
 		match mode:
 			Modes.EQUIP:
@@ -236,6 +248,7 @@ func place_item():
 		assert(not grid_slot.is_locked)
 		assert(grid_slot.installed_item == null)
 		grid_slot.installed_item = item_held
+	current_grid_slot.is_primary_install_point = true
 	
 	item_installed.emit(item_held)
 	#internals[current_slot.slot_ID] = item_held
@@ -451,6 +464,7 @@ func _on_legs_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
 
 
 
+
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
 	explanation_label.text = current_character.get_stat_explanation(stat_name)
 	if not explanation_label.text.is_empty():
@@ -475,20 +489,20 @@ func _on_item_inventory_item_spawned(item_id):
 	mode = Modes.PLACE
 	request_update_controls = true
 
-func _on_level_selector_change_level(a_Level_data, a_Level):
-	current_character.level = a_Level
-	current_character.level_stats = a_Level_data
+func _on_level_selector_change_level(new_level: int):
+	current_character.set_level(new_level)
 	request_update_controls = true
 	#gear_data["level"] = a_Level
 
-func _on_save_options_menu_load_save_data(a_New_data):
+func _on_save_options_menu_load_save_data(info: Dictionary):
 	drop_item()
-	current_character = GearwrightCharacter.new()
+	current_character = GearwrightCharacter.unmarshal(info)
 	#gear_data = DataHandler.get_gear_template()
 	
-	new_save_loaded.emit(a_New_data)
+	new_save_loaded.emit(info)
 	
-	var temp_unlocks = PackedInt32Array(a_New_data["unlocks"])
+	request_update_controls = true
+	#var temp_unlocks = PackedInt32Array(info["unlocks"])
 	#for index in temp_unlocks: # TODO definitely borked, see get_unlocked_slots()
 		#if index in gear_data["unlocks"]:
 			#breakpoint # tsnh?
@@ -497,16 +511,16 @@ func _on_save_options_menu_load_save_data(a_New_data):
 		#grid_array[index].unlock()
 		#gear_data["unlocks"].push_back(index)
 		#incrememnt_lock_tally.emit(1)
-	
-	for grid in a_New_data["internals"]:
-		print("installing " + a_New_data["internals"][grid])
-		install_item(a_New_data["internals"][grid], int(grid))
+	#
+	#for grid in info["internals"]:
+		#print("installing " + info["internals"][grid])
+		#install_item(info["internals"][grid], int(grid))
 
-func install_item(a_Item_ID, a_Index):
+func install_item(a_Item_ID, _a_Index):
 	if !DataHandler.item_data.has(a_Item_ID):
 		return
 	
-	# TODO
+	# TODO 
 	#icon_anchor = Vector2(10000, 10000)
 	#var column_count = grid_array[a_Index].get_parent().columns
 	#var new_item = item_scene.instantiate()
@@ -542,23 +556,28 @@ func _on_unlock_toggle_button_down():
 	
 	request_update_controls = true
 
-func _on_background_selector_load_background(a_Background_data):
-	current_character.load_background(a_Background_data)
+func _on_background_selector_load_background(background_name: String):
+	current_character.load_background(background_name)
 	request_update_controls = true
 	#current_background = a_Background_data["background"].to_snake_case()
 
 func _on_background_edit_menu_background_stat_updated(stat, _value, was_added):
 	if was_added:
-		current_character.custom_background.append(stat)
+		breakpoint # What is stat?
+		#current_character.custom_background.append(stat)
 	else:
 		current_character.custom_background.erase(stat)
+
+func _on_callsign_line_edit_text_changed(new_text: String) -> void:
+	current_character.callsign = new_text
+	# don't request update_controls() here, it messes with callsign lineedit
 
 func _on_export_popup_export_requested(filename: String) -> void:
 	var path = "user://Saves/" + filename + ".fsh"
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	
 	#file.store_string(get_user_data_string())
-	file.store_string(current_character.marshal_as_string())
+	file.store_string(JSON.stringify(current_character.marshal(), "  "))
 	file.close()
 	
 	var folder_path
@@ -591,8 +610,8 @@ func _on_save_options_menu_new_gear_pressed():
 	#internals_reset()
 	#gear_data = DataHandler.get_gear_template()
 
-func _on_frame_selector_load_frame(a_Frame_data, a_Frame_name):
-	current_character.load_frame(a_Frame_data, a_Frame_name)
+func _on_frame_selector_load_frame(frame_name: String):
+	current_character.load_frame(frame_name)
 	request_update_controls = true
 	
 	#set_gear_ability.emit(a_Frame_data)
@@ -658,6 +677,51 @@ func update_controls():
 	update_place_mode()
 	update_unlock_mode()
 	update_stats_list_control()
+	
+	
+	# frame selector
+	for i in range(frame_selector.item_count):
+		if frame_selector.get_item_text(i).to_lower() == current_character.frame_name.to_lower():
+			frame_selector.select(i)
+			break
+	
+	# level spinner
+	level_selector.set_value_no_signal(current_character.level)
+	
+	# hardpoint info
+	#+ str(a_Maximum - a_Current) + "/" + str(a_Maximum)
+	var used_unlock_count = current_character.get_unlocked_slots().size()
+	var max_unlock_count = current_character.get_max_unlocks()
+	unlocks_remaining.text = "Unlocks Remaining: %d/%d" % [
+		max_unlock_count - used_unlock_count,
+		max_unlock_count,
+	]
+	
+	# EL 1 | bg | frame Label
+	nameplate.text = "EL %s | %s | %s" % [
+		str(current_character.level),
+		current_character.background_stats.background,
+		current_character.frame_name,
+	]
+	
+	# callsign
+	callsign_line_edit.text = current_character.callsign
+	
+	# gear ability title & body text
+	var ability_text = current_character.frame_stats.gear_ability
+	var temp_font_size = 14
+	var min_x = 220
+	var min_y = 80
+	while get_theme_default_font().get_multiline_string_size(ability_text, HORIZONTAL_ALIGNMENT_LEFT, min_x, temp_font_size).y > min_y:
+		temp_font_size = temp_font_size - 1
+	gear_ability_text.set("theme_override_font_sizes/font_size", temp_font_size)
+	gear_ability_text.text = ability_text
+	gear_ability_title.text = "Gear Ability:\n%s" % current_character.frame_stats.gear_ability_name
+	
+	# developments
+	# maneuvers
+	# deep words
+	#asdf
 
 func update_place_mode():
 	if mode != Modes.PLACE:
@@ -819,6 +883,7 @@ func get_item_held_cells() -> Array:
 	return item_cells
 
 #endregion
+
 
 
 

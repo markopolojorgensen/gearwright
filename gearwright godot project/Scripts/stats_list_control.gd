@@ -42,7 +42,7 @@ var hovered_stat := ""
 func _ready():
 	for i in range(pretty_stat_names.size()):
 		var stat_name: String = pretty_stat_names[i]
-		# TODO maybe key these to make sure we don't end up in a fugue state?
+		# maybe key these to make sure we don't end up in a fugue state?
 		var label := label_scene.instantiate()
 		label.stat_name = stat_name
 		label.safe_mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
