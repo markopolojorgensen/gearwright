@@ -30,7 +30,7 @@ func _ready():
 func load_treses(directory_path, _verbose = false):
 	var loaded_treses = []
 	var dir = DirAccess.open(directory_path)
-	dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+	dir.list_dir_begin() # TODO GODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var filename = dir.get_next()
 	while filename != "":
 		if filename.ends_with("tres"):
@@ -547,13 +547,38 @@ func circle_fill_points(radius: int) -> Array:
 		y += 1
 	return points
 
+var warning_popup: AcceptDialog
+
 func popup_warning(title: String, text: String):
-	var warning := AcceptDialog.new()
-	warning.title = title
-	warning.get_label().text = text
-	warning.confirmed.connect(func(): warning.queue_free())
-	warning.canceled.connect(func(): warning.queue_free())
-	add_child(warning)
-	warning.popup_centered.call_deferred()
+	warning_popup = AcceptDialog.new()
+	warning_popup.title = title
+	warning_popup.get_label().text = text
+	warning_popup.confirmed.connect(free_warning_popup)
+	warning_popup.canceled.connect(free_warning_popup)
+	add_child(warning_popup)
+	warning_popup.popup_centered.call_deferred()
 
+func free_warning_popup():
+	warning_popup.queue_free()
+	warning_popup = null
 
+func is_warning_popup_active():
+	return (
+		warning_popup != null
+		and is_instance_valid(warning_popup)
+		and not warning_popup.is_queued_for_deletion()
+		and warning_popup.visible
+	)
+
+# returns the index of the selected item, or -1 if it couldn't be found
+func set_option_button_by_item_text(option_button: OptionButton, item_text: String, ignore_case := true) -> int:
+	for i in range(option_button.item_count):
+		var is_match := false
+		if ignore_case:
+			is_match = (option_button.get_item_text(i).to_lower() == item_text.to_lower())
+		else:
+			is_match = (option_button.get_item_text(i) == item_text)
+		if is_match:
+			option_button.select(i)
+			return i
+	return -1

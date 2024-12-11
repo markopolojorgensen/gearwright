@@ -37,16 +37,19 @@ func _on_background_selector_load_background(bg_name: String):
 		for stat in available_bonuses:
 			stat_containers[stat].clear_stat_counter()
 
-func _on_mech_builder_new_save_loaded(user_data):
+# TODO yeet comments
+#func _on_mech_builder_new_save_loaded(user_data):
+func _on_mech_builder_new_save_loaded(character: GearwrightCharacter):
 	for stat in available_bonuses:
 		stat_containers[stat].clear_stat_counter()
 	
 	remaining_points = base_background_points
 	
-	if user_data.has("custom_background"):
-		for stat in user_data["custom_background"]:
-			remaining_points -= stat_costs[stat]
-			background_stat_updated.emit(stat, available_bonuses[stat], true)
-			stat_containers[stat].increase_stat_counter()
+	#if user_data.has("custom_background"):
+		#for stat in user_data["custom_background"]:
+	for stat in character.custom_background:
+		remaining_points -= stat_costs[stat]
+		#background_stat_updated.emit(stat, available_bonuses[stat], true)
+		stat_containers[stat].increase_stat_counter()
 	
 	points_remaining_label.text = str(remaining_points)

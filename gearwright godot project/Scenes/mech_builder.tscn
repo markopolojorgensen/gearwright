@@ -740,6 +740,7 @@ text = "Reset Internals"
 script = ExtResource("26_hdcjo")
 
 [node name="InternalsResetConfirmDialog" type="ConfirmationDialog" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/InternalsResetButton"]
+unique_name_in_owner = true
 title = "Reset Internals?"
 initial_position = 2
 size = Vector2i(200, 80)
@@ -757,6 +758,7 @@ text = "Reset Hardpoints"
 script = ExtResource("27_1gsxs")
 
 [node name="HardpointsResetConfirmDialog" type="ConfirmationDialog" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/HardpointsResetButton"]
+unique_name_in_owner = true
 title = "Reset Hardpoints?"
 initial_position = 2
 size = Vector2i(200, 80)
@@ -872,6 +874,7 @@ text = "Background:
 "
 
 [node name="BackgroundSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 script = ExtResource("30_7q7iv")
@@ -880,6 +883,7 @@ script = ExtResource("30_7q7iv")
 layout_mode = 2
 
 [node name="BackgroundEditButton" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Edit Background"
@@ -914,6 +918,7 @@ layout_mode = 2
 color = Color(0.313726, 0.313726, 0.313726, 1)
 
 [node name="BackgroundEditMenu" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1001,8 +1006,8 @@ theme_override_constants/margin_bottom = 2
 [node name="ExplanationLabel" type="Label" parent="FloatingExplanationControl/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Explanation: +2
-Fish: -1"
+text = "background: +7
+level: +3"
 horizontal_alignment = 2
 
 [connection signal="item_spawned" from="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" to="." method="_on_item_inventory_item_spawned"]

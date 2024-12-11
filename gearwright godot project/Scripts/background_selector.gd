@@ -1,8 +1,5 @@
 extends OptionButton
 
-# TODO maybe we could take all the selector stuff and put it in mech_builder
-#   and then we wouldn't be doing weird loading stuff in these leaf nodes, idk
-#   Have to go through signals this thing is connected to, maybe more work than it's worth
 # TODO yeet comments
 #var save_path = "user://LocalData/fisher_backgrounds.json"
 

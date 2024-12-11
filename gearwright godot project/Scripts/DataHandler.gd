@@ -95,6 +95,32 @@ const development_stats_template := {
 	repeatable = false,
 }
 
+const item_stats_template := {
+	"action_data": {},
+	"ap": 0,
+	"ballast": 0,
+	"close": 0,
+	"core": 0,
+	"evasion": 0,
+	"far": 0,
+	"grid": [
+		"[0, 0]", # this does not spark joy
+	],
+	"mental": 0,
+	"name": "",
+	"power": 0,
+	"repair_kits": 0,
+	"extra_rules": "",
+	"section": "any",
+	"sensors": 0,
+	"speed": 0,
+	"tags": [],
+	"type": "passive",
+	"weight": 0,
+	"weight_cap": 0,
+	"willpower": 0,
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	item_data = load_data(item_data_path)
@@ -124,6 +150,7 @@ func get_fish_template():
 	return fish_data_template.duplicate(true)
 
 # pops up error messages if things go badly
+# TODO data_type should be an enum
 func get_thing_nicely(data_type: String, key):
 	var data
 	var default
@@ -142,7 +169,11 @@ func get_thing_nicely(data_type: String, key):
 			data = development_data
 			default = development_stats_template.duplicate(true)
 		"maneuver":
+			data = maneuver_data
 			default = maneuver_stats_template.duplicate(true)
+		"internal":
+			data = item_data
+			default = item_stats_template.duplicate(true)
 		_:
 			push_error("DataHandler: unknown data type: %s" % data_type)
 			breakpoint
@@ -154,6 +185,14 @@ func get_thing_nicely(data_type: String, key):
 		var message := "Failed to find %s data for '%s'\n(Have you imported the game data from the main menu?)" % [data_type, key]
 		global_util.popup_warning(title, message)
 		return default
+
+func get_development_data(dev_name: String):
+	return get_thing_nicely("development", dev_name)
+
+
+
+
+
 
 func set_grid_and_icon_data():
 	if item_data:

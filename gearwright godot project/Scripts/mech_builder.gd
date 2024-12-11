@@ -19,6 +19,8 @@ signal new_save_loaded(user_data)
 @onready var stats_list_control: Control = %StatsListControl
 @onready var export_popup: Popup = %ExportPopup
 @onready var screenshot_popup: Popup = %ScreenshotPopup
+@onready var internals_reset_dialog: ConfirmationDialog = %InternalsResetConfirmDialog
+@onready var hardpoints_reset_dialog: ConfirmationDialog = %HardpointsResetConfirmDialog
 #@onready var file_dialog: FileDialog = %FileDialog
 @onready var save_menu: MenuButton = %SaveOptionsMenu
 @onready var save_menu_popup: PopupMenu = save_menu.get_popup()
@@ -36,6 +38,7 @@ signal new_save_loaded(user_data)
 @onready var nameplate: Label = %LevelBackgroundNameplate
 @onready var gear_ability_title: Label = %GearAbilityTitle
 @onready var gear_ability_text: Label = %GearAbilityText
+@onready var background_selector: OptionButton = %BackgroundSelector
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -140,6 +143,9 @@ func _process(_delta):
 				or save_menu.is_popup_active() # file dialog
 				or screenshot_popup.visible
 				or save_menu_popup.visible
+				or internals_reset_dialog.visible
+				or hardpoints_reset_dialog.visible
+				or global_util.is_warning_popup_active()
 		):
 			return
 		match mode:
@@ -187,6 +193,7 @@ func pickup_item():
 	#var column_count = current_slot.get_parent().columns
 	#item_held = current_slot.installed_item
 	item_held = current_grid_slot.installed_item
+	item_held.grid_anchor = null
 	item_held.selected = true
 	
 	for cell in current_gear_section.grid.get_valid_entries():
@@ -210,7 +217,21 @@ func pickup_item():
 	request_update_controls = true
 
 func place_item():
-	if not can_place_current_item():
+	if current_slot_info.is_empty():
+		return
+	
+	#if not current_character.is_valid_internal_equip(
+			#item_held,
+			#current_slot_info.gear_section_id,
+			#Vector2i(current_slot_info.x, current_slot_info.y)
+	#):
+		#return
+	var current_slot_cell := Vector2i(current_slot_info.x, current_slot_info.y)
+	if not current_character.equip_internal(
+			item_held,
+			current_slot_info.gear_section_id,
+			current_slot_cell
+	):
 		return
 	
 	#var column_count = current_slot.get_parent().columns
@@ -218,39 +239,42 @@ func place_item():
 	#if calculated_grid_id >= grid_array.size():
 		#return
 	
-	var item_cells := get_item_held_cells()
-	var top_left_cell = item_cells.reduce(func(best: Vector2i, current: Vector2i):
-		best.x = min(best.x, current.x)
-		best.y = min(best.y, current.y)
-		return best
-		, Vector2i(1000, 1000))
-	var anchor_grid_slot_control: GridSlotControl = current_gear_section_control.control_grid.get_contents_v(top_left_cell)
+	#var item_cells := current_character.get_item_cells(
+			#item_held,
+			#current_slot_info.gear_section_id,
+			#current_slot_cell
+	#)
+	#var top_left_cell = item_cells.reduce(func(best: Vector2i, current: Vector2i):
+		#best.x = min(best.x, current.x)
+		#best.y = min(best.y, current.y)
+		#return best
+		#, Vector2i(1000, 1000))
+	#var anchor_grid_slot_control: GridSlotControl = current_gear_section_control.control_grid.get_contents_v(top_left_cell)
 	
-	item_held.get_parent().remove_child(item_held)
-	#current_slot.get_parent().add_child(item_held)
-	anchor_grid_slot_control.get_parent().add_child(item_held)
+	#item_held.get_parent().remove_child(item_held) # TODO maybe we need this?
+	#anchor_grid_slot_control.get_parent().add_child(item_held)
 	item_held.global_position = get_global_mouse_position()
 	
 	#item_held.snap_to(grid_array[calculated_grid_id].global_position)
-	item_held.snap_to(anchor_grid_slot_control.global_position)
+	#item_held.snap_to(anchor_grid_slot_control.global_position)
 	
 	#item_held.grid_anchor = current_slot
 	#for grid in item_held.item_grids:
 		#var grid_to_check = current_slot.slot_ID + grid[0] + grid[1] * column_count
 		#grid_array[grid_to_check].state = grid_array[grid_to_check].States.TAKEN
 		#grid_array[grid_to_check].installed_item = item_held
-	item_held.grid_anchor = anchor_grid_slot_control
-	for cell in item_cells:
-		if not current_gear_section.grid.is_within_size_v(cell):
-			continue
-		
-		var grid_slot: GridSlot = current_gear_section.grid.get_contents_v(cell)
-		assert(not grid_slot.is_locked)
-		assert(grid_slot.installed_item == null)
-		grid_slot.installed_item = item_held
-	current_grid_slot.is_primary_install_point = true
+	#item_held.grid_anchor = anchor_grid_slot_control
+	#for cell in item_cells:
+		#if not current_gear_section.grid.is_within_size_v(cell):
+			#continue
+		#
+		#var grid_slot: GridSlot = current_gear_section.grid.get_contents_v(cell)
+		#assert(not grid_slot.is_locked)
+		#assert(grid_slot.installed_item == null)
+		#grid_slot.installed_item = item_held
+	#current_grid_slot.is_primary_install_point = true
 	
-	item_installed.emit(item_held)
+	item_installed.emit(item_held) # TODO yeet?
 	#internals[current_slot.slot_ID] = item_held
 	
 	item_held = null
@@ -261,24 +285,29 @@ func place_item():
 	request_update_controls = true
 
 func toggle_current_slot_lock():
-	# no current slot
 	if current_slot_info.is_empty():
 		return
 	
-	# slot is a default unlock
-	if current_grid_slot.is_default_unlock:
-		return
-	# slot has something in it
-	if current_grid_slot.installed_item != null:
-		return
+	current_character.toggle_unlock(
+			current_slot_info.gear_section_id,
+			current_slot_info.x,
+			current_slot_info.y
+	)
 	
-	# locked, but no unlocks left
-	# allow player to re-lock non-default unlocked slots
-	# allow player to unlock non-default locked slots when they have unlocks left
-	if (current_grid_slot.is_locked) and (not current_character.has_unlocks_remaining()):
-		return
-	
-	current_grid_slot.is_locked = not current_grid_slot.is_locked
+	## slot is a default unlock
+	#if current_grid_slot.is_default_unlock:
+		#return
+	## slot has something in it
+	#if current_grid_slot.installed_item != null:
+		#return
+	#
+	## locked, but no unlocks left
+	## allow player to re-lock non-default unlocked slots
+	## allow player to unlock non-default locked slots when they have unlocks left
+	#if (current_grid_slot.is_locked) and (not current_character.has_unlocks_remaining()):
+		#return
+	#
+	#current_grid_slot.is_locked = not current_grid_slot.is_locked
 	#gear_data["unlocks"] = get_unlocked_slots()
 	
 	request_update_controls = true
@@ -497,13 +526,19 @@ func _on_level_selector_change_level(new_level: int):
 func _on_save_options_menu_load_save_data(info: Dictionary):
 	drop_item()
 	current_character = GearwrightCharacter.unmarshal(info)
+	var internals := current_character.get_equipped_items()
+	for internal_info in internals:
+		if not internal_info.internal.is_inside_tree():
+			add_child(internal_info.internal)
 	#gear_data = DataHandler.get_gear_template()
+	
+	%BackgroundEditMenu._on_mech_builder_new_save_loaded(current_character)
 	
 	new_save_loaded.emit(info)
 	
 	request_update_controls = true
 	#var temp_unlocks = PackedInt32Array(info["unlocks"])
-	#for index in temp_unlocks: # TODO definitely borked, see get_unlocked_slots()
+	#for index in temp_unlocks:
 		#if index in gear_data["unlocks"]:
 			#breakpoint # tsnh?
 			#continue
@@ -516,11 +551,10 @@ func _on_save_options_menu_load_save_data(info: Dictionary):
 		#print("installing " + info["internals"][grid])
 		#install_item(info["internals"][grid], int(grid))
 
-func install_item(a_Item_ID, _a_Index):
-	if !DataHandler.item_data.has(a_Item_ID):
-		return
-	
-	# TODO 
+#func install_item(a_Item_ID, _a_Index):
+	#if !DataHandler.item_data.has(a_Item_ID):
+		#return
+	#
 	#icon_anchor = Vector2(10000, 10000)
 	#var column_count = grid_array[a_Index].get_parent().columns
 	#var new_item = item_scene.instantiate()
@@ -563,10 +597,10 @@ func _on_background_selector_load_background(background_name: String):
 
 func _on_background_edit_menu_background_stat_updated(stat, _value, was_added):
 	if was_added:
-		breakpoint # What is stat?
-		#current_character.custom_background.append(stat)
+		current_character.custom_background.append(stat)
 	else:
 		current_character.custom_background.erase(stat)
+	request_update_controls = true
 
 func _on_callsign_line_edit_text_changed(new_text: String) -> void:
 	current_character.callsign = new_text
@@ -674,16 +708,20 @@ func update_controls():
 		var gear_section_control: GearSectionControl = gear_section_controls[gear_section_id]
 		gear_section_control.update(gear_section)
 	
+	update_internal_items()
+	
 	update_place_mode()
 	update_unlock_mode()
 	update_stats_list_control()
 	
 	
 	# frame selector
-	for i in range(frame_selector.item_count):
-		if frame_selector.get_item_text(i).to_lower() == current_character.frame_name.to_lower():
-			frame_selector.select(i)
-			break
+	var frame_index := global_util.set_option_button_by_item_text(
+			frame_selector,
+			current_character.frame_name
+	)
+	if frame_index == -1:
+		push_error("update_controls: bad frame: %s" % current_character.frame_name)
 	
 	# level spinner
 	level_selector.set_value_no_signal(current_character.level)
@@ -718,10 +756,43 @@ func update_controls():
 	gear_ability_text.text = ability_text
 	gear_ability_title.text = "Gear Ability:\n%s" % current_character.frame_stats.gear_ability_name
 	
+	# background
+	var background_index := global_util.set_option_button_by_item_text(
+			background_selector,
+			current_character.background_stats.background
+	)
+	if background_index == -1:
+		push_error("update_controls: bad background: %s" % current_character.background_stats.background)
+	%BackgroundEditButton._on_background_selector_load_background(current_character.background_stats.background)
+	
+	# TODO
 	# developments
 	# maneuvers
 	# deep words
-	#asdf
+
+func update_internal_items():
+	# gsid -> gear_section_id
+	var internals: Array = current_character.get_equipped_items()
+	for i in range(internals.size()):
+		#  keys:
+		#   slot (gear_section_id, gear_section_name, x, y)
+		#   internal_name
+		#   internal: actual Item value
+		var internal_info: Dictionary = internals[i]
+		var gsid: int = internal_info.slot.gear_section_id
+		var primary_cell := Vector2i(internal_info.slot.x, internal_info.slot.y)
+		var item = internal_info.internal
+		var item_cells := current_character.get_item_cells(item, gsid, primary_cell)
+		var top_left_cell = item_cells.reduce(func(best: Vector2i, current: Vector2i):
+			best.x = min(best.x, current.x)
+			best.y = min(best.y, current.y)
+			return best
+			, Vector2i(1000, 1000))
+		var gear_section_control: GearSectionControl = gear_section_controls[gsid]
+		var anchor_grid_slot_control: GridSlotControl = gear_section_control.control_grid.get_contents_v(top_left_cell)
+		item.snap_to(anchor_grid_slot_control.global_position)
+		item.grid_anchor = anchor_grid_slot_control
+
 
 func update_place_mode():
 	if mode != Modes.PLACE:
@@ -742,14 +813,17 @@ func update_place_mode():
 	if current_slot_info.is_empty():
 		return
 	
-	var item_cells := get_item_held_cells()
-	var grid_slot_controls = item_cells.map(func(cell):
+	var gsid: int = current_slot_info.gear_section_id
+	var primary_cell := Vector2i(current_slot_info.x, current_slot_info.y)
+	var item_cells := current_character.get_item_cells(item_held, gsid, primary_cell)
+	var grid_slot_controls := item_cells.map(func(cell):
 		if current_gear_section_control.control_grid.is_within_size_v(cell):
 			return current_gear_section_control.control_grid.get_contents_v(cell)
 		else:
 			return null
 		)
-	if can_place_current_item():
+	grid_slot_controls = grid_slot_controls.filter(func(gsc): return gsc != null)
+	if current_character.is_valid_internal_equip(item_held, gsid, primary_cell):
 		for grid_slot_control in grid_slot_controls:
 			if grid_slot_control != null:
 				grid_slot_control.color_good()
@@ -794,7 +868,7 @@ func update_current_unlock_highlight():
 
 func update_stats_list_control():
 	stats_list_control.update(current_character)
-	if is_overweight_with_held_item():
+	if current_character.is_overweight_with_item(item_held):
 		stats_list_control.over_weight()
 	else:
 		stats_list_control.under_weight()
@@ -808,79 +882,79 @@ func update_stats_list_control():
 
 
 #region Data Interrogation
-# all the reasons we can't put the held item in the current slot:
-#   there is no held item
-#   there is no current slot
-#   it would put us over weight
-#   wrong section (e.g. trying to put head gear in leg)
-#   for each slot that would become occupied:
-#     there's already something there
-#     slot is out of bounds
-#     slot is locked
-func can_place_current_item() -> bool:
-	# there is no held item
-	if item_held == null:
-		return false
-	
-	# there is no current slot
-	if current_slot_info.is_empty():
-		return false
-	
-	# it would put us over weight
-	if is_overweight_with_held_item():
-		return false
-	
-	# wrong section (e.g. trying to put head gear in leg)
-	var gear_section_id = current_slot_info.gear_section_id
-	var valid_section_ids := GearwrightCharacter.item_section_to_valid_section_ids(item_held.item_data.section)
-	if not gear_section_id in valid_section_ids:
-		return false
-	
-	# for each slot that would become occupied:
-	var cells := get_item_held_cells()
-	for i in range(cells.size()):
-		var cell: Vector2i = cells[i]
-		
-		# slot is out of bounds
-		if not current_gear_section.grid.is_within_size_v(cell):
-			return false
-		
-		var grid_slot: GridSlot = current_gear_section.grid.get_contents_v(cell)
-		# slot is locked
-		if grid_slot.is_locked:
-			return false
-		
-		# there's already something there
-		if grid_slot.installed_item != null:
-			return false
-	
-	return true
+## all the reasons we can't put the held item in the current slot:
+##   there is no held item
+##   there is no current slot
+##   it would put us over weight
+##   wrong section (e.g. trying to put head gear in leg)
+##   for each slot that would become occupied:
+##     there's already something there
+##     slot is out of bounds
+##     slot is locked
+#func can_place_current_item() -> bool:
+	## there is no held item
+	#if item_held == null:
+		#return false
+	#
+	## there is no current slot
+	#if current_slot_info.is_empty():
+		#return false
+	#
+	## it would put us over weight
+	#if is_overweight_with_held_item():
+		#return false
+	#
+	## wrong section (e.g. trying to put head gear in leg)
+	#var gear_section_id = current_slot_info.gear_section_id
+	#var valid_section_ids := GearwrightCharacter.item_section_to_valid_section_ids(item_held.item_data.section)
+	#if not gear_section_id in valid_section_ids:
+		#return false
+	#
+	## for each slot that would become occupied:
+	#var cells := get_item_held_cells()
+	#for i in range(cells.size()):
+		#var cell: Vector2i = cells[i]
+		#
+		## slot is out of bounds
+		#if not current_gear_section.grid.is_within_size_v(cell):
+			#return false
+		#
+		#var grid_slot: GridSlot = current_gear_section.grid.get_contents_v(cell)
+		## slot is locked
+		#if grid_slot.is_locked:
+			#return false
+		#
+		## there's already something there
+		#if grid_slot.installed_item != null:
+			#return false
+	#
+	#return true
 
-func is_overweight_with_held_item():
-	var weight := current_character.get_weight()
-	if item_held:
-		weight += item_held.item_data.weight
-	if weight > current_character.get_weight_cap():
-		return true
-	else:
-		return false
+#func is_overweight_with_held_item():
+	#var weight := current_character.get_weight()
+	#if item_held:
+		#weight += item_held.item_data.weight
+	#if weight > current_character.get_weight_cap():
+		#return true
+	#else:
+		#return false
 
-# item_held.item_grids -> actual coords based on current_slot_info
-# item.item_grids is an array
-# each element is a 2-element array representing coordinates
-#
-# this function returns a list of Vector2i elements
-# some of these might be out of bounds!
-func get_item_held_cells() -> Array:
-	if item_held == null:
-		return []
-	if current_slot_info.is_empty():
-		return []
-	
-	var item_cell_offsets: Array = item_held.item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
-	var current_slot_coord := Vector2i(current_slot_info.x, current_slot_info.y)
-	var item_cells := item_cell_offsets.map(func(offset): return current_slot_coord + offset)
-	return item_cells
+## item_held.item_grids -> actual coords based on current_slot_info
+## item.item_grids is an array
+## each element is a 2-element array representing coordinates
+##
+## this function returns a list of Vector2i elements
+## some of these might be out of bounds!
+#func get_item_held_cells() -> Array:
+	#if item_held == null:
+		#return []
+	#if current_slot_info.is_empty():
+		#return []
+	#
+	#var item_cell_offsets: Array = item_held.item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
+	#var current_slot_coord := Vector2i(current_slot_info.x, current_slot_info.y)
+	#var item_cells := item_cell_offsets.map(func(offset): return current_slot_coord + offset)
+	#return item_cells
 
 #endregion
 

@@ -1,8 +1,11 @@
 extends Node2D
 
-@onready var icon = $Icon
-@onready var item_popup = $ItemPopup
+# used to be onready, but items no longer get added to the tree before they
+#  are used.
+var icon: TextureRect
+var item_popup: Popup
 
+var initialized := false
 var item_grids := []
 var selected = false
 var grid_anchor = null # GridSlotControl
@@ -13,6 +16,11 @@ var popup_loaded = false
 
 var x_offset = 0
 var y_offset = 0
+
+func initialize() -> void:
+	icon = $Icon
+	item_popup = $ItemPopup
+	initialized = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -25,10 +33,12 @@ func _process(delta):
 		else:
 			item_popup.position = global_position + Vector2(140, 0)
 			item_popup.popup()
-	
 
 func load_item(a_itemID : String):
-	item_data = DataHandler.item_data[a_itemID]
+	if not initialized:
+		initialize()
+	#item_data = DataHandler.item_data[a_itemID]
+	item_data = DataHandler.get_thing_nicely("internal", a_itemID)
 	
 	var image = Image.load_from_file(item_data["icon_path"])
 	var texture = ImageTexture.create_from_image(image)
