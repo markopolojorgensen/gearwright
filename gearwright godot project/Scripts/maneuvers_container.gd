@@ -18,9 +18,7 @@ var current_maneuvers := []
 var bonus_mental_maneuvers = 0
 
 func _ready():
-	var file = FileAccess.open(maneuver_file_path, FileAccess.READ)
-	maneuver_data = JSON.parse_string(file.get_as_text())
-	file.close()
+	maneuver_data = DataHandler.maneuver_data.duplicate(true)
 
 func add_maneuver_container():
 	var temp_container = maneuver_container_scene.instantiate()

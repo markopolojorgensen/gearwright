@@ -411,6 +411,17 @@ func drop_item():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 #region Reactivity
 
 # Grid Slots
@@ -602,6 +613,14 @@ func _on_background_edit_menu_background_stat_updated(stat, _value, was_added):
 		current_character.custom_background.erase(stat)
 	request_update_controls = true
 
+func _on_developments_container_development_added(development_data: Dictionary) -> void:
+	current_character.add_development(development_data.name.to_snake_case())
+	request_update_controls = true
+
+func _on_developments_container_development_removed(development_data: Dictionary) -> void:
+	current_character.remove_development(development_data.name.to_snake_case())
+	request_update_controls = true
+
 func _on_callsign_line_edit_text_changed(new_text: String) -> void:
 	current_character.callsign = new_text
 	# don't request update_controls() here, it messes with callsign lineedit
@@ -626,7 +645,7 @@ func _on_export_popup_export_requested(filename: String) -> void:
 
 
 
-
+## Reactivity - things that reset internals
 
 func _on_internals_reset_confirm_dialog_confirmed():
 	current_character.unequip_all_internals()
@@ -957,7 +976,6 @@ func update_stats_list_control():
 	#return item_cells
 
 #endregion
-
 
 
 

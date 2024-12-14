@@ -14,9 +14,7 @@ var deep_word_containers := []
 var current_deep_words := []
 
 func _ready():
-	var file = FileAccess.open(deep_word_file_path, FileAccess.READ)
-	deep_word_data = JSON.parse_string(file.get_as_text())
-	file.close()
+	deep_word_data = DataHandler.deep_word_data.duplicate(true)
 
 func add_deep_word_container():
 	var temp_container = deep_word_container_scene.instantiate()

@@ -233,7 +233,7 @@ func info_to_explanation_text(info: Dictionary) -> String:
 		else:
 			number_string = "-"
 		
-		result += "%s: %s\n" % [key, number_string]
+		result += "%s: %s\n" % [key.capitalize(), number_string]
 	return result
 
 func sum_internals_for_stat(stat: String) -> int:
@@ -380,11 +380,10 @@ func get_far() -> int:
 	return sum_array(get_far_info().values())
 
 func get_mental_info() -> Dictionary:
-	return {
+	return add_dev_info("mental", {
 		background = get_bg_amount("mental")
-		# developments TODO
 		# internals TODO fish have this
-	}
+	})
 
 func get_mental() -> int:
 	return sum_array(get_mental_info().values())
@@ -408,11 +407,11 @@ func get_evasion() -> int:
 	return sum_array(get_evasion_info().values())
 
 func get_willpower_info() -> Dictionary:
-	return {
-		background = get_bg_amount("willpower")
+	return add_dev_info("willpower", {
+		background = get_bg_amount("willpower"),
 		# developments TODO
 		# fish internals TODO
-	}
+	})
 
 func get_willpower() -> int:
 	return sum_array(get_willpower_info().values())
@@ -445,21 +444,19 @@ func get_sensors() -> int:
 	return sum_array(get_sensors_info().values())
 
 func get_repair_kits_info() -> Dictionary:
-	return {
+	return add_dev_info("repair_kits", {
 		frame = frame_stats.repair_kits,
 		internals = sum_internals_for_stat("repair_kits"),
-		# developments TODO
-	}
+	})
 
 func get_repair_kits() -> int:
 	return sum_array(get_repair_kits_info().values())
 
 func get_max_unlocks_info() -> Dictionary:
-	return {
+	return add_dev_info("unlocks", {
 		background = get_bg_amount("unlocks"),
 		level = level_stats.unlocks,
-		# developments TODO
-	}
+	})
 
 func get_max_unlocks() -> int:
 	return sum_array(get_max_unlocks_info().values())
@@ -479,24 +476,44 @@ func get_weight_cap_info() -> Dictionary:
 		level = level_stats.weight_cap,
 		# developments TODO
 	}
+	result = add_dev_info("weight_cap", result)
 	return result
 
 func get_weight_cap() -> int:
 	return sum_array(get_weight_cap_info().values())
 
 func get_ballast_info() -> Dictionary:
-	@warning_ignore("integer_division")
-	var internal_ballast = get_weight() / 5
-	return {
+	var ballast_from_weight: int = weight_to_ballast(get_weight())
+	var result = {
 		frame = frame_stats.ballast,
-		weight = internal_ballast,
+		weight = ballast_from_weight,
 		internals = sum_internals_for_stat("ballast"),
 	}
+	const LIGHTWEIGHT := "lightweight_modifier"
+	var lightweight_info := add_dev_info(LIGHTWEIGHT, {})
+	if not lightweight_info.is_empty():
+		var dev_name: String = lightweight_info.keys()[0]
+		var adjusted_weight: int = get_weight() - lightweight_info[dev_name]
+		var ballast_from_adjusted_weight: int = weight_to_ballast(adjusted_weight)
+		var ballast_effect = ballast_from_adjusted_weight - ballast_from_weight
+		result[dev_name] = ballast_effect
+	
+	return result
+
+func weight_to_ballast(weight: int) -> int:
+	@warning_ignore("integer_division")
+	var result: int = weight / 5
+	return result
 
 func get_ballast() -> int:
-	return sum_array(get_ballast_info().values())
+	var value: int = sum_array(get_ballast_info().values())
+	return clamp(value, 1, 10)
 
+func get_deep_word_count_info() -> Dictionary:
+	return add_dev_info("deep_words", {})
 
+func get_deep_word_count() -> int:
+	return sum_array(get_deep_word_count_info().values())
 
 
 #func get__info() -> Dictionary:
@@ -618,6 +635,9 @@ func add_development(name: String):
 	DataHandler.get_development_data(name) # trigger popup
 	developments.append(name)
 
+func remove_development(name: String):
+	developments.erase(name)
+
 # returns a dictionary of relevant developments
 # keys are development names, values are development stat blocks
 func find_devs_that_modify(stat: String) -> Dictionary:
@@ -629,7 +649,7 @@ func find_devs_that_modify(stat: String) -> Dictionary:
 	return result
 
 # modify stat info dictionary with development stats
-func add_dev_info(stat_name: String, stat_info: Dictionary):
+func add_dev_info(stat_name: String, stat_info: Dictionary) -> Dictionary:
 	var devs := find_devs_that_modify(stat_name)
 	for dev_name in devs.keys():
 		var dev: Dictionary = devs[dev_name]

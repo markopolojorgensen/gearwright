@@ -13,6 +13,7 @@ signal development_added(development)
 signal development_removed(development)
 
 func _ready():
+	development_data = DataHandler.development_data.duplicate(true)
 	for development in development_data:
 		option_button.add_item(development_data[development]["name"])
 	

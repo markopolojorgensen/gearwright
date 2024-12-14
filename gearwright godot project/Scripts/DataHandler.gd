@@ -11,6 +11,7 @@ var background_data := {}
 var level_data := {}
 var maneuver_data := {}
 var development_data := {}
+var deep_word_data := {}
 
 var item_data_path          = "user://LocalData/item_data.json"
 var fish_item_data_path     = "user://LocalData/npc_item_data.json"
@@ -20,6 +21,7 @@ const background_data_path  = "user://LocalData/fisher_backgrounds.json"
 const level_data_path       = "user://LocalData/level_data.json"
 const maneuver_data_path    = "user://LocalData/fisher_maneuvers.json"
 const development_data_path = "user://LocalData/fisher_developments.json"
+const deep_word_data_path = "user://LocalData/deep_words.json"
 
 const gear_data_template := { # TODO yeet?
 	"callsign": "",
@@ -130,6 +132,7 @@ func _ready():
 	level_data = load_data(level_data_path)
 	maneuver_data = load_data(maneuver_data_path)
 	development_data = load_data(development_data_path)
+	deep_word_data = load_data(deep_word_data_path)
 	
 	set_grid_and_icon_data()
 
@@ -139,9 +142,12 @@ func load_data(path):
 		printerr("file not found")
 		push_error("file not found: %s" % path)
 	var file = FileAccess.open(path, FileAccess.READ)
-	var data = JSON.parse_string(file.get_as_text())
+	var text := file.get_as_text()
 	file.close()
-	return data
+	if text.is_empty():
+		push_warning("%s was empty, data import necessary!" % path)
+		return {}
+	return JSON.parse_string(text)
 
 func get_gear_template():
 	return gear_data_template.duplicate(true)

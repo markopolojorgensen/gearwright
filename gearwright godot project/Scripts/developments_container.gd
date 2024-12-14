@@ -1,7 +1,5 @@
 extends VBoxContainer
 
-# TODO
-
 var development_file_path = "user://LocalData/fisher_developments.json"
 
 signal development_added(development_data)
@@ -16,9 +14,7 @@ var development_containers := []
 var current_developments := []
 
 func _ready():
-	var file = FileAccess.open(development_file_path, FileAccess.READ)
-	development_data = JSON.parse_string(file.get_as_text())
-	file.close()
+	development_data = DataHandler.development_data.duplicate(true)
 
 func add_development_container():
 	var temp_container = development_container_scene.instantiate()

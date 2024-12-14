@@ -559,8 +559,9 @@ func popup_warning(title: String, text: String):
 	warning_popup.popup_centered.call_deferred()
 
 func free_warning_popup():
-	warning_popup.queue_free()
-	warning_popup = null
+	if (warning_popup != null) and is_instance_valid(warning_popup) and not warning_popup.is_queued_for_deletion():
+		warning_popup.queue_free()
+		warning_popup = null
 
 func is_warning_popup_active():
 	return (
