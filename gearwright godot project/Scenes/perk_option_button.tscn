@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch88imkihrety"]
+
+[ext_resource type="Script" path="res://Scripts/perk_option_button.gd" id="1_vvisr"]
+
+[node name="PerkOptionButton" type="OptionButton"]
+theme_override_font_sizes/font_size = 12
+script = ExtResource("1_vvisr")
+
+[connection signal="item_selected" from="." to="." method="_on_item_selected"]

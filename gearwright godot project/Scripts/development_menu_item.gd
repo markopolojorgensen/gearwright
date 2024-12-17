@@ -1,6 +1,6 @@
 extends ColorRect
 
-# WHEREWASI
+# widget for selecting a development
 
 @onready var option_button = $DevelopmentsOptionButton
 @onready var plus_button = $Button

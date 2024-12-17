@@ -39,6 +39,42 @@ signal new_save_loaded(user_data)
 @onready var gear_ability_title: Label = %GearAbilityTitle
 @onready var gear_ability_text: Label = %GearAbilityText
 @onready var background_selector: OptionButton = %BackgroundSelector
+@onready var development_option_buttons := [
+	%DevelopmentPerkOptionButton1,
+	%DevelopmentPerkOptionButton2,
+	%DevelopmentPerkOptionButton3,
+	%DevelopmentPerkOptionButton4,
+	%DevelopmentPerkOptionButton5,
+	%DevelopmentPerkOptionButton6,
+	%DevelopmentPerkOptionButton7,
+	%DevelopmentPerkOptionButton8,
+	%DevelopmentPerkOptionButton9,
+	%DevelopmentPerkOptionButton10,
+]
+@onready var maneuver_option_buttons := [
+	%ManeuverPerkOptionButton1,
+	%ManeuverPerkOptionButton2,
+	%ManeuverPerkOptionButton3,
+	%ManeuverPerkOptionButton4,
+	%ManeuverPerkOptionButton5,
+	%ManeuverPerkOptionButton6,
+	%ManeuverPerkOptionButton7,
+	%ManeuverPerkOptionButton8,
+	%ManeuverPerkOptionButton9,
+	%ManeuverPerkOptionButton10,
+]
+@onready var deep_word_option_buttons := [
+	%DeepWordPerkOptionButton1,
+	%DeepWordPerkOptionButton2,
+	%DeepWordPerkOptionButton3,
+	%DeepWordPerkOptionButton4,
+	%DeepWordPerkOptionButton5,
+	%DeepWordPerkOptionButton6,
+	%DeepWordPerkOptionButton7,
+	%DeepWordPerkOptionButton8,
+	%DeepWordPerkOptionButton9,
+	%DeepWordPerkOptionButton10,
+]
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -104,6 +140,25 @@ var request_update_controls := false
 
 func _ready():
 	floating_explanation_control.hide()
+	
+	for option_button in development_option_buttons:
+		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
+			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEVELOPMENT, perk_slot, perk)
+			request_update_controls = true
+			)
+	
+	for option_button in maneuver_option_buttons:
+		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
+			current_character.set_perk(PerkOptionButton.PERK_TYPE.MANEUVER, perk_slot, perk)
+			request_update_controls = true
+			)
+	
+	for option_button in deep_word_option_buttons:
+		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
+			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEEP_WORD, perk_slot, perk)
+			request_update_controls = true
+			)
+	
 	#current_character.load_frame("lonestar")
 	#for gear_section_id in gear_section_ids.values():
 		#print(gear_section_id)
@@ -544,6 +599,7 @@ func _on_save_options_menu_load_save_data(info: Dictionary):
 	#gear_data = DataHandler.get_gear_template()
 	
 	%BackgroundEditMenu._on_mech_builder_new_save_loaded(current_character)
+	#developments_container._on_level_selector_change_level(current_character.level)
 	
 	new_save_loaded.emit(info)
 	
@@ -613,13 +669,13 @@ func _on_background_edit_menu_background_stat_updated(stat, _value, was_added):
 		current_character.custom_background.erase(stat)
 	request_update_controls = true
 
-func _on_developments_container_development_added(development_data: Dictionary) -> void:
-	current_character.add_development(development_data.name.to_snake_case())
-	request_update_controls = true
-
-func _on_developments_container_development_removed(development_data: Dictionary) -> void:
-	current_character.remove_development(development_data.name.to_snake_case())
-	request_update_controls = true
+#func _on_developments_container_development_added(development_data: Dictionary) -> void:
+	#current_character.add_development(development_data.name.to_snake_case())
+	#request_update_controls = true
+#
+#func _on_developments_container_development_removed(development_data: Dictionary) -> void:
+	#current_character.remove_development(development_data.name.to_snake_case())
+	#request_update_controls = true
 
 func _on_callsign_line_edit_text_changed(new_text: String) -> void:
 	current_character.callsign = new_text
@@ -784,10 +840,29 @@ func update_controls():
 		push_error("update_controls: bad background: %s" % current_character.background_stats.background)
 	%BackgroundEditButton._on_background_selector_load_background(current_character.background_stats.background)
 	
-	# TODO
 	# developments
+	if 0 < current_character.get_level_development_count():
+		%DevelopmentPlaceholder.hide()
+	else:
+		%DevelopmentPlaceholder.show()
+	for option_button in development_option_buttons:
+		option_button.update(current_character)
+	
 	# maneuvers
+	if 0 < current_character.get_maneuver_count():
+		%ManeuverPlaceholder.hide()
+	else:
+		%ManeuverPlaceholder.show()
+	for option_button in maneuver_option_buttons:
+		option_button.update(current_character)
+	
 	# deep words
+	if 0 < current_character.get_deep_word_count():
+		%DeepWordPlaceholder.hide()
+	else:
+		%DeepWordPlaceholder.show()
+	for option_button in deep_word_option_buttons:
+		option_button.update(current_character)
 
 func update_internal_items():
 	# gsid -> gear_section_id

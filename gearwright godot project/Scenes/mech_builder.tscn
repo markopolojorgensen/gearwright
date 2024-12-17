@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=41 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="2_htuaq"]
@@ -17,8 +17,10 @@
 [ext_resource type="Script" path="res://Scripts/repair_icon_container.gd" id="14_a3we3"]
 [ext_resource type="Script" path="res://Scripts/developments_container.gd" id="15_qevno"]
 [ext_resource type="Script" path="res://Scripts/maneuvers_container.gd" id="16_1f7em"]
+[ext_resource type="PackedScene" uid="uid://dqqfh3xxixbd7" path="res://Scenes/development_menu_item.tscn" id="17_2nn8u"]
 [ext_resource type="Script" path="res://Scripts/deep_words_container.gd" id="17_sey16"]
 [ext_resource type="FontFile" uid="uid://bhdfh08bwxfgg" path="res://Assets/static/Montserrat-SemiBold.ttf" id="18_1ekyg"]
+[ext_resource type="PackedScene" uid="uid://ch88imkihrety" path="res://Scenes/perk_option_button.tscn" id="18_1sybq"]
 [ext_resource type="Script" path="res://Scripts/level_background_nameplate.gd" id="19_5lwdy"]
 [ext_resource type="Script" path="res://Scripts/callsign_input.gd" id="20_swqpq"]
 [ext_resource type="Script" path="res://Scripts/frame_selector.gd" id="21_yfj5f"]
@@ -519,89 +521,273 @@ size_flags_vertical = 3
 columns = 3
 script = ExtResource("14_a3we3")
 
-[node name="DevelopmentsContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2"]
+layout_mode = 0
+offset_left = 659.0
+offset_right = 878.0
+offset_bottom = 661.0
+
+[node name="DevelopmentsContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-anchor_left = 0.799
-anchor_top = 0.0606853
-anchor_right = 0.93
-anchor_bottom = 0.135685
-offset_left = 0.0559692
-offset_top = -0.113007
-offset_right = -0.0800781
-offset_bottom = 0.311981
-grow_horizontal = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
-alignment = 1
+size_flags_vertical = 3
 script = ExtResource("15_qevno")
-metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer"]
 layout_mode = 2
 text = "Developments"
 horizontal_alignment = 1
 
-[node name="DevelopmentPlaceholder" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer"]
+layout_mode = 2
+
+[node name="DevelopmentPlaceholder" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "- None -"
 horizontal_alignment = 1
 
-[node name="ManeuversContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer"]
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentMenuItem" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer" instance=ExtResource("17_2nn8u")]
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentMenuItem2" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer" instance=ExtResource("17_2nn8u")]
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentMenuItem3" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer" instance=ExtResource("17_2nn8u")]
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentMenuItem4" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer" instance=ExtResource("17_2nn8u")]
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer"]
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton1" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
 unique_name_in_owner = true
 layout_mode = 2
-anchor_left = 0.799
-anchor_top = 0.310307
-anchor_right = 0.93
-anchor_bottom = 0.385307
-offset_left = 0.0559692
-offset_top = -0.112991
-offset_right = -0.0800781
-offset_bottom = 0.312012
-grow_horizontal = 2
+
+[node name="DevelopmentPerkOptionButton2" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton3" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton4" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton5" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton6" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton7" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton8" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton9" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DevelopmentPerkOptionButton10" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer/VBoxContainer2" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="SpacerControl" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ManeuversContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_vertical = 3
 alignment = 1
 script = ExtResource("16_1f7em")
-metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer"]
 layout_mode = 2
 text = "Maneuvers"
 horizontal_alignment = 1
 
-[node name="ManeuverPlaceholder" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer"]
+layout_mode = 2
+
+[node name="ManeuverPlaceholder" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "- None -"
 horizontal_alignment = 1
 
-[node name="DeepWordsContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer"]
+layout_mode = 2
+
+[node name="ManeuverPerkOptionButton1" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
 unique_name_in_owner = true
 layout_mode = 2
-anchor_left = 0.799
-anchor_top = 0.655239
-anchor_right = 0.93
-anchor_bottom = 0.730239
-offset_left = 0.0559692
-offset_top = -0.113007
-offset_right = -0.0800781
-offset_bottom = 0.311981
-grow_horizontal = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton2" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton3" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton4" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton5" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton6" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton7" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton8" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton9" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 1
+
+[node name="ManeuverPerkOptionButton10" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 1
+
+[node name="SpacerControl2" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DeepWordsContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_vertical = 3
 alignment = 1
 script = ExtResource("17_sey16")
-metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DeepWordsContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer"]
 layout_mode = 2
 text = "Deep Words"
 horizontal_alignment = 1
 
-[node name="DeepWordPlaceholder" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DeepWordsContainer"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer"]
+layout_mode = 2
+
+[node name="DeepWordPlaceholder" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "- None -"
 horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer"]
+layout_mode = 2
+
+[node name="DeepWordPerkOptionButton1" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton2" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton3" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton4" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton5" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton6" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton7" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton8" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton9" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 2
+
+[node name="DeepWordPerkOptionButton10" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer/VBoxContainer" instance=ExtResource("18_1sybq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+perk_type = 2
+
+[node name="SpacerControl3" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="CallsignInputContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2"]
 layout_mode = 1
@@ -1023,18 +1209,18 @@ horizontal_alignment = 2
 [connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RightArmGearSectionControl" to="." method="_on_right_arm_gear_section_control_slot_exited"]
 [connection signal="slot_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_entered"]
 [connection signal="slot_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/LegsGearSectionControl" to="." method="_on_legs_gear_section_control_slot_exited"]
-[connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="." method="_on_developments_container_development_added"]
-[connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_added"]
-[connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="." method="_on_developments_container_development_removed"]
-[connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_removed"]
+[connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer" to="." method="_on_developments_container_development_added"]
+[connection signal="development_added" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_added"]
+[connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer" to="." method="_on_developments_container_development_removed"]
+[connection signal="development_removed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_developments_container_development_removed"]
 [connection signal="text_changed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/CallsignLineEdit" to="." method="_on_callsign_line_edit_text_changed"]
 [connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" method="_on_item_selected"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="." method="_on_frame_selector_load_frame"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_frame_selector_load_frame"]
 [connection signal="load_frame" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/FrameSelectContainer/FrameSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_frame_selector_load_frame"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="." method="_on_level_selector_change_level"]
-[connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DevelopmentsContainer" method="_on_level_selector_change_level"]
-[connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer" method="_on_level_selector_change_level"]
+[connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DevelopmentsContainer" method="_on_level_selector_change_level"]
+[connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer" method="_on_level_selector_change_level"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_level_selector_change_level"]
 [connection signal="change_level" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_level_selector_change_level"]
 [connection signal="value_changed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/LevelSelectContainer/LevelSelector" method="_on_value_changed"]
@@ -1066,8 +1252,8 @@ horizontal_alignment = 2
 [connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_edit_menu_background_stat_updated"]
 [connection signal="update_core_integrity" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/CoreIntegrity/CoreIconContainer" method="_on_stats_list_update_core_integrity"]
 [connection signal="update_curios_allowed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_stats_list_update_curios_allowed"]
-[connection signal="update_deep_words" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/DeepWordsContainer" method="_on_stats_list_update_deep_words"]
-[connection signal="update_mental_maneuvers" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ManeuversContainer" method="_on_stats_list_update_mental_maneuvers"]
+[connection signal="update_deep_words" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer" method="_on_stats_list_update_deep_words"]
+[connection signal="update_mental_maneuvers" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer" method="_on_stats_list_update_mental_maneuvers"]
 [connection signal="update_repair_kits" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RepairKits/RepairIconContainer" method="_on_stats_list_update_repair_kits"]
 [connection signal="update_unlock_label" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/UnlocksRemaining/UnlocksRemainingLabel" method="_on_stats_list_update_unlock_label"]
 [connection signal="stat_mouse_entered" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]

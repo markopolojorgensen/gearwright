@@ -123,16 +123,23 @@ const item_stats_template := {
 	"willpower": 0,
 }
 
-# Called when the node enters the scene tree for the first time.
+const deep_word_template := {
+	"short_name": "deep word",
+	"full_name": "deep word, yo",
+	"fathomless": 1,
+	"ap_cost": 0,
+	"action_text": "Speak now or forever eat your peas."
+}
+
 func _ready():
-	item_data = load_data(item_data_path)
-	fish_item_data = load_data(fish_item_data_path)
-	frame_data = load_data(frame_data_path)
-	background_data = load_data(background_data_path)
-	level_data = load_data(level_data_path)
-	maneuver_data = load_data(maneuver_data_path)
+	item_data        = load_data(item_data_path)
+	fish_item_data   = load_data(fish_item_data_path)
+	frame_data       = load_data(frame_data_path)
+	background_data  = load_data(background_data_path)
+	level_data       = load_data(level_data_path)
+	maneuver_data    = load_data(maneuver_data_path)
 	development_data = load_data(development_data_path)
-	deep_word_data = load_data(deep_word_data_path)
+	deep_word_data   = load_data(deep_word_data_path)
 	
 	set_grid_and_icon_data()
 
@@ -180,6 +187,9 @@ func get_thing_nicely(data_type: String, key):
 		"internal":
 			data = item_data
 			default = item_stats_template.duplicate(true)
+		"deep_word":
+			data = deep_word_data
+			default = deep_word_template.duplicate(true)
 		_:
 			push_error("DataHandler: unknown data type: %s" % data_type)
 			breakpoint
@@ -189,11 +199,18 @@ func get_thing_nicely(data_type: String, key):
 	else:
 		var title := "Bad %s" % data_type.capitalize()
 		var message := "Failed to find %s data for '%s'\n(Have you imported the game data from the main menu?)" % [data_type, key]
+		
 		global_util.popup_warning(title, message)
 		return default
 
 func get_development_data(dev_name: String):
 	return get_thing_nicely("development", dev_name)
+
+func get_maneuver_data(man_name: String):
+	return get_thing_nicely("maneuver", man_name)
+
+func get_deep_word_data(word: String):
+	return get_thing_nicely("deep_word", word)
 
 
 
@@ -224,3 +241,32 @@ func reload_items():
 	fish_item_data = load_data(fish_item_data_path)
 	
 	set_grid_and_icon_data()
+
+func get_perk_info(perk_type: PerkOptionButton.PERK_TYPE) -> Dictionary:
+	var result := {}
+	match perk_type:
+		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
+			for key in development_data.keys():
+				result[key] = development_data[key].name
+		PerkOptionButton.PERK_TYPE.MANEUVER:
+			for key in maneuver_data.keys():
+				var maneuver: Dictionary = maneuver_data[key]
+				var category: String = maneuver.category
+				if not result.has(category):
+					result[category] = []
+				result[category].append({
+					key: maneuver_data[key].name,
+				})
+		PerkOptionButton.PERK_TYPE.DEEP_WORD:
+			for key in deep_word_data.keys():
+				result[key] = deep_word_data[key].short_name
+		_:
+			push_error("DataHandler: bad perk type: %d" % perk_type)
+	return result
+
+
+
+
+
+
+

@@ -550,6 +550,8 @@ func circle_fill_points(radius: int) -> Array:
 var warning_popup: AcceptDialog
 
 func popup_warning(title: String, text: String):
+	if is_warning_popup_active():
+		return
 	warning_popup = AcceptDialog.new()
 	warning_popup.title = title
 	warning_popup.get_label().text = text

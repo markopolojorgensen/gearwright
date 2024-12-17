@@ -324,6 +324,12 @@ func get_grid_slot(gsid: int, x: int, y: int) -> GridSlot:
 	var grid_slot: GridSlot = gear_section.grid.get_contents(x, y)
 	return grid_slot
 
+func get_level_development_count():
+	if not level_stats.has("developments"):
+		push_error("GearwrightCharacter: no development info in level: %s" % str(level_stats))
+		return 0
+	return level_stats.developments
+
 #endregion
 
 
@@ -409,7 +415,6 @@ func get_evasion() -> int:
 func get_willpower_info() -> Dictionary:
 	return add_dev_info("willpower", {
 		background = get_bg_amount("willpower"),
-		# developments TODO
 		# fish internals TODO
 	})
 
@@ -474,7 +479,6 @@ func get_weight_cap_info() -> Dictionary:
 		background = get_bg_amount("weight_cap"),
 		frame = frame_stats.weight_cap,
 		level = level_stats.weight_cap,
-		# developments TODO
 	}
 	result = add_dev_info("weight_cap", result)
 	return result
@@ -515,6 +519,16 @@ func get_deep_word_count_info() -> Dictionary:
 func get_deep_word_count() -> int:
 	return sum_array(get_deep_word_count_info().values())
 
+func get_maneuver_count_info() -> Dictionary:
+	var result := {
+		level = level_stats.maneuvers
+	}
+	if 6 <= get_mental():
+		result.mental = 1
+	return result
+
+func get_maneuver_count() -> int:
+	return sum_array(get_maneuver_count_info().values())
 
 #func get__info() -> Dictionary:
 	#return {
@@ -631,18 +645,75 @@ func toggle_unlock(gear_section_id: int, x: int, y: int) -> bool:
 	grid_slot.is_locked = not grid_slot.is_locked
 	return true
 
-func add_development(name: String):
-	DataHandler.get_development_data(name) # trigger popup
-	developments.append(name)
+func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String):
+	match perk_type:
+		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
+			if not name.is_empty():
+				DataHandler.get_development_data(name) # trigger popup
+			_edit_perk(developments, get_level_development_count(), slot, name)
+		PerkOptionButton.PERK_TYPE.MANEUVER:
+			if not name.is_empty():
+				DataHandler.get_maneuver_data(name) # trigger popup
+			_edit_perk(maneuvers, get_maneuver_count(), slot, name)
+		PerkOptionButton.PERK_TYPE.DEEP_WORD:
+			if not name.is_empty():
+				DataHandler.get_deep_word_data(name) # trigger popup
+			_edit_perk(deep_words, get_deep_word_count(), slot, name)
 
-func remove_development(name: String):
-	developments.erase(name)
+func _edit_perk(list: Array, list_size: int, slot: int, name: String):
+	while list.size() < list_size:
+		list.append("")
+	while list.size() > list_size:
+		list.pop_back()
+	assert(slot >= 0)
+	assert(slot < list_size)
+	list[slot] = name
+
+#func set_development(slot: int, name: String):
+	#if not name.is_empty():
+		#DataHandler.get_development_data(name) # trigger popup
+	#assert(slot >= 0)
+	#assert(slot < developments.size())
+	#developments[slot] = name
+#
+#func set_maneuver(slot: int, name: String):
+	#while maneuvers.size() < get_maneuver_count():
+		#maneuvers.append("")
+	#while maneuvers.size() > get_maneuver_count():
+		#maneuvers.pop_back()
+	#
+	#if not name.is_empty():
+		#DataHandler.get_development_data(name) # trigger popup
+	#assert(slot >= 0)
+	#assert(slot < maneuvers.size())
+	#maneuvers[slot] = name
+#
+#func set_deep_word(slot: int, name: String):
+	#while deep_words.size() < get_maneuver_count():
+		#maneuvers.append("")
+	#while maneuvers.size() > get_maneuver_count():
+		#maneuvers.pop_back()
+	#
+	#if not name.is_empty():
+		#DataHandler.get_development_data(name) # trigger popup
+	#assert(slot >= 0)
+	#assert(slot < maneuvers.size())
+	#maneuvers[slot] = name
+
+#func add_development(name: String):
+	#DataHandler.get_development_data(name) # trigger popup
+	#developments.append(name)
+
+#func remove_development(name: String):
+	#developments.erase(name)
 
 # returns a dictionary of relevant developments
 # keys are development names, values are development stat blocks
 func find_devs_that_modify(stat: String) -> Dictionary:
 	var result = {}
 	for dev_name in developments:
+		if dev_name.is_empty():
+			continue
 		var dev_stats: Dictionary = DataHandler.get_development_data(dev_name)
 		if dev_stats.has(stat):
 			result[dev_name] = dev_stats
@@ -683,6 +754,16 @@ func set_level(new_level):
 	level = new_level
 	print("applying level: %d" % level)
 	level_stats = DataHandler.get_thing_nicely("level", str(level))
+	
+	while developments.size() < level_stats.developments:
+		developments.append("")
+	while developments.size() > level_stats.developments:
+		developments.pop_back()
+	
+	while maneuvers.size() < level_stats.maneuvers:
+		maneuvers.append("")
+	while maneuvers.size() > level_stats.maneuvers:
+		maneuvers.pop_back()
 
 # returns make_slot_info() result
 func grid_array_index_to_slot_info(index: int) -> Dictionary:
@@ -740,7 +821,8 @@ func marshal() -> Dictionary:
 	
 	result.internals = get_equipped_items(false)
 	
-	# TODO developments
+	result.developments = developments.duplicate(true)
+	
 	# TODO manuevers
 	# TODO deep words
 	
@@ -908,7 +990,9 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 		if not ch.equip_internal(new_internal, gear_section_id, primary_cell):
 			sesh.errors.append("  failed to install internal: %s" % internal_info)
 	
-	# TODO developments
+	ch.developments = sesh.get_info("developments", [])
+	
+	# WHEREWASI check saving as well
 	# TODO manuevers
 	# TODO deep words
 	

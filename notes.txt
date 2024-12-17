@@ -1,6 +1,12 @@
 TODO
 Q1 2025, definitely before May
 
+big things still to do
+  finish refactor
+  revive fish editor
+
+
+
 Questions
   numbers vs no_numbers export?
   power saving mode?
@@ -11,7 +17,7 @@ Questions
 
 
 
-
+too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
 
 UI polish pass
 yeet all commented code
@@ -49,6 +55,7 @@ warn when data would be lost
 
 hovering over stats should show calculation / sources breakdown
 
+maneuvers don't check to make sure bonus mental maneuver is actually a mental one
 
 
 
