@@ -163,7 +163,7 @@ func get_fish_template():
 	return fish_data_template.duplicate(true)
 
 # pops up error messages if things go badly
-# TODO data_type should be an enum
+# TODO data_type should be an enum -_-
 func get_thing_nicely(data_type: String, key):
 	var data
 	var default

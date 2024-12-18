@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# TODO Yeet
+
 @onready var stat_label_scene = preload("res://Scenes/stat_label.tscn")
 
 var stats_to_display := {

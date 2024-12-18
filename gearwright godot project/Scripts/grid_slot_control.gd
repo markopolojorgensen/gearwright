@@ -1,13 +1,15 @@
 extends TextureRect
 class_name GridSlotControl
 
+# TODO yeet comments
+
 signal slot_entered
 signal slot_exited
 
 @onready var filter = $StatusFilter
 @onready var padlock = $Padlock
 @onready var hovered_color_rect: ColorRect = $HoveredColorRect
-@onready var greyed_color_rect: ColorRect = $GreyedColorRect
+@onready var greyed_color_rect: ColorRect = %GreyedColorRect
 
 #var slot_ID
 var is_hovering := false

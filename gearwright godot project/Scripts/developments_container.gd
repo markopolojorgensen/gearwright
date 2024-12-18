@@ -2,7 +2,9 @@ extends VBoxContainer
 
 # TODO yeet
 
+@warning_ignore("unused_signal")
 signal development_added(development_data)
+@warning_ignore("unused_signal")
 signal development_removed(development_data)
 
 #@onready var development_container_scene = preload("res://Scenes/development_menu_item.tscn")
@@ -38,7 +40,7 @@ func remove_development_container():
 	#development_containers.erase(development_containers.back())
 
 #func _on_level_selector_change_level(level_data, _level):
-func _on_level_selector_change_level(new_level: int):
+func _on_level_selector_change_level(_new_level: int):
 	pass
 	#var level_data: Dictionary = DataHandler.get_thing_nicely("level", new_level)
 	#var difference = level_data["developments"] - development_containers.size()
@@ -56,7 +58,7 @@ func _on_level_selector_change_level(new_level: int):
 	#else:
 		#placeholder.hide()
 
-func add_development(development):
+func add_development(_development):
 	pass
 	#current_developments.append(development)
 	#if development_data[development]["repeatable"]:
@@ -66,7 +68,7 @@ func add_development(development):
 			#container.option_button.set_item_disabled(development_data.keys().find(development), true)
 	#development_added.emit(development_data[development])
 
-func remove_development(development):
+func remove_development(_development):
 	pass
 	#current_developments.erase(development)
 	#for container in development_containers:

@@ -574,14 +574,24 @@ func is_warning_popup_active():
 	)
 
 # returns the index of the selected item, or -1 if it couldn't be found
-func set_option_button_by_item_text(option_button: OptionButton, item_text: String, ignore_case := true) -> int:
+func set_option_button_by_item_text(
+		option_button: OptionButton,
+		item_text: String,
+		snake_case := true) -> int:
+	
 	for i in range(option_button.item_count):
 		var is_match := false
-		if ignore_case:
-			is_match = (option_button.get_item_text(i).to_lower() == item_text.to_lower())
+		if snake_case:
+			is_match = (
+					option_button.get_item_text(i).to_snake_case()
+					== item_text.to_snake_case()
+					)
 		else:
 			is_match = (option_button.get_item_text(i) == item_text)
 		if is_match:
 			option_button.select(i)
 			return i
 	return -1
+
+
+

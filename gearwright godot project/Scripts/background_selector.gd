@@ -1,6 +1,6 @@
 extends OptionButton
 
-# TODO yeet comments
+# TODO yeet
 #var save_path = "user://LocalData/fisher_backgrounds.json"
 
 #var background_data := {}

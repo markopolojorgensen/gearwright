@@ -16,6 +16,12 @@ Questions
 
 
 
+edit .json files
+  custom background description
+  lightweight construction / fish thing / gas pockets
+
+
+godot theme
 
 too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
 

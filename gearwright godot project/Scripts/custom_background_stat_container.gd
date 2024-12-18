@@ -38,4 +38,4 @@ func clear_stat_counter():
 	for i in range(stat_counter):
 		stat_counter -= 1
 		stat_count_label.text = str(stat_counter)
-		background_stat_changed.emit(stat, false)
+		#background_stat_changed.emit(stat, false)

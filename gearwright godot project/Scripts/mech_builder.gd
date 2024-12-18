@@ -13,6 +13,8 @@ signal new_save_loaded(user_data)
 #signal incrememnt_lock_tally(change)
 #signal reset_lock_tally
 
+@export var debug := false
+
 # TODO go through all these and yeet unused ones
 #@onready var item_inventory_container: Container = %ItemInventory
 #@onready var stats_container: Container = %StatsVBoxContainer
@@ -38,7 +40,8 @@ signal new_save_loaded(user_data)
 @onready var nameplate: Label = %LevelBackgroundNameplate
 @onready var gear_ability_title: Label = %GearAbilityTitle
 @onready var gear_ability_text: Label = %GearAbilityText
-@onready var background_selector: OptionButton = %BackgroundSelector
+@onready var core_integrity_control: Control = %CoreIconContainer
+@onready var repair_kits_control: Control = %RepairIconContainer
 @onready var development_option_buttons := [
 	%DevelopmentPerkOptionButton1,
 	%DevelopmentPerkOptionButton2,
@@ -75,6 +78,12 @@ signal new_save_loaded(user_data)
 	%DeepWordPerkOptionButton9,
 	%DeepWordPerkOptionButton10,
 ]
+#@onready var background_selector: OptionButton = %BackgroundSelector
+@onready var background_option_button: OptionButton = %BackgroundOptionButton
+@onready var edit_bg_button: Button = %EditBackgroundButton
+@onready var custom_bg_popup: Container = %CustomBGPanelContainer
+@onready var custom_bg_points_label: Label = %CustomBGPointsLabel
+
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -139,6 +148,10 @@ var request_update_controls := false
 #region initialization
 
 func _ready():
+	global_util.verbose = debug
+	if not debug:
+		$ModeDebugLabel.hide()
+	
 	floating_explanation_control.hide()
 	
 	for option_button in development_option_buttons:
@@ -158,6 +171,10 @@ func _ready():
 			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEEP_WORD, perk_slot, perk)
 			request_update_controls = true
 			)
+	
+	for background_id in DataHandler.background_data.keys():
+		var nice_name: String = DataHandler.background_data[background_id].background
+		background_option_button.add_item(nice_name)
 	
 	#current_character.load_frame("lonestar")
 	#for gear_section_id in gear_section_ids.values():
@@ -591,6 +608,8 @@ func _on_level_selector_change_level(new_level: int):
 
 func _on_save_options_menu_load_save_data(info: Dictionary):
 	drop_item()
+	current_character.reset_gear_sections() # prevent lingering items
+	
 	current_character = GearwrightCharacter.unmarshal(info)
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
@@ -598,6 +617,8 @@ func _on_save_options_menu_load_save_data(info: Dictionary):
 			add_child(internal_info.internal)
 	#gear_data = DataHandler.get_gear_template()
 	
+	if current_character.custom_background.is_empty():
+		breakpoint
 	%BackgroundEditMenu._on_mech_builder_new_save_loaded(current_character)
 	#developments_container._on_level_selector_change_level(current_character.level)
 	
@@ -663,17 +684,23 @@ func _on_background_selector_load_background(background_name: String):
 	#current_background = a_Background_data["background"].to_snake_case()
 
 func _on_background_edit_menu_background_stat_updated(stat, _value, was_added):
+	global_util.fancy_print("custom background change: %s %s (added: %s)" % [
+		str(stat), str(_value), str(was_added)
+	])
 	if was_added:
 		current_character.custom_background.append(stat)
 	else:
 		current_character.custom_background.erase(stat)
 	request_update_controls = true
 
-#func _on_developments_container_development_added(development_data: Dictionary) -> void:
+# TODO yeet
+func _on_developments_container_development_added(_development_data: Dictionary) -> void:
+	pass
 	#current_character.add_development(development_data.name.to_snake_case())
 	#request_update_controls = true
 #
-#func _on_developments_container_development_removed(development_data: Dictionary) -> void:
+func _on_developments_container_development_removed(_development_data: Dictionary) -> void:
+	pass
 	#current_character.remove_development(development_data.name.to_snake_case())
 	#request_update_controls = true
 
@@ -696,6 +723,15 @@ func _on_export_popup_export_requested(filename: String) -> void:
 		folder_path = OS.get_user_data_dir().path_join("Saves")
 	OS.shell_show_in_file_manager(folder_path, true)
 
+func _on_background_option_button_item_selected(index: int) -> void:
+	var nice_name: String = background_option_button.get_item_text(index)
+	var bg_id := nice_name.to_snake_case()
+	current_character.load_background(bg_id)
+	request_update_controls = true
+
+func _on_edit_background_button_pressed() -> void:
+	
+	pass # Replace with function body.
 
 
 
@@ -773,6 +809,15 @@ func _on_hardpoints_reset_confirm_dialog_confirmed():
 
 
 
+
+
+
+
+
+
+
+
+
 #region Rendering
 
 func update_controls():
@@ -833,12 +878,21 @@ func update_controls():
 	
 	# background
 	var background_index := global_util.set_option_button_by_item_text(
-			background_selector,
+			#background_selector,
+			background_option_button,
 			current_character.background_stats.background
 	)
 	if background_index == -1:
 		push_error("update_controls: bad background: %s" % current_character.background_stats.background)
-	%BackgroundEditButton._on_background_selector_load_background(current_character.background_stats.background)
+	#%BackgroundEditButton._on_background_selector_load_background(current_character.background_stats.background)
+	if current_character.background_stats.background.to_snake_case() == "custom":
+		edit_bg_button.show()
+	else:
+		edit_bg_button.hide()
+	
+	
+	core_integrity_control.update(current_character.get_core_integrity())
+	repair_kits_control.update(current_character.get_repair_kits())
 	
 	# developments
 	if 0 < current_character.get_level_development_count():
@@ -868,7 +922,7 @@ func update_internal_items():
 	# gsid -> gear_section_id
 	var internals: Array = current_character.get_equipped_items()
 	for i in range(internals.size()):
-		#  keys:
+		#  
 		#   slot (gear_section_id, gear_section_name, x, y)
 		#   internal_name
 		#   internal: actual Item value
@@ -1051,6 +1105,9 @@ func update_stats_list_control():
 	#return item_cells
 
 #endregion
+
+
+
 
 
 

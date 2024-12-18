@@ -1,5 +1,6 @@
-[gd_scene load_steps=41 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=43 format=3 uid="uid://d4c1rk3pk616a"]
 
+[ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="2_htuaq"]
 [ext_resource type="Script" path="res://Scripts/tab_bar.gd" id="3_d0si5"]
@@ -41,6 +42,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6m6hc"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3w80"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdefs"]
 bg_color = Color(0.215686, 0.215686, 0.215686, 0.784314)
 
@@ -50,7 +54,9 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1650.0
 offset_bottom = 890.0
+theme = ExtResource("1_j03au")
 script = ExtResource("1_t8ijy")
+debug = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -491,6 +497,7 @@ theme_override_font_sizes/font_size = 20
 text = " Core Integrity"
 
 [node name="CoreIconContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/CoreIntegrity"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -515,6 +522,7 @@ theme_override_font_sizes/font_size = 20
 text = " Repair Kits"
 
 [node name="RepairIconContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RepairKits"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -1059,27 +1067,69 @@ layout_mode = 2
 text = "Background:
 "
 
-[node name="BackgroundSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="BackgroundOptionButton" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EditBackgroundButton" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Edit Background"
+
+[node name="CustomBGPanelContainer" type="PanelContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 280)
+layout_mode = 0
+offset_left = -245.0
+offset_top = -47.0
+offset_right = -5.0
+offset_bottom = 233.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_e3w80")
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Edit Custom Background"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Points Remaining:"
+
+[node name="CustomBGPointsLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="OldBackgroundSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 script = ExtResource("30_7q7iv")
 
-[node name="Control3" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="BackgroundEditButton" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="OldBackgroundEditButton" type="Button" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Edit Background"
 script = ExtResource("31_7i3pl")
 
-[node name="BackgroundEditPopup" type="Popup" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton"]
-position = Vector2i(1165, 150)
+[node name="BackgroundEditPopup" type="Popup" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton"]
+position = Vector2i(1030, 150)
 size = Vector2i(240, 280)
 
-[node name="ColorRect" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup"]
+[node name="ColorRect" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1087,7 +1137,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1099,11 +1149,11 @@ theme_override_constants/margin_top = 11
 theme_override_constants/margin_right = 11
 theme_override_constants/margin_bottom = 11
 
-[node name="ColorRect" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer"]
 layout_mode = 2
 color = Color(0.313726, 0.313726, 0.313726, 1)
 
-[node name="BackgroundEditMenu" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect"]
+[node name="BackgroundEditMenu" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -1113,23 +1163,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("32_8sc6q")
 
-[node name="Control2" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu"]
+[node name="Control2" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu"]
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu"]
 layout_mode = 2
 alignment = 1
 
-[node name="BackgroundPointsLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu/HBoxContainer"]
+[node name="BackgroundPointsLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu/HBoxContainer"]
 layout_mode = 2
 text = "Points Remaining:"
 
-[node name="BackgroundPointsRemainingLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu/HBoxContainer"]
+[node name="BackgroundPointsRemainingLabel" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu/HBoxContainer"]
 layout_mode = 2
 text = "0"
 
-[node name="Control" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu"]
+[node name="Control" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu"]
 layout_mode = 2
 
 [node name="Control" type="Control" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
@@ -1240,16 +1290,18 @@ horizontal_alignment = 2
 [connection signal="toggled" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ToggleContainer/WeightCapOverrideToggle/WeightCapCheckButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_weight_cap_check_button_toggled"]
 [connection signal="toggled" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ToggleContainer/UnlocksOverrideToggle/UnlocksCheckButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_unlocks_check_button_toggled"]
 [connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackButton" method="_on_button_down"]
-[connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" method="_on_item_selected"]
-[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="." method="_on_background_selector_load_background"]
-[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_background_selector_load_background"]
-[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" method="_on_background_selector_load_background"]
-[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" method="_on_background_selector_load_background"]
-[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_selector_load_background"]
-[connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" method="_on_button_down"]
-[connection signal="focus_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton" method="_on_background_edit_popup_focus_exited"]
-[connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="." method="_on_background_edit_menu_background_stat_updated"]
-[connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_edit_menu_background_stat_updated"]
+[connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/BackgroundOptionButton" to="." method="_on_background_option_button_item_selected"]
+[connection signal="pressed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton" to="." method="_on_edit_background_button_pressed"]
+[connection signal="item_selected" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" method="_on_item_selected"]
+[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" to="." method="_on_background_selector_load_background"]
+[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/CallsignInputContainer/LevelBackgroundNameplate" method="_on_background_selector_load_background"]
+[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton" method="_on_background_selector_load_background"]
+[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" method="_on_background_selector_load_background"]
+[connection signal="load_background" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundSelector" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_selector_load_background"]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton" method="_on_button_down"]
+[connection signal="focus_exited" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton" method="_on_background_edit_popup_focus_exited"]
+[connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="." method="_on_background_edit_menu_background_stat_updated"]
+[connection signal="background_stat_updated" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_edit_menu_background_stat_updated"]
 [connection signal="update_core_integrity" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/CoreIntegrity/CoreIconContainer" method="_on_stats_list_update_core_integrity"]
 [connection signal="update_curios_allowed" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_stats_list_update_curios_allowed"]
 [connection signal="update_deep_words" from="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer" method="_on_stats_list_update_deep_words"]

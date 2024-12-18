@@ -538,6 +538,9 @@ func get_maneuver_count() -> int:
 #func get_() -> int:
 	#return sum_array(get__info().values())
 
+func get_core_integrity() -> int:
+	return frame_stats.core_integrity
+
 #endregion
 
 
@@ -737,22 +740,23 @@ func add_dev_info(stat_name: String, stat_info: Dictionary) -> Dictionary:
 #region save & load
 
 func load_frame(name: String):
-	print("applying frame: %s" % name)
+	global_util.fancy_print("applying frame: %s" % name)
 	frame_name = name
 	frame_stats = DataHandler.get_thing_nicely("frame", name)
 	reset_gear_sections()
 
-func load_background(bg_name: String):
-	print("applying background: %s" % bg_name)
-	custom_background.clear()
-	background_stats = DataHandler.get_thing_nicely("background", bg_name)
+func load_background(bg_id: String):
+	global_util.fancy_print("applying background: %s" % bg_id)
+	if bg_id != "custom":
+		custom_background.clear()
+	background_stats = DataHandler.get_thing_nicely("background", bg_id)
 
 # might be int, might be string
 func set_level(new_level):
 	if new_level is String:
 		new_level = int(new_level)
 	level = new_level
-	print("applying level: %d" % level)
+	global_util.fancy_print("applying level: %d" % level)
 	level_stats = DataHandler.get_thing_nicely("level", str(level))
 	
 	while developments.size() < level_stats.developments:
@@ -807,24 +811,25 @@ func marshal() -> Dictionary:
 	var result := {
 		callsign = callsign,
 		frame = frame_name,
-		background = background_stats.background,
+		background = background_stats.background.to_snake_case(),
 		level = str(level)
 	}
 	
 	result.custom_background = custom_background
 	
+	# TODO change format to section: [slot info list]
 	var unlocks_info = []
 	for real_slot_info in get_unlocked_slots():
 		var json_slot_info = make_slot_info(real_slot_info.gear_section_id, real_slot_info.grid_slot_coords)
 		unlocks_info.append(json_slot_info)
 	result.unlocks = unlocks_info
 	
+	# TODO change format to section: [slot info list]
 	result.internals = get_equipped_items(false)
 	
 	result.developments = developments.duplicate(true)
-	
-	# TODO manuevers
-	# TODO deep words
+	result.maneuvers = maneuvers.duplicate(true)
+	result.deep_words = deep_words.duplicate(true)
 	
 	result.gearwright_version = version.VERSION
 	
@@ -923,11 +928,13 @@ class UnmarshalSession:
 			return default
 
 static func unmarshal(info: Dictionary) -> GearwrightCharacter:
+	global_util.fancy_print("loading character...")
+	global_util.indent()
 	var sesh := UnmarshalSession.new()
 	sesh.info = info
 	if not info.has("gearwright_version"):
 		sesh.errors.append("No Version Detected!")
-		sesh.errors.append("This character may have been made with a previous version of gearwright. Some things will not load properly.")
+		sesh.errors.append("This character may have been made with a previous version of gearwright. Some things may not load properly.")
 		#global_util.popup_warning()
 	elif info.get("gearwright_version", "") != version.VERSION:
 		sesh.errors.append("Different Version Detected!")
@@ -941,6 +948,8 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	ch.set_level(sesh.get_info("level", 1))
 	
 	ch.custom_background = sesh.get_info("custom_background", [])
+	if ch.custom_background.is_empty():
+		breakpoint
 	
 	var unlocks_info: Array = sesh.get_info("unlocks", [])
 	var old_version_error := false
@@ -974,7 +983,7 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 			var json_slot_info: Dictionary = ch.grid_array_index_to_slot_info(int(key))
 			var new_internal_info = {
 				slot = json_slot_info,
-				internal = internals[key],
+				internal_name = internals[key],
 			}
 			new_internals.append(new_internal_info)
 		internals = new_internals
@@ -984,17 +993,15 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 		# internal_info.internal: string
 		var internal_info: Dictionary = internals[i]
 		var new_internal = item_scene.instantiate()
-		new_internal.load_item(internal_info.internal)
+		new_internal.load_item(internal_info.internal_name)
 		var gear_section_id: int = int(internal_info.slot.gear_section_id)
 		var primary_cell := Vector2i(internal_info.slot.x, internal_info.slot.y)
 		if not ch.equip_internal(new_internal, gear_section_id, primary_cell):
 			sesh.errors.append("  failed to install internal: %s" % internal_info)
 	
 	ch.developments = sesh.get_info("developments", [])
-	
-	# WHEREWASI check saving as well
-	# TODO manuevers
-	# TODO deep words
+	ch.maneuvers = sesh.get_info("maneuvers", [])
+	ch.deep_words = sesh.get_info("deep_words", [])
 	
 	if not sesh.errors.is_empty():
 		global_util.popup_warning("Load Errors:", sesh.errors.reduce(
@@ -1003,8 +1010,15 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 						return message
 					else:
 						return result + "\n" + message
-					, "")
-		)
+					, ""))
+		global_util.fancy_print("Load Errors:")
+		global_util.indent()
+		for error in sesh.errors:
+			global_util.fancy_print(error)
+		global_util.dedent()
+	
+	global_util.dedent()
+	global_util.fancy_print("...finished loading character")
 	
 	return ch
 

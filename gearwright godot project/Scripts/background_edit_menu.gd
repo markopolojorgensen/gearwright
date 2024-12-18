@@ -7,7 +7,7 @@ var background_stat_container_scene = preload("res://Scenes/custom_background_st
 var available_bonuses = {"marbles":1, "mental":1, "willpower":1, "unlocks":2, "weight_cap":2}
 var stat_caps = {"marbles":2, "mental":4, "willpower":4, "unlocks":1, "weight_cap":1}
 var stat_costs = {"marbles":1, "mental":1, "willpower":1, "unlocks":1, "weight_cap":1}
-var base_background_points = 4
+const base_background_points = 4
 var stat_containers = {}
 signal background_stat_updated(stat, value, was_added)
 
@@ -40,10 +40,14 @@ func _on_background_selector_load_background(bg_name: String):
 # TODO yeet comments
 #func _on_mech_builder_new_save_loaded(user_data):
 func _on_mech_builder_new_save_loaded(character: GearwrightCharacter):
+	global_util.fancy_print("bg edit: loaded new character")
 	for stat in available_bonuses:
 		stat_containers[stat].clear_stat_counter()
 	
 	remaining_points = base_background_points
+	
+	if character.custom_background.is_empty():
+		breakpoint
 	
 	#if user_data.has("custom_background"):
 		#for stat in user_data["custom_background"]:
