@@ -5,7 +5,7 @@ extends HBoxContainer
 signal increase
 signal decrease
 
-var value: int = 0
+var value: int = 0 : set = set_value
 
 func set_value(new_value: int):
 	value = new_value

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=44 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" path="res://Scripts/background_edit_menu.gd" id="32_8sc6q"]
 [ext_resource type="Script" path="res://Scripts/old_stats_list.gd" id="33_1qdfs"]
 [ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://Scenes/label_shaker.tscn" id="34_dotfp"]
+[ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://Scenes/custom_stat_edit_control.tscn" id="34_naqed"]
 [ext_resource type="Script" path="res://Scripts/stats_list_control.gd" id="36_ilok7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6m6hc"]
@@ -1078,24 +1079,31 @@ text = "Edit Background"
 
 [node name="CustomBGPanelContainer" type="PanelContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 280)
 layout_mode = 0
 offset_left = -245.0
 offset_top = -47.0
 offset_right = -5.0
-offset_bottom = 233.0
+offset_bottom = 170.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_e3w80")
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Edit Custom Background"
 horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -1110,6 +1118,76 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Marbles"
+
+[node name="Label2" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "1x  "
+
+[node name="MarblesCustomStatEditControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("34_naqed")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mental"
+
+[node name="Label4" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "1x  "
+
+[node name="MentalCustomStatEditControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("34_naqed")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Willpower"
+
+[node name="Label6" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "1x  "
+
+[node name="WillpowerCustomStatEditControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("34_naqed")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label7" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Unlocks"
+
+[node name="Label8" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "2x  "
+
+[node name="UnlocksCustomStatEditControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("34_naqed")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Weight Cap"
+
+[node name="Label10" type="Label" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "2x  "
+
+[node name="WeightCapCustomStatEditControl" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/EditBackgroundButton/CustomBGPanelContainer/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("34_naqed")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="OldBackgroundSelector" type="OptionButton" parent="ScrollContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true

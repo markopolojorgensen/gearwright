@@ -83,6 +83,13 @@ signal new_save_loaded(user_data)
 @onready var edit_bg_button: Button = %EditBackgroundButton
 @onready var custom_bg_popup: Container = %CustomBGPanelContainer
 @onready var custom_bg_points_label: Label = %CustomBGPointsLabel
+@onready var custom_bg_stat_edit_controls := [ # WHEREWASI
+	%MarblesCustomStatEditControl,
+	%MentalCustomStatEditControl,
+	%WillpowerCustomStatEditControl,
+	%UnlocksCustomStatEditControl,
+	%WeightCapCustomStatEditControl,
+]
 
 
 #@onready var containers = [
