@@ -1,5 +1,7 @@
 extends Control
 
+# WHEREWASI PartMenu: abstract for reuse in fish builder
+
 const item_scene = preload("res://Scenes/item.tscn")
 # const slot_scene = preload("res://Scenes/grid_slot.tscn")
 
@@ -83,14 +85,20 @@ signal new_save_loaded(user_data)
 @onready var edit_bg_button: Button = %EditBackgroundButton
 @onready var custom_bg_popup: Container = %CustomBGPanelContainer
 @onready var custom_bg_points_label: Label = %CustomBGPointsLabel
-@onready var custom_bg_stat_edit_controls := [ # WHEREWASI
+@onready var custom_bg_stat_edit_controls := [
 	%MarblesCustomStatEditControl,
 	%MentalCustomStatEditControl,
 	%WillpowerCustomStatEditControl,
 	%UnlocksCustomStatEditControl,
 	%WeightCapCustomStatEditControl,
 ]
-
+const custom_bg_stat_names := [
+	"marbles",
+	"mental",
+	"willpower",
+	"unlocks",
+	"weight_cap",
+]
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -182,6 +190,14 @@ func _ready():
 	for background_id in DataHandler.background_data.keys():
 		var nice_name: String = DataHandler.background_data[background_id].background
 		background_option_button.add_item(nice_name)
+	
+	# for custom_bg_control in custom_bg_stat_edit_controls:
+	for i in range(custom_bg_stat_edit_controls.size()):
+		var custom_bg_control = custom_bg_stat_edit_controls[i]
+		var stat_name: String = custom_bg_stat_names[i]
+		custom_bg_control.increase.connect(_on_custom_bg_change.bind(stat_name, true))
+		custom_bg_control.decrease.connect(_on_custom_bg_change.bind(stat_name, false))
+	custom_bg_popup.hide()
 	
 	#current_character.load_frame("lonestar")
 	#for gear_section_id in gear_section_ids.values():
@@ -275,17 +291,9 @@ func pickup_item():
 	item_held.grid_anchor = null
 	item_held.selected = true
 	
-	for cell in current_gear_section.grid.get_valid_entries():
-		var grid_slot: GridSlot = current_gear_section.grid.get_contents_v(cell)
-		if grid_slot.installed_item == item_held:
-			grid_slot.installed_item = null
-	#for grid in item_held.item_grids:
-		#var grid_to_check = item_held.grid_anchor.slot_ID + grid[0] + grid[1] * column_count
-		#grid_array[grid_to_check].state = grid_array[grid_to_check].States.FREE
-		#grid_array[grid_to_check].installed_item = null
-		#internals.erase(grid_to_check)
+	current_character.unequip_internal(item_held, current_slot_info.gear_section_id)
 	
-	item_removed.emit(item_held)
+	item_removed.emit(item_held) # TODO yeet this maybe?
 	#stats_container.update_weight_label_effect(item_held.item_data)
 	
 	#if is_slot_open(current_slot):
@@ -737,8 +745,17 @@ func _on_background_option_button_item_selected(index: int) -> void:
 	request_update_controls = true
 
 func _on_edit_background_button_pressed() -> void:
-	
-	pass # Replace with function body.
+	if custom_bg_popup.visible:
+		custom_bg_popup.hide()
+		edit_bg_button.text = "Edit Background"
+	else:
+		custom_bg_popup.show()
+		edit_bg_button.text = "Save Background"
+
+func _on_custom_bg_change(stat_name: String, is_increase: bool):
+	current_character.modify_custom_background(stat_name, is_increase)
+	request_update_controls = true
+
 
 
 
@@ -893,9 +910,11 @@ func update_controls():
 		push_error("update_controls: bad background: %s" % current_character.background_stats.background)
 	#%BackgroundEditButton._on_background_selector_load_background(current_character.background_stats.background)
 	if current_character.background_stats.background.to_snake_case() == "custom":
-		edit_bg_button.show()
+		edit_bg_button.disabled = false
+		#edit_bg_button.show()
 	else:
-		edit_bg_button.hide()
+		edit_bg_button.disabled = true
+		#edit_bg_button.hide()
 	
 	
 	core_integrity_control.update(current_character.get_core_integrity())
@@ -924,6 +943,14 @@ func update_controls():
 		%DeepWordPlaceholder.show()
 	for option_button in deep_word_option_buttons:
 		option_button.update(current_character)
+	
+	# custom background
+	for i in range(custom_bg_stat_edit_controls.size()):
+		var custom_bg_control = custom_bg_stat_edit_controls[i]
+		var stat_name: String = custom_bg_stat_names[i]
+		var stat_value = current_character.custom_background.count(stat_name)
+		custom_bg_control.value = stat_value
+	custom_bg_points_label.text = str(current_character.get_custom_bg_points_remaining())
 
 func update_internal_items():
 	# gsid -> gear_section_id

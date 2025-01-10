@@ -2,7 +2,6 @@ TODO
 Q1 2025, definitely before May
 
 big things still to do
-  finish refactor
   revive fish editor
 
 
@@ -11,15 +10,16 @@ Questions
   numbers vs no_numbers export?
   power saving mode?
   permission to align stats list left and right instead of all centered?
-  how attached are you to current crunchy visual look, are rounded corners okay?
+  how attached are you to current visual look?
 
 
-
+save file shenanigans
 
 edit .json files
   custom background description
   lightweight construction / fish thing / gas pockets
 
+bonus manuever from 6 mental needs to be limited to mental maneuvers
 
 godot theme
 
@@ -59,7 +59,6 @@ warn when data would be lost
   ->main menu w/out saving
   load w/out saving
 
-hovering over stats should show calculation / sources breakdown
 
 maneuvers don't check to make sure bonus mental maneuver is actually a mental one
 

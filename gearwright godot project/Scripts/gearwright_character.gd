@@ -30,6 +30,13 @@ var level_stats := DataHandler.level_stats_template.duplicate(true)
 var background_stats := DataHandler.background_stats_template.duplicate(true)
 # {"marbles":1, "mental":1, "willpower":1, "unlocks":2, "weight_cap":2}
 var custom_background := []
+const custom_background_caps := {
+	"marbles":    2,
+	"willpower":  4,
+	"mental":     4,
+	"unlocks":    1,
+	"weight_cap": 1,
+}
 
 
 
@@ -330,6 +337,11 @@ func get_level_development_count():
 		return 0
 	return level_stats.developments
 
+func get_custom_bg_points_remaining():
+	var result = 4 - custom_background.size()
+	assert(0 <= result and result <= 4)
+	return result
+
 #endregion
 
 
@@ -576,12 +588,16 @@ func unequip_all_internals():
 # slot_info required keys: x, y, gear_section
 # returns true on success, false on failure
 func equip_internal(item, gear_section_id: int, primary_cell: Vector2i):
+	#global_util.fancy_print("equip_internal: %s, primary_cell: %s" % [item.item_data.name, str(primary_cell)])
+	#global_util.indent()
 	if not is_valid_internal_equip(item, gear_section_id, primary_cell):
 		#push_error("failed to equip item %s in gear section: %s: %s" % [
 				#item.item_data.name,
 				#gear_section_id_to_name(gear_section_id),
 				#str(primary_cell)
 		#])
+		#global_util.fancy_print("invalid equip!")
+		#global_util.dedent()
 		return false
 	
 	#var item_cell_offsets: Array = item.item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
@@ -590,6 +606,8 @@ func equip_internal(item, gear_section_id: int, primary_cell: Vector2i):
 	
 	if not gear_section_id in gear_section_ids.values():
 		push_error("equip internal: bad gear section id")
+		#global_util.fancy_print("invalid equip!")
+		#global_util.dedent()
 		return false
 	var gear_section: GearSection = gear_sections[gear_section_id]
 	
@@ -599,11 +617,30 @@ func equip_internal(item, gear_section_id: int, primary_cell: Vector2i):
 		assert(not grid_slot.is_locked)
 		assert(grid_slot.installed_item == null)
 		grid_slot.installed_item = item
+		grid_slot.is_primary_install_point = false # defensive programming
 	
 	var primary_grid_slot: GridSlot = gear_section.grid.get_contents_v(primary_cell)
 	primary_grid_slot.is_primary_install_point = true
+	#global_util.fancy_print("equip finished successfully!")
+	#global_util.dedent()
 	return true
 
+func unequip_internal(item, gear_section_id: int):
+	var gear_section: GearSection = gear_sections[gear_section_id]
+	for cell in gear_section.grid.get_valid_entries():
+		var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
+		if grid_slot.installed_item == item:
+			grid_slot.installed_item = null
+			grid_slot.is_primary_install_point = false
+	
+	# TODO yeet comments
+	#for grid in item_held.item_grids:
+		#var grid_to_check = item_held.grid_anchor.slot_ID + grid[0] + grid[1] * column_count
+		#grid_array[grid_to_check].state = grid_array[grid_to_check].States.FREE
+		#grid_array[grid_to_check].installed_item = null
+		#internals.erase(grid_to_check)
+
+# TODO yeet this???
 func mystery_section_to_section_id(section) -> int:
 	if section is int:
 		if section in gear_section_ids.values():
@@ -729,6 +766,18 @@ func add_dev_info(stat_name: String, stat_info: Dictionary) -> Dictionary:
 		var dev: Dictionary = devs[dev_name]
 		stat_info[dev.name] = dev[stat_name]
 	return stat_info
+
+func modify_custom_background(stat: String, is_increase: bool):
+	if not stat in custom_background_caps.keys():
+		push_error("mystery custom bg stat: %s" % stat)
+		breakpoint
+		return
+	var current_count := custom_background.count(stat)
+	var cap: int = custom_background_caps[stat]
+	if is_increase and (current_count < cap) and (0 < get_custom_bg_points_remaining()):
+		custom_background.append(stat)
+	elif not is_increase:
+		custom_background.erase(stat)
 
 #endregion
 

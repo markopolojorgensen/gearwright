@@ -13,6 +13,7 @@ var stat_cost = 0
 
 func _ready():
 	stat_label.text = stat.capitalize() + " (+" + str(stat_modifier) + ")" if stat_modifier >= 0 else stat.capitalize() + " (" + str(stat_modifier) + ")"
+	
 
 func _on_mutation_plus_button_button_down():
 	if get_parent().remaining_points - stat_cost < 0 or stat_cap <= stat_counter:
