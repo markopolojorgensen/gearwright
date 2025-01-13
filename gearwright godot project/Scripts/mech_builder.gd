@@ -116,6 +116,9 @@ const custom_bg_stat_names := [
 	GearwrightCharacter.gear_section_ids.LEGS:      %LegsGearSectionControl,
 }
 
+@onready var part_menu: PartMenu = %PartMenu
+const part_menu_tabs := ["Head", "Chest", "Arm", "Leg", "Curios"]
+
 #var grid_array := []
 enum Modes {
 	EQUIP,
@@ -199,6 +202,26 @@ func _ready():
 		custom_bg_control.decrease.connect(_on_custom_bg_change.bind(stat_name, false))
 	custom_bg_popup.hide()
 	
+	for tab_name in part_menu_tabs:
+		part_menu.add_tab(tab_name)
+	
+	for item_id in DataHandler.item_data.keys():
+		var item_data = DataHandler.get_internal_data(item_id)
+		var section_id: String = item_data.section
+		if section_id == "any":
+			for tab_name in part_menu_tabs:
+				if tab_name != "Curios":
+					part_menu.add_part_to_tab(tab_name, item_id, item_data)
+		elif is_curio(item_data):
+			part_menu.add_part_to_tab("Curios", item_id, item_data)
+		elif section_id.capitalize() in part_menu_tabs:
+			var tab_name = section_id.capitalize()
+			part_menu.add_part_to_tab(tab_name, item_id, item_data)
+		else:
+			var error = "unknown tab '%s' for item: %s" % [section_id, item_id]
+			push_error(error)
+			print(error)
+	
 	#current_character.load_frame("lonestar")
 	#for gear_section_id in gear_section_ids.values():
 		#print(gear_section_id)
@@ -212,6 +235,12 @@ func _ready():
 	#for container in containers:
 		#for i in container.capacity:
 			#create_slot(container)
+
+func is_curio(item_data: Dictionary):
+	for tag in item_data.tags:
+		if "fathomless" in tag.to_lower():
+			return true
+	return false
 
 #func create_slot(container):
 	#var new_slot = slot_scene.instantiate()
@@ -605,7 +634,8 @@ func _on_stats_list_control_stat_mouse_exited() -> void:
 
 
 
-func _on_item_inventory_item_spawned(item_id):
+#func _on_item_inventory_item_spawned(item_id):
+func _on_part_menu_item_spawned(item_id: Variant) -> void:
 	if item_held:
 		return
 	var new_item = item_scene.instantiate()
@@ -1139,6 +1169,12 @@ func update_stats_list_control():
 	#return item_cells
 
 #endregion
+
+
+
+
+
+
 
 
 

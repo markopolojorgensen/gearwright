@@ -1,10 +1,10 @@
 extends Node
 
 var item_data = {}
-var item_grid_data := {}
+var item_grid_data := {} # FIXME make this unnecesary
 
 var fish_item_data = {}
-var fish_item_grid_data := {}
+var fish_item_grid_data := {} # FIXME make this unnecesary
 
 var frame_data := {}
 var background_data := {}
@@ -123,6 +123,36 @@ const item_stats_template := {
 	"willpower": 0,
 }
 
+const fish_internal_template := {
+	"action_data": {
+		"ap_cost": 0,
+		"attribute": "",
+		"range": 0,
+		"damage": 0,
+		"marble_damage": 0,
+		"action_text": "idk my bff jill",
+	},
+	"ap": 0,
+	"close": 0,
+	"core": 0,
+	"evasion": 0,
+	"far": 0,
+	"grid": [
+	  "[0, 0]",
+	],
+	"mental": 0,
+	"name": "default fish internal",
+	"power": 0,
+	"extra_rules": "",
+	"sensors": 0,
+	"speed": 0,
+	"tags": [],
+	"type": "passive",
+	"ballast": 0,
+	"weight": 1,
+	"willpower": 0,
+}
+
 const deep_word_template := {
 	"short_name": "deep word",
 	"full_name": "deep word, yo",
@@ -190,6 +220,9 @@ func get_thing_nicely(data_type: String, key):
 		"deep_word":
 			data = deep_word_data
 			default = deep_word_template.duplicate(true)
+		"fish_internal":
+			data = fish_item_data
+			default = fish_internal_template
 		_:
 			push_error("DataHandler: unknown data type: %s" % data_type)
 			breakpoint
@@ -212,7 +245,11 @@ func get_maneuver_data(man_name: String):
 func get_deep_word_data(word: String):
 	return get_thing_nicely("deep_word", word)
 
+func get_internal_data(internal_name: String):
+	return get_thing_nicely("internal", internal_name)
 
+func get_fish_internal_data(internal_name: String):
+	return get_thing_nicely("fish_internal", internal_name)
 
 
 
@@ -227,14 +264,12 @@ func set_grid_and_icon_data():
 			item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
 	
 	if fish_item_data:
-		pass
-		# TODO make sure this works
-		#for item in fish_item_data.keys():
-			#var temp_grid_array := []
-			#for point in fish_item_data[item]["grid"]:
-				#temp_grid_array.push_back(point.split(","))
-			#fish_item_grid_data[item] = temp_grid_array
-			#fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
+		for item in fish_item_data.keys():
+			var temp_grid_array := []
+			for point in fish_item_data[item]["grid"]:
+				temp_grid_array.push_back(point.split(","))
+			fish_item_grid_data[item] = temp_grid_array
+			fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
 
 func reload_items():
 	item_data = load_data(item_data_path)

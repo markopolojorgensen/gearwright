@@ -1,9 +1,8 @@
-[gd_scene load_steps=44 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=43 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
-[ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="2_htuaq"]
-[ext_resource type="Script" path="res://Scripts/tab_bar.gd" id="3_d0si5"]
+[ext_resource type="PackedScene" uid="uid://ce4067la3emu8" path="res://Scenes/part_menu.tscn" id="3_5feer"]
 [ext_resource type="Script" path="res://Scripts/old_mech_builder.gd" id="4_7aspa"]
 [ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://Scenes/gear_section_control.tscn" id="5_n5byg"]
 [ext_resource type="PackedScene" uid="uid://b8wo2uevk7j00" path="res://Scenes/short_section_label.tscn" id="5_ot1pe"]
@@ -75,30 +74,13 @@ theme_override_constants/margin_bottom = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(350, 890)
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="PartMenu" type="PanelContainer" parent="MarginContainer/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="ItemInventory" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/PartMenu"]
+[node name="PartMenu" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_5feer")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_constants/separation = 10
-script = ExtResource("2_htuaq")
-
-[node name="TabBar" type="TabBar" parent="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-script = ExtResource("3_d0si5")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 20
+size_flags_horizontal = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1300, 0)
@@ -1319,9 +1301,7 @@ text = "background: +7
 level: +3"
 horizontal_alignment = 2
 
-[connection signal="item_spawned" from="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" to="." method="_on_item_inventory_item_spawned"]
-[connection signal="tab_changed" from="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_tab_changed"]
-[connection signal="tab_chosen" from="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory" method="_on_tab_bar_tab_chosen"]
+[connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
 [connection signal="slot_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/HeadGearSectionControl" to="." method="_on_head_gear_section_control_slot_entered"]
 [connection signal="slot_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/HeadGearSectionControl" to="." method="_on_head_gear_section_control_slot_exited"]
 [connection signal="slot_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/TorsoGearSectionControl" to="." method="_on_chest_gear_section_control_slot_entered"]
@@ -1376,7 +1356,6 @@ horizontal_alignment = 2
 [connection signal="background_stat_updated" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="." method="_on_background_edit_menu_background_stat_updated"]
 [connection signal="background_stat_updated" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OldBackgroundEditButton/BackgroundEditPopup/ColorRect/MarginContainer/ColorRect/BackgroundEditMenu" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" method="_on_background_edit_menu_background_stat_updated"]
 [connection signal="update_core_integrity" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/CoreIntegrity/CoreIconContainer" method="_on_stats_list_update_core_integrity"]
-[connection signal="update_curios_allowed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="MarginContainer/HBoxContainer/HBoxContainer/PartMenu/ItemInventory/TabBar" method="_on_stats_list_update_curios_allowed"]
 [connection signal="update_deep_words" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/DeepWordsContainer" method="_on_stats_list_update_deep_words"]
 [connection signal="update_mental_maneuvers" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/VBoxContainer/ManeuversContainer" method="_on_stats_list_update_mental_maneuvers"]
 [connection signal="update_repair_kits" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/RepairKits/RepairIconContainer" method="_on_stats_list_update_repair_kits"]

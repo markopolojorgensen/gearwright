@@ -1,5 +1,7 @@
 extends TabBar
 
+# TODO yeet this script
+
 @onready var item_list = $".."
 
 signal tab_chosen(label)

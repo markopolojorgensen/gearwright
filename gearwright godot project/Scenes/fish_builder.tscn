@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://co3tgplgb8ego"]
+[gd_scene load_steps=24 format=3 uid="uid://co3tgplgb8ego"]
 
 [ext_resource type="Script" path="res://Scripts/fish_save_options_menu.gd" id="1_735o3"]
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_q2t5d"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://Scripts/fish_screenshot_popup.gd" id="15_mv077"]
 [ext_resource type="Script" path="res://Scripts/mutation_menu.gd" id="15_xgqqr"]
 [ext_resource type="Script" path="res://Scripts/back_button.gd" id="18_k0m5r"]
+[ext_resource type="PackedScene" uid="uid://ce4067la3emu8" path="res://Scenes/part_menu.tscn" id="23_nsdft"]
 
 [node name="FishBuilder" type="Control"]
 custom_minimum_size = Vector2(1650, 890)
@@ -50,6 +51,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -67,6 +69,12 @@ script = ExtResource("2_jjwgj")
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 20
+
+[node name="PartMenu" parent="MarginContainer/HBoxContainer" instance=ExtResource("23_nsdft")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(426, 0)
+layout_mode = 2
+size_flags_horizontal = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

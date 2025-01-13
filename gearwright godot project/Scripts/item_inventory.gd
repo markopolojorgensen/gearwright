@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# TODO yeet this script and ItemInventory in PartMenu
+
 @onready var menu_item_scene = preload("res://Scenes/part_menu_item.tscn")
 @onready var internals_scroll_scene = preload("res://Scenes/internals_scroll_container.tscn")
 @onready var internals_grid_scene = preload("res://Scenes/internals_grid.tscn")
