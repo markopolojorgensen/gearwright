@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://co3tgplgb8ego"]
+[gd_scene load_steps=25 format=3 uid="uid://co3tgplgb8ego"]
 
 [ext_resource type="Script" path="res://Scripts/fish_save_options_menu.gd" id="1_735o3"]
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_q2t5d"]
@@ -23,6 +23,7 @@
 [ext_resource type="Script" path="res://Scripts/mutation_menu.gd" id="15_xgqqr"]
 [ext_resource type="Script" path="res://Scripts/back_button.gd" id="18_k0m5r"]
 [ext_resource type="PackedScene" uid="uid://ce4067la3emu8" path="res://Scenes/part_menu.tscn" id="23_nsdft"]
+[ext_resource type="PackedScene" uid="uid://crc5iqf38uhvj" path="res://Scenes/diablo_style_inventory_system.tscn" id="24_5n0dl"]
 
 [node name="FishBuilder" type="Control"]
 custom_minimum_size = Vector2(1650, 890)
@@ -446,6 +447,8 @@ text = "Same Mutation Limit:"
 layout_mode = 2
 text = "0"
 
+[node name="DiabloStyleInventorySystem" parent="." instance=ExtResource("24_5n0dl")]
+
 [connection signal="tab_changed" from="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" method="_on_tab_changed"]
 [connection signal="tab_chosen" from="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/PanelContainer/ItemInventory" method="_on_tab_bar_tab_chosen"]
 [connection signal="clear_internal_list" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_clear_internal_list"]
@@ -482,3 +485,4 @@ text = "0"
 [connection signal="load_template" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/VBoxContainer2/HBoxContainer2/TemplateSelector" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/FishNameInputContainer/FishTemplateNameplate" method="_on_template_selector_load_template"]
 [connection signal="load_template" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/VBoxContainer2/HBoxContainer2/TemplateSelector" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer2/Stats/FishStatsList" method="_on_template_selector_load_template"]
 [connection signal="load_template" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/VBoxContainer2/HBoxContainer2/TemplateSelector" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldFishBuilder/ColorRect3/MutationMenu" method="_on_template_selector_load_template"]
+[connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]

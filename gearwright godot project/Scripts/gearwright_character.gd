@@ -16,7 +16,8 @@ var developments := []
 var maneuvers := []
 var deep_words := []
 
-var gear_sections: Dictionary = create_gear_sections()
+var internal_inventory := InternalInventory.new()
+#var gear_sections: Dictionary = create_gear_sections()
 enum gear_section_ids {
 	TORSO,
 	LEFT_ARM,
@@ -39,38 +40,12 @@ const custom_background_caps := {
 }
 
 
-
-
-
-
 #region Initialization
-
-func create_gear_sections() -> Dictionary:
-	var result := {
-		gear_section_ids.TORSO:     GearSection.new(Vector2i(6, 6)),
-		gear_section_ids.LEFT_ARM:  GearSection.new(Vector2i(6, 3)),
-		gear_section_ids.RIGHT_ARM: GearSection.new(Vector2i(6, 3)),
-		gear_section_ids.HEAD:      GearSection.new(Vector2i(3, 3)),
-		gear_section_ids.LEGS:      GearSection.new(Vector2i(3, 6)),
-	}
-	result[gear_section_ids.TORSO].name = "Torso"
-	result[gear_section_ids.TORSO].dice_string = "(6-8)"
-	
-	result[gear_section_ids.LEFT_ARM].name = "Left Arm"
-	result[gear_section_ids.LEFT_ARM].dice_string = "(4-5)"
-	
-	result[gear_section_ids.RIGHT_ARM].name = "Right Arm"
-	result[gear_section_ids.RIGHT_ARM].dice_string = "(9-10)"
-	
-	result[gear_section_ids.HEAD].name = "Head"
-	result[gear_section_ids.HEAD].dice_string = "(2-3)"
-	
-	result[gear_section_ids.LEGS].name = "Legs"
-	result[gear_section_ids.LEGS].dice_string = "(11-12)"
-	
-	return result
-
+func _ready():
+	internal_inventory.create_character_gear_sections()
 #endregion
+
+
 
 
 
@@ -87,27 +62,57 @@ func create_gear_sections() -> Dictionary:
 
 #region Interrogation
 
-# returns a list of dictionaries
-#  keys:
-#   slot (gear_section_id, gear_section_name, x, y)
-#   internal_name: snake-case'd internal names (for marshalling)
-#   internal: actual Item value (only if include_item_values is true)
-func get_equipped_items(include_item_values := true) -> Array:
-	var internals_list := []
-	for gear_section_id in gear_sections.keys():
-		var gear_section: GearSection = gear_sections[gear_section_id]
-		for cell in gear_section.grid.get_valid_entries():
-			var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
-			if (grid_slot.installed_item != null) and (grid_slot.is_primary_install_point):
-				var internal_name = grid_slot.installed_item.item_data.name.to_snake_case()
-				var internal_info := {
-					slot = make_slot_info(gear_section_id, cell),
-					internal_name = internal_name,
-				}
-				if include_item_values:
-					internal_info.internal = grid_slot.installed_item
-				internals_list.append(internal_info)
-	return internals_list
+
+# all the reasons we can't put an item in a slot:
+#   there is no item
+#   there is no slot
+#   it would put us over weight
+#   wrong section (e.g. trying to put head gear in leg)
+#   for each slot that would become occupied:
+#     there's already something there
+#     slot is out of bounds
+#     slot is locked
+func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
+	# there is no item
+	if item == null:
+		return false
+	
+	# there is no gear section
+	if not gear_section_id in gear_section_ids.values():
+		return false
+	
+	# it would put us over weight
+	if is_overweight_with_item(item):
+		return false
+	
+	# wrong section (e.g. trying to put head gear in leg)
+	var valid_section_ids := item_section_to_valid_section_ids(item.item_data.section)
+	if not gear_section_id in valid_section_ids:
+		return false
+	
+	if not internal_inventory.is_valid_internal_equip(item, gear_section_id, primary_cell):
+		return false
+	
+	#var gear_section: GearSection = gear_sections[gear_section_id]
+	# for each slot that would become occupied:
+	#var cells := get_item_cells(item, gear_section_id, primary_cell)
+	#for i in range(cells.size()):
+		#var cell: Vector2i = cells[i]
+		#
+		## slot is out of bounds
+		#if not gear_section.grid.is_within_size_v(cell):
+			#return false
+		#
+		#var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
+		## slot is locked
+		#if grid_slot.is_locked:
+			#return false
+		#
+		## there's already something there
+		#if grid_slot.installed_item != null:
+			#return false
+	
+	return true
 
 #func get_total_equipped_weight() -> int:
 	#return gear_sections.values().reduce(
@@ -120,25 +125,6 @@ func get_equipped_items(include_item_values := true) -> Array:
 		#var gear_section: GearSection = sections[i]
 		#sum += gear_section.get_total_equipped_weight()
 	#return sum
-
-# returns a list of dictionaries
-#   keys are gear_section_id and grid_slot_coords
-# does not include slots that are unlocked by default on the frame
-# (these are only slots that the player has unlocked)
-func get_unlocked_slots() -> Array:
-	var result := []
-	for id in gear_sections.keys():
-		var gear_section: GearSection = gear_sections[id]
-		for coords in gear_section.grid.get_valid_entries():
-			# coords is a vector2i
-			var grid_slot: GridSlot = gear_section.grid.get_contents_v(coords)
-			if (not grid_slot.is_locked) and (not grid_slot.is_default_unlock):
-				var info = {
-					gear_section_id = id, # int
-					grid_slot_coords = coords, # vector2i
-				}
-				result.append(info)
-	return result
 
 # return value keys: label_text, explanation_text
 func get_stat_label_text(stat: String) -> String:
@@ -225,9 +211,6 @@ func get_stat_explanation(stat: String) -> String:
 			push_error("GearwrightCharacter: get_stat_explanation: unknown stat: %s" % stat)
 			return ""
 
-func sum_array(list: Array):
-	return list.reduce(func(sum, value): return sum + value, 0)
-
 func info_to_explanation_text(info: Dictionary) -> String:
 	var result = ""
 	for key in info.keys():
@@ -243,62 +226,14 @@ func info_to_explanation_text(info: Dictionary) -> String:
 		result += "%s: %s\n" % [key.capitalize(), number_string]
 	return result
 
-func sum_internals_for_stat(stat: String) -> int:
-	return sum_array(get_equipped_items().map(
-			func(info: Dictionary): return info.internal.item_data.get(stat, 0))
-	)
+#func sum_internals_for_stat(stat: String) -> int:
+	#return sum_array(get_equipped_items().map(
+			#func(info: Dictionary): return info.internal.item_data.get(stat, 0))
+	#)
 
 func has_unlocks_remaining() -> bool:
-	return get_unlocked_slots().size() < get_max_unlocks()
+	return internal_inventory.get_unlocked_slots().size() < get_max_unlocks()
 
-# all the reasons we can't put an item in a slot:
-#   there is no item
-#   there is no slot
-#   it would put us over weight
-#   wrong section (e.g. trying to put head gear in leg)
-#   for each slot that would become occupied:
-#     there's already something there
-#     slot is out of bounds
-#     slot is locked
-func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
-	# there is no item
-	if item == null:
-		return false
-	
-	# there is no gear section
-	if not gear_section_id in gear_section_ids.values():
-		return false
-	
-	
-	# it would put us over weight
-	if is_overweight_with_item(item):
-		return false
-	
-	# wrong section (e.g. trying to put head gear in leg)
-	var valid_section_ids := item_section_to_valid_section_ids(item.item_data.section)
-	if not gear_section_id in valid_section_ids:
-		return false
-	
-	var gear_section: GearSection = gear_sections[gear_section_id]
-	# for each slot that would become occupied:
-	var cells := get_item_cells(item, gear_section_id, primary_cell)
-	for i in range(cells.size()):
-		var cell: Vector2i = cells[i]
-		
-		# slot is out of bounds
-		if not gear_section.grid.is_within_size_v(cell):
-			return false
-		
-		var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
-		# slot is locked
-		if grid_slot.is_locked:
-			return false
-		
-		# there's already something there
-		if grid_slot.installed_item != null:
-			return false
-	
-	return true
 
 func is_overweight_with_item(item):
 	var weight := get_weight()
@@ -309,27 +244,10 @@ func is_overweight_with_item(item):
 	else:
 		return false
 
-# item.item_grids -> actual coords based on an actual slot
-# item.item_grids is an array
-# each element is a 2-element array representing coordinates
-#
-# this function returns a list of Vector2i elements
-# some of these might be out of bounds!
-func get_item_cells(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
-	if item == null:
-		return []
-	if not gear_section_id in gear_section_ids.values():
-		return []
-	
-	var item_cell_offsets: Array = item.item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
-	var item_cells := item_cell_offsets.map(func(offset): return primary_cell + offset)
-	return item_cells
 
 # Vet your info before calling this function!
 func get_grid_slot(gsid: int, x: int, y: int) -> GridSlot:
-	var gear_section: GearSection = gear_sections[gsid]
-	var grid_slot: GridSlot = gear_section.grid.get_contents(x, y)
-	return grid_slot
+	return internal_inventory.get_grid_slot(gsid, x, y)
 
 func get_level_development_count():
 	if not level_stats.has("developments"):
@@ -376,26 +294,26 @@ func get_max_marbles_info() -> Dictionary:
 	})
 
 func get_max_marbles() -> int:
-	return sum_array(get_max_marbles_info().values())
+	return global_util.sum_array(get_max_marbles_info().values())
 
 
 func get_close_info() -> Dictionary:
 	return {
 		frame = frame_stats.close,
-		internals = sum_internals_for_stat("close")
+		internals = internal_inventory.sum_internals_for_stat("close")
 	}
 
 func get_close() -> int:
-	return sum_array(get_close_info().values())
+	return global_util.sum_array(get_close_info().values())
 
 func get_far_info() -> Dictionary:
 	return {
 		frame = frame_stats.far,
-		internals = sum_internals_for_stat("far")
+		internals = internal_inventory.sum_internals_for_stat("far")
 	}
 
 func get_far() -> int:
-	return sum_array(get_far_info().values())
+	return global_util.sum_array(get_far_info().values())
 
 func get_mental_info() -> Dictionary:
 	return add_dev_info("mental", {
@@ -404,25 +322,25 @@ func get_mental_info() -> Dictionary:
 	})
 
 func get_mental() -> int:
-	return sum_array(get_mental_info().values())
+	return global_util.sum_array(get_mental_info().values())
 
 func get_power_info() -> Dictionary:
 	return {
 		frame = frame_stats.power,
-		internals = sum_internals_for_stat("power"),
+		internals = internal_inventory.sum_internals_for_stat("power"),
 	}
 
 func get_power() -> int:
-	return sum_array(get_power_info().values())
+	return global_util.sum_array(get_power_info().values())
 
 func get_evasion_info() -> Dictionary:
 	return {
 		frame = frame_stats.evasion,
-		internals = sum_internals_for_stat("evasion")
+		internals = internal_inventory.sum_internals_for_stat("evasion")
 	}
 
 func get_evasion() -> int:
-	return sum_array(get_evasion_info().values())
+	return global_util.sum_array(get_evasion_info().values())
 
 func get_willpower_info() -> Dictionary:
 	return add_dev_info("willpower", {
@@ -431,43 +349,43 @@ func get_willpower_info() -> Dictionary:
 	})
 
 func get_willpower() -> int:
-	return sum_array(get_willpower_info().values())
+	return global_util.sum_array(get_willpower_info().values())
 
 func get_ap_info() -> Dictionary:
 	return {
 		frame = frame_stats.ap,
-		internals = sum_internals_for_stat("ap"),
+		internals = internal_inventory.sum_internals_for_stat("ap"),
 	}
 
 func get_ap() -> int:
-	return sum_array(get_ap_info().values())
+	return global_util.sum_array(get_ap_info().values())
 
 func get_speed_info() -> Dictionary:
 	return {
 		frame = frame_stats.speed,
-		internals = sum_internals_for_stat("speed"),
+		internals = internal_inventory.sum_internals_for_stat("speed"),
 	}
 
 func get_speed() -> int:
-	return sum_array(get_speed_info().values())
+	return global_util.sum_array(get_speed_info().values())
 
 func get_sensors_info() -> Dictionary:
 	return {
 		frame = frame_stats.sensors,
-		internals = sum_internals_for_stat("sensors"),
+		internals = internal_inventory.sum_internals_for_stat("sensors"),
 	}
 
 func get_sensors() -> int:
-	return sum_array(get_sensors_info().values())
+	return global_util.sum_array(get_sensors_info().values())
 
 func get_repair_kits_info() -> Dictionary:
 	return add_dev_info("repair_kits", {
 		frame = frame_stats.repair_kits,
-		internals = sum_internals_for_stat("repair_kits"),
+		internals = internal_inventory.sum_internals_for_stat("repair_kits"),
 	})
 
 func get_repair_kits() -> int:
-	return sum_array(get_repair_kits_info().values())
+	return global_util.sum_array(get_repair_kits_info().values())
 
 func get_max_unlocks_info() -> Dictionary:
 	return add_dev_info("unlocks", {
@@ -476,15 +394,15 @@ func get_max_unlocks_info() -> Dictionary:
 	})
 
 func get_max_unlocks() -> int:
-	return sum_array(get_max_unlocks_info().values())
+	return global_util.sum_array(get_max_unlocks_info().values())
 
 func get_weight_info() -> Dictionary:
 	return {
-		internals = sum_internals_for_stat("weight")
+		internals = internal_inventory.sum_internals_for_stat("weight")
 	}
 
 func get_weight() -> int:
-	return sum_array(get_weight_info().values())
+	return global_util.sum_array(get_weight_info().values())
 
 func get_weight_cap_info() -> Dictionary:
 	var result := {
@@ -496,14 +414,14 @@ func get_weight_cap_info() -> Dictionary:
 	return result
 
 func get_weight_cap() -> int:
-	return sum_array(get_weight_cap_info().values())
+	return global_util.sum_array(get_weight_cap_info().values())
 
 func get_ballast_info() -> Dictionary:
 	var ballast_from_weight: int = weight_to_ballast(get_weight())
 	var result = {
 		frame = frame_stats.ballast,
 		weight = ballast_from_weight,
-		internals = sum_internals_for_stat("ballast"),
+		internals = internal_inventory.sum_internals_for_stat("ballast"),
 	}
 	const LIGHTWEIGHT := "lightweight_modifier"
 	var lightweight_info := add_dev_info(LIGHTWEIGHT, {})
@@ -522,14 +440,14 @@ func weight_to_ballast(weight: int) -> int:
 	return result
 
 func get_ballast() -> int:
-	var value: int = sum_array(get_ballast_info().values())
+	var value: int = global_util.sum_array(get_ballast_info().values())
 	return clamp(value, 1, 10)
 
 func get_deep_word_count_info() -> Dictionary:
 	return add_dev_info("deep_words", {})
 
 func get_deep_word_count() -> int:
-	return sum_array(get_deep_word_count_info().values())
+	return global_util.sum_array(get_deep_word_count_info().values())
 
 func get_maneuver_count_info() -> Dictionary:
 	var result := {
@@ -540,7 +458,7 @@ func get_maneuver_count_info() -> Dictionary:
 	return result
 
 func get_maneuver_count() -> int:
-	return sum_array(get_maneuver_count_info().values())
+	return global_util.sum_array(get_maneuver_count_info().values())
 
 #func get__info() -> Dictionary:
 	#return {
@@ -566,79 +484,15 @@ func get_core_integrity() -> int:
 # resets unlocks to nothing
 # reapplies default unlocks from frame
 func reset_gear_sections():
-	unequip_all_internals()
-	for gear_section_id in gear_section_ids.values():
-		var gear_section: GearSection = gear_sections[gear_section_id]
-		gear_section.reset()
+	internal_inventory.full_reset()
 	
 	var default_unlocks: Array = frame_stats.default_unlocks
 	for index in default_unlocks:
 		#grid_array[index].unlock()
-		var info := grid_array_index_to_slot_info(index)
+		var info := internal_inventory.grid_array_index_to_slot_info(index)
 		var grid_slot: GridSlot = get_grid_slot(info.gear_section_id, info.x, info.y)
 		grid_slot.is_locked = false
 		grid_slot.is_default_unlock = true
-
-# yeets all equipped internals
-func unequip_all_internals():
-	for gear_section_id in gear_section_ids.values():
-		var gear_section: GearSection = gear_sections[gear_section_id]
-		gear_section.unequip_all_internals()
-
-# slot_info required keys: x, y, gear_section
-# returns true on success, false on failure
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i):
-	#global_util.fancy_print("equip_internal: %s, primary_cell: %s" % [item.item_data.name, str(primary_cell)])
-	#global_util.indent()
-	if not is_valid_internal_equip(item, gear_section_id, primary_cell):
-		#push_error("failed to equip item %s in gear section: %s: %s" % [
-				#item.item_data.name,
-				#gear_section_id_to_name(gear_section_id),
-				#str(primary_cell)
-		#])
-		#global_util.fancy_print("invalid equip!")
-		#global_util.dedent()
-		return false
-	
-	#var item_cell_offsets: Array = item.item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
-	#var item_cells := item_cell_offsets.map(func(offset): return primary_slot_coord + offset)
-	var item_cells := get_item_cells(item, gear_section_id, primary_cell)
-	
-	if not gear_section_id in gear_section_ids.values():
-		push_error("equip internal: bad gear section id")
-		#global_util.fancy_print("invalid equip!")
-		#global_util.dedent()
-		return false
-	var gear_section: GearSection = gear_sections[gear_section_id]
-	
-	for cell in item_cells:
-		assert(gear_section.grid.is_within_size_v(cell))
-		var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
-		assert(not grid_slot.is_locked)
-		assert(grid_slot.installed_item == null)
-		grid_slot.installed_item = item
-		grid_slot.is_primary_install_point = false # defensive programming
-	
-	var primary_grid_slot: GridSlot = gear_section.grid.get_contents_v(primary_cell)
-	primary_grid_slot.is_primary_install_point = true
-	#global_util.fancy_print("equip finished successfully!")
-	#global_util.dedent()
-	return true
-
-func unequip_internal(item, gear_section_id: int):
-	var gear_section: GearSection = gear_sections[gear_section_id]
-	for cell in gear_section.grid.get_valid_entries():
-		var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
-		if grid_slot.installed_item == item:
-			grid_slot.installed_item = null
-			grid_slot.is_primary_install_point = false
-	
-	# TODO yeet comments
-	#for grid in item_held.item_grids:
-		#var grid_to_check = item_held.grid_anchor.slot_ID + grid[0] + grid[1] * column_count
-		#grid_array[grid_to_check].state = grid_array[grid_to_check].States.FREE
-		#grid_array[grid_to_check].installed_item = null
-		#internals.erase(grid_to_check)
 
 # TODO yeet this???
 func mystery_section_to_section_id(section) -> int:
@@ -818,44 +672,6 @@ func set_level(new_level):
 	while maneuvers.size() > level_stats.maneuvers:
 		maneuvers.pop_back()
 
-# returns make_slot_info() result
-func grid_array_index_to_slot_info(index: int) -> Dictionary:
-	assert(0 <= index)
-	var gear_section_id: int = -1
-	var adjusted_index: int = -1
-	if index < 36:
-		adjusted_index = index
-		gear_section_id = gear_section_ids.TORSO
-	elif index < 54:
-		adjusted_index = index - 36
-		gear_section_id = gear_section_ids.LEFT_ARM
-	elif index < 72:
-		adjusted_index = index - 54
-		gear_section_id = gear_section_ids.RIGHT_ARM
-	elif index < 81:
-		adjusted_index = index - 72
-		gear_section_id = gear_section_ids.HEAD
-	elif index < 99:
-		adjusted_index = index - 81
-		gear_section_id = gear_section_ids.LEGS
-	else:
-		push_error("grid array index out of bounds: %d" % index)
-		breakpoint
-	
-	var gear_section: GearSection = gear_sections[gear_section_id]
-	#result.gear_section = gear_section
-	var x: int = adjusted_index % gear_section.grid.size.x
-	@warning_ignore("integer_division")
-	var y: int = adjusted_index / gear_section.grid.size.x
-	#result.x = x
-	#result.y = y
-	#result.grid_slot = gear_section.grid.get_contents(x, y)
-	assert(0 <= x)
-	assert(0 <= y)
-	assert(x < gear_section.grid.size.x)
-	assert(y < gear_section.grid.size.y)
-	return make_slot_info(gear_section_id, Vector2i(x, y))
-
 func marshal() -> Dictionary:
 	var result := {
 		callsign = callsign,
@@ -866,15 +682,15 @@ func marshal() -> Dictionary:
 	
 	result.custom_background = custom_background
 	
-	# TODO change format to section: [slot info list]
+	# TODO change format to {section: [slot info list]}
 	var unlocks_info = []
-	for real_slot_info in get_unlocked_slots():
+	for real_slot_info in internal_inventory.get_unlocked_slots():
 		var json_slot_info = make_slot_info(real_slot_info.gear_section_id, real_slot_info.grid_slot_coords)
 		unlocks_info.append(json_slot_info)
 	result.unlocks = unlocks_info
 	
-	# TODO change format to section: [slot info list]
-	result.internals = get_equipped_items(false)
+	# TODO change format to {section: [slot info list]}
+	result.internals = internal_inventory.get_equipped_items(false)
 	
 	result.developments = developments.duplicate(true)
 	result.maneuvers = maneuvers.duplicate(true)
@@ -898,6 +714,7 @@ func marshal() -> Dictionary:
 	#return str(gear_data).replace("\\", "")
 
 # for JSON-able slots
+# FIXME unduplicate in gearwright charactter and internal inventory
 func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
 	return {
 		gear_section_name = gear_section_id_to_name(gear_section_id),

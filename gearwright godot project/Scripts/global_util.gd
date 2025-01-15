@@ -593,5 +593,5 @@ func set_option_button_by_item_text(
 			return i
 	return -1
 
-
-
+func sum_array(list: Array):
+	return list.reduce(func(sum, value): return sum + value, 0)

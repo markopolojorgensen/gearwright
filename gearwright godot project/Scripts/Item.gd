@@ -79,3 +79,20 @@ func _on_icon_mouse_entered():
 func _on_icon_mouse_exited():
 	hovering = false
 	item_popup.hide()
+
+
+
+
+
+
+# item_grids -> actual coords based on an actual slot
+# item_grids is an array
+# each element is a 2-element array representing coordinates
+#
+# this function returns a list of Vector2i elements
+# some of these might be out of bounds!
+func get_relative_cells(primary_cell: Vector2i) -> Array:
+	var item_cell_offsets: Array = item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
+	var item_cells := item_cell_offsets.map(func(offset): return primary_cell + offset)
+	return item_cells
+

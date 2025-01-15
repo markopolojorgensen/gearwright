@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=44 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" path="res://Scripts/mech_builder.gd" id="1_t8ijy"]
@@ -39,6 +39,7 @@
 [ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://Scenes/label_shaker.tscn" id="34_dotfp"]
 [ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://Scenes/custom_stat_edit_control.tscn" id="34_naqed"]
 [ext_resource type="Script" path="res://Scripts/stats_list_control.gd" id="36_ilok7"]
+[ext_resource type="PackedScene" uid="uid://crc5iqf38uhvj" path="res://Scenes/diablo_style_inventory_system.tscn" id="40_pr1bf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6m6hc"]
 
@@ -1301,6 +1302,8 @@ text = "background: +7
 level: +3"
 horizontal_alignment = 2
 
+[node name="DiabloStyleInventorySystem" parent="." instance=ExtResource("40_pr1bf")]
+
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
 [connection signal="slot_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/HeadGearSectionControl" to="." method="_on_head_gear_section_control_slot_entered"]
 [connection signal="slot_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/ColorRect/MarginContainer/ColorRect2/ContainerContainer/HeadGearSectionControl" to="." method="_on_head_gear_section_control_slot_exited"]
@@ -1362,3 +1365,4 @@ horizontal_alignment = 2
 [connection signal="update_unlock_label" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/OldStatsVBoxContainer" to="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/OldMechBuilder/MenuHeader/UnlocksRemaining/UnlocksRemainingLabel" method="_on_stats_list_update_unlock_label"]
 [connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
 [connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Stats/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
+[connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]
