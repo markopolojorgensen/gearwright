@@ -18,6 +18,7 @@ var x_offset = 0
 var y_offset = 0
 
 func initialize() -> void:
+	$LegendNumberControl.hide()
 	icon = $Icon
 	item_popup = $ItemPopup
 	initialized = true
@@ -102,4 +103,12 @@ func get_relative_cells(primary_cell: Vector2i) -> Array:
 	var item_cell_offsets: Array = item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
 	var item_cells := item_cell_offsets.map(func(offset): return primary_cell + offset)
 	return item_cells
+
+func set_legend_number(number: int):
+	%LegendNumberLabel.text = str(number)
+	$LegendNumberControl.show()
+
+func hide_legend_number():
+	$LegendNumberControl.hide()
+
 

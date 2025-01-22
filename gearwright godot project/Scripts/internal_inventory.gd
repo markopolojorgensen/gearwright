@@ -239,6 +239,8 @@ func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i)
 	if not gear_section_id in get_active_gear_section_ids():
 		return false
 	
+	# TODO: limited, bulky, etc.
+	
 	var gear_section: GearSection = gear_sections[gear_section_id]
 	# for each slot that would become occupied:
 	#var cells := get_item_cells(item, gear_section_id, primary_cell)

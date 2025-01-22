@@ -79,6 +79,7 @@ func pickup_item(character):
 	item_held = current_grid_slot.installed_item
 	item_held.grid_anchor = null
 	item_held.selected = true
+	item_held.hide_legend_number()
 	
 	character.unequip_internal(item_held, current_slot_info.gear_section_id)
 	

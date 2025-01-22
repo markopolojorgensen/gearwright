@@ -30,6 +30,9 @@ const part_menu_tabs := ["Far", "Close", "Mental", "Active", "Passive", "Mitigat
 	"ballast":     %BallastCustomStatEditControl,
 }
 
+const internals_legend_list_item_scene := preload("res://Scenes/internal_legend_list_item.tscn")
+@onready var internals_legend_container: Container = %InternalsLegendContainer
+
 var request_update_controls: bool = false
 
 var current_character := GearwrightFish.new()
@@ -100,13 +103,21 @@ func update_controls():
 	var fish_type_name: String = GearwrightFish.get_type_as_string(current_character.type).capitalize()
 	var fish_size_name: String = GearwrightFish.get_size_as_string(current_character.size).capitalize()
 	%FishNameplate.text = "%s %s Fish" % [fish_type_name, fish_size_name]
-
-
-
-
-
-
-
+	
+	global_util.clear_children(internals_legend_container)
+	var internal_infos := current_character.get_equipped_items()
+	for i in range(internal_infos.size()):
+		# {
+		#  "slot": {"gear_section_name": "right_arm", "gear_section_id": 2, "x": 1, "y": 0},
+		#  "internal_name": "thorn_spitter_i",
+		#  "internal": Item:<Node2D#406730067125>
+		# }
+		var info: Dictionary = internal_infos[i]
+		info.internal.set_legend_number(i+1)
+		var legend_item := internals_legend_list_item_scene.instantiate()
+		legend_item.set_legend_name(info.internal_name.capitalize())
+		legend_item.set_legend_number(i+1)
+		internals_legend_container.add_child(legend_item)
 
 
 
