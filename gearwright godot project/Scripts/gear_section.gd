@@ -16,6 +16,10 @@ func set_section_dimensions(dimensions: Vector2i):
 		for x in range(dimensions.x):
 			grid.set_contents(x, y, GridSlot.new())
 
+# fish don't have locked/unlocked slots
+func unlock_all():
+	for grid_slot in grid.get_values():
+		grid_slot.is_locked = false
 
 
 

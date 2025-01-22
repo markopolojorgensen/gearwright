@@ -40,8 +40,13 @@ const custom_background_caps := {
 }
 
 
+
+
+
+
+
 #region Initialization
-func _ready():
+func _init():
 	internal_inventory.create_character_gear_sections()
 #endregion
 
@@ -126,7 +131,15 @@ func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i)
 		#sum += gear_section.get_total_equipped_weight()
 	#return sum
 
-# return value keys: label_text, explanation_text
+func get_equipped_items() -> Array:
+	return internal_inventory.get_equipped_items()
+
+func has_gear_section(gsid: int) -> bool:
+	return internal_inventory.gear_sections.has(gsid)
+
+func get_gear_section(gsid: int) -> GearSection:
+	return internal_inventory.gear_sections[gsid]
+
 func get_stat_label_text(stat: String) -> String:
 	var snake_stat := stat.to_snake_case()
 	if snake_stat in [
@@ -159,8 +172,9 @@ func get_stat_label_text(stat: String) -> String:
 		"":
 			return ""
 		_:
-			push_error("GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat)
-			return ""
+			var error := "GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat
+			push_error(error)
+			return error
 	
 	#var sl
 	#sl = stat_lines["weight"]
@@ -211,7 +225,7 @@ func get_stat_explanation(stat: String) -> String:
 			push_error("GearwrightCharacter: get_stat_explanation: unknown stat: %s" % stat)
 			return ""
 
-func info_to_explanation_text(info: Dictionary) -> String:
+static func info_to_explanation_text(info: Dictionary) -> String:
 	var result = ""
 	for key in info.keys():
 		var number: int = info[key]
@@ -232,8 +246,10 @@ func info_to_explanation_text(info: Dictionary) -> String:
 	#)
 
 func has_unlocks_remaining() -> bool:
-	return internal_inventory.get_unlocked_slots().size() < get_max_unlocks()
+	return get_unlocked_slots_count() < get_max_unlocks()
 
+func get_unlocked_slots_count() -> int:
+	return  internal_inventory.get_unlocked_slots().size()
 
 func is_overweight_with_item(item):
 	var weight := get_weight()
@@ -494,6 +510,14 @@ func reset_gear_sections():
 		grid_slot.is_locked = false
 		grid_slot.is_default_unlock = true
 
+func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
+	if not is_valid_internal_equip(item, gear_section_id, primary_cell):
+		return false
+	return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+
+func unequip_internal(item, gear_section_id: int):
+	return internal_inventory.unequip_internal(item, gear_section_id)
+
 # TODO yeet this???
 func mystery_section_to_section_id(section) -> int:
 	if section is int:
@@ -645,14 +669,14 @@ func modify_custom_background(stat: String, is_increase: bool):
 func load_frame(name: String):
 	global_util.fancy_print("applying frame: %s" % name)
 	frame_name = name
-	frame_stats = DataHandler.get_thing_nicely("frame", name)
+	frame_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.FRAME, name)
 	reset_gear_sections()
 
 func load_background(bg_id: String):
 	global_util.fancy_print("applying background: %s" % bg_id)
 	if bg_id != "custom":
 		custom_background.clear()
-	background_stats = DataHandler.get_thing_nicely("background", bg_id)
+	background_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.BACKGROUND, bg_id)
 
 # might be int, might be string
 func set_level(new_level):
@@ -660,7 +684,7 @@ func set_level(new_level):
 		new_level = int(new_level)
 	level = new_level
 	global_util.fancy_print("applying level: %d" % level)
-	level_stats = DataHandler.get_thing_nicely("level", str(level))
+	level_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.LEVEL, str(level))
 	
 	while developments.size() < level_stats.developments:
 		developments.append("")
@@ -714,7 +738,7 @@ func marshal() -> Dictionary:
 	#return str(gear_data).replace("\\", "")
 
 # for JSON-able slots
-# FIXME unduplicate in gearwright charactter and internal inventory
+# FIXME unduplicate in gearwright character and internal inventory
 func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
 	return {
 		gear_section_name = gear_section_id_to_name(gear_section_id),

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://2d52tcveghpy"]
+
+[ext_resource type="Script" path="res://Scripts/stats_list_control.gd" id="1_pb6eo"]
+[ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://Scenes/label_shaker.tscn" id="2_13sdk"]
+
+[node name="StatsListControl" type="VBoxContainer"]
+offset_right = 215.0
+offset_bottom = 620.0
+alignment = 1
+script = ExtResource("1_pb6eo")
+
+[node name="WeightLabelShaker" parent="." instance=ExtResource("2_13sdk")]

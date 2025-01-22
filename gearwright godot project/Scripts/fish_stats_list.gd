@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# TODO yeet this script
+
 @onready var stat_label_scene = preload("res://Scenes/stat_label.tscn")
 @onready var weight_stats_list = $"../../Stats2/WeightStatsList"
 
@@ -45,7 +47,9 @@ var spacer_locations := ["core_integrity", "power", "willpower", "repair_kits"]
 var stats_to_cap := {"close":9, "far":9, "mental":9, "power":9, "evasion":16, "willpower":16}
 var label_dict := {}
 
+@warning_ignore("unused_signal")
 signal update_core_integrity(value)
+@warning_ignore("unused_signal")
 signal update_repair_kits(value)
 
 var cringe_ballast_tracker = 0
@@ -115,25 +119,27 @@ func _on_fish_builder_item_removed(a_Item):
 			stat_modifications[stat] -= a_Item.item_data[stat]
 	update_labels()
 
+# TODO FIXME WHERWASI fish_size_selector
 func _on_fish_size_selector_load_fish_container(_fish_container, size_data):
 	for stat in base_stats:
 		if size_data.has(stat):
 			base_stats[stat] = size_data[stat]
 	update_labels()
 
-func _on_template_selector_load_template(template):
-	if current_template:
-		for stat in stat_modifications:
-			if stat_modifications.has(stat) and current_template.has(stat) and current_template[stat] != null:
-				stat_modifications[stat] -= current_template[stat]
-	
-	for stat in stat_modifications:
-		if stat_modifications.has(stat) and template.has(stat) and template[stat] != null:
-			stat_modifications[stat] += template[stat]
-	
-	current_template = template
-	
-	update_labels()
+func _on_template_selector_load_template(_template):
+	pass
+	#if current_template:
+		#for stat in stat_modifications:
+			#if stat_modifications.has(stat) and current_template.has(stat) and current_template[stat] != null:
+				#stat_modifications[stat] -= current_template[stat]
+	#
+	#for stat in stat_modifications:
+		#if stat_modifications.has(stat) and template.has(stat) and template[stat] != null:
+			#stat_modifications[stat] += template[stat]
+	#
+	#current_template = template
+	#
+	#update_labels()
 
 func _on_mutation_menu_mutation_updated(stat, value, was_added):
 	mutated_stats[stat] += value if was_added else value * -1

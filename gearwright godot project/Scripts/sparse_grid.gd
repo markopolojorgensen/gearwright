@@ -4,9 +4,9 @@ class_name SparseGrid
 # 2D "grid" with arbitrary keys
 # i.e. negative keys are fine
 # really, this is just a dictionary where the key is a pair of things instead of one thing
+# (although it's assumed that the keys are all integers)
 # maybe it should be called PairKeyDictionary
 # maybe it should be called ParakeetDictionary
-# (although it's assumed that the keys are all integers)
 
 # set size to positive values to enforce strict get/set
 var size := Vector2i(-1, -1)
@@ -43,6 +43,9 @@ func get_valid_entries() -> Array:
 # returns a list of whatever, without key info
 func get_values() -> Array:
 	return get_valid_entries().map(func(coords: Vector2i): return get_contents_v(coords))
+
+func clear():
+	_contents = {}
 
 func is_within_size(x: int, y: int):
 	# size not configured, skip it

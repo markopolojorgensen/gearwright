@@ -3,7 +3,7 @@ class_name DiabloStyleInventorySystem
 
 # interacts with PartMenu, GearSectionControl, and their subcontrols.
 
-# WHEREWASI pull inventory stuff out of character for reuse with fish characters
+@export var is_fish_mode := false
 
 signal something_changed
 
@@ -97,12 +97,14 @@ func place_item(character):
 	if current_slot_info.is_empty():
 		return
 	
-	#if not current_character.is_valid_internal_equip(
+	# equip_internal does all these checks
+	#if not character.is_valid_internal_equip(
 			#item_held,
 			#current_slot_info.gear_section_id,
 			#Vector2i(current_slot_info.x, current_slot_info.y)
 	#):
 		#return
+	
 	var current_slot_cell := Vector2i(current_slot_info.x, current_slot_info.y)
 	if not character.equip_internal(
 			item_held,
@@ -319,7 +321,9 @@ func fancy_update(character, gear_section_controls: Dictionary):
 	# updates controls on data from gear_section / grid_slot
 	# also clears all highlights / filters
 	for gear_section_id in gear_section_controls.keys():
-		var gear_section: GearSection = character.gear_sections[gear_section_id]
+		if not character.has_gear_section(gear_section_id):
+			continue
+		var gear_section: GearSection = character.get_gear_section(gear_section_id)
 		var gear_section_control: GearSectionControl = gear_section_controls[gear_section_id]
 		gear_section_control.update(gear_section)
 	
@@ -340,7 +344,8 @@ func update_internal_items(character, gear_section_controls: Dictionary):
 		var gsid: int = internal_info.slot.gear_section_id
 		var primary_cell := Vector2i(internal_info.slot.x, internal_info.slot.y)
 		var item = internal_info.internal
-		var item_cells: Array = character.get_item_cells(item, gsid, primary_cell)
+		#var item_cells: Array = character.get_item_cells(item, gsid, primary_cell)
+		var item_cells: Array = item.get_relative_cells(primary_cell)
 		var top_left_cell = item_cells.reduce(func(best: Vector2i, current: Vector2i):
 			best.x = min(best.x, current.x)
 			best.y = min(best.y, current.y)
@@ -360,13 +365,16 @@ func update_place_mode(character, gear_section_controls: Dictionary):
 		return
 	
 	# correct section
-	var valid_section_ids := GearwrightCharacter.item_section_to_valid_section_ids(item_held.item_data.section)
-	for gear_section_id in gear_section_controls.keys():
-		var gear_section_control: GearSectionControl = gear_section_controls[gear_section_id]
-		if gear_section_id in valid_section_ids:
-			gear_section_control.clear_grey_out()
-		else:
-			gear_section_control.grey_out()
+	var item_section = item_held.item_data.get("section", null)
+	# fish internals have no section
+	if item_section != null:
+		var valid_section_ids := GearwrightCharacter.item_section_to_valid_section_ids(item_section)
+		for gear_section_id in gear_section_controls.keys():
+			var gear_section_control: GearSectionControl = gear_section_controls[gear_section_id]
+			if gear_section_id in valid_section_ids:
+				gear_section_control.clear_grey_out()
+			else:
+				gear_section_control.grey_out()
 	
 	# no hovered slot
 	if current_slot_info.is_empty():
@@ -374,7 +382,8 @@ func update_place_mode(character, gear_section_controls: Dictionary):
 	
 	var gsid: int = current_slot_info.gear_section_id
 	var primary_cell := Vector2i(current_slot_info.x, current_slot_info.y)
-	var item_cells: Array = character.get_item_cells(item_held, gsid, primary_cell)
+	#var item_cells: Array = character.get_item_cells(item_held, gsid, primary_cell)
+	var item_cells: Array = item_held.get_relative_cells(primary_cell)
 	var grid_slot_controls := item_cells.map(func(cell):
 		if current_gear_section_control.control_grid.is_within_size_v(cell):
 			return current_gear_section_control.control_grid.get_contents_v(cell)
@@ -396,9 +405,9 @@ func update_unlock_mode(character, gear_section_controls: Dictionary):
 		return
 	
 	# default frame unlocks
-	for id in gear_section_controls.keys():
-		var gear_section_control: GearSectionControl = gear_section_controls[id]
-		var gear_section: GearSection = character.gear_sections[id]
+	for gsid in gear_section_controls.keys():
+		var gear_section_control: GearSectionControl = gear_section_controls[gsid]
+		var gear_section: GearSection = character.get_gear_section(gsid)
 		var cells := gear_section.grid.get_valid_entries()
 		for cell in cells:
 			# cell is Vector2i
@@ -441,7 +450,7 @@ func on_slot_mouse_entered(slot_info: Dictionary, character):
 	current_slot_info.x = slot_info.x
 	current_slot_info.y = slot_info.y
 	current_slot_info.gear_section_id = slot_info.gear_section_id
-	current_gear_section         = character.gear_sections[slot_info.gear_section_id]
+	current_gear_section         = character.get_gear_section(slot_info.gear_section_id)
 	current_gear_section_control = slot_info.gear_section_control
 	current_grid_slot         = current_gear_section.grid.get_contents(slot_info.x, slot_info.y)
 	current_grid_slot_control = slot_info.grid_slot_control
@@ -459,7 +468,7 @@ func on_part_menu_item_spawned(item_id: Variant) -> void:
 		return
 	var new_item = item_scene.instantiate()
 	add_child(new_item)
-	new_item.load_item(item_id)
+	new_item.load_item(item_id, not is_fish_mode)
 	new_item.selected = true
 	item_held = new_item
 	mode = Modes.PLACE

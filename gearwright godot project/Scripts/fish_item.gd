@@ -1,5 +1,7 @@
 extends Node2D
 
+# TODO yeet this script
+
 @onready var icon = $Icon
 @onready var number_bubble = $TextureRect
 @onready var number_label = $TextureRect/NumberLabel
@@ -65,7 +67,8 @@ func snap_to(destination: Vector2):
 	tween.tween_property(self, "global_position", destination, 0.01).set_trans(Tween.TRANS_SINE)
 	selected = false
 
-func set_number_label(number):
+# FIXME show number labels in regular old item?
+func set_number_label(_number):
 	pass
 	#number_label.text = str(number)
 	#number_bubble.visible = true

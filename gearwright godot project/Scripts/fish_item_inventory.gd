@@ -7,7 +7,8 @@ extends VBoxContainer
 @onready var internals_grid_scene = preload("res://Scenes/fish_internals_grid.tscn")
 @onready var margin_container = $MarginContainer
 
-@onready var fish_builder = $"../../../VBoxContainer/HBoxContainer/FishBuilder"
+#@onready var fish_builder = $"../../../VBoxContainer/HBoxContainer/FishBuilder"
+@onready var fish_builder = $"../../../.."
 
 var section_list := {"far": null, "close": null, "mental": null, "active": null, "passive": null, "mitigation": null}
 

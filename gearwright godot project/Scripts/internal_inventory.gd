@@ -9,8 +9,6 @@ class_name InternalInventory
 var gear_section_ids := {}
 var gear_sections := {}
 
-
-
 #region Initialization
 
 func create_character_gear_sections() -> Dictionary:
@@ -47,6 +45,91 @@ func create_character_gear_sections() -> Dictionary:
 	gear_sections = result
 	return result
 
+func create_fish_gear_sections(size: GearwrightFish.SIZE):
+	gear_section_ids = {
+		"TIP": 0,
+		"TAIL": 1,
+		"BODY": 2,
+		"NECK": 3,
+		"HEAD": 4,
+		"LEFT_LEGS": 5,
+		"RIGHT_LEGS": 6,
+		"LEFT_ARM": 7,
+		"RIGHT_ARM": 8,
+	}
+	
+	gear_sections.clear()
+	if size == GearwrightFish.SIZE.SMALL:
+		gear_sections[gear_section_ids.BODY] = GearSection.new(Vector2i(3, 3))
+		gear_sections[gear_section_ids.BODY].name = ""
+		gear_sections[gear_section_ids.BODY].dice_string = ""
+	elif size == GearwrightFish.SIZE.MEDIUM:
+		gear_sections[gear_section_ids.BODY] = GearSection.new(Vector2i(6, 3))
+		gear_sections[gear_section_ids.BODY].name = ""
+		gear_sections[gear_section_ids.BODY].dice_string = ""
+	elif size == GearwrightFish.SIZE.LARGE:
+		gear_sections[gear_section_ids.BODY] = GearSection.new(Vector2i(6, 4))
+		gear_sections[gear_section_ids.BODY].name = ""
+		gear_sections[gear_section_ids.BODY].dice_string = ""
+	elif size == GearwrightFish.SIZE.MASSIVE:
+		gear_sections[gear_section_ids.BODY] = GearSection.new(Vector2i(6, 6))
+		gear_sections[gear_section_ids.BODY].name = ""
+		gear_sections[gear_section_ids.BODY].dice_string = ""
+	elif size == GearwrightFish.SIZE.LEVIATHAN:
+		gear_sections[gear_section_ids.TAIL] = GearSection.new(Vector2i(3, 6))
+		gear_sections[gear_section_ids.TAIL].name = "Tail"
+		gear_sections[gear_section_ids.TAIL].dice_string = "(2-5)"
+		gear_sections[gear_section_ids.BODY] = GearSection.new(Vector2i(6, 6))
+		gear_sections[gear_section_ids.BODY].name = "Body"
+		gear_sections[gear_section_ids.BODY].dice_string = "(6-8)"
+		gear_sections[gear_section_ids.HEAD] = GearSection.new(Vector2i(3, 6))
+		gear_sections[gear_section_ids.HEAD].name = "Head"
+		gear_sections[gear_section_ids.HEAD].dice_string = "(9-12)"
+	elif size == GearwrightFish.SIZE.SERPENT_LEVIATHAN:
+		gear_sections[gear_section_ids.TIP]  = GearSection.new(Vector2i(3, 3))
+		gear_sections[gear_section_ids.TIP].name = "Tip"
+		gear_sections[gear_section_ids.TIP].dice_string = "(2-3)"
+		gear_sections[gear_section_ids.TAIL] = GearSection.new(Vector2i(6, 3))
+		gear_sections[gear_section_ids.TAIL].name = "Tail"
+		gear_sections[gear_section_ids.TAIL].dice_string = "(4-5)"
+		gear_sections[gear_section_ids.BODY] = GearSection.new(Vector2i(6, 3))
+		gear_sections[gear_section_ids.BODY].name = "Body"
+		gear_sections[gear_section_ids.BODY].dice_string = "(6-8)"
+		gear_sections[gear_section_ids.NECK] = GearSection.new(Vector2i(6, 3))
+		gear_sections[gear_section_ids.NECK].name = "Neck"
+		gear_sections[gear_section_ids.NECK].dice_string = "(9-10)"
+		gear_sections[gear_section_ids.HEAD] = GearSection.new(Vector2i(3, 3))
+		gear_sections[gear_section_ids.HEAD].name = "Head"
+		gear_sections[gear_section_ids.HEAD].dice_string = "(11-12)"
+	elif size == GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
+		gear_sections[gear_section_ids.LEFT_LEGS]  = GearSection.new(Vector2i(3, 4))
+		gear_sections[gear_section_ids.LEFT_LEGS].name = "L. Legs"
+		gear_sections[gear_section_ids.LEFT_LEGS].dice_string = "(2-3)"
+		gear_sections[gear_section_ids.BODY]       = GearSection.new(Vector2i(6, 4))
+		gear_sections[gear_section_ids.BODY].name = "Body"
+		gear_sections[gear_section_ids.BODY].dice_string = "(6-8)"
+		gear_sections[gear_section_ids.RIGHT_LEGS] = GearSection.new(Vector2i(3, 4))
+		gear_sections[gear_section_ids.RIGHT_LEGS].name = "R. Legs"
+		gear_sections[gear_section_ids.RIGHT_LEGS].dice_string = "(11-12)"
+		gear_sections[gear_section_ids.LEFT_ARM]   = GearSection.new(Vector2i(3, 4))
+		gear_sections[gear_section_ids.LEFT_ARM].name = "L. Arm"
+		gear_sections[gear_section_ids.LEFT_ARM].dice_string = "(4-5)"
+		gear_sections[gear_section_ids.RIGHT_ARM]  = GearSection.new(Vector2i(3, 4))
+		gear_sections[gear_section_ids.RIGHT_ARM].name = "R. Arm"
+		gear_sections[gear_section_ids.RIGHT_ARM].dice_string = "(9-10)"
+	else:
+		var error := "failed to create fish inventory: unknown size %d '%s'" % [size, GearwrightFish.SIZE.find_key(size)]
+		push_error(error)
+		print(error)
+		global_util.popup_warning("bad fish size?", error)
+	
+	assert(1 <= gear_sections.values().size())
+	
+	# fish don't have locks
+	unlock_all()
+	
+	return gear_sections
+
 #endregion
 
 
@@ -65,7 +148,7 @@ func create_character_gear_sections() -> Dictionary:
 
 # slot_info required keys: x, y, gear_section
 # returns true on success, false on failure
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i):
+func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
 	#global_util.fancy_print("equip_internal: %s, primary_cell: %s" % [item.item_data.name, str(primary_cell)])
 	#global_util.indent()
 	if not is_valid_internal_equip(item, gear_section_id, primary_cell):
@@ -121,15 +204,21 @@ func unequip_internal(item, gear_section_id: int):
 
 func full_reset():
 	unequip_all_internals()
-	for gear_section_id in gear_section_ids.values():
+	for gear_section_id in get_active_gear_section_ids():
 		var gear_section: GearSection = gear_sections[gear_section_id]
 		gear_section.reset()
 
 # yeets all equipped internals
 func unequip_all_internals():
-	for gear_section_id in gear_section_ids.values():
+	for gear_section_id in get_active_gear_section_ids():
 		var gear_section: GearSection = gear_sections[gear_section_id]
 		gear_section.unequip_all_internals()
+
+# fish don't have unlocks
+func unlock_all():
+	for gear_section in gear_sections.values():
+		if gear_section != null:
+			gear_section.unlock_all()
 
 #endregion
 
@@ -147,8 +236,28 @@ func unequip_all_internals():
 
 func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
 	# there is no gear section
-	if not gear_section_id in gear_section_ids.values():
+	if not gear_section_id in get_active_gear_section_ids():
 		return false
+	
+	var gear_section: GearSection = gear_sections[gear_section_id]
+	# for each slot that would become occupied:
+	#var cells := get_item_cells(item, gear_section_id, primary_cell)
+	var cells: Array = item.get_relative_cells(primary_cell)
+	for i in range(cells.size()):
+		var cell: Vector2i = cells[i]
+		
+		# slot is out of bounds
+		if not gear_section.grid.is_within_size_v(cell):
+			return false
+		
+		var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
+		# slot is locked
+		if grid_slot.is_locked:
+			return false
+		
+		# there's already something there
+		if grid_slot.installed_item != null:
+			return false
 	
 	return true
 
@@ -205,6 +314,7 @@ func get_grid_slot(gsid: int, x: int, y: int) -> GridSlot:
 	return grid_slot
 
 # returns make_slot_info() result
+# this method explodes if you try to call it on a fish character
 func grid_array_index_to_slot_info(index: int) -> Dictionary:
 	assert(0 <= index)
 	var gear_section_id: int = -1
@@ -242,6 +352,23 @@ func grid_array_index_to_slot_info(index: int) -> Dictionary:
 	assert(y < gear_section.grid.size.y)
 	return make_slot_info(gear_section_id, Vector2i(x, y))
 
+func get_active_gear_section_ids() -> Array:
+	var result := []
+	for gsid in gear_section_ids.values():
+		if gear_sections.has(gsid):
+			result.append(gsid)
+	
+	return result
+
+func _to_string() -> String:
+	return "<InternalInventory: %d gear sections (%d active), %d equipped internals | %s>" % \
+			[
+				gear_sections.keys().size(),
+				get_active_gear_section_ids().size(),
+				get_equipped_items().size(),
+				gear_sections.keys().map(func(gsid: int): return GearwrightFish.GEAR_SECTION_IDS.find_key(gsid)),
+			]
+
 #endregion
 
 
@@ -251,14 +378,16 @@ func grid_array_index_to_slot_info(index: int) -> Dictionary:
 #region Utility
 
 # for JSON-able slots
-# FIXME unduplicate in gearwright charactter and internal inventory
+# FIXME unduplicate in gearwright character and internal inventory
 func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
 	return {
-		gear_section_name = gear_section_id_to_name(gear_section_id),
+		gear_section_name = GearwrightCharacter.gear_section_id_to_name(gear_section_id),
 		gear_section_id = gear_section_id,
 		x = cell.x,
 		y = cell.y,
 	}
+
+
 
 #endregion
 

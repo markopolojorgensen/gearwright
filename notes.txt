@@ -62,6 +62,9 @@ warn when data would be lost
 
 maneuvers don't check to make sure bonus mental maneuver is actually a mental one
 
+ballast shenanigans
+injuries / touch of the deep
+deep words / curios / whatever other stuff???
 
 
 
@@ -73,6 +76,7 @@ X Limited - Some Internals can only be installed X times, Gearwright should not 
 X Bulky - Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise) this might be the hardest thing, Genie
 was unsure if she could do it. Having this feature would be really really strong.
 
+X Optics tag limit
 
 =MECH CREATION=
 

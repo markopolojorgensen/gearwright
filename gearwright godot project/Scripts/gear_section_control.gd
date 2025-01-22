@@ -6,7 +6,16 @@ signal slot_exited(slot_info: Dictionary)
 
 const grid_slot_control_scene = preload("res://Scenes/grid_slot_control.tscn")
 
+# FIXME: can't support both fish and character gear section ids, since the values
+#  mean different things! There's no merging the two different enums.
+#  Wouldn't be a problem if we could dynamically change the sugggestions
+#  offered by the editor, but I think there's no way to do that either, so
+#  we're stuck with two different things and a boolean to tell the difference.
+#  at least we can keep this contained to within this class, other code
+#  shouldn't have to ask about which gear section id it should trust.
 @export var gear_section_id := GearwrightCharacter.gear_section_ids.TORSO
+@export var fish_gear_section_id := GearwrightFish.GEAR_SECTION_IDS.BODY
+@export var is_fish_mode := false 
 
 @onready var grid_container := $GridContainer
 @onready var label := $Label
@@ -26,13 +35,13 @@ func _ready():
 		global_position = Vector2(200, 200)
 		slot_entered.connect(func(slot_info): print("slot entered: ", str(slot_info)))
 		slot_exited.connect(func(slot_info): print("slot exited: ", str(slot_info)))
-		update(fake_character.gear_sections[GearwrightCharacter.gear_section_ids.TORSO])
+		update(fake_character.get_gear_section(GearwrightCharacter.gear_section_ids.TORSO))
 
-func initialize():
+func initialize(gear_section: GearSection):
 	initialized = true
-	var fake_character = GearwrightCharacter.new()
+	#var fake_character = GearwrightCharacter.new()
 	#gear_section = new_gear_section
-	var gear_section: GearSection = fake_character.gear_sections[gear_section_id]
+	#var gear_section: GearSection = fake_character.get_gear_section(gear_section_id)
 	
 	label.text = "%s %s" % [gear_section.name, gear_section.dice_string]
 	
@@ -58,6 +67,8 @@ func initialize():
 				"x" : x,
 				"y" : y,
 			}
+			if is_fish_mode:
+				slot_info.gear_section_id = fish_gear_section_id
 			grid_slot_control.slot_entered.connect(func(): slot_entered.emit(slot_info))
 			grid_slot_control.slot_exited.connect( func(): slot_exited.emit( slot_info))
 			grid_container.add_child(grid_slot_control)
@@ -65,7 +76,7 @@ func initialize():
 
 func update(gear_section: GearSection):
 	if not initialized:
-		initialize()
+		initialize(gear_section)
 	assert(initialized)
 	
 	clear_grey_out()
@@ -81,3 +92,16 @@ func grey_out():
 func clear_grey_out():
 	for coords in control_grid.get_valid_entries():
 		control_grid.get_contents_v(coords).clear_grey_out()
+
+# un-initializes this node
+# no idea if this works or what
+func reset():
+	global_util.clear_children(grid_container)
+	control_grid.clear()
+	initialized = false
+
+
+
+
+
+

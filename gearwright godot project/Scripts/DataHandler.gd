@@ -12,6 +12,8 @@ var level_data := {}
 var maneuver_data := {}
 var development_data := {}
 var deep_word_data := {}
+var fish_size_data := {}
+var fish_type_data := {}
 
 var item_data_path          = "user://LocalData/item_data.json"
 var fish_item_data_path     = "user://LocalData/npc_item_data.json"
@@ -22,6 +24,8 @@ const level_data_path       = "user://LocalData/level_data.json"
 const maneuver_data_path    = "user://LocalData/fisher_maneuvers.json"
 const development_data_path = "user://LocalData/fisher_developments.json"
 const deep_word_data_path = "user://LocalData/deep_words.json"
+const fish_size_data_path = "user://LocalData/fish_size_data.json"
+const fish_type_data_path = "user://LocalData/fish_template_data.json"
 
 const gear_data_template := { # TODO yeet?
 	"callsign": "",
@@ -158,7 +162,42 @@ const deep_word_template := {
 	"full_name": "deep word, yo",
 	"fathomless": 1,
 	"ap_cost": 0,
-	"action_text": "Speak now or forever eat your peas."
+	"action_text": "Speak now or forever eat your peas.",
+}
+
+const fish_size_template := {
+	"size": "none",
+	"weight": 0,
+	"ap": 0,
+	"close": 1,
+	"far": 1,
+	"mental": 1,
+	"evasion": 1,
+	"willpower": 1,
+	"speed": 1,
+	"sensors": 1,
+	"power": 1,
+}
+
+const fish_type_template := {
+	"template": "none",
+	"weight": 0,
+	"mutations": 0,
+	"mutation_cap": 0,
+	"extra_rules": "",
+}
+
+enum DATA_TYPE {
+	BACKGROUND,
+	FRAME,
+	LEVEL,
+	DEVELOPMENT,
+	MANEUVER,
+	INTERNAL,
+	DEEP_WORD,
+	FISH_INTERNAL,
+	FISH_SIZE,
+	FISH_TYPE,
 }
 
 func _ready():
@@ -170,6 +209,8 @@ func _ready():
 	maneuver_data    = load_data(maneuver_data_path)
 	development_data = load_data(development_data_path)
 	deep_word_data   = load_data(deep_word_data_path)
+	fish_size_data   = load_data(fish_size_data_path)
+	fish_type_data   = load_data(fish_type_data_path)
 	
 	set_grid_and_icon_data()
 
@@ -189,68 +230,81 @@ func load_data(path):
 func get_gear_template():
 	return gear_data_template.duplicate(true)
 
-func get_fish_template():
+func get_fish_template(): # TODO yeet?
 	return fish_data_template.duplicate(true)
 
 # pops up error messages if things go badly
-# TODO data_type should be an enum -_-
-func get_thing_nicely(data_type: String, key):
+func get_thing_nicely(data_type: DATA_TYPE, key):
 	var data
 	var default
 	match data_type:
-		"background":
+		DATA_TYPE.BACKGROUND:
 			data = background_data
 			default = background_stats_template.duplicate(true)
-		"frame":
+		DATA_TYPE.FRAME:
 			data = frame_data
 			default = frame_stats_template.duplicate(true)
-		"level":
+		DATA_TYPE.LEVEL:
 			key = str(key) # might be an int
 			data = level_data
 			default = level_stats_template.duplicate(true)
-		"development":
+		DATA_TYPE.DEVELOPMENT:
 			data = development_data
 			default = development_stats_template.duplicate(true)
-		"maneuver":
+		DATA_TYPE.MANEUVER:
 			data = maneuver_data
 			default = maneuver_stats_template.duplicate(true)
-		"internal":
+		DATA_TYPE.INTERNAL:
 			data = item_data
 			default = item_stats_template.duplicate(true)
-		"deep_word":
+		DATA_TYPE.DEEP_WORD:
 			data = deep_word_data
 			default = deep_word_template.duplicate(true)
-		"fish_internal":
+		DATA_TYPE.FISH_INTERNAL:
 			data = fish_item_data
 			default = fish_internal_template
+		DATA_TYPE.FISH_SIZE:
+			data = fish_size_data
+			default = fish_size_template
+		DATA_TYPE.FISH_TYPE:
+			data = fish_type_data
+			default = fish_type_template
 		_:
-			push_error("DataHandler: unknown data type: %s" % data_type)
+			push_error("DataHandler: unknown data type: %s '%s'" % [data_type, DATA_TYPE.find_key(data_type)])
 			breakpoint
 	
 	if data.has(key):
 		return data[key]
 	else:
-		var title := "Bad %s" % data_type.capitalize()
-		var message := "Failed to find %s data for '%s'\n(Have you imported the game data from the main menu?)" % [data_type, key]
+		var data_name = DATA_TYPE.find_key(data_type).capitalize()
+		var title := "Bad %s" % data_name
+		var message := "Failed to find %s data for '%s'\n(Have you imported the game data from the main menu?)" % [data_name, key]
 		
+		push_error("%s: %s" % [title, message])
+		print("%s: %s" % [title, message])
 		global_util.popup_warning(title, message)
 		return default
 
 func get_development_data(dev_name: String):
-	return get_thing_nicely("development", dev_name)
+	return get_thing_nicely(DATA_TYPE.DEVELOPMENT, dev_name)
 
 func get_maneuver_data(man_name: String):
-	return get_thing_nicely("maneuver", man_name)
+	return get_thing_nicely(DATA_TYPE.MANEUVER, man_name)
 
 func get_deep_word_data(word: String):
-	return get_thing_nicely("deep_word", word)
+	return get_thing_nicely(DATA_TYPE.DEEP_WORD, word)
 
 func get_internal_data(internal_name: String):
-	return get_thing_nicely("internal", internal_name)
+	return get_thing_nicely(DATA_TYPE.INTERNAL, internal_name)
 
 func get_fish_internal_data(internal_name: String):
-	return get_thing_nicely("fish_internal", internal_name)
+	return get_thing_nicely(DATA_TYPE.FISH_INTERNAL, internal_name)
 
+func get_fish_size_data(size_name: String):
+	return get_thing_nicely(DATA_TYPE.FISH_SIZE, size_name)
+
+func get_fish_type_data(type_name: String):
+	return get_thing_nicely(DATA_TYPE.FISH_TYPE, type_name.to_snake_case())
 
 
 

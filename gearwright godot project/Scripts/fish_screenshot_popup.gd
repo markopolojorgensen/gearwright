@@ -1,7 +1,7 @@
 extends Popup
 
-@onready var filename_input = $VBoxContainer/HBoxContainer/LineEdit
-@onready var fish_name_input = $"../../../FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/FishNameInputContainer/FishNameInput"
+@onready var filename_input #= $VBoxContainer/HBoxContainer/LineEdit
+@onready var fish_name_input #= $"../../../FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/FishNameInputContainer/FishNameInput"
 
 signal screenshot_name_confirm
 

@@ -3,8 +3,10 @@ extends VBoxContainer
 signal stat_mouse_entered(stat_name: String)
 signal stat_mouse_exited
 
+@export var is_fish := false
+
 const label_scene := preload("res://Scenes/stat_label.tscn")
-const pretty_stat_names := [
+const pretty_stat_names_character := [
 	"Background",
 	"Marbles",
 	"Core Integrity",
@@ -27,6 +29,23 @@ const pretty_stat_names := [
 	"Weight",
 	"Ballast",
 ]
+const pretty_stat_names_fish := [
+	"Weight",
+	"Ballast",
+	"",
+	"CLOSE",
+	"FAR",
+	"MENTAL",
+	"POWER",
+	"",
+	"Evasion",
+	"Willpower",
+	"",
+	"AP",
+	"Speed",
+	"Sensors",
+]
+var pretty_stat_names: Array
 
 @onready var weight_label_shaker = $WeightLabelShaker
 
@@ -40,6 +59,11 @@ var labels := {}
 var hovered_stat := ""
 
 func _ready():
+	if is_fish:
+		pretty_stat_names = pretty_stat_names_fish
+	else:
+		pretty_stat_names = pretty_stat_names_character
+	
 	for i in range(pretty_stat_names.size()):
 		var stat_name: String = pretty_stat_names[i]
 		# maybe key these to make sure we don't end up in a fugue state?
@@ -77,7 +101,7 @@ func _ready():
 		#stat_mouse_exited.emit()
 
 
-func update(character: GearwrightCharacter):
+func update(character):
 	for i in range(pretty_stat_names.size()):
 		var stat_name: String = pretty_stat_names[i]
 		var label: Label = labels[stat_name]

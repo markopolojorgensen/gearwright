@@ -1,17 +1,19 @@
 extends ColorRect
 
+# TODO yeet this script
+
 @onready var slot_scene = preload("res://Scenes/fish_grid_slot.tscn")
 @onready var item_scene = preload("res://Scenes/fish_item.tscn")
 
-@onready var stats = $FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer2/Stats/FishStatsList
-@onready var name_input = $FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/FishNameInputContainer/FishNameInput
-@onready var export_popup = $MenuHeader/SaveOptionsMenu/ExportPopup
-@onready var file_dialog = $MenuHeader/SaveOptionsMenu/FileDialog
-@onready var screenshot_popup = $MenuHeader/SaveOptionsMenu/ScreenshotPopup
-@onready var container_container = $FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/ContainerContainer
+@onready var stats #= $FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer2/Stats/FishStatsList
+@onready var name_input #= $FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/FishNameInputContainer/FishNameInput
+@onready var export_popup #= $MenuHeader/SaveOptionsMenu/ExportPopup
+@onready var file_dialog #= $MenuHeader/SaveOptionsMenu/FileDialog
+@onready var screenshot_popup #= $MenuHeader/SaveOptionsMenu/ScreenshotPopup
+@onready var container_container #= $FishSquisher/MarginContainer/ColorRect2/MarginContainer/HBoxContainer/VBoxContainer/ContainerContainer
 
-@onready var size_selector = $MenuHeader/FishSizeSelectContainer/FishSizeSelector
-@onready var template_selector = $VBoxContainer2/HBoxContainer2/TemplateSelector
+@onready var size_selector #= $MenuHeader/FishSizeSelectContainer/FishSizeSelector
+@onready var template_selector #= $VBoxContainer2/HBoxContainer2/TemplateSelector
 
 var grid_array := []
 var item_held = null
@@ -25,6 +27,7 @@ signal item_removed(item)
 signal new_save_loaded(user_data)
 signal update_name(name)
 
+@warning_ignore("unused_signal")
 signal clear_internal_list()
 
 var fish_data = DataHandler.get_fish_template()
@@ -38,35 +41,38 @@ var current_template := ""
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if export_popup.visible or file_dialog.visible or screenshot_popup.visible:
-			return
-	if Input.is_action_just_pressed("mouse_leftclick"):
-		if item_held:
-			for container in fish_containers:
-					if container.get_global_rect().has_point(get_global_mouse_position()):
-						place_item()
-		else:
-			for container in fish_containers:
-				if container.get_global_rect().has_point(get_global_mouse_position()):
-					pickup_item()
-	elif Input.is_action_just_pressed("mouse_rightclick"):
-		drop_item()
+	pass
+	#if export_popup.visible or file_dialog.visible or screenshot_popup.visible:
+			#return
+	#if Input.is_action_just_pressed("mouse_leftclick"):
+		#if item_held:
+			#for container in fish_containers:
+					#if container.get_global_rect().has_point(get_global_mouse_position()):
+						#place_item()
+		#else:
+			#for container in fish_containers:
+				#if container.get_global_rect().has_point(get_global_mouse_position()):
+					#pickup_item()
+	#elif Input.is_action_just_pressed("mouse_rightclick"):
+		#drop_item()
 
-func _on_fish_size_selector_load_fish_container(fish_container, size_stats):
-	internals_reset()
-	
-	if current_container_scene:
-		remove_container_scene()
-	
-	current_container_scene = fish_container.instantiate()
-	container_container.add_child(current_container_scene)
-	current_container_scene.visible = true
-	fish_containers = current_container_scene.get_children()
-	
-	generate_fish_grids(fish_containers)
-	
-	fish_data = DataHandler.get_fish_template()
-	current_size = size_stats["size"]
+# TODO FIXME WHERWASI fish_size_selector
+func _on_fish_size_selector_load_fish_container(_fish_container, _size_stats):
+	pass
+	#internals_reset()
+	#
+	#if current_container_scene:
+		#remove_container_scene()
+	#
+	#current_container_scene = fish_container.instantiate()
+	#container_container.add_child(current_container_scene)
+	#current_container_scene.visible = true
+	#fish_containers = current_container_scene.get_children()
+	#
+	#generate_fish_grids(fish_containers)
+	#
+	#fish_data = DataHandler.get_fish_template()
+	#current_size = size_stats["size"]
 
 func generate_fish_grids(containers):
 	var big_containers := []
@@ -297,5 +303,6 @@ func _on_mutation_menu_mutation_updated(stat, _value, was_added):
 	else:
 		mutations.erase(stat)
 
-func _on_template_selector_load_template(template):
-	current_template = template["template"]
+func _on_template_selector_load_template(_template):
+	pass
+	#current_template = template["template"]

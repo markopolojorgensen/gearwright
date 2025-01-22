@@ -34,17 +34,24 @@ func _process(delta):
 			item_popup.position = global_position + Vector2(140, 0)
 			item_popup.popup()
 
-func load_item(a_itemID : String):
+func load_item(a_itemID : String, is_player_item := true):
 	if not initialized:
 		initialize()
 	#item_data = DataHandler.item_data[a_itemID]
-	item_data = DataHandler.get_thing_nicely("internal", a_itemID)
+	if is_player_item:
+		item_data = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.INTERNAL, a_itemID)
+	else:
+		item_data = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.FISH_INTERNAL, a_itemID)
 	
 	var image = Image.load_from_file(item_data["icon_path"])
 	var texture = ImageTexture.create_from_image(image)
 	icon.texture = texture
 	
-	for grid in DataHandler.item_grid_data[a_itemID]:
+	var item_grid_data = DataHandler.item_grid_data
+	if not is_player_item:
+		item_grid_data = DataHandler.fish_item_grid_data
+	
+	for grid in item_grid_data[a_itemID]:
 		var converter_array := []
 		for i in grid:
 			converter_array.push_back(int(i))

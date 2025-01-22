@@ -30,7 +30,7 @@ extends Control
 @onready var maneuvers_container = %ManeuversContainer
 @onready var deep_words_container = %DeepWordsContainer
 @onready var floating_explanation_control: Control = %FloatingExplanationControl
-@onready var explanation_label: Label = %ExplanationLabel
+#@onready var explanation_label: Label = %ExplanationLabel
 
 # for control updates
 @onready var frame_selector: OptionButton = %FrameSelector
@@ -82,20 +82,13 @@ extends Control
 @onready var edit_bg_button: Button = %EditBackgroundButton
 @onready var custom_bg_popup: Container = %CustomBGPanelContainer
 @onready var custom_bg_points_label: Label = %CustomBGPointsLabel
-@onready var custom_bg_stat_edit_controls := [
-	%MarblesCustomStatEditControl,
-	%MentalCustomStatEditControl,
-	%WillpowerCustomStatEditControl,
-	%UnlocksCustomStatEditControl,
-	%WeightCapCustomStatEditControl,
-]
-const custom_bg_stat_names := [
-	"marbles",
-	"mental",
-	"willpower",
-	"unlocks",
-	"weight_cap",
-]
+@onready var custom_bg_stat_edit_controls := {
+	"marbles":    %MarblesCustomStatEditControl,
+	"mental":     %MentalCustomStatEditControl,
+	"willpower":  %WillpowerCustomStatEditControl,
+	"unlocks":    %UnlocksCustomStatEditControl,
+	"weight_cap": %WeightCapCustomStatEditControl,
+}
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -116,7 +109,7 @@ const custom_bg_stat_names := [
 @onready var part_menu: PartMenu = %PartMenu
 const part_menu_tabs := ["Head", "Chest", "Arm", "Leg", "Curios"]
 
-@onready var inventory: DiabloStyleInventorySystem = $DiabloStyleInventorySystem
+@onready var inventory_system: DiabloStyleInventorySystem = $DiabloStyleInventorySystem
 
 #var grid_array := []
 #enum Modes {
@@ -194,9 +187,8 @@ func _ready():
 		background_option_button.add_item(nice_name)
 	
 	# for custom_bg_control in custom_bg_stat_edit_controls:
-	for i in range(custom_bg_stat_edit_controls.size()):
-		var custom_bg_control = custom_bg_stat_edit_controls[i]
-		var stat_name: String = custom_bg_stat_names[i]
+	for stat_name in custom_bg_stat_edit_controls.keys():
+		var custom_bg_control = custom_bg_stat_edit_controls[stat_name]
 		custom_bg_control.increase.connect(_on_custom_bg_change.bind(stat_name, true))
 		custom_bg_control.decrease.connect(_on_custom_bg_change.bind(stat_name, false))
 	custom_bg_popup.hide()
@@ -260,8 +252,7 @@ func is_curio(item_data: Dictionary):
 
 func _process(_delta):
 	#$ModeDebugLabel.text = "Mode: %s" % str(Modes.find_key(mode))
-	$ModeDebugLabel.text = "Mode: %s" % str(inventory.get_mode())
-	
+	$ModeDebugLabel.text = "Mode: %s" % str(inventory_system.get_mode())
 	
 	if Input.is_action_just_pressed("mouse_leftclick"):
 		if (export_popup.visible
@@ -273,21 +264,13 @@ func _process(_delta):
 				or global_util.is_warning_popup_active()
 		):
 			return
-		inventory.leftclick(current_character)
+		inventory_system.leftclick(current_character)
 	elif Input.is_action_just_pressed("mouse_rightclick"):
-		inventory.rightclick(current_character)
+		inventory_system.rightclick(current_character)
 	
 	if request_update_controls:
 		request_update_controls = false
 		update_controls.call_deferred()
-	
-	update_floating_explanation_control()
-
-func update_floating_explanation_control():
-	if floating_explanation_control.is_visible_in_tree():
-		floating_explanation_control.size = Vector2()
-		floating_explanation_control.global_position = get_global_mouse_position()
-		floating_explanation_control.global_position.x -= floating_explanation_control.size.x
 
 
 
@@ -314,7 +297,7 @@ func update_floating_explanation_control():
 # Grid Slots
 
 func _on_slot_mouse_entered(slot_info: Dictionary):
-	inventory.on_slot_mouse_entered(slot_info, current_character)
+	inventory_system.on_slot_mouse_entered(slot_info, current_character)
 	#icon_anchor = Vector2(10000, 10000)
 	#current_slot = a_Slot
 	
@@ -332,7 +315,7 @@ func _on_slot_mouse_entered(slot_info: Dictionary):
 
 
 func _on_slot_mouse_exited(slot_info: Dictionary):
-	inventory.on_slot_mouse_exited(slot_info)
+	inventory_system.on_slot_mouse_exited(slot_info)
 	request_update_controls = true
 	#if mode == Modes.UNLOCK:
 		#current_slot.set_color(current_slot.States.TAKEN)
@@ -381,13 +364,10 @@ func _on_legs_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
 
 
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
-	explanation_label.text = current_character.get_stat_explanation(stat_name)
-	if not explanation_label.text.is_empty():
-		floating_explanation_control.show()
-		update_floating_explanation_control()
+	floating_explanation_control.text = current_character.get_stat_explanation(stat_name)
 
 func _on_stats_list_control_stat_mouse_exited() -> void:
-	floating_explanation_control.hide()
+	floating_explanation_control.text = ""
 
 
 
@@ -395,7 +375,7 @@ func _on_stats_list_control_stat_mouse_exited() -> void:
 
 #func _on_item_inventory_item_spawned(item_id):
 func _on_part_menu_item_spawned(item_id: Variant) -> void:
-	inventory.on_part_menu_item_spawned(item_id)
+	inventory_system.on_part_menu_item_spawned(item_id)
 	request_update_controls = true
 
 func _on_level_selector_change_level(new_level: int):
@@ -404,7 +384,7 @@ func _on_level_selector_change_level(new_level: int):
 	#gear_data["level"] = a_Level
 
 func _on_save_options_menu_load_save_data(info: Dictionary):
-	inventory.drop_item()
+	inventory_system.drop_item()
 	current_character.reset_gear_sections() # prevent lingering items
 	
 	current_character = GearwrightCharacter.unmarshal(info)
@@ -461,7 +441,7 @@ func _on_save_options_menu_load_save_data(info: Dictionary):
 	#item_installed.emit(new_item)
 
 func _on_unlock_toggle_button_down():
-	inventory.toggle_unlock_mode()
+	inventory_system.toggle_unlock_mode()
 	request_update_controls = true
 
 func _on_background_selector_load_background(background_name: String):
@@ -620,7 +600,7 @@ func _on_diablo_style_inventory_system_something_changed() -> void:
 #region Rendering
 
 func update_controls():
-	inventory.fancy_update(current_character, gear_section_controls)
+	inventory_system.fancy_update(current_character, gear_section_controls)
 	
 	update_stats_list_control()
 	
@@ -638,7 +618,7 @@ func update_controls():
 	
 	# hardpoint info
 	#+ str(a_Maximum - a_Current) + "/" + str(a_Maximum)
-	var used_unlock_count = current_character.get_unlocked_slots().size()
+	var used_unlock_count = current_character.get_unlocked_slots_count()
 	var max_unlock_count = current_character.get_max_unlocks()
 	unlocks_remaining.text = "Unlocks Remaining: %d/%d" % [
 		max_unlock_count - used_unlock_count,
@@ -711,16 +691,15 @@ func update_controls():
 		option_button.update(current_character)
 	
 	# custom background
-	for i in range(custom_bg_stat_edit_controls.size()):
-		var custom_bg_control = custom_bg_stat_edit_controls[i]
-		var stat_name: String = custom_bg_stat_names[i]
+	for stat_name in custom_bg_stat_edit_controls.keys():
+		var custom_bg_control = custom_bg_stat_edit_controls[stat_name]
 		var stat_value = current_character.custom_background.count(stat_name)
 		custom_bg_control.value = stat_value
 	custom_bg_points_label.text = str(current_character.get_custom_bg_points_remaining())
 
 func update_stats_list_control():
 	stats_list_control.update(current_character)
-	if current_character.is_overweight_with_item(inventory.item_held):
+	if current_character.is_overweight_with_item(inventory_system.item_held):
 		stats_list_control.over_weight()
 	else:
 		stats_list_control.under_weight()
