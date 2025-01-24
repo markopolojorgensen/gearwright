@@ -6,6 +6,16 @@ big things still to do
 
 
 
+
+thorn spitter iv -> legend number placement is not inside the internal, eep
+multiline leviathan serpent
+what the heck are we going to do about export
+  zoom?
+  scrolled internals list?
+
+
+
+
 Questions
   numbers vs no_numbers export?
   power saving mode?

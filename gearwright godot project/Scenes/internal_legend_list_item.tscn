@@ -13,6 +13,7 @@ custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 0
 offset_top = 2.5
 offset_right = 18.0
 offset_bottom = 20.5

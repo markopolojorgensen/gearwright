@@ -234,12 +234,15 @@ func unlock_all():
 
 #region Interrogation
 
-func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
+# returns true if there are no problems
+# returns a string if there is
+# WHEREWASI 12pm -> 12:30pm 1/22
+func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i):
 	# there is no gear section
 	if not gear_section_id in get_active_gear_section_ids():
-		return false
+		return "No gear section"
 	
-	# TODO: limited, bulky, etc.
+	# TODO: bulky / other tags
 	
 	var gear_section: GearSection = gear_sections[gear_section_id]
 	# for each slot that would become occupied:
@@ -250,16 +253,34 @@ func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i)
 		
 		# slot is out of bounds
 		if not gear_section.grid.is_within_size_v(cell):
-			return false
+			return "Not within grid"
 		
 		var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
 		# slot is locked
 		if grid_slot.is_locked:
-			return false
+			return "Slot is locked"
 		
 		# there's already something there
 		if grid_slot.installed_item != null:
-			return false
+			return "Overlaps existing internal"
+	
+	# Limited
+	var item_tags = item.item_data.tags
+	var limit: int = -1
+	for tag in item_tags:
+		if "limited" in tag.to_lower():
+			limit = int((tag as String).get_slice(" ", 1))
+			break
+	if 0 <= limit:
+		var item_name: String = item.item_data.name.to_snake_case()
+		var count: int = 1 # include the one we're adding
+		var equipped_item_infos := get_equipped_items()
+		for equipped_item_info in equipped_item_infos:
+			var equipped_item_name: String = equipped_item_info.internal_name
+			if equipped_item_name == item_name:
+				count += 1
+		if limit < count:
+			return "Exceeds Limited count"
 	
 	return true
 
