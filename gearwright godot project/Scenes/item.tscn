@@ -19,12 +19,14 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="LegendNumberControl"]
 z_index = 2
 layout_mode = 0
 offset_right = 18.0
 offset_bottom = 18.0
+mouse_filter = 2
 texture = ExtResource("3_byr1g")
 expand_mode = 1
 

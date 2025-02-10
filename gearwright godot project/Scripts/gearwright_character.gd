@@ -1,12 +1,10 @@
-extends RefCounted
+extends GearwrightActor
 class_name GearwrightCharacter
 
 # represents a single character in gearwright
 # one gear loadout, one callsign, etc.
 
 const item_scene = preload("res://Scenes/item.tscn")
-
-var callsign := ""
 
 # keys in game data json files
 var frame_name := ""
@@ -16,15 +14,7 @@ var developments := []
 var maneuvers := []
 var deep_words := []
 
-var internal_inventory := InternalInventory.new()
-#var gear_sections: Dictionary = create_gear_sections()
-enum gear_section_ids {
-	TORSO,
-	LEFT_ARM,
-	RIGHT_ARM,
-	HEAD,
-	LEGS,
-}
+
 
 var frame_stats := DataHandler.frame_stats_template.duplicate(true)
 var level_stats := DataHandler.level_stats_template.duplicate(true)
@@ -41,13 +31,20 @@ const custom_background_caps := {
 
 
 
-
+enum CHARACTER_GSIDS {
+	TORSO,
+	LEFT_ARM,
+	RIGHT_ARM,
+	HEAD,
+	LEGS,
+}
 
 
 
 #region Initialization
 func _init():
 	internal_inventory.create_character_gear_sections()
+	gear_section_ids = CHARACTER_GSIDS
 #endregion
 
 
@@ -67,7 +64,11 @@ func _init():
 
 #region Interrogation
 
-
+# returns a list of strings
+# each string shows a problem
+# returns an empty list if there are no problems
+# doesn't necessarily give you all the problems at once, but tries to
+#
 # all the reasons we can't put an item in a slot:
 #   there is no item
 #   there is no slot
@@ -77,26 +78,23 @@ func _init():
 #     there's already something there
 #     slot is out of bounds
 #     slot is locked
-func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
-	# there is no item
-	if item == null:
-		return false
-	
-	# there is no gear section
-	if not gear_section_id in gear_section_ids.values():
-		return false
+func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+	var errors := super(item, gear_section_id, primary_cell)
+	if not errors.is_empty():
+		return errors
 	
 	# it would put us over weight
 	if is_overweight_with_item(item):
-		return false
+		errors.append("Too much weight")
 	
 	# wrong section (e.g. trying to put head gear in leg)
 	var valid_section_ids := item_section_to_valid_section_ids(item.item_data.section)
 	if not gear_section_id in valid_section_ids:
-		return false
+		errors.append("%s can't go in %s section" % [item.item_data.name, gear_section_id_to_name(gear_section_id)])
 	
-	if not internal_inventory.is_valid_internal_equip(item, gear_section_id, primary_cell):
-		return false
+	errors.append_array(internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell))
+	#if not internal_inventory.is_valid_internal_equip(item, gear_section_id, primary_cell):
+		#return false
 	
 	#var gear_section: GearSection = gear_sections[gear_section_id]
 	# for each slot that would become occupied:
@@ -117,7 +115,8 @@ func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i)
 		#if grid_slot.installed_item != null:
 			#return false
 	
-	return true
+	#return true
+	return errors
 
 #func get_total_equipped_weight() -> int:
 	#return gear_sections.values().reduce(
@@ -510,10 +509,12 @@ func reset_gear_sections():
 		grid_slot.is_locked = false
 		grid_slot.is_default_unlock = true
 
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
-	if not is_valid_internal_equip(item, gear_section_id, primary_cell):
-		return false
-	return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
+	if errors.is_empty():
+		return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+	else:
+		return errors
 
 func unequip_internal(item, gear_section_id: int):
 	return internal_inventory.unequip_internal(item, gear_section_id)
@@ -706,15 +707,27 @@ func marshal() -> Dictionary:
 	
 	result.custom_background = custom_background
 	
-	# TODO change format to {section: [slot info list]}
-	var unlocks_info = []
-	for real_slot_info in internal_inventory.get_unlocked_slots():
-		var json_slot_info = make_slot_info(real_slot_info.gear_section_id, real_slot_info.grid_slot_coords)
-		unlocks_info.append(json_slot_info)
+	#var unlocks_info = []
+	#for real_slot_info in internal_inventory.get_unlocked_slots():
+		#var json_slot_info = make_slot_info(real_slot_info.gear_section_id, real_slot_info.grid_slot_coords)
+		#unlocks_info.append(json_slot_info)
+	var unlocks_info := {}
+	var unlocks_by_gs := internal_inventory.get_unlocked_slots_by_gear_section()
+	for gsid in unlocks_by_gs.keys():
+		unlocks_info[gsids_to_names[gsid]] = unlocks_by_gs[gsid].map(func(coords: Vector2i):
+			return global_util.vector_to_dictionary(coords)
+			)
 	result.unlocks = unlocks_info
 	
-	# TODO change format to {section: [slot info list]}
-	result.internals = internal_inventory.get_equipped_items(false)
+	#result.internals = internal_inventory.get_equipped_items(false)
+	var internals_info := {}
+	var internals_by_gs := internal_inventory.get_equipped_items_by_gs(false)
+	for gsid in internals_by_gs.keys():
+		internals_info[gsids_to_names[gsid]] = internals_by_gs[gsid].map(func(info: Dictionary):
+			info.slot = global_util.vector_to_dictionary(info.slot)
+			return info
+			)
+	result.internals = internals_info
 	
 	result.developments = developments.duplicate(true)
 	result.maneuvers = maneuvers.duplicate(true)
@@ -754,33 +767,42 @@ func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
 
 #region static functions
 
+const gsids_to_names := {
+	CHARACTER_GSIDS.TORSO: "torso",
+	CHARACTER_GSIDS.LEFT_ARM: "left_arm",
+	CHARACTER_GSIDS.RIGHT_ARM: "right_arm",
+	CHARACTER_GSIDS.HEAD: "head",
+	CHARACTER_GSIDS.LEGS: "legs",
+}
+
 static func gear_section_id_to_name(id: int) -> String:
-	match id:
-		gear_section_ids.TORSO:
-			return "torso"
-		gear_section_ids.LEFT_ARM:
-			return "left_arm"
-		gear_section_ids.RIGHT_ARM:
-			return "right_arm"
-		gear_section_ids.HEAD:
-			return "head"
-		gear_section_ids.LEGS:
-			return "legs"
-		_:
-			return "unknown gear section id: %d" % id
+	return gsids_to_names.get(id, "unknown gear section id: %d" % id)
+	#match id:
+		#CHARACTER_GSIDS.TORSO:
+			#return "torso"
+		#CHARACTER_GSIDS.LEFT_ARM:
+			#return "left_arm"
+		#CHARACTER_GSIDS.RIGHT_ARM:
+			#return "right_arm"
+		#CHARACTER_GSIDS.HEAD:
+			#return "head"
+		#CHARACTER_GSIDS.LEGS:
+			#return "legs"
+		#_:
+			#return "unknown gear section id: %d" % id
 
 static func gear_section_name_to_id(name: String) -> int:
 	match name:
 		"torso":
-			return gear_section_ids.TORSO
+			return CHARACTER_GSIDS.TORSO
 		"left_arm":
-			return gear_section_ids.LEFT_ARM
+			return CHARACTER_GSIDS.LEFT_ARM
 		"right_arm":
-			return gear_section_ids.RIGHT_ARM
+			return CHARACTER_GSIDS.RIGHT_ARM
 		"head":
-			return gear_section_ids.HEAD
+			return CHARACTER_GSIDS.HEAD
 		"legs":
-			return gear_section_ids.LEGS
+			return CHARACTER_GSIDS.LEGS
 		_:
 			return -1
 
@@ -789,19 +811,19 @@ static func gear_section_name_to_id(name: String) -> int:
 static func item_section_to_valid_section_ids(section_name: String) -> Array:
 	match section_name:
 		"leg":
-			return [gear_section_ids.LEGS]
+			return [CHARACTER_GSIDS.LEGS]
 		"arm":
 			var arms = [
-				gear_section_ids.LEFT_ARM,
-				gear_section_ids.RIGHT_ARM,
+				CHARACTER_GSIDS.LEFT_ARM,
+				CHARACTER_GSIDS.RIGHT_ARM,
 			]
 			return arms
 		"head":
-			return [gear_section_ids.HEAD]
+			return [CHARACTER_GSIDS.HEAD]
 		"chest":
-			return [gear_section_ids.TORSO]
+			return [CHARACTER_GSIDS.TORSO]
 		"any":
-			return gear_section_ids.values()
+			return CHARACTER_GSIDS.values()
 		_:
 			push_error("gearwright_character: unknown item section: %s" % section_name)
 			return []
@@ -886,8 +908,9 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 		new_internal.load_item(internal_info.internal_name)
 		var gear_section_id: int = int(internal_info.slot.gear_section_id)
 		var primary_cell := Vector2i(internal_info.slot.x, internal_info.slot.y)
-		if not ch.equip_internal(new_internal, gear_section_id, primary_cell):
-			sesh.errors.append("  failed to install internal: %s" % internal_info)
+		var errors := ch.equip_internal(new_internal, gear_section_id, primary_cell)
+		if not errors.is_empty():
+			sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
 	
 	ch.developments = sesh.get_info("developments", [])
 	ch.maneuvers = sesh.get_info("maneuvers", [])

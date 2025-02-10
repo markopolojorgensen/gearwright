@@ -595,3 +595,17 @@ func set_option_button_by_item_text(
 
 func sum_array(list: Array):
 	return list.reduce(func(sum, value): return sum + value, 0)
+
+func rising_text(text: String, location: Vector2):
+	var label := preload("res://Scenes/rising_text.tscn").instantiate()
+	label.text = text
+	label.position = location
+	
+	debug_drawing_cl.add_child(label)
+
+# fuck json
+func vector_to_dictionary(vector):
+	return {
+		x = vector.x,
+		y = vector.y,
+	}

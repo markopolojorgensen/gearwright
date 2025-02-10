@@ -4,17 +4,18 @@ extends Control
 const part_menu_tabs := ["Far", "Close", "Mental", "Active", "Passive", "Mitigation"]
 
 @onready var inventory_system: DiabloStyleInventorySystem = $DiabloStyleInventorySystem
-@onready var gear_section_controls := {
-	GearwrightFish.GEAR_SECTION_IDS.TIP: %TipGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.TAIL: %TailGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.BODY: %BodyGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.NECK: %NeckGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.HEAD: %HeadGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.LEFT_LEGS: %LeftLegsGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.RIGHT_LEGS: %RightLegsGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.LEFT_ARM: %LeftArmGearSectionControl,
-	GearwrightFish.GEAR_SECTION_IDS.RIGHT_ARM: %RightArmGearSectionControl,
-}
+const gear_section_control_scene = preload("res://Scenes/gear_section_control.tscn")
+@onready var gear_section_controls := {}
+	#GearwrightFish.FISH_GSIDS.TIP: %TipGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.TAIL: %TailGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.BODY: %BodyGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.NECK: %NeckGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.HEAD: %HeadGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.LEFT_LEGS: %LeftLegsGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.RIGHT_LEGS: %RightLegsGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.LEFT_ARM: %LeftArmGearSectionControl,
+	#GearwrightFish.FISH_GSIDS.RIGHT_ARM: %RightArmGearSectionControl,
+#}
 @onready var fish_size_selector: OptionButton = %FishSizeSelector
 @onready var floating_explanation_control: Control = $FloatingExplanationControl
 
@@ -37,6 +38,23 @@ var request_update_controls: bool = false
 
 var current_character := GearwrightFish.new()
 
+# this is a pun
+# these are scale values for the gear section controls
+const fish_scales := {
+	GearwrightFish.SIZE.SMALL:                 Vector2(1.0, 1.0) * 2.0,
+	GearwrightFish.SIZE.MEDIUM:                Vector2(1.0, 1.0) * 1.8,
+	GearwrightFish.SIZE.LARGE:                 Vector2(1.0, 1.0) * 1.6,
+	GearwrightFish.SIZE.MASSIVE:               Vector2(1.0, 1.0) * 1.4,
+	GearwrightFish.SIZE.LEVIATHAN:             Vector2(1.0, 1.0),
+	GearwrightFish.SIZE.SERPENT_LEVIATHAN:     Vector2(1.0, 1.0),
+	GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN: Vector2(1.0, 1.0),
+}
+var fish_scale: float = 1.0
+
+@onready var export_view_container: Container = %ExportViewContainer
+
+@onready var fish_name_input: LineEdit = %FishNameInput
+
 func _ready():
 	for tab_name in part_menu_tabs:
 		part_menu.add_tab(tab_name)
@@ -54,7 +72,7 @@ func _ready():
 	part_menu.set_grid_column_count(3)
 	
 	current_character.initialize()
-	_on_fish_size_selector_fish_size_selected(current_character.size)
+	_on_fish_size_selector_fish_size_selected.call_deferred(current_character.size)
 	
 	for gear_section_control in gear_section_controls.values():
 		gear_section_control.slot_entered.connect(_on_slot_entered)
@@ -118,6 +136,8 @@ func update_controls():
 		legend_item.set_legend_name(info.internal_name.capitalize())
 		legend_item.set_legend_number(i+1)
 		internals_legend_container.add_child(legend_item)
+	
+	fish_name_input.text = current_character.callsign
 
 
 
@@ -156,12 +176,85 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 	for gear_section_id in gear_section_controls.keys():
 		var gear_section_control: GearSectionControl = gear_section_controls[gear_section_id]
 		gear_section_control.reset()
-		if current_character.has_gear_section(gear_section_id):
-			gear_section_control.show()
-		else:
-			gear_section_control.hide()
+		gear_section_control.queue_free()
+		#if current_character.has_gear_section(gear_section_id):
+			#gear_section_control.show()
+			## gear_section_control.scale = fish_scales[fish_size]
+		#else:
+			#gear_section_control.hide()
+	
+	gear_section_controls.clear()
+	
+	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
+	#var icon := Sprite2D.new()
+	#icon.texture = preload("res://Assets/Icon.png")
+	#icon.scale = Vector2(0.01, 0.01)
+	#add_child(icon)
+	#icon.position = center
+	match fish_size:
+		GearwrightFish.SIZE.SMALL, GearwrightFish.SIZE.MEDIUM, GearwrightFish.SIZE.LARGE, GearwrightFish.SIZE.MASSIVE:
+			var gs_control := create_gear_section_control(GearwrightFish.FISH_GSIDS.BODY)
+			automagically_scale_control.call_deferred(gs_control)
+			center_control_manually.call_deferred(gs_control, center)
+		GearwrightFish.SIZE.LEVIATHAN:
+			for gsid in [GearwrightFish.FISH_GSIDS.TAIL, GearwrightFish.FISH_GSIDS.BODY, GearwrightFish.FISH_GSIDS.HEAD]:
+				create_gear_section_control(gsid)
+			fish_scale = 2.0
+			position_leviathan.call_deferred()
+		GearwrightFish.SIZE.SERPENT_LEVIATHAN:
+			pass
+		GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
+			pass
+		_:
+			print(fish_size)
+			breakpoint
+	
+	inventory_system.control_scale = fish_scale
+	
+	for gear_section_control in gear_section_controls.values():
+		gear_section_control.slot_entered.connect(_on_slot_entered)
+		gear_section_control.slot_exited.connect(_on_slot_exited)
 	
 	request_update_controls = true
+
+func create_gear_section_control(gsid: GearwrightFish.FISH_GSIDS) -> Control:
+	var gs_control: Control = gear_section_control_scene.instantiate()
+	gs_control.is_fish_mode = true
+	gs_control.fish_gear_section_id = gsid
+	%FreeRangeGearSections.add_child(gs_control)
+	gs_control.initialize(current_character.get_gear_section(gsid))
+	gear_section_controls[gsid] = gs_control
+	return gs_control
+
+# for gear_section_controls
+func automagically_scale_control(control: Control):
+	var max_size: Vector2 = %FreeRangeGearSections.size
+	var factor = max_size / control.size
+	var actual_scale = min(factor.x, factor.y)
+	fish_scale = actual_scale
+	inventory_system.control_scale = fish_scale
+	control.scale = Vector2(1.0, 1.0) * actual_scale
+
+func center_control_manually(control: Control, location: Vector2):
+	control.global_position = location - (control.size * 0.5 * control.scale)
+
+func position_leviathan():
+	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
+	var tail_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.TAIL]
+	var body_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.BODY]
+	var head_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.HEAD]
+	
+	tail_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	body_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	head_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	
+	center_control_manually(body_gsc, center)
+	
+	tail_gsc.position.x = body_gsc.position.x - (tail_gsc.size.x * tail_gsc.scale.x) - 16
+	tail_gsc.position.y = body_gsc.position.y
+	
+	head_gsc.position.x = body_gsc.position.x + (body_gsc.size.x * body_gsc.scale.x) + 16
+	head_gsc.position.y = body_gsc.position.y
 
 func _on_slot_entered(slot_info: Dictionary):
 	inventory_system.on_slot_mouse_entered(slot_info, current_character)
@@ -185,8 +278,12 @@ func _on_mutation_change(stat_name: String, is_increase: bool):
 	current_character.modify_mutation(stat_name, is_increase)
 	request_update_controls = true
 
+func _on_save_options_menu_new_fish_pressed() -> void:
+	get_tree().reload_current_scene()
 
 #endregion
+
+
 
 
 

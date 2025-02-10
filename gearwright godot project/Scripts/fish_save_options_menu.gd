@@ -1,7 +1,8 @@
 extends MenuButton
 
 @onready var screenshot_popup = $ScreenshotPopup
-@onready var border_container = $"../../FishSquisher"
+#@onready var border_container = $"../../FishSquisher"
+@onready var border_container = %ExportViewContainer
 @onready var file_dialog = $FileDialog
 @onready var menu = get_popup()
 @onready var export_popup = $ExportPopup

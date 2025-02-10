@@ -51,25 +51,26 @@ func get_equipped_items() -> Array:
 func _to_string() -> String:
 	return "<GearSection: %s %s | size: %dx%d>" % [name, dice_string, grid.size.x, grid.size.y]
 
-func is_valid_internal_equip(item, primary_cell: Vector2i) -> bool:
-	var cells: Array = item.get_relative_cells(primary_cell)
-	for i in range(cells.size()):
-		var cell: Vector2i = cells[i]
-		
-		# slot is out of bounds
-		if not grid.is_within_size_v(cell):
-			return false
-		
-		var grid_slot: GridSlot = grid.get_contents_v(cell)
-		# slot is locked
-		if grid_slot.is_locked:
-			return false
-		
-		# there's already something there
-		if grid_slot.installed_item != null:
-			return false
-	
-	return true
+# TODO I guess this isn't used anywhere...?
+#func is_valid_internal_equip(item, primary_cell: Vector2i) -> bool:
+	#var cells: Array = item.get_relative_cells(primary_cell)
+	#for i in range(cells.size()):
+		#var cell: Vector2i = cells[i]
+		#
+		## slot is out of bounds
+		#if not grid.is_within_size_v(cell):
+			#return false
+		#
+		#var grid_slot: GridSlot = grid.get_contents_v(cell)
+		## slot is locked
+		#if grid_slot.is_locked:
+			#return false
+		#
+		## there's already something there
+		#if grid_slot.installed_item != null:
+			#return false
+	#
+	#return true
 
 
 

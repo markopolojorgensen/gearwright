@@ -99,11 +99,11 @@ extends Control
 #]
 
 @onready var gear_section_controls = {
-	GearwrightCharacter.gear_section_ids.HEAD:      %HeadGearSectionControl,
-	GearwrightCharacter.gear_section_ids.TORSO:     %TorsoGearSectionControl,
-	GearwrightCharacter.gear_section_ids.LEFT_ARM:  %LeftArmGearSectionControl,
-	GearwrightCharacter.gear_section_ids.RIGHT_ARM: %RightArmGearSectionControl,
-	GearwrightCharacter.gear_section_ids.LEGS:      %LegsGearSectionControl,
+	GearwrightCharacter.CHARACTER_GSIDS.HEAD:      %HeadGearSectionControl,
+	GearwrightCharacter.CHARACTER_GSIDS.TORSO:     %TorsoGearSectionControl,
+	GearwrightCharacter.CHARACTER_GSIDS.LEFT_ARM:  %LeftArmGearSectionControl,
+	GearwrightCharacter.CHARACTER_GSIDS.RIGHT_ARM: %RightArmGearSectionControl,
+	GearwrightCharacter.CHARACTER_GSIDS.LEGS:      %LegsGearSectionControl,
 }
 
 @onready var part_menu: PartMenu = %PartMenu

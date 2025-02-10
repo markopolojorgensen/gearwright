@@ -29,6 +29,9 @@ var current_gear_section_control: GearSectionControl
 var current_grid_slot: GridSlot
 var current_grid_slot_control: GridSlotControl
 
+var control_scale: float = 1.0
+
+
 func get_mode() -> String:
 	return Modes.find_key(mode)
 
@@ -66,7 +69,7 @@ func rightclick(_character):
 			drop_item()
 
 
-func pickup_item(character):
+func pickup_item(actor: GearwrightActor):
 	#if not current_slot or not current_slot.installed_item:
 		#return
 	if current_slot_info.is_empty():
@@ -81,7 +84,7 @@ func pickup_item(character):
 	item_held.selected = true
 	item_held.hide_legend_number()
 	
-	character.unequip_internal(item_held, current_slot_info.gear_section_id)
+	actor.unequip_internal(item_held, current_slot_info.gear_section_id)
 	
 	#item_removed.emit(item_held) # TODO yeet this maybe?
 	#stats_container.update_weight_label_effect(item_held.item_data)
@@ -94,7 +97,7 @@ func pickup_item(character):
 	something_changed.emit()
 	#request_update_controls = true
 
-func place_item(character):
+func place_item(actor: GearwrightActor):
 	if current_slot_info.is_empty():
 		return
 	
@@ -107,11 +110,18 @@ func place_item(character):
 		#return
 	
 	var current_slot_cell := Vector2i(current_slot_info.x, current_slot_info.y)
-	if not character.equip_internal(
+	var errors := actor.equip_internal(
 			item_held,
 			current_slot_info.gear_section_id,
 			current_slot_cell
-	):
+	)
+	if not errors.is_empty():
+		global_util.rising_text(errors.reduce(func(accum: String, current: String):
+			if accum.is_empty():
+				return current
+			else:
+				return accum + "\n" + current
+			, ""), get_global_mouse_position())
 		return
 	
 	#var column_count = current_slot.get_parent().columns
@@ -359,7 +369,7 @@ func update_internal_items(character, gear_section_controls: Dictionary):
 
 
 
-func update_place_mode(character, gear_section_controls: Dictionary):
+func update_place_mode(actor: GearwrightActor, gear_section_controls: Dictionary):
 	if mode != Modes.PLACE:
 		return
 	if item_held == null:
@@ -392,7 +402,7 @@ func update_place_mode(character, gear_section_controls: Dictionary):
 			return null
 		)
 	grid_slot_controls = grid_slot_controls.filter(func(gsc): return gsc != null)
-	if character.is_valid_internal_equip(item_held, gsid, primary_cell):
+	if actor.check_internal_equip_validity(item_held, gsid, primary_cell).is_empty():
 		for grid_slot_control in grid_slot_controls:
 			if grid_slot_control != null:
 				grid_slot_control.color_good()
@@ -468,6 +478,7 @@ func on_part_menu_item_spawned(item_id: Variant) -> void:
 	if item_held:
 		return
 	var new_item = item_scene.instantiate()
+	new_item.scale = Vector2(1.0, 1.0) * control_scale
 	add_child(new_item)
 	new_item.load_item(item_id, not is_fish_mode)
 	new_item.selected = true

@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Scripts/fish_squisher.gd" id="4_s67pr"]
 [ext_resource type="Script" path="res://Scripts/internals_reset_button.gd" id="5_t4h7l"]
 [ext_resource type="Script" path="res://Scripts/fish_container_pusher.gd" id="5_tox4l"]
+[ext_resource type="StyleBox" uid="uid://dk4whtokbc1x6" path="res://Assets/blue_styleboxflat.tres" id="6_kp0yc"]
 [ext_resource type="Script" path="res://Scripts/fish_export_popup.gd" id="7_kqp07"]
 [ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://Scenes/export_popup.tscn" id="7_yusas"]
 [ext_resource type="Script" path="res://Scripts/internals_list_container.gd" id="8_4no82"]
@@ -29,9 +30,6 @@
 [ext_resource type="PackedScene" uid="uid://2d52tcveghpy" path="res://Scenes/stats_list_control.tscn" id="24_ipx4r"]
 [ext_resource type="PackedScene" uid="uid://4g7i5o5oyj6n" path="res://Scenes/floating_explanation_control.tscn" id="25_l357m"]
 [ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://Scenes/custom_stat_edit_control.tscn" id="27_qs3tm"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3p2b3"]
-bg_color = Color(0.0823529, 0.109804, 0.294118, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eq87g"]
 bg_color = Color(0.215686, 0.215686, 0.215686, 1)
@@ -94,7 +92,7 @@ size_flags_horizontal = 1
 [node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_3p2b3")
+theme_override_styles/panel = ExtResource("6_kp0yc")
 
 [node name="OldFishBuilder" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2"]
 visible = false
@@ -229,56 +227,71 @@ layout_mode = 2
 color = Color(0.215686, 0.215686, 0.215686, 1)
 script = ExtResource("4_s67pr")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("6_kp0yc")
+
+[node name="ExportViewContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="InternalsLegendPanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="InternalsLegendPanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/InternalsLegendPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Internals"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="InternalsLegendContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="InternalsLegendContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer3"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 
-[node name="ColorRect3" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer3"]
+[node name="ColorRect3" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3"]
 custom_minimum_size = Vector2(180, 400)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[node name="InternalsListContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer3/ColorRect3"]
+[node name="InternalsListContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3"]
 custom_minimum_size = Vector2(160, 380)
 layout_mode = 1
 anchors_preset = 8
@@ -295,29 +308,30 @@ grow_vertical = 2
 theme_override_constants/h_separation = 30
 script = ExtResource("8_4no82")
 
-[node name="FishContainerPusher" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="FishContainerPusher" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 visible = false
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 script = ExtResource("5_tox4l")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FishNameInputContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="FishNameInputContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(380, 0)
 layout_mode = 2
 
-[node name="FishNameInput" type="LineEdit" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer"]
+[node name="FishNameInput" type="LineEdit" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 placeholder_text = "Fish Name"
 alignment = 1
 script = ExtResource("10_xbcqf")
 
-[node name="FishNameplate" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer"]
+[node name="FishNameplate" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.619608, 0.619608, 0.619608, 1)
@@ -326,103 +340,163 @@ text = "Common Small Fish"
 horizontal_alignment = 1
 script = ExtResource("9_cisdc")
 
-[node name="ContainerContainer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="ContainerContainer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(420, 300)
 layout_mode = 2
 
-[node name="GearSectionControlContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="GearSectionControlContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="LeftLegsGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="FreeRangeGearSections" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="LeftLegsGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 361.0
+offset_right = 362.0
+offset_bottom = 18.0
 fish_gear_section_id = 5
 is_fish_mode = true
 
-[node name="TipGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="TipGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 378.0
+offset_right = 379.0
+offset_bottom = 18.0
 fish_gear_section_id = 0
 is_fish_mode = true
 
-[node name="TailGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="TailGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 395.0
+offset_right = 396.0
+offset_bottom = 18.0
 fish_gear_section_id = 1
 is_fish_mode = true
 
-[node name="BodyGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="BodyGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 412.0
+offset_right = 413.0
+offset_bottom = 18.0
 is_fish_mode = true
 
-[node name="NeckGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="NeckGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 429.0
+offset_right = 430.0
+offset_bottom = 18.0
 fish_gear_section_id = 3
 is_fish_mode = true
 
-[node name="HeadGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="HeadGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 446.0
+offset_right = 447.0
+offset_bottom = 18.0
 fish_gear_section_id = 4
 is_fish_mode = true
 
-[node name="RightLegsGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_yqbos")]
+[node name="RightLegsGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 463.0
+offset_right = 464.0
+offset_bottom = 18.0
 fish_gear_section_id = 6
 is_fish_mode = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-alignment = 1
-
-[node name="LeftArmGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("21_yqbos")]
+[node name="LeftArmGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 403.0
+offset_top = 22.0
+offset_right = 404.0
+offset_bottom = 40.0
 fish_gear_section_id = 7
 is_fish_mode = true
 
-[node name="RightArmGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("21_yqbos")]
+[node name="RightArmGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("21_yqbos")]
 unique_name_in_owner = true
 layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 420.0
+offset_top = 22.0
+offset_right = 421.0
+offset_bottom = 40.0
 fish_gear_section_id = 8
 is_fish_mode = true
 
-[node name="FishPedestal" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="FishPedestal" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 script = ExtResource("10_kf674")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 
-[node name="Stats2" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="Stats2" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(180, 70)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[node name="WeightStatsList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats2"]
+[node name="WeightStatsList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -430,21 +504,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats2/WeightStatsList"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats2/WeightStatsList"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
-[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 
-[node name="Stats" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="Stats" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(180, 310)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[node name="FishStatsList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats"]
+[node name="FishStatsList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -456,20 +530,20 @@ size_flags_vertical = 4
 alignment = 1
 script = ExtResource("4_pwufw")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(180, 64)
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_eq87g")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 16
 
-[node name="StatsListControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer" instance=ExtResource("24_ipx4r")]
+[node name="StatsListControl" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/PanelContainer/MarginContainer" instance=ExtResource("24_ipx4r")]
 unique_name_in_owner = true
 layout_mode = 2
 is_fish = true
@@ -706,43 +780,35 @@ layout_mode = 0
 [connection signal="tab_changed" from="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" method="_on_tab_changed"]
 [connection signal="tab_chosen" from="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/PanelContainer/ItemInventory" method="_on_tab_bar_tab_chosen"]
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
-[connection signal="clear_internal_list" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_clear_internal_list"]
-[connection signal="item_installed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_item_installed"]
-[connection signal="item_installed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_builder_item_installed"]
-[connection signal="item_removed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_item_removed"]
-[connection signal="item_removed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_builder_item_removed"]
+[connection signal="clear_internal_list" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_clear_internal_list"]
+[connection signal="item_installed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_item_installed"]
+[connection signal="item_installed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_builder_item_installed"]
+[connection signal="item_removed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_item_removed"]
+[connection signal="item_removed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_builder_item_removed"]
 [connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" method="_on_fish_builder_new_save_loaded"]
-[connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_builder_new_save_loaded"]
+[connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_builder_new_save_loaded"]
 [connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" method="_on_fish_builder_new_save_loaded"]
 [connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" method="_on_fish_builder_new_save_loaded"]
-[connection signal="update_name" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_builder_update_name"]
+[connection signal="update_name" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_builder_update_name"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" method="_on_item_selected"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_fish_size_selector_load_fish_container"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/FishSquisher" method="_on_fish_size_selector_load_fish_container"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/FishContainerPusher" method="_on_fish_size_selector_load_fish_container"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_size_selector_load_fish_container"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameplate" method="_on_fish_size_selector_load_fish_container"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishPedestal" method="_on_fish_size_selector_load_fish_container"]
-[connection signal="load_fish_container" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_size_selector_load_fish_container"]
 [connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/FishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
 [connection signal="load_save_data" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_save_options_menu_load_save_data"]
-[connection signal="new_fish_pressed" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_save_options_menu_new_fish_pressed"]
-[connection signal="new_fish_pressed" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_save_options_menu_new_fish_pressed"]
+[connection signal="new_fish_pressed" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu" to="." method="_on_save_options_menu_new_fish_pressed"]
 [connection signal="about_to_popup" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" method="_on_about_to_popup"]
 [connection signal="screenshot_name_confirm" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu" method="_on_screenshot_popup_screenshot_name_confirm"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer/Button" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" method="_on_button_button_down"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/InternalsResetButton2" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/InternalsResetButton2" method="_on_button_down"]
 [connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/InternalsResetButton2/InternalsResetConfirmDialog" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_internals_reset_confirm_dialog_confirmed"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/BackButton" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MenuHeader/BackButton" method="_on_button_down"]
-[connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
-[connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
+[connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/PanelContainer/MarginContainer/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
+[connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/PanelContainer/MarginContainer/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" method="_on_item_selected"]
 [connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_template_selector_load_template"]
-[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameplate" method="_on_template_selector_load_template"]
-[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_template_selector_load_template"]
+[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameplate" method="_on_template_selector_load_template"]
+[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_template_selector_load_template"]
 [connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" method="_on_template_selector_load_template"]
 [connection signal="type_selected" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="." method="_on_template_selector_type_selected"]
 [connection signal="mutation_updated" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_mutation_menu_mutation_updated"]
-[connection signal="mutation_updated" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_mutation_menu_mutation_updated"]
+[connection signal="mutation_updated" from="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" to="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_mutation_menu_mutation_updated"]
 [connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]

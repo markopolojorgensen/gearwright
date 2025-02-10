@@ -1,9 +1,7 @@
-extends RefCounted
+extends GearwrightActor
 class_name GearwrightFish
 
-var internal_inventory := InternalInventory.new()
-
-enum GEAR_SECTION_IDS {
+enum FISH_GSIDS {
 	TIP,
 	TAIL,
 	BODY,
@@ -51,6 +49,7 @@ var mutations: Array[String] = []
 
 func initialize():
 	internal_inventory.create_fish_gear_sections(size)
+	gear_section_ids = FISH_GSIDS
 
 
 
@@ -76,6 +75,11 @@ func get_gear_section(gsid: int) -> GearSection:
 func get_equipped_items() -> Array:
 	return internal_inventory.get_equipped_items()
 
+# returns a list of strings
+# each string shows a problem
+# returns an empty list if there are no problems
+# doesn't necessarily give you all the problems at once, but tries to
+#
 # all the reasons we can't put an item in a slot:
 #   there is no item
 #   there is no slot
@@ -83,19 +87,15 @@ func get_equipped_items() -> Array:
 #     there's already something there
 #     slot is out of bounds
 #     slot is locked
-func is_valid_internal_equip(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
-	# there is no item
-	if item == null:
-		return false
-	
-	# there is no gear section
-	if not gear_section_id in GEAR_SECTION_IDS.values():
-		return false
-	
-	if not internal_inventory.is_valid_internal_equip(item, gear_section_id, primary_cell):
-		return false
-	
-	return true
+func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+	var errors := super(item, gear_section_id, primary_cell)
+	if errors.is_empty():
+		return internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell)
+	else:
+		return errors
+
+
+
 
 static func get_size_as_string(size_value: SIZE) -> String:
 	return (SIZE.find_key(size_value) as String).to_lower().replacen("_", " ")
@@ -282,10 +282,12 @@ func get_type_data() -> Dictionary:
 
 #region Mutation
 
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> bool:
-	if not is_valid_internal_equip(item, gear_section_id, primary_cell):
-		return false
-	return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
+	if errors.is_empty():
+		return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+	else:
+		return errors
 
 func unequip_internal(item, gear_section_id: int):
 	return internal_inventory.unequip_internal(item, gear_section_id)

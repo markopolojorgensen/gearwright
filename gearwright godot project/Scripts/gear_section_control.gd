@@ -13,8 +13,8 @@ const grid_slot_control_scene = preload("res://Scenes/grid_slot_control.tscn")
 #  we're stuck with two different things and a boolean to tell the difference.
 #  at least we can keep this contained to within this class, other code
 #  shouldn't have to ask about which gear section id it should trust.
-@export var gear_section_id := GearwrightCharacter.gear_section_ids.TORSO
-@export var fish_gear_section_id := GearwrightFish.GEAR_SECTION_IDS.BODY
+@export var gear_section_id := GearwrightCharacter.CHARACTER_GSIDS.TORSO
+@export var fish_gear_section_id := GearwrightFish.FISH_GSIDS.BODY
 @export var is_fish_mode := false 
 
 @onready var grid_container := $GridContainer
@@ -35,7 +35,7 @@ func _ready():
 		global_position = Vector2(200, 200)
 		slot_entered.connect(func(slot_info): print("slot entered: ", str(slot_info)))
 		slot_exited.connect(func(slot_info): print("slot exited: ", str(slot_info)))
-		update(fake_character.get_gear_section(GearwrightCharacter.gear_section_ids.TORSO))
+		update(fake_character.get_gear_section(GearwrightCharacter.CHARACTER_GSIDS.TORSO))
 
 func initialize(gear_section: GearSection):
 	initialized = true

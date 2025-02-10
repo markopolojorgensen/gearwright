@@ -56,7 +56,7 @@ func _process(_delta):
 	#elif Input.is_action_just_pressed("mouse_rightclick"):
 		#drop_item()
 
-# TODO FIXME WHERWASI fish_size_selector
+# safe to yeet
 func _on_fish_size_selector_load_fish_container(_fish_container, _size_stats):
 	pass
 	#internals_reset()
@@ -259,6 +259,7 @@ func internals_reset():
 		internals[slot].queue_free()
 	internals.clear()
 
+# this has been disconnected and rerouted, safe to yeet
 func _on_save_options_menu_new_fish_pressed():
 	get_tree().reload_current_scene()
 	#for grid in grid_array:
@@ -282,6 +283,7 @@ func get_fish_data_string():
 	
 	return str(fish_data).replace("\\", "")
 
+# TODO move this to new fish builder
 func _on_save_options_menu_load_save_data(a_New_data):
 	drop_item()
 	internals_reset()

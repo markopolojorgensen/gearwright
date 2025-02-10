@@ -56,7 +56,8 @@ func read_save_file(a_path):
 
 func save_screenshot():
 	callsign_input.release_focus()
-	file_dialog.visible = false
+	if file_dialog:
+		file_dialog.visible = false
 	await get_tree().create_timer(0.1).timeout
 	var border_rect = Rect2i(mech_border_container.get_global_rect())
 	image = get_viewport().get_texture().get_image().get_region(border_rect)

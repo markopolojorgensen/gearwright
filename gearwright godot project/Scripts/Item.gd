@@ -26,7 +26,8 @@ func initialize() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if selected:
-		global_position = lerp(global_position, get_global_mouse_position() - Vector2(x_offset - 5, y_offset + 5), 60 * delta)
+		var scaled_offset = Vector2(x_offset - 5, y_offset + 5) * scale
+		global_position = lerp(global_position, get_global_mouse_position() - scaled_offset, 60 * delta)
 		
 	if Input.is_action_just_pressed("mouse_rightclick") && hovering:
 		if item_popup.visible:

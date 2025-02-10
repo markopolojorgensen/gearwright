@@ -119,12 +119,12 @@ func _on_fish_builder_item_removed(a_Item):
 			stat_modifications[stat] -= a_Item.item_data[stat]
 	update_labels()
 
-# TODO FIXME WHERWASI fish_size_selector
 func _on_fish_size_selector_load_fish_container(_fish_container, size_data):
-	for stat in base_stats:
-		if size_data.has(stat):
-			base_stats[stat] = size_data[stat]
-	update_labels()
+	pass
+	#for stat in base_stats:
+		#if size_data.has(stat):
+			#base_stats[stat] = size_data[stat]
+	#update_labels()
 
 func _on_template_selector_load_template(_template):
 	pass

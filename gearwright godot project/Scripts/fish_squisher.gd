@@ -2,8 +2,7 @@ extends ColorRect
 
 # TODO yeet this script and the squisher it's attached to
 
-# TODO FIXME WHERWASI fish_size_selector
-func _on_fish_size_selector_load_fish_container(_fish_container, size_data):
+func _on_fish_size_selector_load_fish_container(_fish_container, _size_data):
 	pass
 	#if size_data["size"] == "serpent_leviathan":
 		#size.x = 980

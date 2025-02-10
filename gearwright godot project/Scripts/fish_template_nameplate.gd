@@ -10,8 +10,7 @@ var sizes_to_label_as_fish = ["small", "medium", "large", "massive"]
 func update_label():
 	text = current_template + " " + current_size
 
-# TODO FIXME WHERWASI fish_size_selector
-func _on_fish_size_selector_load_fish_container(_fish_container, size_data):
+func _on_fish_size_selector_load_fish_container(_fish_container, _size_data):
 	pass
 	#current_size = size_data["size"].capitalize()
 	#
