@@ -25,11 +25,13 @@ theme_override_constants/margin_bottom = 0
 [node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 
 [node name="TorsoOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_amd6j")

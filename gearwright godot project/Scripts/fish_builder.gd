@@ -154,11 +154,29 @@ func update_controls():
 		var legend_item := internals_legend_list_item_scene.instantiate()
 		legend_item.set_legend_name(internal_name.capitalize())
 		legend_item.set_legend_number(str(legend_number_start))
+		var info := infos.front() as Dictionary
+		match info.internal.item_data.type:
+			"active":
+				legend_item.set_color.call_deferred(Color.DARK_GREEN)
+			"passive":
+				legend_item.set_color.call_deferred(Color.ORANGE.darkened(0.1))
+			"mitigation":
+				legend_item.set_color.call_deferred(Color.DIM_GRAY)
+			"far":
+				legend_item.set_color.call_deferred(Color.DARK_BLUE)
+			"close":
+				legend_item.set_color.call_deferred(Color.MEDIUM_PURPLE)
+			"mental":
+				legend_item.set_color.call_deferred(Color.CRIMSON)
+			_:
+				print(info.internal.item_data.type)
+		
 		#if legend_number_start == legend_number_end:
 		#else:
 			## never used now, lol
 			#legend_item.set_legend_number("%d-%d" % [legend_number_start, legend_number_end])
 		internals_legend_container.add_child(legend_item)
+		
 	
 	fish_name_input.text = current_character.callsign
 

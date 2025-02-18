@@ -121,7 +121,7 @@ func place_item(actor: GearwrightActor):
 				return current
 			else:
 				return accum + "\n" + current
-			, ""), get_global_mouse_position())
+			, ""), get_global_mouse_position() + Vector2(16, -16))
 		return
 	
 	#var column_count = current_slot.get_parent().columns

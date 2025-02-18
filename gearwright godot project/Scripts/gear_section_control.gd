@@ -64,16 +64,17 @@ func initialize(gear_section: GearSection):
 	grid_container.columns = column_count
 	# grid header
 	for i in range(column_count):
-		var l := scaling_label_scene.instantiate()
+		#var l := scaling_label_scene.instantiate()
+		var l := Label.new()
 		l.text = str(i + 1)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		#l.size_flags_horizontal = Control.SIZE_SHRINK_CENTER | Control.SIZE_EXPAND
 		l.size_flags_vertical = Control.SIZE_SHRINK_END
 		l.modulate = Color("aeaeae")
-		l.custom_minimum_size.y += 12
+		#l.custom_minimum_size.y += 12
 		grid_container.add_child(l)
-		l.update_scale()
+		#l.update_scale()
 	
 	for y in range(gear_section.grid.size.y):
 		for x in range(gear_section.grid.size.x):
@@ -117,10 +118,10 @@ func update(gear_section: GearSection):
 		control_grid.get_contents_v(coords).update(grid_slot)
 	
 	# update column header font sizes
-	var column_count = gear_section.grid.size.x
-	for i in range(column_count):
-		var scaling_label = grid_container.get_child(i)
-		scaling_label.update_scale()
+	#var column_count = gear_section.grid.size.x
+	#for i in range(column_count):
+		#var scaling_label = grid_container.get_child(i)
+		#scaling_label.update_scale()
 	
 	if 7 <= grid_container.get_child_count():
 		for overlay in gsid_to_overlay.values():

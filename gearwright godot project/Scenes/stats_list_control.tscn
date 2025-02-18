@@ -24,6 +24,7 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Stats"
 horizontal_alignment = 1
 
@@ -33,6 +34,7 @@ mouse_filter = 2
 
 [node name="BgContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 mouse_filter = 2
 
@@ -70,7 +72,7 @@ text = "Total"
 modulate = Color(0.4984, 0.63546, 0.89, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Math"
+text = "Breakdown"
 horizontal_alignment = 2
 
 [node name="Label4" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]

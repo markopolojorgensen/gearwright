@@ -672,10 +672,11 @@ func update_controls():
 	]
 	
 	# EL 1 | bg | frame Label
-	nameplate.text = "EL %s | %s | %s" % [
+	#nameplate.text = "EL %s | %s | %s" % [
+	nameplate.text = "EL %s | %s" % [
 		str(current_character.level),
-		current_character.background_stats.background,
-		current_character.frame_name,
+		#current_character.background_stats.background,
+		current_character.frame_name.capitalize(),
 	]
 	
 	# callsign
@@ -683,12 +684,12 @@ func update_controls():
 	
 	# gear ability title & body text
 	var ability_text = current_character.frame_stats.gear_ability
-	var temp_font_size = 14
-	var min_x = 220
-	var min_y = 80
-	while get_theme_default_font().get_multiline_string_size(ability_text, HORIZONTAL_ALIGNMENT_LEFT, min_x, temp_font_size).y > min_y:
-		temp_font_size = temp_font_size - 1
-	gear_ability_text.set("theme_override_font_sizes/font_size", temp_font_size)
+	#var temp_font_size = 14
+	#var min_x = 220
+	#var min_y = 80
+	#while get_theme_default_font().get_multiline_string_size(ability_text, HORIZONTAL_ALIGNMENT_LEFT, min_x, temp_font_size).y > min_y:
+		#temp_font_size = temp_font_size - 1
+	#gear_ability_text.set("theme_override_font_sizes/font_size", temp_font_size)
 	gear_ability_text.text = ability_text
 	gear_ability_title.text = "Gear Ability:\n%s" % current_character.frame_stats.gear_ability_name
 	

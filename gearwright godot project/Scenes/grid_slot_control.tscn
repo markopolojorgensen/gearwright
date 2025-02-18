@@ -49,6 +49,7 @@ expand_mode = 1
 [node name="OldGridBackground" type="TextureRect" parent="."]
 visible = false
 custom_minimum_size = Vector2(30, 30)
+layout_mode = 0
 offset_right = 30.0
 offset_bottom = 30.0
 texture = ExtResource("1_fdtyn")

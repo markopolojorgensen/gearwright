@@ -83,9 +83,12 @@ func _ready():
 		#label.safe_mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
 		#label.safe_mouse_exited.connect(func(): stat_mouse_exited.emit())
 		var name_label  := Label.new()
-		name_label.text = stat_name
 		var value_label := Label.new()
 		var math_label  := Label.new()
+		name_label.text = stat_name
+		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		math_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		#var base_label  := Label.new()
 		#var bonus_label := Label.new()
 		
@@ -100,10 +103,10 @@ func _ready():
 		#for label in label_list:
 		for i in range(label_list.size()):
 			var label := label_list[i] as Label
-			if i in [0, 2, 3]:
-				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			else:
-				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			#if i in [0, 2, 3]:
+				#label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			#else:
+				#label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 			grid_container.add_child(label)
 	
 	#weight_label_shaker.target_label = stat_lines["weight"].label # magic constants, yippee
@@ -169,17 +172,6 @@ func update(character: GearwrightActor):
 			stat_value = clamp(stat_value, 0, 16)
 		elif stat_name.to_lower() == "ballast":
 			stat_value = clamp(stat_value, 1, 10)
-		
-		# FIXME this must be wrong
-		#else:
-			#if is_fish:
-				## fish stat caps
-				#if stat_name.to_lower() in ["evasion", "willpower"]:
-					#stat_value = clamp(stat_value, 0, 9)
-			#else:
-				## fisher stat caps
-				#if stat_name.to_lower() in ["evasion", "willpower"]:
-					#stat_value = clamp(stat_value, 0, 16)
 		
 		label_list[1].text = str(stat_value)
 		

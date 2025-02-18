@@ -318,7 +318,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	if error_outside_grid:
 		errors.append("Not within grid")
 	if error_locked_slot:
-		errors.append("Slot is locked")
+		errors.append("Hardpoint is locked")
 	if error_overlap:
 		errors.append("Overlaps existing internal")
 	

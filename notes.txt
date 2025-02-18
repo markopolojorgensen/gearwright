@@ -3,37 +3,116 @@ Q1 2025, definitely before May
 
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
-
-zoom font changes
-9 repair jolly roger / repair box
-latest layout changes
-
-bonus manuever from 6 mental needs to be limited to mental maneuvers
-too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
-yeet all commented code
+------------------------------------------------------------------------------------------------------- SMOL
+"Total" text in stats display
+Developments shouldn't cause widening
+  loading a fisher shouldn't have internals off-grid until second update
+------------------------------------------------------------------------------------------------------- MEDIOM
+new colors
+  Passive Internals: HTML: 753706
+  Active Internals: HTML: 215328
+  FAR Internals: HTML: 204050
+  CLOSE Internals: HTML: 452255
+  MENTAL Internals: 572129
+  right click info headers
+  fish internal legend backings
+consolidate gear section ids
 program shouldn't crash if you try to use it without loading data
+reset unlocks / reset internals shouldn't cause crashes
+too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
 ballast shenanigans
+  ballast can only be 1-10
+  lightweight construction / fish mutation / gas pockets should all apply AFTER weight calculation
+  so weight 55 -> ballast 10 -> lightweight -> ballast 9
 Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise)
 optics tag limit
-reset unlocks / reset internals shouldn't cause crashes
-fish legend -> Underlay the names of the Fish Internals with the color that they are (purple, pink, orange, green, blue)
+investigate fish save/load for fishes of all sizes / types
+multiple "A Brush With The Deep" developments should give you multiple deep words
+------------------------------------------------------------------------------------------------------- LORGE
+yeet all commented code / finish refactor
+go through all FIXMEs / TODOs / WHEREWASIs
+switch to InputContext framework
+  permanently unbork custom background editing
+  unbork trying to edit fish export name
+------------------------------------------------------------------------------------------------------- MYSTERY
 test 4.3 program export
 
-------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
-injuries / touch of the deep
-deep words / curios / whatever other stuff???
-right click on developments/maneuvers/deepwords in gear builder to see what they do
-show known saves (duh)
+------------------------------------------------------------------------------------------------------- DONE
+lose background in stats display
+fish legend -> Underlay the names of the Fish Internals with the color that they are (purple, pink, orange, green, blue)
+align buttons along the top menu bar in fisher & fish editor
+"Math" -> "Breakdown"
+stats/internals header font size increase?
+warning message riser should start about 16 pixels higher
+9 repair jolly roger / repair kits box that mirrors gear ability box
+align lots of things (see discord pinned message)
+cut background from callsign summary
+no need for gap between background and developments
+background/developments/maneuvers/deepwords box on the left, gear in the middle, stats on the right
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
+bonus manuever from 6 mental needs to be limited to mental maneuvers
+zoom font changes
+  maybe make everything huge and then always be scaling down?
+    i.e. quit pre-shrinking the assets?
+
+incorporate new assets for gear sections (waiting on assets)
+  fishers and fish alike
+
+non-standard fisher adjustments
+  "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
+  injuries
+    todo: list all the stuff injuries can change
+    ballast?
+    close/far/mental/power/ballast/ap? (temporary)
+    close/far? (permanent)
+  touch of the deep
+    todo: list all the stuff totd can change
+  deep word count should be manually adjustable to support campaign progression unlocks
+  other stuff I'm missing?
+
 tab switcher - narrative profile
   labels descriptor equipment
-hovering over weight should cause all equipped internals to display their weight
 
 warn when data would be lost (keep track of most recent save)
   exit
   return to main menu
   load
   new fish / new gear
+
+edit .json files
+  custom background description
+  lightweight construction / ballast fish mutation / gas pockets
+  "Lightweight Construction
+    Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
+  pinned discord message
+
+ask ralf about this:
+  gear builder: weight cap & weight -> top right under unlocks
+  remove weight cap & weight from bottom right
+
+right click on developments/maneuvers/deepwords in gear builder to see what they do
+show known saves (duh)
+hovering over weight should cause all equipped internals to display their weight
+curio disclaimer "Curios are only obtainable via Development or GM Fiat"
+fish internal number bubbles should be toggleable
+don't export pngs with name bar selected (I think this is already working, double check)
+Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common".
+sometimes an internal is un-selectable / un-right-clickable because another internal's shape completely occludes it
+Loading a fish with a template should not set the "Mutations remaining" value to max (when you have already spent the mutations)
+Fisher advancements should be displayed when loading a save
+
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
 
@@ -44,79 +123,15 @@ right clicking to inspect has some problems
 
 Questions
   numbers vs no_numbers export?
-  power saving mode?
-
-edit .json files
-  custom background description
-  lightweight construction / fish thing / gas pockets
+  power saving / performance mode?
 
 godot theme???
 UI polish pass
 startup time seems a bit slow?
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=MECH CREATION=
-
-X Sort Gear Internals with sub-headers per section ( Weapons, Active, Passive, etc)
-
-X Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible.
-
-X Curio Internals are currently only visible when you take the development to take one, they should always be visible. Maybe make them only equippable when you take the development.
-Curios are also obtainable outside of the development though so that also needs to be an option. Perhaps a disclaimer in the curio section is enough and they are freely available
-
-X Deep Words are currently only available via Developments, Fishers sometimes are able to pick up Deep-Words via progression during Campaign play so they need to be more accessible during creation.
-
-X gear builder: weight cap & weight -> top right under unlocks
-remove weight cap & weight from bottom right
-
-
-=FISH CREATION=
-
-X Created Fish have little number bubbles on their internals so they can be associated with their names in the legend.
-- > Can the numbers be smaller? Right now they are covering a bunch of the artwork. - If not, the number bubble must be moved for some internals,
-otherwise it covers critical parts of the art.
-- > Make number bubbles toggle-able. Turn them on and off
-
-X Fish Legend
--> Some names of some internals are all over the place, the fish part legend just doesnt look neat at all currently
-we can make the names of some fish internals shorter but overall this just needs to be tidier.
-
-X Leviathans are multi-grid fish
--> in Gearwright their grids are currently named section 1, 2 and 3 etc. In the rules we have labeled them as body parts with distinct names.
-
-X When making a Screenshot of a Fish it should automatically de-select the name bar. perhaps there is a different way to export a PNG other than screenshot.
-
-X Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common".
-
-
 =QUALITY ASSURANCE=
 
 X Ralf goes through everything and sees if all the stats are correct for everything and if everything is there, some developments are missing for example.
-
-
-=BUG FIXES=
-
-X Internals that have a weird shape that leaves many spaces inside them open overlay internals with their empty spaces, making it impossible to click these "integrated" internals.
-
-X Loading a fish with a template will set the "Mutations remaining" value to max (even if you have already spent the mutations).
-
-X Fisher advancements are not displayed when loading a save
-
-X Fisher saves can still have overlapping internals (discarded internals are not consistently removed from the file)
-
 
 =IF SANTA IS GOOD TO ME THIS YEAR=
 
@@ -125,15 +140,20 @@ rectangles it really shouldn't be to hard to throw a map editor into the program
 
 Do you want a "battle" mode, where you can track all the stuff you currently track by drawing Xs on stuff in real time?
   (it would be a pretty sizeable undertaking)
-
-
-
+  no
 
 
 
 
 
 DONE
+
+  go all the way through this document
+  Fisher saves shouldn't have overlapping internals (discarded internals are not consistently removed from the file)
+  leviathan grid section names
+  tidy up fish legend
+  curio internals should always be visible
+  Sort Gear Internals with sub-headers per section ( Weapons, Active, Passive, etc)
   fish column headers are less garbo
   Fisher stat box should be inside the Fisher Mech - Screenshot rectangle
   fun li'l floating warning when you try to do something forbidden

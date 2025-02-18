@@ -1,9 +1,10 @@
 extends Popup
 
+# TODO do we yeet this or not?
+
 @onready var filename_input #= $VBoxContainer/HBoxContainer/LineEdit
 @onready var fish_builder = $"../../.."
 
-# WHEREWASI save the fishies
 func _on_button_button_down():
 	var filename = "user://Saves/" + filename_input.text + ".fsh"
 	var file = FileAccess.open(filename, FileAccess.WRITE)
@@ -17,3 +18,4 @@ func _on_button_button_down():
 	else:
 		folder_path = OS.get_user_data_dir()
 	OS.shell_show_in_file_manager(folder_path, true)
+

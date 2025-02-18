@@ -148,7 +148,7 @@ size_flags_horizontal = 3
 [node name="InternalsResetButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 8
 text = " Reset
  Internals "
 script = ExtResource("5_t4h7l")
@@ -161,7 +161,7 @@ size = Vector2i(200, 80)
 [node name="SaveMenuButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader" instance=ExtResource("16_e7s83")]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 8
 new_actor_text = "New Fish"
 
 [node name="SaveOptionsMenu" type="MenuButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
@@ -229,12 +229,16 @@ text = "Export"
 [node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
 custom_minimum_size = Vector2(160, 64)
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 8
 text = "Main Menu
 "
 script = ExtResource("18_k0m5r")
 
+[node name="Spacer2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
+layout_mode = 2
+
 [node name="FishSquisher" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
+visible = false
 layout_mode = 2
 color = Color(0.215686, 0.215686, 0.215686, 1)
 script = ExtResource("4_s67pr")
@@ -276,6 +280,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Internals"
 horizontal_alignment = 1
 

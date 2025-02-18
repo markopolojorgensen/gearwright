@@ -86,7 +86,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	# wrong section (e.g. trying to put head gear in leg)
 	var valid_section_ids := item_section_to_valid_section_ids(item.item_data.section)
 	if not gear_section_id in valid_section_ids:
-		errors.append("%s can't go in %s section" % [item.item_data.name, gear_section_id_to_name(gear_section_id)])
+		errors.append("%s can't go in %s section" % [item.item_data.name, gear_section_id_to_name(gear_section_id).capitalize()])
 	
 	errors.append_array(internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell))
 	#if not internal_inventory.is_valid_internal_equip(item, gear_section_id, primary_cell):
