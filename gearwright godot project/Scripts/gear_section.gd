@@ -1,7 +1,8 @@
 extends RefCounted
 class_name GearSection
 
-
+# might be FISH_GSIDS or CHARACTER_GSIDS
+var id
 var name := "GearSection"
 var dice_string := "(0-1)"
 # 0, 0 is top left

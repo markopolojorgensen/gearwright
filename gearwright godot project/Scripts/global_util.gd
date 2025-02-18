@@ -603,9 +603,3 @@ func rising_text(text: String, location: Vector2):
 	
 	debug_drawing_cl.add_child(label)
 
-# fuck json
-func vector_to_dictionary(vector):
-	return {
-		x = vector.x,
-		y = vector.y,
-	}

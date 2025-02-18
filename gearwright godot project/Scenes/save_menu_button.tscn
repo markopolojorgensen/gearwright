@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://cojllssnu0db"]
+
+[ext_resource type="Script" path="res://Scripts/save_menu_button.gd" id="1_xpdcm"]
+
+[node name="SaveMenuButton" type="MenuButton"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = " Save / Load... "
+flat = false
+item_count = 6
+popup/item_0/text = "New Gear"
+popup/item_1/text = "Save to File..."
+popup/item_1/id = 1
+popup/item_2/text = "Save to png..."
+popup/item_2/id = 2
+popup/item_3/text = "Load from file..."
+popup/item_3/id = 3
+popup/item_4/text = "Saves Folder"
+popup/item_4/id = 4
+popup/item_5/text = "Images Folder"
+popup/item_5/id = 5
+script = ExtResource("1_xpdcm")

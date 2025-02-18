@@ -3,10 +3,98 @@
 [ext_resource type="Script" path="res://Scripts/stats_list_control.gd" id="1_pb6eo"]
 [ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://Scenes/label_shaker.tscn" id="2_13sdk"]
 
-[node name="StatsListControl" type="VBoxContainer"]
-offset_right = 215.0
-offset_bottom = 620.0
-alignment = 1
+[node name="StatsListControl" type="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 271.0
+offset_bottom = 654.0
+mouse_filter = 2
 script = ExtResource("1_pb6eo")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Stats"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BgContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BgContainer"]
+layout_mode = 2
+text = "Background:"
+
+[node name="BgLabel" type="Label" parent="MarginContainer/VBoxContainer/BgContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Coastal"
+horizontal_alignment = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 3
+columns = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color(0.4984, 0.63546, 0.89, 1)
+layout_mode = 2
+text = "Stat"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color(0.4984, 0.63546, 0.89, 1)
+layout_mode = 2
+text = "Total"
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color(0.4984, 0.63546, 0.89, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Math"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+visible = false
+modulate = Color(0.4984, 0.63546, 0.89, 1)
+layout_mode = 2
+text = "Willpower"
+horizontal_alignment = 2
+
+[node name="Label5" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+visible = false
+modulate = Color(0.4984, 0.63546, 0.89, 1)
+layout_mode = 2
+text = "20"
+
+[node name="Label6" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+visible = false
+modulate = Color(0.4984, 0.63546, 0.89, 1)
+layout_mode = 2
+text = "(10+10)"
+horizontal_alignment = 2
+
+[node name="MouseDetectors" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
 
 [node name="WeightLabelShaker" parent="." instance=ExtResource("2_13sdk")]

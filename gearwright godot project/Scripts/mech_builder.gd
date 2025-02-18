@@ -18,13 +18,12 @@ extends Control
 #@onready var item_inventory_container: Container = %ItemInventory
 #@onready var stats_container: Container = %StatsVBoxContainer
 @onready var stats_list_control: Control = %StatsListControl
-@onready var export_popup: Popup = %ExportPopup
-@onready var screenshot_popup: Popup = %ScreenshotPopup
+#@onready var export_popup: Popup = %ExportPopup
 @onready var internals_reset_dialog: ConfirmationDialog = %InternalsResetConfirmDialog
 @onready var hardpoints_reset_dialog: ConfirmationDialog = %HardpointsResetConfirmDialog
 #@onready var file_dialog: FileDialog = %FileDialog
-@onready var save_menu: MenuButton = %SaveOptionsMenu
-@onready var save_menu_popup: PopupMenu = save_menu.get_popup()
+#@onready var save_menu: MenuButton = %SaveOptionsMenu
+#@onready var save_menu_popup: PopupMenu = save_menu.get_popup()
 @onready var callsign_line_edit: LineEdit = %CallsignLineEdit
 @onready var developments_container = %DevelopmentsContainer
 @onready var maneuvers_container = %ManeuversContainer
@@ -89,6 +88,9 @@ extends Control
 	"unlocks":    %UnlocksCustomStatEditControl,
 	"weight_cap": %WeightCapCustomStatEditControl,
 }
+@onready var fsh_export_popup: Popup = $FshExportPopup
+@onready var png_export_popup: Popup = $PngExportPopup
+@onready var open_file_dialog: FileDialog = $OpenFileDialog
 
 #@onready var containers = [
 	#%ChestContainer,
@@ -151,7 +153,7 @@ var current_character := GearwrightCharacter.new()
 #   also prevents ui from asking for data before it's loaded
 var request_update_controls := false
 
-
+var image_to_save: Image
 
 
 
@@ -255,12 +257,16 @@ func _process(_delta):
 	$ModeDebugLabel.text = "Mode: %s" % str(inventory_system.get_mode())
 	
 	if Input.is_action_just_pressed("mouse_leftclick"):
-		if (export_popup.visible
-				or save_menu.is_popup_active() # file dialog
-				or screenshot_popup.visible
-				or save_menu_popup.visible
+		#if (export_popup.visible
+				#save_menu.is_popup_active() # file dialog
+				#save_menu_popup.visible
+		if (
+				png_export_popup.visible
+				or fsh_export_popup.visible
+				or open_file_dialog.visible
 				or internals_reset_dialog.visible
 				or hardpoints_reset_dialog.visible
+				or custom_bg_popup.visible
 				or global_util.is_warning_popup_active()
 		):
 			return
@@ -362,12 +368,15 @@ func _on_legs_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
 
 
 
-
+var current_hover_stat := ""
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
+	current_hover_stat = stat_name
 	floating_explanation_control.text = current_character.get_stat_explanation(stat_name)
 
-func _on_stats_list_control_stat_mouse_exited() -> void:
-	floating_explanation_control.text = ""
+func _on_stats_list_control_stat_mouse_exited(stat_name: String) -> void:
+	if current_hover_stat == stat_name:
+		current_hover_stat = ""
+		floating_explanation_control.text = ""
 
 
 
@@ -382,39 +391,6 @@ func _on_level_selector_change_level(new_level: int):
 	current_character.set_level(new_level)
 	request_update_controls = true
 	#gear_data["level"] = a_Level
-
-func _on_save_options_menu_load_save_data(info: Dictionary):
-	inventory_system.drop_item()
-	current_character.reset_gear_sections() # prevent lingering items
-	
-	current_character = GearwrightCharacter.unmarshal(info)
-	var internals := current_character.get_equipped_items()
-	for internal_info in internals:
-		if not internal_info.internal.is_inside_tree():
-			add_child(internal_info.internal)
-	#gear_data = DataHandler.get_gear_template()
-	
-	if current_character.custom_background.is_empty():
-		breakpoint
-	%BackgroundEditMenu._on_mech_builder_new_save_loaded(current_character)
-	#developments_container._on_level_selector_change_level(current_character.level)
-	
-	#new_save_loaded.emit(info)
-	
-	request_update_controls = true
-	#var temp_unlocks = PackedInt32Array(info["unlocks"])
-	#for index in temp_unlocks:
-		#if index in gear_data["unlocks"]:
-			#breakpoint # tsnh?
-			#continue
-		#
-		#grid_array[index].unlock()
-		#gear_data["unlocks"].push_back(index)
-		#incrememnt_lock_tally.emit(1)
-	#
-	#for grid in info["internals"]:
-		#print("installing " + info["internals"][grid])
-		#install_item(info["internals"][grid], int(grid))
 
 #func install_item(a_Item_ID, _a_Index):
 	#if !DataHandler.item_data.has(a_Item_ID):
@@ -474,21 +450,6 @@ func _on_callsign_line_edit_text_changed(new_text: String) -> void:
 	current_character.callsign = new_text
 	# don't request update_controls() here, it messes with callsign lineedit
 
-func _on_export_popup_export_requested(filename: String) -> void:
-	var path = "user://Saves/" + filename + ".fsh"
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	
-	#file.store_string(get_user_data_string())
-	file.store_string(JSON.stringify(current_character.marshal(), "  "))
-	file.close()
-	
-	var folder_path
-	if OS.has_feature("editor"):
-		folder_path = ProjectSettings.globalize_path("user://Saves")
-	else:
-		folder_path = OS.get_user_data_dir().path_join("Saves")
-	OS.shell_show_in_file_manager(folder_path, true)
-
 func _on_background_option_button_item_selected(index: int) -> void:
 	var nice_name: String = background_option_button.get_item_text(index)
 	var bg_id := nice_name.to_snake_case()
@@ -499,15 +460,101 @@ func _on_edit_background_button_pressed() -> void:
 	if custom_bg_popup.visible:
 		custom_bg_popup.hide()
 		edit_bg_button.text = "Edit Background"
+		stats_list_control.set_mouse_detector_filters(true)
 	else:
 		custom_bg_popup.show()
 		edit_bg_button.text = "Save Background"
+		stats_list_control.set_mouse_detector_filters(false)
 
+# TODO ehhh?
 func _on_custom_bg_change(stat_name: String, is_increase: bool):
 	current_character.modify_custom_background(stat_name, is_increase)
 	request_update_controls = true
 
+func _on_diablo_style_inventory_system_something_changed() -> void:
+	request_update_controls = true
 
+func _on_save_menu_button_button_selected(button_id: int) -> void:
+	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
+		get_tree().reload_current_scene()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
+		fsh_export_popup.set_line_edit_text(current_character.callsign)
+		fsh_export_popup.popup()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
+		# grab image before covering it up with export popup
+		callsign_line_edit.release_focus()
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var border_rect := Rect2i(%MechImageRegion.get_global_rect())
+		image_to_save = get_viewport().get_texture().get_image().get_region(border_rect)
+		
+		png_export_popup.set_line_edit_text(current_character.callsign)
+		png_export_popup.popup()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
+		open_file_dialog.popup()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
+		global.open_folder("Saves")
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
+		global.open_folder("Screenshots")
+
+func _on_fsh_export_popup_export(filename: String) -> void:
+	var path = "user://Saves/" + filename
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	
+	#file.store_string(get_user_data_string())
+	file.store_string(JSON.stringify(current_character.marshal(), "  "))
+	file.close()
+	
+	global.open_folder("Saves")
+
+func _on_png_export_popup_export(filename: String) -> void:
+	image_to_save.save_png("user://Screenshots/" + filename)
+	global.open_folder("Screenshots")
+
+func _on_open_file_dialog_file_selected(path: String) -> void:
+	inventory_system.drop_item()
+	current_character.reset_gear_sections() # prevent lingering items
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	var file_text = file.get_as_text()
+	file.close()
+	var json = JSON.new()
+	if json.parse(file_text) != Error.OK:
+		var message = "JSON Parse Error at line %d: '%s'" % [json.get_error_line(), json.get_error_message()]
+		global_util.popup_warning("Failed to load fisher!", message)
+		push_warning(message)
+		return
+	
+	var info: Dictionary = json.data as Dictionary
+	current_character = GearwrightCharacter.unmarshal(info)
+	var internals := current_character.get_equipped_items()
+	for internal_info in internals:
+		if not internal_info.internal.is_inside_tree():
+			add_child(internal_info.internal)
+	#gear_data = DataHandler.get_gear_template()
+	
+	# there's one of these in unmarshal as well, no idea why it's there
+	#if current_character.custom_background.is_empty():
+		#breakpoint
+	%BackgroundEditMenu._on_mech_builder_new_save_loaded(current_character)
+	#developments_container._on_level_selector_change_level(current_character.level)
+	
+	#new_save_loaded.emit(info)
+	
+	request_update_controls = true
+	#var temp_unlocks = PackedInt32Array(info["unlocks"])
+	#for index in temp_unlocks:
+		#if index in gear_data["unlocks"]:
+			#breakpoint # tsnh?
+			#continue
+		#
+		#grid_array[index].unlock()
+		#gear_data["unlocks"].push_back(index)
+		#incrememnt_lock_tally.emit(1)
+	#
+	#for grid in info["internals"]:
+		#print("installing " + info["internals"][grid])
+		#install_item(info["internals"][grid], int(grid))
 
 
 
@@ -519,8 +566,8 @@ func _on_internals_reset_confirm_dialog_confirmed():
 	request_update_controls = true
 	#internals_reset()
 
-func _on_save_options_menu_new_gear_pressed():
-	get_tree().reload_current_scene()
+#func _on_save_options_menu_new_gear_pressed():
+	#get_tree().reload_current_scene()
 	#for grid in grid_array:
 	#	grid.lock()
 	#for index in default_unlocks:
@@ -576,10 +623,6 @@ func _on_hardpoints_reset_confirm_dialog_confirmed():
 		#internals[slot].queue_free()
 	#internals.clear()
 
-func _on_diablo_style_inventory_system_something_changed() -> void:
-	request_update_controls = true
-
-
 #endregion
 
 
@@ -600,6 +643,8 @@ func _on_diablo_style_inventory_system_something_changed() -> void:
 #region Rendering
 
 func update_controls():
+	#print("mech image region size: %s" % str(%MechImageRegion.size))
+	
 	inventory_system.fancy_update(current_character, gear_section_controls)
 	
 	update_stats_list_control()
@@ -620,7 +665,8 @@ func update_controls():
 	#+ str(a_Maximum - a_Current) + "/" + str(a_Maximum)
 	var used_unlock_count = current_character.get_unlocked_slots_count()
 	var max_unlock_count = current_character.get_max_unlocks()
-	unlocks_remaining.text = "Unlocks Remaining: %d/%d" % [
+	
+	unlocks_remaining.text = "Unlocks Remaining:\n%d/%d" % [
 		max_unlock_count - used_unlock_count,
 		max_unlock_count,
 	]
@@ -788,6 +834,8 @@ func update_stats_list_control():
 	#return item_cells
 
 #endregion
+
+
 
 
 

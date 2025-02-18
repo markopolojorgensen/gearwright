@@ -27,7 +27,8 @@ func _on_value_changed(new_value):
 	#var temp_value = str(a_Value)
 	#change_level.emit(level_data[temp_value], temp_value)
 
-#func _on_save_options_menu_new_gear_pressed():
+func _on_save_options_menu_new_gear_pressed():
+	pass
 	#value = 1
 	#change_level.emit(level_data["1"], "1")
 #

@@ -1,5 +1,7 @@
 extends Popup
 
+# TODO yeet this script
+
 @onready var filename_input = $VBoxContainer/HBoxContainer/LineEdit
 @onready var callsign_input = %CallsignLineEdit
 

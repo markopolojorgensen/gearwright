@@ -1,7 +1,9 @@
 extends MenuButton
 
+# TODO yeet this script
+
 @onready var screenshot_popup = $ScreenshotPopup
-@onready var mech_border_container = $"../../ColorRect"
+@onready var mech_border_container #= $"../../ColorRect"
 const file_dialog_scene = preload("res://Scenes/file_dialog.tscn")
 @onready var file_dialog: FileDialog
 @onready var menu = get_popup()
@@ -33,11 +35,11 @@ func _on_item_pressed(id):
 			file_dialog.file_selected.connect(read_save_file)
 			file_dialog.popup()
 		"open saves folder":
-			open_folder("Saves")
+			global.open_folder("Saves")
 		"screenshot":
 			save_screenshot()
 		"open screenshot folder":
-			open_folder("Screenshots")
+			global.open_folder("Screenshots")
 		"copy to clipboard":
 			pass
 
@@ -67,15 +69,9 @@ func save_screenshot():
 func _on_screenshot_popup_screenshot_name_confirm(file_name):
 	image.save_png("user://Screenshots/" + file_name + ".png")
 	
-	open_folder("Screenshots")
+	global.open_folder("Screenshots")
 
-func open_folder(folder_name):
-	var path
-	if OS.has_feature("editor"):
-		path = ProjectSettings.globalize_path("user://%s" % folder_name)
-	else:
-		path = OS.get_user_data_dir().path_join(folder_name)
-	OS.shell_show_in_file_manager(path, true)
+
 
 func is_popup_active():
 	return ((file_dialog != null)

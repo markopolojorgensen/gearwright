@@ -46,8 +46,9 @@ func _on_mech_builder_new_save_loaded(character: GearwrightCharacter):
 	
 	remaining_points = base_background_points
 	
-	if character.custom_background.is_empty():
-		breakpoint
+	# why are there so many of these checks everywhere
+	#if character.custom_background.is_empty():
+		#breakpoint
 	
 	#if user_data.has("custom_background"):
 		#for stat in user_data["custom_background"]:

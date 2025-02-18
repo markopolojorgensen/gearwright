@@ -1,13 +1,12 @@
-extends VBoxContainer
+extends Container
 
 signal stat_mouse_entered(stat_name: String)
-signal stat_mouse_exited
+signal stat_mouse_exited(stat_name: String)
 
 @export var is_fish := false
 
-const label_scene := preload("res://Scenes/stat_label.tscn")
+#const label_scene := preload("res://Scenes/stat_label.tscn")
 const pretty_stat_names_character := [
-	"Background",
 	"Marbles",
 	"Core Integrity",
 	"",
@@ -48,6 +47,7 @@ const pretty_stat_names_fish := [
 var pretty_stat_names: Array
 
 @onready var weight_label_shaker = $WeightLabelShaker
+@onready var grid_container: GridContainer = %GridContainer
 
 # keys are sane stat names
 # values are dictionaries:
@@ -55,7 +55,13 @@ var pretty_stat_names: Array
 #   label -> Label
 #var stat_lines := {}
 
+# key: stat_name
+# value: array of 4 labels
 var labels := {}
+var mouse_detectors := {}
+
+const mouse_detector_scene := preload("res://Scenes/mouse_detector.tscn")
+
 var hovered_stat := ""
 
 func _ready():
@@ -64,18 +70,48 @@ func _ready():
 	else:
 		pretty_stat_names = pretty_stat_names_character
 	
-	for i in range(pretty_stat_names.size()):
-		var stat_name: String = pretty_stat_names[i]
+	#for text in ["Stat", "Total", "Base", "Bonus"]:
+		#var label := Label.new()
+		#label.text = text
+		#label.modulate = Color.SKY_BLUE
+		#grid_container.add_child(label)
+	
+	for stat_name in pretty_stat_names:
 		# maybe key these to make sure we don't end up in a fugue state?
-		var label := label_scene.instantiate()
-		label.stat_name = stat_name
-		label.safe_mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
-		label.safe_mouse_exited.connect(func(): stat_mouse_exited.emit())
-		add_child(label)
-		labels[stat_name] = label
+		#var label := label_scene.instantiate()
+		#label.stat_name = stat_name
+		#label.safe_mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
+		#label.safe_mouse_exited.connect(func(): stat_mouse_exited.emit())
+		var name_label  := Label.new()
+		name_label.text = stat_name
+		var value_label := Label.new()
+		var math_label  := Label.new()
+		#var base_label  := Label.new()
+		#var bonus_label := Label.new()
+		
+		var label_list := [
+			name_label,
+			value_label,
+			#base_label,
+			#bonus_label,
+			math_label,
+		]
+		labels[stat_name] = label_list
+		#for label in label_list:
+		for i in range(label_list.size()):
+			var label := label_list[i] as Label
+			if i in [0, 2, 3]:
+				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			else:
+				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			grid_container.add_child(label)
 	
 	#weight_label_shaker.target_label = stat_lines["weight"].label # magic constants, yippee
-	weight_label_shaker.target_label = labels["Weight"] # magic constants, yippee
+	weight_label_shaker.target_label = labels["Weight"][0] # magic constants, yippee
+	
+	
+	if global_util.was_run_directly(self):
+		update(GearwrightCharacter.new())
 
 #func _process(delta: float) -> void:
 	#process_mouse_hover()
@@ -100,14 +136,84 @@ func _ready():
 		#hovered_stat = ""
 		#stat_mouse_exited.emit()
 
+## returns sum of everything that's not background / frame
+#func get_bonus_amount(info: Dictionary) -> int:
+	#var result: int = 0
+	#for key in info.keys():
+		#if not ((key == "background") or (key == "frame")):
+			#result += info[key]
+	#return result
 
-func update(character):
-	for i in range(pretty_stat_names.size()):
-		var stat_name: String = pretty_stat_names[i]
-		var label: Label = labels[stat_name]
-		#var sane_stat_name: String = stat_name.to_snake_case()
-		# keys: label_text, explanation_text
-		label.text = character.get_stat_label_text(stat_name)
+func update(character: GearwrightActor):
+	#print("stats control size: %s" % str(size))
+	if is_fish:
+		%BgContainer.hide()
+	else:
+		%BgContainer.show()
+		%BgLabel.text = character.background_stats.background
+	
+	for stat_name in pretty_stat_names:
+		if stat_name.is_empty():
+			continue
+		
+		var label_list: Array = labels[stat_name]
+		var info := character.get_stat_info(stat_name)
+		#print(info.keys())
+		label_list[0].text = str(stat_name)
+		
+		var stat_value: int = global_util.sum_array(info.values())
+		# common stat caps
+		if stat_name.to_lower() in ["close", "far", "power", "speed"]:
+			stat_value = clamp(stat_value, 0, 9)
+		elif stat_name.to_lower() in ["evasion", "willpower"]:
+			stat_value = clamp(stat_value, 0, 16)
+		elif stat_name.to_lower() == "ballast":
+			stat_value = clamp(stat_value, 1, 10)
+		
+		# FIXME this must be wrong
+		#else:
+			#if is_fish:
+				## fish stat caps
+				#if stat_name.to_lower() in ["evasion", "willpower"]:
+					#stat_value = clamp(stat_value, 0, 9)
+			#else:
+				## fisher stat caps
+				#if stat_name.to_lower() in ["evasion", "willpower"]:
+					#stat_value = clamp(stat_value, 0, 16)
+		
+		label_list[1].text = str(stat_value)
+		
+		var base: int = 0
+		base += info.get("background", 0)
+		base += info.get("frame", 0)
+		for key in info.keys():
+			if "fish" in key.to_lower():
+				base += info[key]
+		
+		label_list[2].text = "[%d+%d]" % [base, global_util.sum_array(info.values()) - base]
+		#label_list[2].text = str(base)
+		#label_list[3].text = str(global_util.sum_array(info.values()) - base)
+		
+		if not mouse_detectors.has(stat_name):
+			var new_md = mouse_detector_scene.instantiate()
+			new_md.safe_mouse_entered.connect(func(): stat_mouse_entered.emit(stat_name))
+			new_md.safe_mouse_exited.connect(func(): stat_mouse_exited.emit(stat_name))
+			$MouseDetectors.add_child(new_md)
+			mouse_detectors[stat_name] = new_md
+		var md: Control = mouse_detectors[stat_name]
+		var left_label: Label = labels[stat_name].front()
+		md.global_position = left_label.global_position
+		var new_size := Vector2()
+		new_size.x = grid_container.size.x
+		new_size.y = left_label.size.y
+		md.set_deferred("size", new_size)
+	
+	#for i in range(pretty_stat_names.size()):
+		#var stat_name: String = pretty_stat_names[i]
+		#var label: Label = labels[stat_name]
+		##var sane_stat_name: String = stat_name.to_snake_case()
+		## keys: label_text, explanation_text
+		#label.text = character.get_stat_label_text(stat_name)
 	
 	#var sl
 	#sl = stat_lines["weight"]
@@ -178,6 +284,14 @@ func update(character):
 		#hidden_stats["bonus_mental_maneuvers"] = 0
 	#
 	#update_mental_maneuvers.emit(hidden_stats["bonus_mental_maneuvers"])
+
+func set_mouse_detector_filters(active: bool):
+	for md in mouse_detectors.values():
+		md = md as Control
+		if active:
+			md.mouse_filter = Control.MOUSE_FILTER_STOP
+		else:
+			md.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func over_weight():
 	weight_label_shaker.start_shaking()

@@ -40,20 +40,15 @@ var current_character := GearwrightFish.new()
 
 # this is a pun
 # these are scale values for the gear section controls
-const fish_scales := {
-	GearwrightFish.SIZE.SMALL:                 Vector2(1.0, 1.0) * 2.0,
-	GearwrightFish.SIZE.MEDIUM:                Vector2(1.0, 1.0) * 1.8,
-	GearwrightFish.SIZE.LARGE:                 Vector2(1.0, 1.0) * 1.6,
-	GearwrightFish.SIZE.MASSIVE:               Vector2(1.0, 1.0) * 1.4,
-	GearwrightFish.SIZE.LEVIATHAN:             Vector2(1.0, 1.0),
-	GearwrightFish.SIZE.SERPENT_LEVIATHAN:     Vector2(1.0, 1.0),
-	GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN: Vector2(1.0, 1.0),
-}
 var fish_scale: float = 1.0
 
-@onready var export_view_container: Container = %ExportViewContainer
-
 @onready var fish_name_input: LineEdit = %FishNameInput
+
+@onready var export_view_container: Container = %ExportViewContainer
+@onready var fsh_export_popup: Popup = $FshExportPopup
+@onready var png_export_popup: Popup = $PngExportPopup
+var image_to_save: Image
+@onready var open_file_dialog: FileDialog = $OpenFileDialog
 
 func _ready():
 	for tab_name in part_menu_tabs:
@@ -124,6 +119,13 @@ func update_controls():
 	
 	global_util.clear_children(internals_legend_container)
 	var internal_infos := current_character.get_equipped_items()
+	
+	for info in internal_infos:
+		info.internal.scale = Vector2(fish_scale, fish_scale)
+	
+	# key: internal_name
+	# value: list of infos
+	var infos_by_internal_name := {}
 	for i in range(internal_infos.size()):
 		# {
 		#  "slot": {"gear_section_name": "right_arm", "gear_section_id": 2, "x": 1, "y": 0},
@@ -131,10 +133,31 @@ func update_controls():
 		#  "internal": Item:<Node2D#406730067125>
 		# }
 		var info: Dictionary = internal_infos[i]
-		info.internal.set_legend_number(i+1)
+		var internal_name: String = info.internal_name
+		internal_name = internal_name.to_snake_case()
+		if not infos_by_internal_name.has(internal_name):
+			infos_by_internal_name[internal_name] = []
+		infos_by_internal_name[internal_name].append(info)
+	
+	var legend_number: int = 0
+	for internal_name in infos_by_internal_name.keys():
+		legend_number += 1
+		internal_name = internal_name as String
+		var infos: Array = infos_by_internal_name[internal_name]
+		var legend_number_start: int = legend_number
+		#var legend_number_end: int = legend_number
+		for info in infos:
+			info = info as Dictionary
+			info.internal.set_legend_number(legend_number)
+			#legend_number_end = legend_number
+			#legend_number += 1
 		var legend_item := internals_legend_list_item_scene.instantiate()
-		legend_item.set_legend_name(info.internal_name.capitalize())
-		legend_item.set_legend_number(i+1)
+		legend_item.set_legend_name(internal_name.capitalize())
+		legend_item.set_legend_number(str(legend_number_start))
+		#if legend_number_start == legend_number_end:
+		#else:
+			## never used now, lol
+			#legend_item.set_legend_number("%d-%d" % [legend_number_start, legend_number_end])
 		internals_legend_container.add_child(legend_item)
 	
 	fish_name_input.text = current_character.callsign
@@ -197,14 +220,20 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 			automagically_scale_control.call_deferred(gs_control)
 			center_control_manually.call_deferred(gs_control, center)
 		GearwrightFish.SIZE.LEVIATHAN:
-			for gsid in [GearwrightFish.FISH_GSIDS.TAIL, GearwrightFish.FISH_GSIDS.BODY, GearwrightFish.FISH_GSIDS.HEAD]:
+			for gsid in GearwrightFish.LEVIATHAN_FISH_GSIDS:
 				create_gear_section_control(gsid)
-			fish_scale = 2.0
+			fish_scale = 1.75
 			position_leviathan.call_deferred()
 		GearwrightFish.SIZE.SERPENT_LEVIATHAN:
-			pass
+			for gsid in GearwrightFish.SERPENT_LEVIATHAN_FISH_GSIDS:
+				create_gear_section_control(gsid)
+			fish_scale = 1.25
+			position_serpent_leviathan.call_deferred()
 		GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
-			pass
+			for gsid in GearwrightFish.SILTSTALKER_LEVIATHAN_FISH_GSIDS:
+				create_gear_section_control(gsid)
+			fish_scale = 1.5
+			position_siltstalker_leviathan.call_deferred()
 		_:
 			print(fish_size)
 			breakpoint
@@ -230,13 +259,15 @@ func create_gear_section_control(gsid: GearwrightFish.FISH_GSIDS) -> Control:
 func automagically_scale_control(control: Control):
 	var max_size: Vector2 = %FreeRangeGearSections.size
 	var factor = max_size / control.size
-	var actual_scale = min(factor.x, factor.y)
+	var actual_scale = min(factor.x, factor.y) * 0.9
 	fish_scale = actual_scale
 	inventory_system.control_scale = fish_scale
-	control.scale = Vector2(1.0, 1.0) * actual_scale
+	control.scale = Vector2(1.0, 1.0) * fish_scale
 
 func center_control_manually(control: Control, location: Vector2):
 	control.global_position = location - (control.size * 0.5 * control.scale)
+
+const FISH_GRID_GAP: float = 16.0
 
 func position_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
@@ -250,11 +281,73 @@ func position_leviathan():
 	
 	center_control_manually(body_gsc, center)
 	
-	tail_gsc.position.x = body_gsc.position.x - (tail_gsc.size.x * tail_gsc.scale.x) - 16
+	tail_gsc.position.x = body_gsc.position.x - (tail_gsc.size.x * tail_gsc.scale.x) - FISH_GRID_GAP
 	tail_gsc.position.y = body_gsc.position.y
 	
-	head_gsc.position.x = body_gsc.position.x + (body_gsc.size.x * body_gsc.scale.x) + 16
+	head_gsc.position.x = body_gsc.position.x + (body_gsc.size.x * body_gsc.scale.x) + FISH_GRID_GAP
 	head_gsc.position.y = body_gsc.position.y
+
+func position_serpent_leviathan():
+	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
+	center.y += FISH_GRID_GAP
+	var tip_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.TIP]
+	var tail_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.TAIL]
+	var body_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.BODY]
+	var neck_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.NECK]
+	var head_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.HEAD]
+	
+	tip_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	tail_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	body_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	neck_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	head_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	
+	center_control_manually(body_gsc, center)
+	
+	neck_gsc.position.x = body_gsc.position.x + (4 * FISH_GRID_GAP)
+	neck_gsc.position.y = body_gsc.position.y - (neck_gsc.size.y * fish_scale) - (FISH_GRID_GAP * 0.5)
+	
+	head_gsc.position.x = neck_gsc.position.x + (neck_gsc.size.x * fish_scale) + FISH_GRID_GAP
+	head_gsc.position.y = neck_gsc.position.y
+	
+	tail_gsc.position.x = body_gsc.position.x - (4 * FISH_GRID_GAP)
+	tail_gsc.position.y = body_gsc.position.y + (body_gsc.size.y * fish_scale) + (FISH_GRID_GAP * 0.5)
+	
+	tip_gsc.position.x = tail_gsc.position.x - (tip_gsc.size.x * fish_scale) - FISH_GRID_GAP
+	tip_gsc.position.y = tail_gsc.position.y
+
+func position_siltstalker_leviathan():
+	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
+	#center.y += FISH_GRID_GAP
+	var llegs_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.LEFT_LEGS]
+	var body_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.BODY]
+	var rlegs_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.RIGHT_LEGS]
+	var larm_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.LEFT_ARM]
+	var rarm_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.RIGHT_ARM]
+	
+	llegs_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	body_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	rlegs_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	larm_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	rarm_gsc.scale = Vector2(1.0, 1.0) * fish_scale
+	
+	#center_control_manually(body_gsc, center)
+	
+	body_gsc.global_position.x = center.x - (body_gsc.size.x * fish_scale * 0.5)
+	body_gsc.global_position.y = center.y - (body_gsc.size.y * fish_scale) - (FISH_GRID_GAP * 0.25)
+	
+	llegs_gsc.position.x = body_gsc.position.x - (llegs_gsc.size.x * fish_scale) - FISH_GRID_GAP
+	llegs_gsc.position.y = body_gsc.position.y
+	
+	rlegs_gsc.position.x = body_gsc.position.x + (body_gsc.size.x * fish_scale) + FISH_GRID_GAP
+	rlegs_gsc.position.y = body_gsc.position.y
+	
+	larm_gsc.global_position.x = center.x - (larm_gsc.size.x * fish_scale) - (FISH_GRID_GAP * 0.5)
+	larm_gsc.global_position.y = center.y + (FISH_GRID_GAP * 0.25)
+	
+	rarm_gsc.global_position.x = center.x + (FISH_GRID_GAP * 0.5)
+	rarm_gsc.position.y = larm_gsc.position.y
+
 
 func _on_slot_entered(slot_info: Dictionary):
 	inventory_system.on_slot_mouse_entered(slot_info, current_character)
@@ -264,11 +357,15 @@ func _on_slot_exited(slot_info: Dictionary):
 	inventory_system.on_slot_mouse_exited(slot_info)
 	request_update_controls = true
 
+var current_hover_stat := ""
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
+	current_hover_stat = stat_name
 	floating_explanation_control.text = current_character.get_stat_explanation(stat_name)
 
-func _on_stats_list_control_stat_mouse_exited() -> void:
-	floating_explanation_control.text = ""
+func _on_stats_list_control_stat_mouse_exited(stat_name) -> void:
+	if current_hover_stat == stat_name:
+		current_hover_stat = ""
+		floating_explanation_control.text = ""
 
 func _on_template_selector_type_selected(fish_type: GearwrightFish.TYPE) -> void:
 	current_character.set_fish_type(fish_type)
@@ -278,10 +375,82 @@ func _on_mutation_change(stat_name: String, is_increase: bool):
 	current_character.modify_mutation(stat_name, is_increase)
 	request_update_controls = true
 
+# TODO disconnect & yeet
 func _on_save_options_menu_new_fish_pressed() -> void:
 	get_tree().reload_current_scene()
 
+func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_IDS) -> void:
+	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
+		get_tree().reload_current_scene()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
+		fsh_export_popup.set_line_edit_text(current_character.callsign)
+		fsh_export_popup.popup()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
+		# grab image before covering it up with export popup
+		fish_name_input.release_focus()
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var border_rect := Rect2i(export_view_container.get_global_rect())
+		image_to_save = get_viewport().get_texture().get_image().get_region(border_rect)
+		
+		png_export_popup.set_line_edit_text(current_character.callsign)
+		png_export_popup.popup()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
+		open_file_dialog.popup()
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
+		global.open_folder("Saves")
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
+		global.open_folder("Screenshots")
+
+func _on_fsh_export_popup_export(filename: String) -> void:
+	var path = "user://Saves/" + filename
+	var json := JSON.stringify(current_character.marshal(), "  ")
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(json)
+	file.close()
+	global.open_folder("Saves")
+
+func _on_png_export_popup_export(filename: String) -> void:
+	image_to_save.save_png("user://Screenshots/" + filename)
+	global.open_folder("Screenshots")
+
+func _on_open_file_dialog_file_selected(path: String) -> void:
+	inventory_system.drop_item()
+	current_character.reset_gear_sections() # prevent lingering items
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	var file_text = file.get_as_text()
+	file.close()
+	var json = JSON.new()
+	if json.parse(file_text) != Error.OK:
+		var message = "JSON Parse Error at line %d: '%s'" % [json.get_error_line(), json.get_error_message()]
+		global_util.popup_warning("Failed to load fisher!", message)
+		push_warning(message)
+		return
+	
+	var info: Dictionary = json.data as Dictionary
+	var new_fish := GearwrightFish.unmarshal(info)
+	_on_fish_size_selector_fish_size_selected(new_fish.size)
+	current_character = new_fish
+	# TODO maybe yeet get_equipped_items
+	var internals := current_character.get_equipped_items()
+	for internal_info in internals:
+		if not internal_info.internal.is_inside_tree():
+			add_child(internal_info.internal)
+	
+	request_update_controls = true
+
+func _on_fish_name_input_text_changed(new_text: String) -> void:
+	current_character.callsign = new_text
+
 #endregion
+
+
+
+
+
+
+
 
 
 

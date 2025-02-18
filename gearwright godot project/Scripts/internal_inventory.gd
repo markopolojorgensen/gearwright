@@ -29,18 +29,23 @@ func create_character_gear_sections() -> Dictionary:
 	}
 	result[GearwrightCharacter.CHARACTER_GSIDS.TORSO].name = "Torso"
 	result[GearwrightCharacter.CHARACTER_GSIDS.TORSO].dice_string = "(6-8)"
+	result[GearwrightCharacter.CHARACTER_GSIDS.TORSO].id = GearwrightCharacter.CHARACTER_GSIDS.TORSO
 	
 	result[GearwrightCharacter.CHARACTER_GSIDS.LEFT_ARM].name = "Left Arm"
 	result[GearwrightCharacter.CHARACTER_GSIDS.LEFT_ARM].dice_string = "(4-5)"
+	result[GearwrightCharacter.CHARACTER_GSIDS.LEFT_ARM].id = GearwrightCharacter.CHARACTER_GSIDS.LEFT_ARM
 	
 	result[GearwrightCharacter.CHARACTER_GSIDS.RIGHT_ARM].name = "Right Arm"
 	result[GearwrightCharacter.CHARACTER_GSIDS.RIGHT_ARM].dice_string = "(9-10)"
+	result[GearwrightCharacter.CHARACTER_GSIDS.RIGHT_ARM].id = GearwrightCharacter.CHARACTER_GSIDS.RIGHT_ARM
 	
 	result[GearwrightCharacter.CHARACTER_GSIDS.HEAD].name = "Head"
 	result[GearwrightCharacter.CHARACTER_GSIDS.HEAD].dice_string = "(2-3)"
+	result[GearwrightCharacter.CHARACTER_GSIDS.HEAD].id = GearwrightCharacter.CHARACTER_GSIDS.HEAD
 	
 	result[GearwrightCharacter.CHARACTER_GSIDS.LEGS].name = "Legs"
 	result[GearwrightCharacter.CHARACTER_GSIDS.LEGS].dice_string = "(11-12)"
+	result[GearwrightCharacter.CHARACTER_GSIDS.LEGS].id = GearwrightCharacter.CHARACTER_GSIDS.LEGS
 	
 	gear_sections = result
 	return result
@@ -63,60 +68,87 @@ func create_fish_gear_sections(size: GearwrightFish.SIZE):
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY] = GearSection.new(Vector2i(3, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = ""
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = ""
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
 	elif size == GearwrightFish.SIZE.MEDIUM:
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY] = GearSection.new(Vector2i(6, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = ""
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = ""
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
 	elif size == GearwrightFish.SIZE.LARGE:
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY] = GearSection.new(Vector2i(6, 4))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = ""
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = ""
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
 	elif size == GearwrightFish.SIZE.MASSIVE:
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY] = GearSection.new(Vector2i(6, 6))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = ""
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = ""
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
 	elif size == GearwrightFish.SIZE.LEVIATHAN:
 		gear_sections[GearwrightFish.FISH_GSIDS.TAIL] = GearSection.new(Vector2i(3, 6))
 		gear_sections[GearwrightFish.FISH_GSIDS.TAIL].name = "Tail"
 		gear_sections[GearwrightFish.FISH_GSIDS.TAIL].dice_string = "(2-5)"
+		gear_sections[GearwrightFish.FISH_GSIDS.TAIL].id = GearwrightFish.FISH_GSIDS.TAIL
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY] = GearSection.new(Vector2i(6, 6))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = "Body"
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = "(6-8)"
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
 		gear_sections[GearwrightFish.FISH_GSIDS.HEAD] = GearSection.new(Vector2i(3, 6))
 		gear_sections[GearwrightFish.FISH_GSIDS.HEAD].name = "Head"
 		gear_sections[GearwrightFish.FISH_GSIDS.HEAD].dice_string = "(9-12)"
+		gear_sections[GearwrightFish.FISH_GSIDS.HEAD].id = GearwrightFish.FISH_GSIDS.HEAD
 	elif size == GearwrightFish.SIZE.SERPENT_LEVIATHAN:
 		gear_sections[GearwrightFish.FISH_GSIDS.TIP]  = GearSection.new(Vector2i(3, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.TIP].name = "Tip"
 		gear_sections[GearwrightFish.FISH_GSIDS.TIP].dice_string = "(2-3)"
+		gear_sections[GearwrightFish.FISH_GSIDS.TIP].id = GearwrightFish.FISH_GSIDS.TIP
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.TAIL] = GearSection.new(Vector2i(6, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.TAIL].name = "Tail"
 		gear_sections[GearwrightFish.FISH_GSIDS.TAIL].dice_string = "(4-5)"
+		gear_sections[GearwrightFish.FISH_GSIDS.TAIL].id = GearwrightFish.FISH_GSIDS.TAIL
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY] = GearSection.new(Vector2i(6, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = "Body"
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = "(6-8)"
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.NECK] = GearSection.new(Vector2i(6, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.NECK].name = "Neck"
 		gear_sections[GearwrightFish.FISH_GSIDS.NECK].dice_string = "(9-10)"
+		gear_sections[GearwrightFish.FISH_GSIDS.NECK].id = GearwrightFish.FISH_GSIDS.NECK
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.HEAD] = GearSection.new(Vector2i(3, 3))
 		gear_sections[GearwrightFish.FISH_GSIDS.HEAD].name = "Head"
 		gear_sections[GearwrightFish.FISH_GSIDS.HEAD].dice_string = "(11-12)"
+		gear_sections[GearwrightFish.FISH_GSIDS.HEAD].id = GearwrightFish.FISH_GSIDS.HEAD
+		
 	elif size == GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
 		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_LEGS]  = GearSection.new(Vector2i(3, 4))
 		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_LEGS].name = "L. Legs"
 		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_LEGS].dice_string = "(2-3)"
+		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_LEGS].id = GearwrightFish.FISH_GSIDS.LEFT_LEGS
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY]       = GearSection.new(Vector2i(6, 4))
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].name = "Body"
 		gear_sections[GearwrightFish.FISH_GSIDS.BODY].dice_string = "(6-8)"
+		gear_sections[GearwrightFish.FISH_GSIDS.BODY].id = GearwrightFish.FISH_GSIDS.BODY
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_LEGS] = GearSection.new(Vector2i(3, 4))
 		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_LEGS].name = "R. Legs"
 		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_LEGS].dice_string = "(11-12)"
+		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_LEGS].id = GearwrightFish.FISH_GSIDS.RIGHT_LEGS
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_ARM]   = GearSection.new(Vector2i(3, 4))
 		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_ARM].name = "L. Arm"
 		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_ARM].dice_string = "(4-5)"
+		gear_sections[GearwrightFish.FISH_GSIDS.LEFT_ARM].id = GearwrightFish.FISH_GSIDS.LEFT_ARM
+		
 		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_ARM]  = GearSection.new(Vector2i(3, 4))
 		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_ARM].name = "R. Arm"
 		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_ARM].dice_string = "(9-10)"
+		gear_sections[GearwrightFish.FISH_GSIDS.RIGHT_ARM].id = GearwrightFish.FISH_GSIDS.RIGHT_ARM
+		
 	else:
 		var error := "failed to create fish inventory: unknown size %d '%s'" % [size, GearwrightFish.SIZE.find_key(size)]
 		push_error(error)

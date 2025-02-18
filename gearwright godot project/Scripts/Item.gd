@@ -6,6 +6,8 @@ var icon: TextureRect
 var item_popup: Popup
 
 var initialized := false
+# list of pairs
+#   e.g. [-1, 0]
 var item_grids := []
 var selected = false
 var grid_anchor = null # GridSlotControl
@@ -14,26 +16,35 @@ var item_data := {}
 var hovering = false
 var popup_loaded = false
 
-var x_offset = 0
-var y_offset = 0
+#var x_offset = 0
+#var y_offset = 0
+#var offset := Vector2()
+# not necessarily a valid cell for this item
+var top_left_corner_cell := Vector2i()
+
+const raw_grid_cell_size := Vector2(100.0, 100.0)
+var world_cell_size: Vector2
 
 func initialize() -> void:
 	$LegendNumberControl.hide()
 	icon = $Icon
+	world_cell_size = raw_grid_cell_size * icon.scale
 	item_popup = $ItemPopup
 	initialized = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if selected:
-		var scaled_offset = Vector2(x_offset - 5, y_offset + 5) * scale
-		global_position = lerp(global_position, get_global_mouse_position() - scaled_offset, 60 * delta)
+		#var scaled_offset = Vector2(x_offset - 5, y_offset + 5) * scale
+		var cell_offset: Vector2 = Vector2(top_left_corner_cell) - Vector2(0.5, 0.5)
+		var scaled_offset: Vector2 = cell_offset * world_cell_size * scale
+		global_position = lerp(global_position, get_global_mouse_position() + scaled_offset, 60 * delta)
 		
 	if Input.is_action_just_pressed("mouse_rightclick") && hovering:
 		if item_popup.visible:
 			item_popup.hide()
 		else:
-			item_popup.position = global_position + Vector2(140, 0)
+			item_popup.position = Vector2(icon.get_global_rect().end.x + 16, icon.get_global_rect().position.y)# + Vector2(140, 0)
 			item_popup.popup()
 
 func load_item(a_itemID : String, is_player_item := true):
@@ -53,6 +64,8 @@ func load_item(a_itemID : String, is_player_item := true):
 	if not is_player_item:
 		item_grid_data = DataHandler.fish_item_grid_data
 	
+	# grid is an array of strings
+	#   e.g. ["[-1", "0]"]
 	for grid in item_grid_data[a_itemID]:
 		var converter_array := []
 		for i in grid:
@@ -68,8 +81,11 @@ func load_item(a_itemID : String, is_player_item := true):
 		if coordinate[1] < lowest_y:
 			lowest_y = coordinate[1]
 	
-	x_offset = ((41 * icon.scale.x)/2) + 11 + (-30 * lowest_x)
-	y_offset = ((39 * icon.scale.y)/2) + (-30 * lowest_y)
+	#x_offset = ((41 * icon.scale.x)/2) + 11 + (-30 * lowest_x)
+	#y_offset = ((39 * icon.scale.y)/2) + (-30 * lowest_y)
+	# not necessarily a cell that is part of the internal!
+	top_left_corner_cell = Vector2i(lowest_x, lowest_y)
+	#print("top left corner cell: %s" % str(top_left_corner_cell))
 	
 	item_popup.unfocusable = true
 
@@ -94,6 +110,23 @@ func _on_icon_mouse_exited():
 
 
 
+# returns center of 0, 0 cell relative to item 0, 0 world position
+#func get_origin_cell_world_center() -> Vector2:
+	## still in cell terms
+	#var origin_to_top_left: Vector2 = -1 * Vector2(top_left_corner_cell)
+	#var origin_to_center: Vector2 = origin_to_top_left + Vector2(0.5, 0.5)
+	#var scaled = origin_to_center * world_cell_size * scale
+	#return scaled
+
+## not scaled
+#func get_world_center(cell: Vector2i) -> Vector2:
+	#var cell_center: Vector2 = Vector2(cell)# + Vector2(0.5, 0.5)
+	#return cell_center * world_cell_size
+
+# returns list of Vector2i
+func get_item_grids_as_cells() -> Array:
+	return item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
+
 # item_grids -> actual coords based on an actual slot
 # item_grids is an array
 # each element is a 2-element array representing coordinates
@@ -101,13 +134,26 @@ func _on_icon_mouse_exited():
 # this function returns a list of Vector2i elements
 # some of these might be out of bounds!
 func get_relative_cells(primary_cell: Vector2i) -> Array:
-	var item_cell_offsets: Array = item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
+	var item_cell_offsets: Array = get_item_grids_as_cells()
 	var item_cells := item_cell_offsets.map(func(offset): return primary_cell + offset)
 	return item_cells
 
 func set_legend_number(number: int):
 	%LegendNumberLabel.text = str(number)
 	$LegendNumberControl.show()
+	
+	var top_left_cells = get_item_grids_as_cells().filter(func(cell: Vector2i):
+		if (cell.x <= 0) and (cell.y <= 0):
+			return true
+		)
+	top_left_cells.sort_custom(func(a: Vector2i, b: Vector2i):
+		var b_dist = b.distance_squared_to(Vector2i())
+		var a_dist = a.distance_squared_to(Vector2i())
+		return b_dist < a_dist
+		)
+	var cell_offset = Vector2(top_left_cells.front() - top_left_corner_cell)
+	$LegendNumberControl.position = cell_offset * world_cell_size
+	$LegendNumberControl.scale = Vector2(1.5, 1.5) / scale # TODO maybe adjust this
 
 func hide_legend_number():
 	$LegendNumberControl.hide()

@@ -43,6 +43,12 @@ func grey_out():
 func clear_grey_out():
 	greyed_color_rect.hide()
 
+func use_old_style():
+	$OldGridBackground.show()
+	$Padlock.texture = $OldPadlock.texture
+	$Padlock.scale *= 0.8
+	$Padlock.position = Vector2(2, 2)
+
 #func set_color(a_state = GridSlot.states.DEFAULT):
 	#match a_state:
 		#GridSlot.states.DEFAULT:

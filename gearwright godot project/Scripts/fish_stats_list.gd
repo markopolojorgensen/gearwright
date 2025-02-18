@@ -119,7 +119,7 @@ func _on_fish_builder_item_removed(a_Item):
 			stat_modifications[stat] -= a_Item.item_data[stat]
 	update_labels()
 
-func _on_fish_size_selector_load_fish_container(_fish_container, size_data):
+func _on_fish_size_selector_load_fish_container(_fish_container, _size_data):
 	pass
 	#for stat in base_stats:
 		#if size_data.has(stat):

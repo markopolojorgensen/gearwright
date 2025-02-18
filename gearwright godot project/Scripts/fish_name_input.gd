@@ -10,6 +10,6 @@ func _on_fish_size_selector_load_fish_container(_fish_container, _size_data):
 	pass
 	#text = ""
 
-func _on_fish_builder_update_name(fish_name):
+func _on_fish_builder_update_name(_fish_name):
 	pass
 	#text = fish_name

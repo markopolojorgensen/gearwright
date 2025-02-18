@@ -13,6 +13,40 @@ enum FISH_GSIDS {
 	RIGHT_ARM,
 }
 
+const LEVIATHAN_FISH_GSIDS := [
+	FISH_GSIDS.TAIL,
+	FISH_GSIDS.BODY,
+	FISH_GSIDS.HEAD,
+]
+
+const SERPENT_LEVIATHAN_FISH_GSIDS := [
+	FISH_GSIDS.TIP,
+	FISH_GSIDS.TAIL,
+	FISH_GSIDS.BODY,
+	FISH_GSIDS.NECK,
+	FISH_GSIDS.HEAD,
+]
+
+const SILTSTALKER_LEVIATHAN_FISH_GSIDS := [
+	FISH_GSIDS.LEFT_LEGS,
+	FISH_GSIDS.BODY,
+	FISH_GSIDS.RIGHT_LEGS,
+	FISH_GSIDS.LEFT_ARM,
+	FISH_GSIDS.RIGHT_ARM,
+]
+
+const FISH_GSIDS_TO_NAMES := {
+	FISH_GSIDS.TIP: "tip",
+	FISH_GSIDS.TAIL: "tail",
+	FISH_GSIDS.BODY: "body",
+	FISH_GSIDS.NECK: "neck",
+	FISH_GSIDS.HEAD: "head",
+	FISH_GSIDS.LEFT_LEGS: "left legs",
+	FISH_GSIDS.RIGHT_LEGS: "right legs",
+	FISH_GSIDS.LEFT_ARM: "left arm",
+	FISH_GSIDS.RIGHT_ARM: "right arm",
+}
+
 enum SIZE {
 	SMALL,
 	MEDIUM,
@@ -23,12 +57,29 @@ enum SIZE {
 	SILTSTALKER_LEVIATHAN,
 }
 
+const SIZE_NAMES := {
+	SIZE.SMALL: "small",
+	SIZE.MEDIUM: "medium",
+	SIZE.LARGE: "large",
+	SIZE.MASSIVE: "massive",
+	SIZE.LEVIATHAN: "leviathan",
+	SIZE.SERPENT_LEVIATHAN: "serpent leviathan",
+	SIZE.SILTSTALKER_LEVIATHAN: "siltstalker leviathan",
+}
+
 # fish_template_data.json
 enum TYPE {
 	COMMON,
 	ABERRANT,
 	DEEPSPAWN,
 	ELDER_DEEPSPAWN,
+}
+
+const TYPE_NAMES := {
+	TYPE.COMMON: "common",
+	TYPE.ABERRANT: "aberrant",
+	TYPE.DEEPSPAWN: "deepspawn",
+	TYPE.ELDER_DEEPSPAWN: "elder deepspawn",
 }
 
 var size := SIZE.SMALL
@@ -45,7 +96,9 @@ const mutation_mults := {
 	"sensors":   3,
 	"ballast":  -1,
 }
-var mutations: Array[String] = []
+# array of strings, but using Array[String] makes unmarshalling explode
+#  I do not understand how typed arrays and casting work
+var mutations: Array = []
 
 func initialize():
 	internal_inventory.create_fish_gear_sections(size)
@@ -121,7 +174,7 @@ static func string_to_enum(string: String, target_enum: Dictionary) -> int:
 		return -1
 	return target_enum.get(string)
 
-func get_stat_explanation(stat: String) -> String:
+func get_stat_info(stat: String) -> Dictionary:
 	var snake_stat := stat.to_snake_case()
 	if snake_stat in [
 			"close",
@@ -134,52 +187,83 @@ func get_stat_explanation(stat: String) -> String:
 			"speed",
 			"sensors",
 			]:
-		#var info: Dictionary = call("get_%s_info" % snake_stat)
-		var info = get_basic_info(snake_stat)
-		return GearwrightCharacter.info_to_explanation_text(info)
-	elif snake_stat == "weight":
-		var info = get_weight_info()
-		return GearwrightCharacter.info_to_explanation_text(info)
-	elif snake_stat == "ballast":
-		var info = get_ballast_info()
-		return GearwrightCharacter.info_to_explanation_text(info)
+		return get_basic_info(snake_stat)
 	
-	var error := "GearwrightFish: get_stat_explanation: unknown stat: %s" % stat
+	elif snake_stat == "weight":
+		return get_weight_info()
+	elif snake_stat == "ballast":
+		return get_ballast_info()
+	
+	var error := "GearwrightFish: get_stat_info: unknown stat: %s" % stat
 	push_error(error)
 	print(error)
-	return error
+	return {}
 
-func get_stat_label_text(stat: String) -> String:
-	if stat.is_empty():
+func get_stat_explanation(stat: String) -> String:
+	var info := get_stat_info(stat)
+	if info.is_empty():
 		return ""
+	else:
+		return GearwrightCharacter.info_to_explanation_text(info)
 	
-	var snake_stat := stat.to_snake_case()
-	if snake_stat in [
-			"close",
-			"far",
-			"mental",
-			"power",
-			"evasion",
-			"willpower",
-			"ap",
-			"speed",
-			"sensors",
-			]:
-		#var info = call("get_%s_info" % snake_stat)
-		var info = get_basic_info(snake_stat)
-		var value = global_util.sum_array(info.values())
-		return "%s: %s" % [stat, value]
-	elif snake_stat == "weight":
-		var value = global_util.sum_array(get_weight_info().values())
-		return "%s: %s" % [stat, value]
-	elif snake_stat == "ballast":
-		var value = global_util.sum_array(get_ballast_info().values())
-		value = clamp(value, 1, 10)
-		return "%s: %s" % [stat, value]
-	
-	var error := "GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat
-	push_error(error)
-	return error
+	#var snake_stat := stat.to_snake_case()
+	#if snake_stat in [
+			#"close",
+			#"far",
+			#"mental",
+			#"power",
+			#"evasion",
+			#"willpower",
+			#"ap",
+			#"speed",
+			#"sensors",
+			#]:
+		##var info: Dictionary = call("get_%s_info" % snake_stat)
+		#var info = get_basic_info(snake_stat)
+		#return GearwrightCharacter.info_to_explanation_text(info)
+	#elif snake_stat == "weight":
+		#var info = get_weight_info()
+		#return GearwrightCharacter.info_to_explanation_text(info)
+	#elif snake_stat == "ballast":
+		#var info = get_ballast_info()
+		#return GearwrightCharacter.info_to_explanation_text(info)
+	#
+	#var error := "GearwrightFish: get_stat_explanation: unknown stat: %s" % stat
+	#push_error(error)
+	#print(error)
+	#return error
+
+#func get_stat_label_text(stat: String) -> String:
+	#if stat.is_empty():
+		#return ""
+	#
+	#var snake_stat := stat.to_snake_case()
+	#if snake_stat in [
+			#"close",
+			#"far",
+			#"mental",
+			#"power",
+			#"evasion",
+			#"willpower",
+			#"ap",
+			#"speed",
+			#"sensors",
+			#]:
+		##var info = call("get_%s_info" % snake_stat)
+		#var info = get_basic_info(snake_stat)
+		#var value = global_util.sum_array(info.values())
+		#return "%s: %s" % [stat, value]
+	#elif snake_stat == "weight":
+		#var value = global_util.sum_array(get_weight_info().values())
+		#return "%s: %s" % [stat, value]
+	#elif snake_stat == "ballast":
+		#var value = global_util.sum_array(get_ballast_info().values())
+		#value = clamp(value, 1, 10)
+		#return "%s: %s" % [stat, value]
+	#
+	#var error := "GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat
+	#push_error(error)
+	#return error
 
 func get_mutations_amount(stat: String) -> int:
 	var amount = mutations.count(stat) * mutation_mults.get(stat, 0)
@@ -318,3 +402,92 @@ func set_fish_type(fish_type: TYPE):
 	type = fish_type
 
 #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#region Save & Load
+func marshal() -> Dictionary:
+	var info := {
+		name = callsign, # callsign
+		size = SIZE_NAMES[size],
+		template = TYPE_NAMES[type], # type
+		mutations = mutations,
+	}
+	
+	#info.internals = internal_inventory.get_equipped_items(false)
+	var internals_info := {}
+	var internals_by_gs := internal_inventory.get_equipped_items_by_gs(false)
+	for gsid in internals_by_gs.keys():
+		internals_info[FISH_GSIDS_TO_NAMES[gsid]] = internals_by_gs[gsid].map(func(internal_info: Dictionary):
+			internal_info.slot = global.vector_to_dictionary(internal_info.slot)
+			return internal_info
+			)
+	info.internals = internals_info
+	
+	info.gearwright_version = version.VERSION
+	
+	return info
+
+static func unmarshal(info: Dictionary) -> GearwrightFish:
+	global_util.fancy_print("loading fish...")
+	global_util.indent()
+	var sesh := start_unmarshalling_session(info)
+	
+	var new_fish := GearwrightFish.new()
+	new_fish.callsign = sesh.get_info("name")
+	new_fish.size = SIZE_NAMES.find_key(sesh.get_info("size", "small"))
+	var template_type = sesh.get_info("template", "common")
+	if template_type == "abberant":
+		template_type = "aberrant"
+	new_fish.type = TYPE_NAMES.find_key(template_type)
+	new_fish.mutations = sesh.get_info("mutations", [])
+	
+	new_fish.initialize()
+	
+	var internals := sesh.get_info("internals", {}) as Dictionary
+	if internals.is_empty():
+		# maybe this isn't an error?
+		sesh.errors.append("No internals found!")
+	else:
+		var first_key = internals.keys().front()
+		if (first_key == "0") or (int(first_key) != 0):
+			# old style
+			sesh.errors.append("Failed to convert old fish internals format")
+		else:
+			# new style
+			for gs_name in internals.keys():
+				var gsid: FISH_GSIDS = FISH_GSIDS_TO_NAMES.find_key(gs_name)
+				var gs_internals_list: Array = internals[gs_name]
+				for i in range(gs_internals_list.size()):
+					# internal_info.slot: dictionary
+					#   x, y
+					# internal_info.internal: string
+					var internal_info: Dictionary = gs_internals_list[i]
+					var new_internal = item_scene.instantiate()
+					new_internal.load_item(internal_info.internal_name, false)
+					var primary_cell := global.dictionary_to_vector2i(internal_info.slot) # fuck json
+					var errors := new_fish.equip_internal(new_internal, gsid, primary_cell)
+					if not errors.is_empty():
+						sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
+	
+	finish_unmarshalling_session(sesh)
+	return new_fish
+
+
+
+
+
+
+#endregion
+

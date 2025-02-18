@@ -1,6 +1,6 @@
 extends Popup
 
-@onready var filename_input = $VBoxContainer/HBoxContainer/LineEdit
+@onready var filename_input #= $VBoxContainer/HBoxContainer/LineEdit
 @onready var fish_builder = $"../../.."
 
 # WHEREWASI save the fishies
