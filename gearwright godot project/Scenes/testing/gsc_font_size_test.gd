@@ -9,7 +9,7 @@ func _ready() -> void:
 	
 	for gsc in [%GearSectionControl, %GearSectionControl2, %GearSectionControl3]:
 		gsc.is_fish_mode = true
-		gsc.update(fish.get_gear_section(GearwrightFish.FISH_GSIDS.BODY))
+		gsc.update(fish.get_gear_section(GearwrightActor.GSIDS.FISH_BODY))
 
 	await get_tree().create_timer(2.0).timeout
 	for gsc in [%GearSectionControl2, %GearSectionControl3, %Label2, %Label3, %autosizer4]:
@@ -17,7 +17,7 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(2.0).timeout
 	# gsc 
-	%GearSectionControl3.update(fish.get_gear_section(GearwrightFish.FISH_GSIDS.BODY))
+	%GearSectionControl3.update(fish.get_gear_section(GearwrightActor.GSIDS.FISH_BODY))
 	
 	for label in [%Label3, %Label4]:
 		var fancy_global_scale = label.get_global_transform().get_scale()

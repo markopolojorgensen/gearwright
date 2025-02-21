@@ -86,9 +86,11 @@ func _ready():
 		var value_label := Label.new()
 		var math_label  := Label.new()
 		name_label.text = stat_name
+		name_label.custom_minimum_size.x = 106 # extreme amounts of jank
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		math_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		math_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		#var base_label  := Label.new()
 		#var bonus_label := Label.new()
 		
@@ -149,10 +151,12 @@ func _ready():
 
 func update(character: GearwrightActor):
 	#print("stats control size: %s" % str(size))
+	%BgContainer.hide()
 	if is_fish:
-		%BgContainer.hide()
+		pass
+		#%BgContainer.hide()
 	else:
-		%BgContainer.show()
+		#%BgContainer.show()
 		%BgLabel.text = character.background_stats.background
 	
 	for stat_name in pretty_stat_names:
@@ -171,7 +175,16 @@ func update(character: GearwrightActor):
 		elif stat_name.to_lower() in ["evasion", "willpower"]:
 			stat_value = clamp(stat_value, 0, 16)
 		elif stat_name.to_lower() == "ballast":
+			# special calculation
+			stat_value = 0
+			var negatives = 0
+			for value in info.values():
+				if value >= 0:
+					stat_value += value
+				else:
+					negatives += value
 			stat_value = clamp(stat_value, 1, 10)
+			stat_value += negatives
 		
 		label_list[1].text = str(stat_value)
 		

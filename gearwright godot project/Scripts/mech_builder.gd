@@ -101,11 +101,11 @@ extends Control
 #]
 
 @onready var gear_section_controls = {
-	GearwrightCharacter.CHARACTER_GSIDS.HEAD:      %HeadGearSectionControl,
-	GearwrightCharacter.CHARACTER_GSIDS.TORSO:     %TorsoGearSectionControl,
-	GearwrightCharacter.CHARACTER_GSIDS.LEFT_ARM:  %LeftArmGearSectionControl,
-	GearwrightCharacter.CHARACTER_GSIDS.RIGHT_ARM: %RightArmGearSectionControl,
-	GearwrightCharacter.CHARACTER_GSIDS.LEGS:      %LegsGearSectionControl,
+	GearwrightActor.GSIDS.FISHER_HEAD:      %HeadGearSectionControl,
+	GearwrightActor.GSIDS.FISHER_TORSO:     %TorsoGearSectionControl,
+	GearwrightActor.GSIDS.FISHER_LEFT_ARM:  %LeftArmGearSectionControl,
+	GearwrightActor.GSIDS.FISHER_RIGHT_ARM: %RightArmGearSectionControl,
+	GearwrightActor.GSIDS.FISHER_LEGS:      %LegsGearSectionControl,
 }
 
 @onready var part_menu: PartMenu = %PartMenu
@@ -155,7 +155,8 @@ var request_update_controls := false
 
 var image_to_save: Image
 
-
+var enforce_weight_cap := true
+var enforce_hardpoint_cap := true
 
 #region initialization
 
@@ -527,6 +528,8 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 	
 	var info: Dictionary = json.data as Dictionary
 	current_character = GearwrightCharacter.unmarshal(info)
+	current_character.enforce_weight_cap = enforce_weight_cap
+	current_character.enforce_hardpoint_cap = enforce_hardpoint_cap
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():
@@ -555,6 +558,15 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 	#for grid in info["internals"]:
 		#print("installing " + info["internals"][grid])
 		#install_item(info["internals"][grid], int(grid))
+
+func _on_weight_cap_check_button_toggled(toggled_on: bool) -> void:
+	enforce_weight_cap = toggled_on
+	current_character.enforce_weight_cap = toggled_on
+
+func _on_unlocks_check_button_toggled(toggled_on: bool) -> void:
+	enforce_hardpoint_cap = toggled_on
+	current_character.enforce_hardpoint_cap = toggled_on
+
 
 
 
@@ -666,10 +678,15 @@ func update_controls():
 	var used_unlock_count = current_character.get_unlocked_slots_count()
 	var max_unlock_count = current_character.get_max_unlocks()
 	
+	var unlocks_left_count: int = max_unlock_count - used_unlock_count
 	unlocks_remaining.text = "Unlocks Remaining:\n%d/%d" % [
-		max_unlock_count - used_unlock_count,
+		unlocks_left_count,
 		max_unlock_count,
 	]
+	if enforce_hardpoint_cap and unlocks_left_count < 0:
+		%UnlocksLabelShaker.start_shaking()
+	else:
+		%UnlocksLabelShaker.stop_shaking()
 	
 	# EL 1 | bg | frame Label
 	#nameplate.text = "EL %s | %s | %s" % [
@@ -746,6 +763,11 @@ func update_controls():
 
 func update_stats_list_control():
 	stats_list_control.update(current_character)
+	
+	if not enforce_weight_cap:
+		stats_list_control.under_weight()
+		return
+	
 	if current_character.is_overweight_with_item(inventory_system.item_held):
 		stats_list_control.over_weight()
 	else:
@@ -835,6 +857,7 @@ func update_stats_list_control():
 	#return item_cells
 
 #endregion
+
 
 
 

@@ -28,5 +28,5 @@ func _on_file_selected(a_path):
 		file.store_string(data)
 		file.close()
 	
-	DataHandler.reload_items()
+	DataHandler.load_all_data()
 	success_dialog.popup()

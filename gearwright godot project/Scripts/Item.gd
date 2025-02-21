@@ -30,6 +30,7 @@ func initialize() -> void:
 	icon = $Icon
 	world_cell_size = raw_grid_cell_size * icon.scale
 	item_popup = $ItemPopup
+	item_popup.hide()
 	initialized = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

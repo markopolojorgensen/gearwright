@@ -3,11 +3,44 @@ extends RefCounted
 
 const item_scene = preload("res://Scenes/item.tscn")
 
+# Gear Section IDs
+enum GSIDS {
+	FISHER_TORSO,
+	FISHER_LEFT_ARM,
+	FISHER_RIGHT_ARM,
+	FISHER_HEAD,
+	FISHER_LEGS,
+	FISH_TIP,
+	FISH_TAIL,
+	FISH_BODY,
+	FISH_NECK,
+	FISH_HEAD,
+	FISH_LEFT_LEGS,
+	FISH_RIGHT_LEGS,
+	FISH_LEFT_ARM,
+	FISH_RIGHT_ARM,
+}
+
+const GSIDS_TO_NAMES := {
+	GSIDS.FISHER_TORSO: "torso",
+	GSIDS.FISHER_LEFT_ARM: "left_arm",
+	GSIDS.FISHER_RIGHT_ARM: "right_arm",
+	GSIDS.FISHER_HEAD: "head",
+	GSIDS.FISHER_LEGS: "legs",
+	GSIDS.FISH_TIP: "tip",
+	GSIDS.FISH_TAIL: "tail",
+	GSIDS.FISH_BODY: "body",
+	GSIDS.FISH_NECK: "neck",
+	GSIDS.FISH_HEAD: "head",
+	GSIDS.FISH_LEFT_LEGS: "left legs",
+	GSIDS.FISH_RIGHT_LEGS: "right legs",
+	GSIDS.FISH_LEFT_ARM: "left arm",
+	GSIDS.FISH_RIGHT_ARM: "right arm",
+}
+
+
 # character callsign, fish name
 var callsign := ""
-
-# enum
-var gear_section_ids := {}
 
 var internal_inventory := InternalInventory.new()
 
@@ -19,24 +52,28 @@ func check_internal_equip_validity(item, gear_section_id: int, _primary_cell: Ve
 		errors.append("No item")
 	
 	# there is no gear section
-	if not gear_section_id in gear_section_ids.values():
+	if not gear_section_id in GSIDS.values():
 		errors.append("No gear section")
 	
 	return errors
 
-func equip_internal(_item, _gear_section_id: int, _primary_cell: Vector2i) -> Array:
-	# should be overridden with no super calls
-	breakpoint
-	return []
+func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
+	if errors.is_empty():
+		return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+	else:
+		return errors
 
-func unequip_internal(_item, _gear_section_id: int):
-	# should be overridden with no super calls
-	breakpoint
-	return
+func unequip_internal(item, gear_section_id: int):
+	return internal_inventory.unequip_internal(item, gear_section_id)
+
+func unequip_all_internals():
+	return internal_inventory.unequip_all_internals()
 
 func get_stat_info(_stat_name: String) -> Dictionary:
 	breakpoint
 	return {}
+
 
 
 

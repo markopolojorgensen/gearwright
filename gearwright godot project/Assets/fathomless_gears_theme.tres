@@ -4,6 +4,7 @@
 bg_color = Color(0.215686, 0.215686, 0.215686, 1)
 
 [resource]
+default_font_size = 16
 MarginContainer/constants/margin_bottom = 8
 MarginContainer/constants/margin_left = 8
 MarginContainer/constants/margin_right = 8

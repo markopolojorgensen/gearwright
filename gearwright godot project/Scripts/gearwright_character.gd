@@ -25,22 +25,18 @@ const custom_background_caps := {
 	"weight_cap": 1,
 }
 
+var enforce_weight_cap := true
+var enforce_hardpoint_cap := true
 
 
-enum CHARACTER_GSIDS {
-	TORSO,
-	LEFT_ARM,
-	RIGHT_ARM,
-	HEAD,
-	LEGS,
-}
 
 
 
 #region Initialization
+
 func _init():
 	internal_inventory.create_character_gear_sections()
-	gear_section_ids = CHARACTER_GSIDS
+
 #endregion
 
 
@@ -80,7 +76,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 		return errors
 	
 	# it would put us over weight
-	if is_overweight_with_item(item):
+	if enforce_weight_cap and is_overweight_with_item(item):
 		errors.append("Too much weight")
 	
 	# wrong section (e.g. trying to put head gear in leg)
@@ -335,16 +331,21 @@ static func info_to_explanation_text(info: Dictionary) -> String:
 	#)
 
 func has_unlocks_remaining() -> bool:
-	return get_unlocked_slots_count() < get_max_unlocks()
+	if enforce_hardpoint_cap:
+		return get_unlocked_slots_count() < get_max_unlocks()
+	else:
+		return true
 
 func get_unlocked_slots_count() -> int:
 	return  internal_inventory.get_unlocked_slots().size()
 
 func is_overweight_with_item(item):
 	var weight := get_weight()
+	var weight_cap := get_weight_cap()
 	if item != null:
 		weight += item.item_data.weight
-	if weight > get_weight_cap():
+		weight_cap += item.item_data.weight_cap
+	if weight > weight_cap:
 		return true
 	else:
 		return false
@@ -604,20 +605,10 @@ func reset_gear_sections():
 		grid_slot.is_locked = false
 		grid_slot.is_default_unlock = true
 
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
-	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
-	if errors.is_empty():
-		return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
-	else:
-		return errors
-
-func unequip_internal(item, gear_section_id: int):
-	return internal_inventory.unequip_internal(item, gear_section_id)
-
 # TODO yeet this???
 func mystery_section_to_section_id(section) -> int:
 	if section is int:
-		if section in gear_section_ids.values():
+		if section in GSIDS.values():
 			return section
 		else:
 			push_error("unknown int gear section: %s" % str(section))
@@ -809,7 +800,7 @@ func marshal() -> Dictionary:
 	var unlocks_info := {}
 	var unlocks_by_gs := internal_inventory.get_unlocked_slots_by_gear_section()
 	for gsid in unlocks_by_gs.keys():
-		unlocks_info[gsids_to_names[gsid]] = unlocks_by_gs[gsid].map(func(coords: Vector2i):
+		unlocks_info[GSIDS_TO_NAMES[gsid]] = unlocks_by_gs[gsid].map(func(coords: Vector2i):
 			return global.vector_to_dictionary(coords)
 			)
 	result.unlocks = unlocks_info
@@ -818,7 +809,7 @@ func marshal() -> Dictionary:
 	var internals_info := {}
 	var internals_by_gs := internal_inventory.get_equipped_items_by_gs(false)
 	for gsid in internals_by_gs.keys():
-		internals_info[gsids_to_names[gsid]] = internals_by_gs[gsid].map(func(info: Dictionary):
+		internals_info[GSIDS_TO_NAMES[gsid]] = internals_by_gs[gsid].map(func(info: Dictionary):
 			info.slot = global.vector_to_dictionary(info.slot)
 			return info
 			)
@@ -862,16 +853,8 @@ func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
 
 #region static functions
 
-const gsids_to_names := {
-	CHARACTER_GSIDS.TORSO: "torso",
-	CHARACTER_GSIDS.LEFT_ARM: "left_arm",
-	CHARACTER_GSIDS.RIGHT_ARM: "right_arm",
-	CHARACTER_GSIDS.HEAD: "head",
-	CHARACTER_GSIDS.LEGS: "legs",
-}
-
 static func gear_section_id_to_name(id: int) -> String:
-	return gsids_to_names.get(id, "unknown gear section id: %d" % id)
+	return GSIDS_TO_NAMES.get(id, "unknown gear section id: %d" % id)
 	#match id:
 		#CHARACTER_GSIDS.TORSO:
 			#return "torso"
@@ -889,15 +872,15 @@ static func gear_section_id_to_name(id: int) -> String:
 static func gear_section_name_to_id(name: String) -> int:
 	match name:
 		"torso":
-			return CHARACTER_GSIDS.TORSO
+			return GSIDS.FISHER_TORSO
 		"left_arm":
-			return CHARACTER_GSIDS.LEFT_ARM
+			return GSIDS.FISHER_LEFT_ARM
 		"right_arm":
-			return CHARACTER_GSIDS.RIGHT_ARM
+			return GSIDS.FISHER_RIGHT_ARM
 		"head":
-			return CHARACTER_GSIDS.HEAD
+			return GSIDS.FISHER_HEAD
 		"legs":
-			return CHARACTER_GSIDS.LEGS
+			return GSIDS.FISHER_LEGS
 		_:
 			return -1
 
@@ -906,19 +889,19 @@ static func gear_section_name_to_id(name: String) -> int:
 static func item_section_to_valid_section_ids(section_name: String) -> Array:
 	match section_name:
 		"leg":
-			return [CHARACTER_GSIDS.LEGS]
+			return [GSIDS.FISHER_LEGS]
 		"arm":
 			var arms = [
-				CHARACTER_GSIDS.LEFT_ARM,
-				CHARACTER_GSIDS.RIGHT_ARM,
+				GSIDS.FISHER_LEFT_ARM,
+				GSIDS.FISHER_RIGHT_ARM,
 			]
 			return arms
 		"head":
-			return [CHARACTER_GSIDS.HEAD]
+			return [GSIDS.FISHER_HEAD]
 		"chest":
-			return [CHARACTER_GSIDS.TORSO]
+			return [GSIDS.FISHER_TORSO]
 		"any":
-			return CHARACTER_GSIDS.values()
+			return GSIDS.values()
 		_:
 			push_error("gearwright_character: unknown item section: %s" % section_name)
 			return []
@@ -972,8 +955,9 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 		#unlocks_info.append(json_slot_info)
 	#result.unlocks = unlocks_info
 	
-	
 	var internals := sesh.get_info("internals", {}) as Dictionary
+	# suspension might not get equipped before we hit weight cap, so ignore it
+	ch.enforce_weight_cap = false
 	if internals.is_empty():
 		# maybe this isn't an error?
 		sesh.errors.append("No internals found!")
@@ -1012,6 +996,7 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 				var errors := ch.equip_internal(new_internal, gsid, primary_cell)
 				if not errors.is_empty():
 					sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
+	ch.enforce_weight_cap = true
 	
 	ch.developments = sesh.get_info("developments", [])
 	ch.maneuvers = sesh.get_info("maneuvers", [])

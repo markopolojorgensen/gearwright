@@ -201,6 +201,9 @@ enum DATA_TYPE {
 }
 
 func _ready():
+	load_all_data()
+
+func load_all_data():
 	item_data        = load_data(item_data_path)
 	fish_item_data   = load_data(fish_item_data_path)
 	frame_data       = load_data(frame_data_path)
@@ -213,6 +216,9 @@ func _ready():
 	fish_type_data   = load_data(fish_type_data_path)
 	
 	set_grid_and_icon_data()
+
+func is_data_loaded():
+	return not item_data.is_empty()
 
 func load_data(path):
 	ProjectSettings.load_resource_pack(update_data_path, true)
@@ -325,11 +331,6 @@ func set_grid_and_icon_data():
 			fish_item_grid_data[item] = temp_grid_array
 			fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
 
-func reload_items():
-	item_data = load_data(item_data_path)
-	fish_item_data = load_data(fish_item_data_path)
-	
-	set_grid_and_icon_data()
 
 func get_perk_info(perk_type: PerkOptionButton.PERK_TYPE) -> Dictionary:
 	var result := {}

@@ -16,14 +16,14 @@ extends Popup
 
 @onready var internal_color_rect = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect
 
-var internal_menu_colors = {
-	"far": Color.html("#0678b5"),
-	"close": Color.html("#9d2d96"),
-	"active": Color.html("#509335"),
-	"passive": Color.html("#a34902"),
-	"mitigation": Color.html("#999999"),
-	"mental": Color.html("#ce2d45")
-}
+#var internal_menu_colors = {
+	#"far": Color.html("#0678b5"),
+	#"close": Color.html("#9d2d96"),
+	#"active": Color.html("#509335"),
+	#"passive": Color.html("#a34902"),
+	#"mitigation": Color.html("#999999"),
+	#"mental": Color.html("#ce2d45")
+#}
 
 var stats_to_list = [
 	"close",
@@ -49,8 +49,10 @@ var stats_to_capitalize = [
 var weapon_internals = ["close", "far", "mental"]
 
 func set_data(a_Item_Data):
-	internal_color_rect.color = internal_menu_colors[a_Item_Data["type"]]
-	item_tags_container.color = internal_menu_colors[a_Item_Data["type"]]
+	internal_color_rect.color = global.colors[a_Item_Data["type"]]
+	item_tags_container.color = global.colors[a_Item_Data["type"]]
+	#internal_color_rect.color = internal_menu_colors[a_Item_Data["type"]]
+	#item_tags_container.color = internal_menu_colors[a_Item_Data["type"]]
 	
 	item_name_label.text = a_Item_Data["name"]
 	

@@ -163,12 +163,17 @@ layout_mode = 2
 
 [node name="UnlocksRemainingLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
+z_index = 2
 layout_mode = 2
 text = "Unlocks Remaining:
 0/0"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("28_mxxdb")
+
+[node name="UnlocksLabelShaker" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer/MarginContainer/UnlocksRemainingLabel" node_paths=PackedStringArray("target_label") instance=ExtResource("34_dotfp")]
+unique_name_in_owner = true
+target_label = NodePath("..")
 
 [node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
@@ -187,32 +192,46 @@ alignment = 1
 layout_mode = 2
 
 [node name="WeightCapOverrideLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "Ignore Weight Cap"
 vertical_alignment = 1
 
 [node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="WeightCapCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+button_pressed = true
+text = "Enforce Weight Cap"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer"]
 layout_mode = 2
 
 [node name="UnlocksOverrideToggleLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer2"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "Ignore Hardpoint Cap"
 
 [node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer2"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="UnlocksCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+button_pressed = true
+text = "Enforce Hardpoint Cap"
 
 [node name="spacer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer"]
 layout_mode = 2
@@ -354,8 +373,8 @@ theme_override_constants/separation = 16
 alignment = 1
 
 [node name="PerksContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(224, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PerksContainer"]
 layout_mode = 2
@@ -1450,7 +1469,9 @@ extension = ".png"
 [connection signal="change_level" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/MarginContainer/HBoxContainer/LevelSelectContainer/LevelSelector" to="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/Stats/OldStatsVBoxContainer" method="_on_level_selector_change_level"]
 [connection signal="value_changed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/MarginContainer/HBoxContainer/LevelSelectContainer/LevelSelector" to="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/MarginContainer/HBoxContainer/LevelSelectContainer/LevelSelector" method="_on_value_changed"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/UnlockToggle" to="." method="_on_unlock_toggle_button_down"]
+[connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer/WeightCapCheckButton" to="." method="_on_weight_cap_check_button_toggled"]
 [connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer/WeightCapCheckButton" to="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/Stats/OldStatsVBoxContainer" method="_on_weight_cap_check_button_toggled"]
+[connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer2/UnlocksCheckButton" to="." method="_on_unlocks_check_button_toggled"]
 [connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/PanelContainer2/MarginContainer/ToggleContainer/HBoxContainer2/UnlocksCheckButton" to="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/Stats/OldStatsVBoxContainer" method="_on_unlocks_check_button_toggled"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/HardpointsResetButton" to="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/HardpointsResetButton" method="_on_button_down"]
 [connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/TopMenuHBoxContainer/HardpointsResetButton/HardpointsResetConfirmDialog" to="." method="_on_hardpoints_reset_confirm_dialog_confirmed"]

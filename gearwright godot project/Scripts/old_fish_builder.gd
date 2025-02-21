@@ -297,7 +297,8 @@ func _on_save_options_menu_load_save_data(a_New_data):
 		install_item.call_deferred(a_New_data["internals"][grid], int(grid))
 
 func _on_internals_reset_confirm_dialog_confirmed():
-	internals_reset()
+	pass
+	# internals_reset()
 
 func _on_mutation_menu_mutation_updated(stat, _value, was_added):
 	if was_added:

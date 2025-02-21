@@ -4,28 +4,7 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
-"Total" text in stats display
-Developments shouldn't cause widening
-  loading a fisher shouldn't have internals off-grid until second update
 ------------------------------------------------------------------------------------------------------- MEDIOM
-new colors
-  Passive Internals: HTML: 753706
-  Active Internals: HTML: 215328
-  FAR Internals: HTML: 204050
-  CLOSE Internals: HTML: 452255
-  MENTAL Internals: 572129
-  right click info headers
-  fish internal legend backings
-consolidate gear section ids
-program shouldn't crash if you try to use it without loading data
-reset unlocks / reset internals shouldn't cause crashes
-too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
-ballast shenanigans
-  ballast can only be 1-10
-  lightweight construction / fish mutation / gas pockets should all apply AFTER weight calculation
-  so weight 55 -> ballast 10 -> lightweight -> ballast 9
-Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise)
-optics tag limit
 investigate fish save/load for fishes of all sizes / types
 multiple "A Brush With The Deep" developments should give you multiple deep words
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -39,6 +18,31 @@ test 4.3 program export
 
 
 ------------------------------------------------------------------------------------------------------- DONE
+Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise)
+optics tag limit
+engine tag limit
+unwieldy tag limit
+ballast shenanigans
+  ballast can only be 1-10
+  lightweight construction / fish mutation / gas pockets should all apply AFTER weight calculation
+  so weight 55 -> ballast 10 -> lightweight -> ballast 9
+"enforce weight cap" toggle should work
+"enforce unlocks" toggle should work
+"Stat Total" text in stats display
+too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
+reset unlocks / reset internals shouldn't cause crashes
+program shouldn't crash if you try to use it without loading data
+consolidate gear section ids
+new colors
+  Passive Internals: HTML: 753706
+  Active Internals: HTML: 215328
+  FAR Internals: HTML: 204050
+  CLOSE Internals: HTML: 452255
+  MENTAL Internals: 572129
+  MITIGATION: Html: 454545
+  right click info headers
+  fish internal legend backings
+Developments shouldn't cause widening
 lose background in stats display
 fish legend -> Underlay the names of the Fish Internals with the color that they are (purple, pink, orange, green, blue)
 align buttons along the top menu bar in fisher & fish editor
@@ -62,6 +66,7 @@ background/developments/maneuvers/deepwords box on the left, gear in the middle,
 
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
+don't let players take repeat developments (exception A Brush With The Deep)
 bonus manuever from 6 mental needs to be limited to mental maneuvers
 zoom font changes
   maybe make everything huge and then always be scaling down?
@@ -112,6 +117,7 @@ Reset Internals on the Fish should also Reset fish Template and its bonuses to "
 sometimes an internal is un-selectable / un-right-clickable because another internal's shape completely occludes it
 Loading a fish with a template should not set the "Mutations remaining" value to max (when you have already spent the mutations)
 Fisher advancements should be displayed when loading a save
+undo/redo?
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues

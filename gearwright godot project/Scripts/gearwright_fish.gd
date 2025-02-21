@@ -1,51 +1,31 @@
 extends GearwrightActor
 class_name GearwrightFish
 
-enum FISH_GSIDS {
-	TIP,
-	TAIL,
-	BODY,
-	NECK,
-	HEAD,
-	LEFT_LEGS,
-	RIGHT_LEGS,
-	LEFT_ARM,
-	RIGHT_ARM,
-}
+
 
 const LEVIATHAN_FISH_GSIDS := [
-	FISH_GSIDS.TAIL,
-	FISH_GSIDS.BODY,
-	FISH_GSIDS.HEAD,
+	GSIDS.FISH_TAIL,
+	GSIDS.FISH_BODY,
+	GSIDS.FISH_HEAD,
 ]
 
 const SERPENT_LEVIATHAN_FISH_GSIDS := [
-	FISH_GSIDS.TIP,
-	FISH_GSIDS.TAIL,
-	FISH_GSIDS.BODY,
-	FISH_GSIDS.NECK,
-	FISH_GSIDS.HEAD,
+	GSIDS.FISH_TIP,
+	GSIDS.FISH_TAIL,
+	GSIDS.FISH_BODY,
+	GSIDS.FISH_NECK,
+	GSIDS.FISH_HEAD,
 ]
 
 const SILTSTALKER_LEVIATHAN_FISH_GSIDS := [
-	FISH_GSIDS.LEFT_LEGS,
-	FISH_GSIDS.BODY,
-	FISH_GSIDS.RIGHT_LEGS,
-	FISH_GSIDS.LEFT_ARM,
-	FISH_GSIDS.RIGHT_ARM,
+	GSIDS.FISH_LEFT_LEGS,
+	GSIDS.FISH_BODY,
+	GSIDS.FISH_RIGHT_LEGS,
+	GSIDS.FISH_LEFT_ARM,
+	GSIDS.FISH_RIGHT_ARM,
 ]
 
-const FISH_GSIDS_TO_NAMES := {
-	FISH_GSIDS.TIP: "tip",
-	FISH_GSIDS.TAIL: "tail",
-	FISH_GSIDS.BODY: "body",
-	FISH_GSIDS.NECK: "neck",
-	FISH_GSIDS.HEAD: "head",
-	FISH_GSIDS.LEFT_LEGS: "left legs",
-	FISH_GSIDS.RIGHT_LEGS: "right legs",
-	FISH_GSIDS.LEFT_ARM: "left arm",
-	FISH_GSIDS.RIGHT_ARM: "right arm",
-}
+
 
 enum SIZE {
 	SMALL,
@@ -54,7 +34,7 @@ enum SIZE {
 	MASSIVE,
 	LEVIATHAN,
 	SERPENT_LEVIATHAN,
-	SILTSTALKER_LEVIATHAN,
+	SILTSTALKER,
 }
 
 const SIZE_NAMES := {
@@ -64,7 +44,7 @@ const SIZE_NAMES := {
 	SIZE.MASSIVE: "massive",
 	SIZE.LEVIATHAN: "leviathan",
 	SIZE.SERPENT_LEVIATHAN: "serpent leviathan",
-	SIZE.SILTSTALKER_LEVIATHAN: "siltstalker leviathan",
+	SIZE.SILTSTALKER: "siltstalker leviathan",
 }
 
 # fish_template_data.json
@@ -102,7 +82,8 @@ var mutations: Array = []
 
 func initialize():
 	internal_inventory.create_fish_gear_sections(size)
-	gear_section_ids = FISH_GSIDS
+	if size in [SIZE.LEVIATHAN, SIZE.SERPENT_LEVIATHAN, SIZE.SILTSTALKER]:
+		internal_inventory.max_optics_count = 2
 
 
 
@@ -154,6 +135,8 @@ static func get_size_as_string(size_value: SIZE) -> String:
 	return (SIZE.find_key(size_value) as String).to_lower().replacen("_", " ")
 
 static func size_from_string(size_name: String) -> SIZE:
+	if "silt" in size_name.to_lower():
+		return SIZE.SILTSTALKER
 	return string_to_enum(size_name, SIZE) as SIZE
 
 static func get_type_as_string(type_value: TYPE) -> String:
@@ -325,7 +308,7 @@ func get_weight_info() -> Dictionary:
 
 func get_ballast_info() -> Dictionary:
 	var weight_info := get_weight_info()
-	weight_info.erase("fish_type") # fish type doesn't affect ballast
+	weight_info.erase("fish_type") # fish type weight doesn't affect ballast
 	var total_weight = global_util.sum_array(weight_info.values())
 	var ballast_from_weight := int(floor(total_weight / 5.0))
 	var ballast_info := {}
@@ -365,16 +348,6 @@ func get_type_data() -> Dictionary:
 
 
 #region Mutation
-
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
-	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
-	if errors.is_empty():
-		return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
-	else:
-		return errors
-
-func unequip_internal(item, gear_section_id: int):
-	return internal_inventory.unequip_internal(item, gear_section_id)
 
 func reset_gear_sections():
 	assert(internal_inventory.gear_sections.values().size() >= 1)
@@ -429,7 +402,7 @@ func marshal() -> Dictionary:
 	var internals_info := {}
 	var internals_by_gs := internal_inventory.get_equipped_items_by_gs(false)
 	for gsid in internals_by_gs.keys():
-		internals_info[FISH_GSIDS_TO_NAMES[gsid]] = internals_by_gs[gsid].map(func(internal_info: Dictionary):
+		internals_info[GSIDS_TO_NAMES[gsid]] = internals_by_gs[gsid].map(func(internal_info: Dictionary):
 			internal_info.slot = global.vector_to_dictionary(internal_info.slot)
 			return internal_info
 			)
@@ -467,7 +440,7 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 		else:
 			# new style
 			for gs_name in internals.keys():
-				var gsid: FISH_GSIDS = FISH_GSIDS_TO_NAMES.find_key(gs_name)
+				var gsid: GSIDS = GSIDS_TO_NAMES.find_key(gs_name)
 				var gs_internals_list: Array = internals[gs_name]
 				for i in range(gs_internals_list.size()):
 					# internal_info.slot: dictionary
@@ -482,6 +455,8 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 						sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
 	
 	finish_unmarshalling_session(sesh)
+	global_util.dedent()
+	global_util.fancy_print("...finished loading fish")
 	return new_fish
 
 

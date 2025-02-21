@@ -6,6 +6,7 @@
 bg_color = Color(0.215686, 0.215686, 0.215686, 0.784314)
 
 [node name="FloatingExplanationControl" type="PanelContainer"]
+z_index = 100
 offset_right = 123.0
 offset_bottom = 53.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_gdefs")

@@ -155,21 +155,22 @@ func update_controls():
 		legend_item.set_legend_name(internal_name.capitalize())
 		legend_item.set_legend_number(str(legend_number_start))
 		var info := infos.front() as Dictionary
-		match info.internal.item_data.type:
-			"active":
-				legend_item.set_color.call_deferred(Color.DARK_GREEN)
-			"passive":
-				legend_item.set_color.call_deferred(Color.ORANGE.darkened(0.1))
-			"mitigation":
-				legend_item.set_color.call_deferred(Color.DIM_GRAY)
-			"far":
-				legend_item.set_color.call_deferred(Color.DARK_BLUE)
-			"close":
-				legend_item.set_color.call_deferred(Color.MEDIUM_PURPLE)
-			"mental":
-				legend_item.set_color.call_deferred(Color.CRIMSON)
-			_:
-				print(info.internal.item_data.type)
+		legend_item.set_color.call_deferred(global.colors[info.internal.item_data.type])
+		#match info.internal.item_data.type:
+			#"active":
+				#legend_item.set_color.call_deferred(Color.DARK_GREEN)
+			#"passive":
+				#legend_item.set_color.call_deferred(Color.ORANGE.darkened(0.1))
+			#"mitigation":
+				#legend_item.set_color.call_deferred(Color.DIM_GRAY)
+			#"far":
+				#legend_item.set_color.call_deferred(Color.DARK_BLUE)
+			#"close":
+				#legend_item.set_color.call_deferred(Color.MEDIUM_PURPLE)
+			#"mental":
+				#legend_item.set_color.call_deferred(Color.CRIMSON)
+			#_:
+				#print(info.internal.item_data.type)
 		
 		#if legend_number_start == legend_number_end:
 		#else:
@@ -234,7 +235,7 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 	#icon.position = center
 	match fish_size:
 		GearwrightFish.SIZE.SMALL, GearwrightFish.SIZE.MEDIUM, GearwrightFish.SIZE.LARGE, GearwrightFish.SIZE.MASSIVE:
-			var gs_control := create_gear_section_control(GearwrightFish.FISH_GSIDS.BODY)
+			var gs_control := create_gear_section_control(GearwrightActor.GSIDS.FISH_BODY)
 			automagically_scale_control.call_deferred(gs_control)
 			center_control_manually.call_deferred(gs_control, center)
 		GearwrightFish.SIZE.LEVIATHAN:
@@ -247,7 +248,7 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 				create_gear_section_control(gsid)
 			fish_scale = 1.25
 			position_serpent_leviathan.call_deferred()
-		GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
+		GearwrightFish.SIZE.SILTSTALKER:
 			for gsid in GearwrightFish.SILTSTALKER_LEVIATHAN_FISH_GSIDS:
 				create_gear_section_control(gsid)
 			fish_scale = 1.5
@@ -264,10 +265,9 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 	
 	request_update_controls = true
 
-func create_gear_section_control(gsid: GearwrightFish.FISH_GSIDS) -> Control:
+func create_gear_section_control(gsid: GearwrightActor.GSIDS) -> Control:
 	var gs_control: Control = gear_section_control_scene.instantiate()
-	gs_control.is_fish_mode = true
-	gs_control.fish_gear_section_id = gsid
+	gs_control.gear_section_id = gsid
 	%FreeRangeGearSections.add_child(gs_control)
 	gs_control.initialize(current_character.get_gear_section(gsid))
 	gear_section_controls[gsid] = gs_control
@@ -289,9 +289,10 @@ const FISH_GRID_GAP: float = 16.0
 
 func position_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
-	var tail_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.TAIL]
-	var body_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.BODY]
-	var head_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.HEAD]
+	center.x -= 16
+	var tail_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_TAIL]
+	var body_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
+	var head_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_HEAD]
 	
 	tail_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	body_gsc.scale = Vector2(1.0, 1.0) * fish_scale
@@ -308,11 +309,11 @@ func position_leviathan():
 func position_serpent_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
 	center.y += FISH_GRID_GAP
-	var tip_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.TIP]
-	var tail_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.TAIL]
-	var body_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.BODY]
-	var neck_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.NECK]
-	var head_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.HEAD]
+	var tip_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_TIP]
+	var tail_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_TAIL]
+	var body_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
+	var neck_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_NECK]
+	var head_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_HEAD]
 	
 	tip_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	tail_gsc.scale = Vector2(1.0, 1.0) * fish_scale
@@ -337,11 +338,11 @@ func position_serpent_leviathan():
 func position_siltstalker_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
 	#center.y += FISH_GRID_GAP
-	var llegs_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.LEFT_LEGS]
-	var body_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.BODY]
-	var rlegs_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.RIGHT_LEGS]
-	var larm_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.LEFT_ARM]
-	var rarm_gsc: Control = gear_section_controls[GearwrightFish.FISH_GSIDS.RIGHT_ARM]
+	var llegs_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_LEFT_LEGS]
+	var body_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
+	var rlegs_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_RIGHT_LEGS]
+	var larm_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_LEFT_ARM]
+	var rarm_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_RIGHT_ARM]
 	
 	llegs_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	body_gsc.scale = Vector2(1.0, 1.0) * fish_scale
@@ -461,7 +462,12 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 func _on_fish_name_input_text_changed(new_text: String) -> void:
 	current_character.callsign = new_text
 
+func _on_internals_reset_confirm_dialog_confirmed() -> void:
+	current_character.unequip_all_internals()
+	request_update_controls = true
+
 #endregion
+
 
 
 

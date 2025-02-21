@@ -7,16 +7,7 @@ signal slot_exited(slot_info: Dictionary)
 const grid_slot_control_scene = preload("res://Scenes/grid_slot_control.tscn")
 const scaling_label_scene = preload("res://Scenes/scaling_label.tscn")
 
-# FIXME: can't support both fish and character gear section ids, since the values
-#  mean different things! There's no merging the two different enums.
-#  Wouldn't be a problem if we could dynamically change the sugggestions
-#  offered by the editor, but I think there's no way to do that either, so
-#  we're stuck with two different things and a boolean to tell the difference.
-#  at least we can keep this contained to within this class, other code
-#  shouldn't have to ask about which gear section id it should trust.
-@export var gear_section_id := GearwrightCharacter.CHARACTER_GSIDS.TORSO
-@export var fish_gear_section_id := GearwrightFish.FISH_GSIDS.BODY
-@export var is_fish_mode := false 
+@export var gear_section_id := GearwrightActor.GSIDS.FISHER_TORSO
 
 @onready var grid_container := %GridContainer
 @onready var caption_label := $CaptionLabel
@@ -30,7 +21,7 @@ var control_grid := SparseGrid.new()
 # TODO figure out how fish are going to work
 # maybe we should combine all the gsids into one enum...?
 @onready var gsid_to_overlay := {
-	GearwrightCharacter.CHARACTER_GSIDS.TORSO: %TorsoOverlaySprite2D,
+	GearwrightActor.GSIDS.FISHER_TORSO: %TorsoOverlaySprite2D,
 }
 
 func _ready():
@@ -46,11 +37,11 @@ func _ready():
 		global_position = Vector2(200, 200)
 		slot_entered.connect(func(slot_info): print("slot entered: ", str(slot_info)))
 		slot_exited.connect(func(slot_info): print("slot exited: ", str(slot_info)))
-		update(fake_character.get_gear_section(GearwrightCharacter.CHARACTER_GSIDS.TORSO))
+		update(fake_character.get_gear_section(GearwrightActor.GSIDS.FISHER_TORSO))
 		await get_tree().create_timer(2.0).timeout
 		scale = Vector2(4.0, 4.0)
 		await get_tree().create_timer(2.0).timeout
-		update(fake_character.get_gear_section(GearwrightCharacter.CHARACTER_GSIDS.TORSO))
+		update(fake_character.get_gear_section(GearwrightActor.GSIDS.FISHER_TORSO))
 
 func initialize(gear_section: GearSection):
 	initialized = true
@@ -88,8 +79,6 @@ func initialize(gear_section: GearSection):
 				"x" : x,
 				"y" : y,
 			}
-			if is_fish_mode:
-				slot_info.gear_section_id = fish_gear_section_id
 			grid_slot_control.slot_entered.connect(func(): slot_entered.emit(slot_info))
 			grid_slot_control.slot_exited.connect( func(): slot_exited.emit( slot_info))
 			grid_container.add_child(grid_slot_control)

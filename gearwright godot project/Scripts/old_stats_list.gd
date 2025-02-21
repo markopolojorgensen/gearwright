@@ -258,11 +258,13 @@ func update_weight_label_effect(a_Item):
 	else:
 		weight_label_shaker.start_shaking()
 
-func _on_weight_cap_check_button_toggled(button_pressed):
-	ignoring_weight_cap = button_pressed
+func _on_weight_cap_check_button_toggled(_button_pressed):
+	pass
+	#ignoring_weight_cap = button_pressed
 
-func _on_unlocks_check_button_toggled(button_pressed):
-	ignoring_unlock_cap = button_pressed
+func _on_unlocks_check_button_toggled(_button_pressed):
+	pass
+	#ignoring_unlock_cap = button_pressed
 
 func _on_background_edit_menu_background_stat_updated(stat, value, was_added):
 	base_stats[stat] += value if was_added else value * -1
