@@ -22,7 +22,8 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="HeaderLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Stats"
@@ -60,7 +61,8 @@ size_flags_horizontal = 3
 text = "Stat"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="StatTotalLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 modulate = Color(0.4984, 0.63546, 0.89, 1)
 layout_mode = 2
 size_flags_horizontal = 3

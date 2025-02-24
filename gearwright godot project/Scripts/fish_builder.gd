@@ -142,17 +142,19 @@ func update_controls():
 	var legend_number: int = 0
 	for internal_name in infos_by_internal_name.keys():
 		legend_number += 1
-		internal_name = internal_name as String
+		internal_name = internal_name as String # redundant
 		var infos: Array = infos_by_internal_name[internal_name]
 		var legend_number_start: int = legend_number
 		#var legend_number_end: int = legend_number
 		for info in infos:
 			info = info as Dictionary
 			info.internal.set_legend_number(legend_number)
+			internal_name = info.internal.item_data.name
 			#legend_number_end = legend_number
 			#legend_number += 1
 		var legend_item := internals_legend_list_item_scene.instantiate()
-		legend_item.set_legend_name(internal_name.capitalize())
+		#legend_item.set_legend_name(internal_name.capitalize())
+		legend_item.set_legend_name(internal_name)
 		legend_item.set_legend_number(str(legend_number_start))
 		var info := infos.front() as Dictionary
 		legend_item.set_color.call_deferred(global.colors[info.internal.item_data.type])

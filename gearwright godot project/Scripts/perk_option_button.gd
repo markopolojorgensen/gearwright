@@ -64,6 +64,10 @@ func update_option(index_threshold: int, char_perk_list: Array):
 	if index < char_perk_list.size():
 		perk = char_perk_list[index]
 	var nice_dev_name = perk_info.get(perk, "None")
+	if nice_dev_name == "None":
+		$ColorRect.hide()
+	else:
+		$ColorRect.show()
 	for i in range(item_count):
 		if get_item_text(i) == nice_dev_name:
 			select(i)

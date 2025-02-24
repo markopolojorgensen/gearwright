@@ -289,7 +289,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	
 	# there is no gear section
 	if not gear_section_id in get_active_gear_section_ids():
-		errors.append("No gear section")
+		errors.append("No gear section '%d'" % gear_section_id)
 		return errors
 	
 	var gear_section: GearSection = gear_sections[gear_section_id]
@@ -355,15 +355,24 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 			errors.append("Exceeds Limited count")
 	
 	if is_optics:
-		errors.append_array(check_tag_count(item, "optics", max_optics_count))
+		errors.append_array(check_tag_count("optics", max_optics_count))
 	if is_engine:
-		errors.append_array(check_tag_count(item, "engine", 1))
+		errors.append_array(check_tag_count("engine", 1))
 	if is_unwieldy:
-		errors.append_array(check_tag_count(item, "unwieldy", 1))
+		errors.append_array(check_tag_count("unwieldy", 1))
 	
 	if is_bulky:
-		var equipped_item_infos := get_equipped_items()
+		#var equipped_item_infos := get_equipped_items()
+		var equipped_item_infos: Array = get_equipped_items_by_gs()[gear_section_id]
 		for equipped_item_info in equipped_item_infos:
+			var other_tags = equipped_item_info.internal.item_data.tags
+			var is_other_bulky := false
+			for tag in other_tags:
+				if "bulky" in tag.to_lower():
+					is_other_bulky = true
+			if not is_other_bulky:
+				continue
+			
 			var other_primary_cell := Vector2i(equipped_item_info.slot.x, equipped_item_info.slot.y)
 			var other_cells = equipped_item_info.internal.get_relative_cells(other_primary_cell)
 			var bulky_violation := false
@@ -376,11 +385,13 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 					if Vector2(cell).distance_squared_to(Vector2(other_cell)) <= 2.0:
 						bulky_violation = true
 			if bulky_violation:
-				errors.append("Bulky: Adjacent to %s" % equipped_item_info.internal_name.capitalize())
+				#errors.append("Bulky: Adjacent to %s" % equipped_item_info.internal_name.capitalize())
+				errors.append("Bulky: Adjacent to %s" % equipped_item_info.internal.item_data.name)
+				
 	
 	return errors
 
-func check_tag_count(item, tag_name: String, max_count: int) -> Array:
+func check_tag_count(tag_name: String, max_count: int) -> Array:
 	var equipped_item_infos := get_equipped_items()
 	var other_count: int = 0
 	var errors := []
@@ -389,8 +400,9 @@ func check_tag_count(item, tag_name: String, max_count: int) -> Array:
 		for tag in other_tags:
 			if tag_name in tag.to_lower():
 				other_count += 1
-				var equipped_item_name: String = equipped_item_info.internal_name
-				errors.append("%s: already has %s" % [tag_name.capitalize(), equipped_item_name.capitalize()])
+				#var equipped_item_name: String = equipped_item_info.internal_name
+				var equipped_item_name: String = equipped_item_info.internal.item_data.name
+				errors.append("%s: already has %s" % [tag_name.capitalize(), equipped_item_name])
 				break
 	if max_count < (other_count + 1):
 		return errors
@@ -418,6 +430,8 @@ func get_equipped_items(include_item_values := true) -> Array:
 					internal_info.internal = grid_slot.installed_item
 				internals_list.append(internal_info)
 	return internals_list
+
+# FIXME what the heck is going on with these two functions ^ v
 
 # returns a dictionary
 #  keys: gsid

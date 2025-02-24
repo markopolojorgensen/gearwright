@@ -67,6 +67,10 @@ var hovered_stat := ""
 func _ready():
 	if is_fish:
 		pretty_stat_names = pretty_stat_names_fish
+		#%StatTotalLabel.size_flags_stretch_ratio = 1.0
+		%StatTotalLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		(%HeaderLabel as Label).add_theme_font_size_override("font_size", 24)
+		theme = preload("res://Assets/big_font_theme.tres")
 	else:
 		pretty_stat_names = pretty_stat_names_character
 	
@@ -86,7 +90,10 @@ func _ready():
 		var value_label := Label.new()
 		var math_label  := Label.new()
 		name_label.text = stat_name
-		name_label.custom_minimum_size.x = 106 # extreme amounts of jank
+		if is_fish:
+			pass
+		else:
+			name_label.custom_minimum_size.x = 106 # extreme amounts of jank
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		math_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -185,6 +192,7 @@ func update(character: GearwrightActor):
 					negatives += value
 			stat_value = clamp(stat_value, 1, 10)
 			stat_value += negatives
+			stat_value = clamp(stat_value, 1, 10)
 		
 		label_list[1].text = str(stat_value)
 		

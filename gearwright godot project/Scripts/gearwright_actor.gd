@@ -32,10 +32,10 @@ const GSIDS_TO_NAMES := {
 	GSIDS.FISH_BODY: "body",
 	GSIDS.FISH_NECK: "neck",
 	GSIDS.FISH_HEAD: "head",
-	GSIDS.FISH_LEFT_LEGS: "left legs",
-	GSIDS.FISH_RIGHT_LEGS: "right legs",
-	GSIDS.FISH_LEFT_ARM: "left arm",
-	GSIDS.FISH_RIGHT_ARM: "right arm",
+	GSIDS.FISH_LEFT_LEGS: "left_legs",
+	GSIDS.FISH_RIGHT_LEGS: "right_legs",
+	GSIDS.FISH_LEFT_ARM: "left_arm",
+	GSIDS.FISH_RIGHT_ARM: "right_arm",
 }
 
 
@@ -53,7 +53,7 @@ func check_internal_equip_validity(item, gear_section_id: int, _primary_cell: Ve
 	
 	# there is no gear section
 	if not gear_section_id in GSIDS.values():
-		errors.append("No gear section")
+		errors.append("No gear section '%d'" % gear_section_id)
 	
 	return errors
 

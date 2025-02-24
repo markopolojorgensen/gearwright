@@ -441,6 +441,13 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 			# new style
 			for gs_name in internals.keys():
 				var gsid: GSIDS = GSIDS_TO_NAMES.find_key(gs_name)
+				# this is a fish, not a fisher
+				if gsid == GSIDS.FISHER_LEFT_ARM:
+					gsid = GSIDS.FISH_LEFT_ARM
+				if gsid == GSIDS.FISHER_RIGHT_ARM:
+					gsid = GSIDS.FISH_RIGHT_ARM
+				if gsid == GSIDS.FISHER_HEAD:
+					gsid = GSIDS.FISH_HEAD
 				var gs_internals_list: Array = internals[gs_name]
 				for i in range(gs_internals_list.size()):
 					# internal_info.slot: dictionary

@@ -1,12 +1,9 @@
 TODO
 Q1 2025, definitely before May
 
-
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
 ------------------------------------------------------------------------------------------------------- MEDIOM
-investigate fish save/load for fishes of all sizes / types
-multiple "A Brush With The Deep" developments should give you multiple deep words
 ------------------------------------------------------------------------------------------------------- LORGE
 yeet all commented code / finish refactor
 go through all FIXMEs / TODOs / WHEREWASIs
@@ -14,59 +11,15 @@ switch to InputContext framework
   permanently unbork custom background editing
   unbork trying to edit fish export name
 ------------------------------------------------------------------------------------------------------- MYSTERY
-test 4.3 program export
-
-
-------------------------------------------------------------------------------------------------------- DONE
-Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise)
-optics tag limit
-engine tag limit
-unwieldy tag limit
-ballast shenanigans
-  ballast can only be 1-10
-  lightweight construction / fish mutation / gas pockets should all apply AFTER weight calculation
-  so weight 55 -> ballast 10 -> lightweight -> ballast 9
-"enforce weight cap" toggle should work
-"enforce unlocks" toggle should work
-"Stat Total" text in stats display
-too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
-reset unlocks / reset internals shouldn't cause crashes
-program shouldn't crash if you try to use it without loading data
-consolidate gear section ids
-new colors
-  Passive Internals: HTML: 753706
-  Active Internals: HTML: 215328
-  FAR Internals: HTML: 204050
-  CLOSE Internals: HTML: 452255
-  MENTAL Internals: 572129
-  MITIGATION: Html: 454545
-  right click info headers
-  fish internal legend backings
-Developments shouldn't cause widening
-lose background in stats display
-fish legend -> Underlay the names of the Fish Internals with the color that they are (purple, pink, orange, green, blue)
-align buttons along the top menu bar in fisher & fish editor
-"Math" -> "Breakdown"
-stats/internals header font size increase?
-warning message riser should start about 16 pixels higher
-9 repair jolly roger / repair kits box that mirrors gear ability box
-align lots of things (see discord pinned message)
-cut background from callsign summary
-no need for gap between background and developments
-background/developments/maneuvers/deepwords box on the left, gear in the middle, stats on the right
-
-
-
-
-
-
-
-
-
 
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
+multiple "A Brush With The Deep" developments should give you multiple deep words
+see if you cant make building smaller fish feel as nice as gears, i feel the size of the internals is the cause here.
+Mutation stat bonuses should add to the BASE stat, they should not be counted as a bonus. The Fish can't ever lose these mutations mid encounter so its easier to just add them to base.
+"enforce tags" toggle
 don't let players take repeat developments (exception A Brush With The Deep)
+don't let players take repeat manuevers
 bonus manuever from 6 mental needs to be limited to mental maneuvers
 zoom font changes
   maybe make everything huge and then always be scaling down?
@@ -76,6 +29,7 @@ incorporate new assets for gear sections (waiting on assets)
   fishers and fish alike
 
 non-standard fisher adjustments
+  probably spinboxes along the side of the stats thing, oof
   "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
   injuries
     todo: list all the stuff injuries can change
@@ -103,9 +57,7 @@ edit .json files
     Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
   pinned discord message
 
-ask ralf about this:
-  gear builder: weight cap & weight -> top right under unlocks
-  remove weight cap & weight from bottom right
+we can definitely move weight cap and weight underneath unlocks, maybe that creates room in the stats bar for an "edit stats" button
 
 right click on developments/maneuvers/deepwords in gear builder to see what they do
 show known saves (duh)
@@ -121,19 +73,18 @@ undo/redo?
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
-
+too many different fish internals is a bit jank
 right clicking to inspect has some problems
   the popup always stays within the edges of the screen, but if you mouse over the popup it will disappear (or if the popup pops up under your mouse) as soon as you release right click
   right clicking empty spaces sometimes gives you popup of the item whose aabb overlaps that empty space
     also causes problems since multiple items can occupy the same space
 
-Questions
-  numbers vs no_numbers export?
-  power saving / performance mode?
+what is the difference between numbers vs no_numbers genie export?
 
-godot theme???
+power saving / performance mode?
+
 UI polish pass
-startup time seems a bit slow?
+startup time seems a bit slow
 
 =QUALITY ASSURANCE=
 
@@ -148,12 +99,57 @@ Do you want a "battle" mode, where you can track all the stuff you currently tra
   (it would be a pretty sizeable undertaking)
   no
 
-
+sort fish internal legend by type (color)
+  unnecessary
 
 
 
 DONE
 
+2.0.1
+  text size shenanigans
+2.0.0
+  test 4.3 program export
+  investigate fish save/load for fishes of all sizes / types
+  fsh archive changes (fragile optic rotation, cam -> optics, grid changes)
+  Ii -> II the names have been in the item_data the whole time /)_(\
+  permanent perk ux
+  Bulky Internals can't be installed next to other Bulky Internals (Diagonally or otherwise)
+  optics tag limit
+  engine tag limit
+  unwieldy tag limit
+  ballast shenanigans
+    ballast can only be 1-10
+    lightweight construction / fish mutation / gas pockets should all apply AFTER weight calculation
+    so weight 55 -> ballast 10 -> lightweight -> ballast 9
+  "enforce weight cap" toggle should work
+  "enforce unlocks" toggle should work
+  "Stat Total" text in stats display
+  too many unlocks used (like from lowering a level) should cause a red font and an exclamation mark
+  reset unlocks / reset internals shouldn't cause crashes
+  program shouldn't crash if you try to use it without loading data
+  consolidate gear section ids
+  new colors
+    Passive Internals: HTML: 753706
+    Active Internals: HTML: 215328
+    FAR Internals: HTML: 204050
+    CLOSE Internals: HTML: 452255
+    MENTAL Internals: 572129
+    MITIGATION: Html: 454545
+    right click info headers
+    fish internal legend backings
+  Developments shouldn't cause widening
+  lose background in stats display
+  fish legend -> Underlay the names of the Fish Internals with the color that they are (purple, pink, orange, green, blue)
+  align buttons along the top menu bar in fisher & fish editor
+  "Math" -> "Breakdown"
+  stats/internals header font size increase?
+  warning message riser should start about 16 pixels higher
+  9 repair jolly roger / repair kits box that mirrors gear ability box
+  align lots of things (see discord pinned message)
+  cut background from callsign summary
+  no need for gap between background and developments
+  background/developments/maneuvers/deepwords box on the left, gear in the middle, stats on the right
   go all the way through this document
   Fisher saves shouldn't have overlapping internals (discarded internals are not consistently removed from the file)
   leviathan grid section names
