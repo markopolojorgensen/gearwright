@@ -4,7 +4,6 @@ extends Node
 
 var dirs_to_check := ["LocalData", "Saves", "Screenshots"]
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	for directory in dirs_to_check:
 		directory = "user://".path_join(directory)

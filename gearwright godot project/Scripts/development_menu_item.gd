@@ -1,6 +1,6 @@
 extends ColorRect
 
-# widget for selecting a development
+# maybe keep this around just in case we want to revert...?
 
 @onready var option_button = $DevelopmentsOptionButton
 @onready var plus_button = $Button

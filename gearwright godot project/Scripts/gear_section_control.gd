@@ -11,15 +11,10 @@ const scaling_label_scene = preload("res://Scenes/scaling_label.tscn")
 
 @onready var grid_container := %GridContainer
 @onready var caption_label := $CaptionLabel
-#@onready var header_container := $HeaderHBoxContainer
 
 var initialized := false
 var control_grid := SparseGrid.new()
 
-# var gear_section: GearSection
-
-# TODO figure out how fish are going to work
-# maybe we should combine all the gsids into one enum...?
 @onready var gsid_to_overlay := {
 	GearwrightActor.GSIDS.FISHER_TORSO: %TorsoOverlaySprite2D,
 }
@@ -30,10 +25,6 @@ func _ready():
 	
 	if global_util.was_run_directly(self):
 		var fake_character := GearwrightCharacter.new()
-		#var fake_gear_section := GearSection.new()
-		#fake_gear_section.set_section_dimensions(Vector2i(3, 3))
-		#fake_gear_section.name = "Head"
-		#fake_gear_section.dice_string = "(2-3)"
 		global_position = Vector2(200, 200)
 		slot_entered.connect(func(slot_info): print("slot entered: ", str(slot_info)))
 		slot_exited.connect(func(slot_info): print("slot exited: ", str(slot_info)))
@@ -45,9 +36,6 @@ func _ready():
 
 func initialize(gear_section: GearSection):
 	initialized = true
-	#var fake_character = GearwrightCharacter.new()
-	#gear_section = new_gear_section
-	#var gear_section: GearSection = fake_character.get_gear_section(gear_section_id)
 	
 	caption_label.text = "%s %s" % [gear_section.name, gear_section.dice_string]
 	
@@ -71,10 +59,8 @@ func initialize(gear_section: GearSection):
 		for x in range(gear_section.grid.size.x):
 			var grid_slot_control = grid_slot_control_scene.instantiate()
 			var slot_info := {
-				#"gear_section"         : gear_section,
 				"gear_section_id"      : gear_section_id,
 				"gear_section_control" : self,
-				#"grid_slot"            : gear_section.grid.get_contents(x, y),
 				"grid_slot_control"    : grid_slot_control,
 				"x" : x,
 				"y" : y,
@@ -112,6 +98,7 @@ func update(gear_section: GearSection):
 		#var scaling_label = grid_container.get_child(i)
 		#scaling_label.update_scale()
 	
+	# put overlays below column headers
 	if 7 <= grid_container.get_child_count():
 		for overlay in gsid_to_overlay.values():
 			overlay.position.y = grid_container.get_child(6).position.y
@@ -125,7 +112,6 @@ func clear_grey_out():
 		control_grid.get_contents_v(coords).clear_grey_out()
 
 # un-initializes this node
-# no idea if this works or what
 func reset():
 	global_util.clear_children(grid_container)
 	control_grid.clear()

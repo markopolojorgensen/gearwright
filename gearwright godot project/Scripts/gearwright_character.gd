@@ -4,9 +4,11 @@ class_name GearwrightCharacter
 # represents a single character in gearwright
 # one gear loadout, one callsign, etc.
 
+const non_cyclic_item_scene = preload("res://Scenes/item.tscn")
+
 # keys in game data json files
 var frame_name := ""
-var level := -1
+var level := 1
 
 var developments := []
 var maneuvers := []
@@ -15,7 +17,6 @@ var deep_words := []
 var frame_stats := DataHandler.frame_stats_template.duplicate(true)
 var level_stats := DataHandler.level_stats_template.duplicate(true)
 var background_stats := DataHandler.background_stats_template.duplicate(true)
-# {"marbles":1, "mental":1, "willpower":1, "unlocks":2, "weight_cap":2}
 var custom_background := []
 const custom_background_caps := {
 	"marbles":    2,
@@ -85,42 +86,8 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 		errors.append("%s can't go in %s section" % [item.item_data.name, gear_section_id_to_name(gear_section_id).capitalize()])
 	
 	errors.append_array(internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell))
-	#if not internal_inventory.is_valid_internal_equip(item, gear_section_id, primary_cell):
-		#return false
 	
-	#var gear_section: GearSection = gear_sections[gear_section_id]
-	# for each slot that would become occupied:
-	#var cells := get_item_cells(item, gear_section_id, primary_cell)
-	#for i in range(cells.size()):
-		#var cell: Vector2i = cells[i]
-		#
-		## slot is out of bounds
-		#if not gear_section.grid.is_within_size_v(cell):
-			#return false
-		#
-		#var grid_slot: GridSlot = gear_section.grid.get_contents_v(cell)
-		## slot is locked
-		#if grid_slot.is_locked:
-			#return false
-		#
-		## there's already something there
-		#if grid_slot.installed_item != null:
-			#return false
-	
-	#return true
 	return errors
-
-#func get_total_equipped_weight() -> int:
-	#return gear_sections.values().reduce(
-			#func(sum, gear_section: GearSection):
-				#return sum + gear_section.get_total_equipped_weight(),
-			#0)
-	#var sections := gear_sections.values()
-	#var sum := 0
-	#for i in range(sections.size()):
-		#var gear_section: GearSection = sections[i]
-		#sum += gear_section.get_total_equipped_weight()
-	#return sum
 
 func get_equipped_items() -> Array:
 	return internal_inventory.get_equipped_items()
@@ -130,109 +97,6 @@ func has_gear_section(gsid: int) -> bool:
 
 func get_gear_section(gsid: int) -> GearSection:
 	return internal_inventory.gear_sections[gsid]
-
-## returns 4 things
-## stat name, total, base, bonus
-## not necessarily strings
-#func get_stat_label_texts(stat: String) -> Array:
-	#var snake_stat := stat.to_snake_case()
-	#if snake_stat in [
-			#"close",
-			#"far",
-			#"mental",
-			#"power",
-			#"evasion",
-			#"willpower",
-			#"ap",
-			#"speed",
-			#"sensors",
-			#"repair_kits",
-			#"weight",
-			#"weight_cap",
-			#"ballast",
-			#]:
-		#var value = call("get_%s" % snake_stat)
-		#var info: Dictionary = call("get_%s_info" % snake_stat)
-		#print(info.keys())
-		#var base: int = info.get("background", 0)
-		#var bonus := get_bonus_amount(info)
-		#return [stat, value, base, bonus]
-	#
-	#match snake_stat:
-		#"background":
-			#return [stat, background_stats.background]
-		#"marbles":
-			#var info := get_max_marbles_info()
-			#var base = info.background
-			#var bonus: int = get_bonus_amount(info)
-			#return [stat, get_max_marbles(), base, bonus]
-		#"core_integrity":
-			#return [stat, frame_stats.core_integrity]
-		#"unlocks":
-			#var info := get_max_unlocks_info()
-			#return [stat, get_max_unlocks(), info.background, get_bonus_amount(info)]
-		#"":
-			#return []
-		#_:
-			#var error := "GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat
-			#push_error(error)
-			#return [error]
-
-
-
-
-
-
-
-# TODO probably yeet this huh
-#func get_stat_label_text(stat: String) -> String:
-	#var snake_stat := stat.to_snake_case()
-	#if snake_stat in [
-			#"close",
-			#"far",
-			#"mental",
-			#"power",
-			#"evasion",
-			#"willpower",
-			#"ap",
-			#"speed",
-			#"sensors",
-			#"repair_kits",
-			#"weight",
-			#"weight_cap",
-			#"ballast",
-			#]:
-		#var value = call("get_%s" % snake_stat)
-		#return "%s: %s" % [stat, value]
-	#
-	#match snake_stat:
-		#"background":
-			#return "%s: %s" % [stat, background_stats.background]
-		#"marbles":
-			#return "%s: %s" % [stat, get_max_marbles()]
-		#"core_integrity":
-			#return "%s: %s" % [stat, frame_stats.core_integrity]
-		#"unlocks":
-			#return "%s: %s" % [stat, get_max_unlocks()]
-		#"":
-			#return ""
-		#_:
-			#var error := "GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat
-			#push_error(error)
-			#return error
-	#
-	#var sl
-	#sl = stat_lines["weight"]
-	#sl.label.text = "%s: %s" % [sl.name, character.get_total_equipped_weight()]
-	#
-	#sl = stat_lines["weight_cap"]
-	#sl.label.text = "%s: %s" % [sl.name, character.get_weight_cap()]
-	#
-	#sl = stat_lines["marbles"]
-	#sl.label.text = "%s: %s" % [sl.name, character.get_max_marbles()]
-	#
-	#sl = stat_lines["core_integrity"]
-	#sl.label.text = "%s: %s" % [sl.name, character.frame_stats.core_integrity]
 
 func get_stat_info(stat: String) -> Dictionary:
 	var snake_stat := stat.to_snake_case()
@@ -274,41 +138,6 @@ func get_stat_explanation(stat: String) -> String:
 		return ""
 	else:
 		return info_to_explanation_text(info)
-	
-	#var snake_stat := stat.to_snake_case()
-	#if snake_stat in [
-			#"close",
-			#"far",
-			#"mental",
-			#"power",
-			#"evasion",
-			#"willpower",
-			#"ap",
-			#"speed",
-			#"sensors",
-			#"repair_kits",
-			#"weight",
-			#"weight_cap",
-			#"ballast",
-			#]:
-		#var info: Dictionary = call("get_%s_info" % snake_stat)
-		#return info_to_explanation_text(info)
-	#
-	#match snake_stat:
-		#"background":
-			#return ""
-			## custom background explanation_text, maybe?
-		#"marbles":
-			#return info_to_explanation_text(get_max_marbles_info())
-		#"core_integrity":
-			#return info_to_explanation_text({frame = frame_stats.core_integrity})
-		#"unlocks":
-			#return info_to_explanation_text(get_max_unlocks_info())
-		#"":
-			#return ""
-		#_:
-			#push_error("GearwrightCharacter: get_stat_explanation: unknown stat: %s" % stat)
-			#return ""
 
 static func info_to_explanation_text(info: Dictionary) -> String:
 	var result = ""
@@ -324,11 +153,6 @@ static func info_to_explanation_text(info: Dictionary) -> String:
 		
 		result += "%s: %s\n" % [key.capitalize(), number_string]
 	return result
-
-#func sum_internals_for_stat(stat: String) -> int:
-	#return sum_array(get_equipped_items().map(
-			#func(info: Dictionary): return info.internal.item_data.get(stat, 0))
-	#)
 
 func has_unlocks_remaining() -> bool:
 	if enforce_hardpoint_cap:
@@ -349,7 +173,6 @@ func is_overweight_with_item(item):
 		return true
 	else:
 		return false
-
 
 # Vet your info before calling this function!
 func get_grid_slot(gsid: int, x: int, y: int) -> GridSlot:
@@ -591,6 +414,36 @@ func get_core_integrity() -> int:
 
 #region Mutation
 
+func load_frame(name: String):
+	global_util.fancy_print("applying frame: %s" % name)
+	frame_name = name
+	frame_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.FRAME, name)
+	reset_gear_sections()
+
+func load_background(bg_id: String):
+	global_util.fancy_print("applying background: %s" % bg_id)
+	if bg_id != "custom":
+		custom_background.clear()
+	background_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.BACKGROUND, bg_id)
+
+# might be int, might be string
+func set_level(new_level):
+	if new_level is String:
+		new_level = int(new_level)
+	level = new_level
+	global_util.fancy_print("applying level: %d" % level)
+	level_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.LEVEL, str(level))
+	
+	while developments.size() < level_stats.developments:
+		developments.append("")
+	while developments.size() > level_stats.developments:
+		developments.pop_back()
+	
+	while maneuvers.size() < level_stats.maneuvers:
+		maneuvers.append("")
+	while maneuvers.size() > level_stats.maneuvers:
+		maneuvers.pop_back()
+
 # yeets all equipped internals
 # resets unlocks to nothing
 # reapplies default unlocks from frame
@@ -604,30 +457,6 @@ func reset_gear_sections():
 		var grid_slot: GridSlot = get_grid_slot(info.gear_section_id, info.x, info.y)
 		grid_slot.is_locked = false
 		grid_slot.is_default_unlock = true
-
-# TODO yeet this???
-func mystery_section_to_section_id(section) -> int:
-	if section is int:
-		if section in GSIDS.values():
-			return section
-		else:
-			push_error("unknown int gear section: %s" % str(section))
-			breakpoint
-			return -1
-	elif section is String:
-		if section in ["0", "1", "2", "3", "4"]:
-			return int(section)
-		var result = gear_section_name_to_id(section)
-		if result == -1:
-			push_error("unknown string gear section: %s" % str(section))
-			breakpoint
-			return -1
-		else:
-			return result
-	else:
-		push_error("unknown gear section: not int or string: %s" % str(section))
-		breakpoint
-		return -1
 
 # returns true if successful
 func toggle_unlock(gear_section_id: int, x: int, y: int) -> bool:
@@ -674,44 +503,6 @@ func _edit_perk(list: Array, list_size: int, slot: int, name: String):
 	assert(slot < list_size)
 	list[slot] = name
 
-#func set_development(slot: int, name: String):
-	#if not name.is_empty():
-		#DataHandler.get_development_data(name) # trigger popup
-	#assert(slot >= 0)
-	#assert(slot < developments.size())
-	#developments[slot] = name
-#
-#func set_maneuver(slot: int, name: String):
-	#while maneuvers.size() < get_maneuver_count():
-		#maneuvers.append("")
-	#while maneuvers.size() > get_maneuver_count():
-		#maneuvers.pop_back()
-	#
-	#if not name.is_empty():
-		#DataHandler.get_development_data(name) # trigger popup
-	#assert(slot >= 0)
-	#assert(slot < maneuvers.size())
-	#maneuvers[slot] = name
-#
-#func set_deep_word(slot: int, name: String):
-	#while deep_words.size() < get_maneuver_count():
-		#maneuvers.append("")
-	#while maneuvers.size() > get_maneuver_count():
-		#maneuvers.pop_back()
-	#
-	#if not name.is_empty():
-		#DataHandler.get_development_data(name) # trigger popup
-	#assert(slot >= 0)
-	#assert(slot < maneuvers.size())
-	#maneuvers[slot] = name
-
-#func add_development(name: String):
-	#DataHandler.get_development_data(name) # trigger popup
-	#developments.append(name)
-
-#func remove_development(name: String):
-	#developments.erase(name)
-
 # returns a dictionary of relevant developments
 # keys are development names, values are development stat blocks
 func find_devs_that_modify(stat: String) -> Dictionary:
@@ -753,36 +544,6 @@ func modify_custom_background(stat: String, is_increase: bool):
 
 #region save & load
 
-func load_frame(name: String):
-	global_util.fancy_print("applying frame: %s" % name)
-	frame_name = name
-	frame_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.FRAME, name)
-	reset_gear_sections()
-
-func load_background(bg_id: String):
-	global_util.fancy_print("applying background: %s" % bg_id)
-	if bg_id != "custom":
-		custom_background.clear()
-	background_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.BACKGROUND, bg_id)
-
-# might be int, might be string
-func set_level(new_level):
-	if new_level is String:
-		new_level = int(new_level)
-	level = new_level
-	global_util.fancy_print("applying level: %d" % level)
-	level_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.LEVEL, str(level))
-	
-	while developments.size() < level_stats.developments:
-		developments.append("")
-	while developments.size() > level_stats.developments:
-		developments.pop_back()
-	
-	while maneuvers.size() < level_stats.maneuvers:
-		maneuvers.append("")
-	while maneuvers.size() > level_stats.maneuvers:
-		maneuvers.pop_back()
-
 func marshal() -> Dictionary:
 	var result := {
 		callsign = callsign,
@@ -793,10 +554,6 @@ func marshal() -> Dictionary:
 	
 	result.custom_background = custom_background
 	
-	#var unlocks_info = []
-	#for real_slot_info in internal_inventory.get_unlocked_slots():
-		#var json_slot_info = make_slot_info(real_slot_info.gear_section_id, real_slot_info.grid_slot_coords)
-		#unlocks_info.append(json_slot_info)
 	var unlocks_info := {}
 	var unlocks_by_gs := internal_inventory.get_unlocked_slots_by_gear_section()
 	for gsid in unlocks_by_gs.keys():
@@ -805,7 +562,6 @@ func marshal() -> Dictionary:
 			)
 	result.unlocks = unlocks_info
 	
-	#result.internals = internal_inventory.get_equipped_items(false)
 	var internals_info := {}
 	var internals_by_gs := internal_inventory.get_equipped_items_by_gs(false)
 	for gsid in internals_by_gs.keys():
@@ -822,29 +578,94 @@ func marshal() -> Dictionary:
 	result.gearwright_version = version.VERSION
 	
 	return result
-	
-	#for grid in internals.keys():
-		#gear_data["internals"][str(grid)] = internals[grid].item_data["name"].to_snake_case()
-	#
-	#gear_data["frame"] = current_frame
-	#gear_data["background"] = current_background
-	#gear_data["callsign"] = callsign_line_edit.text
-	#gear_data["custom_background"] = custom_background
-	#gear_data["developments"] = developments_container.current_developments
-	#gear_data["maneuvers"] = maneuvers_container.current_maneuvers
-	#gear_data["deep_words"] = deep_words_container.current_deep_words
-	#
-	#return str(gear_data).replace("\\", "")
 
-# for JSON-able slots
-# FIXME unduplicate in gearwright character and internal inventory
-func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
-	return {
-		gear_section_name = gear_section_id_to_name(gear_section_id),
-		gear_section_id = gear_section_id,
-		x = cell.x,
-		y = cell.y,
-	}
+static func unmarshal(info: Dictionary) -> GearwrightCharacter:
+	var sesh: UnmarshalSession = start_unmarshalling_session(info)
+	
+	var ch := GearwrightCharacter.new()
+	ch.callsign = sesh.get_info("callsign")
+	ch.load_frame(sesh.get_info("frame"))
+	ch.load_background(sesh.get_info("background"))
+	ch.set_level(sesh.get_info("level", 1))
+	
+	ch.custom_background = sesh.get_info("custom_background", [])
+	
+	var unlocks_raw_data = sesh.get_info("unlocks")
+	var unlocks_slot_infos := [] # list of make_slot_info results
+	if unlocks_raw_data == null:
+		sesh.errors.append("No unlocks found!")
+	elif unlocks_raw_data is Array:
+		# old style
+		sesh.errors.append("Unlocks save format is from a previous version, attempting conversion")
+		var unlocks_list: Array = unlocks_raw_data as Array
+		for unlock_index in unlocks_list:
+			var unlock_slot_info = ch.grid_array_index_to_slot_info(int(unlock_index))
+			unlocks_slot_infos.append(unlock_slot_info)
+	elif unlocks_raw_data is Dictionary:
+		# new style
+		var unlocks_info: Dictionary = unlocks_raw_data as Dictionary
+		for gs_name in unlocks_info.keys():
+			var gsid := gear_section_name_to_id(gs_name)
+			var unlocks_list: Array = unlocks_info[gs_name]
+			for unlock_slot_data in unlocks_list:
+				unlocks_slot_infos.append(global.make_slot_info(gsid, global.dictionary_to_vector2i(unlock_slot_data)))
+	
+	# unlocks_slot_infos should now be in make_slot_info format
+	for unlock_slot_info in unlocks_slot_infos:
+		if not ch.toggle_unlock(unlock_slot_info.gear_section_id, unlock_slot_info.x, unlock_slot_info.y):
+			sesh.errors.append("  failed to unlock %s" % str(unlock_slot_info))
+	
+	var internals := sesh.get_info("internals", {}) as Dictionary
+	# suspension might not get equipped before we hit weight cap, so ignore it
+	ch.enforce_weight_cap = false
+	if internals.is_empty():
+		# maybe this isn't an error?
+		sesh.errors.append("No internals found!")
+	else:
+		var first_key = internals.keys().front()
+		if (first_key == "0") or (int(first_key) != 0):
+			# old style
+			sesh.errors.append("Internals save format is from a previous version, attempting conversion")
+			var new_internals := {}
+			for slot_index in internals.keys():
+				# gear_section_name, gear_section_id, x, y
+				var slot_info: Dictionary = ch.grid_array_index_to_slot_info(int(slot_index))
+				var internal_name = internals[slot_index]
+				if not new_internals.has(slot_info.gear_section_name):
+					new_internals[slot_info.gear_section_name] = []
+				# fuck json
+				var internal_info := {
+					slot = global.vector_to_dictionary(Vector2i(slot_info.x, slot_info.y)),
+					internal_name = internal_name,
+				}
+				new_internals[slot_info.gear_section_name].append(internal_info)
+			internals = new_internals
+		
+		# new style
+		for gs_name in internals.keys():
+			var gsid := gear_section_name_to_id(gs_name)
+			var gs_internals_list: Array = internals[gs_name]
+			for i in range(gs_internals_list.size()):
+				# internal_info.slot: dictionary
+				#   x, y
+				# internal_info.internal: string
+				var internal_info: Dictionary = gs_internals_list[i]
+				internal_info.internal_name = (internal_info.internal_name as String).replacen("cam", "optics")
+				var new_internal = non_cyclic_item_scene.instantiate()
+				new_internal.load_item(internal_info.internal_name)
+				var primary_cell := global.dictionary_to_vector2i(internal_info.slot) # fuck json
+				var errors: Array = ch.equip_internal(new_internal, gsid, primary_cell)
+				if not errors.is_empty():
+					sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
+	ch.enforce_weight_cap = true
+	
+	ch.developments = sesh.get_info("developments", [])
+	ch.maneuvers = sesh.get_info("maneuvers", [])
+	ch.deep_words = sesh.get_info("deep_words", [])
+	
+	finish_unmarshalling_session(sesh)
+	
+	return ch
 
 #endregion
 
@@ -852,22 +673,6 @@ func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
 
 
 #region static functions
-
-static func gear_section_id_to_name(id: int) -> String:
-	return GSIDS_TO_NAMES.get(id, "unknown gear section id: %d" % id)
-	#match id:
-		#CHARACTER_GSIDS.TORSO:
-			#return "torso"
-		#CHARACTER_GSIDS.LEFT_ARM:
-			#return "left_arm"
-		#CHARACTER_GSIDS.RIGHT_ARM:
-			#return "right_arm"
-		#CHARACTER_GSIDS.HEAD:
-			#return "head"
-		#CHARACTER_GSIDS.LEGS:
-			#return "legs"
-		#_:
-			#return "unknown gear section id: %d" % id
 
 static func gear_section_name_to_id(name: String) -> int:
 	match name:
@@ -905,106 +710,6 @@ static func item_section_to_valid_section_ids(section_name: String) -> Array:
 		_:
 			push_error("gearwright_character: unknown item section: %s" % section_name)
 			return []
-
-
-static func unmarshal(info: Dictionary) -> GearwrightCharacter:
-	var sesh := start_unmarshalling_session(info)
-	
-	var ch := GearwrightCharacter.new()
-	ch.callsign = sesh.get_info("callsign")
-	ch.load_frame(sesh.get_info("frame"))
-	ch.load_background(sesh.get_info("background"))
-	ch.set_level(sesh.get_info("level", 1))
-	
-	ch.custom_background = sesh.get_info("custom_background", [])
-	# not sure why this was here
-	#if ch.custom_background.is_empty():
-		# breakpoint
-	
-	var unlocks_raw_data = sesh.get_info("unlocks")
-	var unlocks_slot_infos := [] # list of make_slot_info results
-	if unlocks_raw_data == null:
-		sesh.errors.append("No unlocks found!")
-	elif unlocks_raw_data is Array:
-		# old style
-		sesh.errors.append("Unlocks save format is from a previous version, attempting conversion")
-		var unlocks_list: Array = unlocks_raw_data as Array
-		for unlock_index in unlocks_list:
-			var unlock_slot_info = ch.grid_array_index_to_slot_info(int(unlock_index))
-			unlocks_slot_infos.append(unlock_slot_info)
-	elif unlocks_raw_data is Dictionary:
-		# new style
-		var unlocks_info: Dictionary = unlocks_raw_data as Dictionary
-		for gs_name in unlocks_info.keys():
-			var gsid := gear_section_name_to_id(gs_name)
-			var unlocks_list: Array = unlocks_info[gs_name]
-			for unlock_slot_data in unlocks_list:
-				unlocks_slot_infos.append(ch.make_slot_info(gsid, global.dictionary_to_vector2i(unlock_slot_data)))
-	
-	# unlocks_slot_infos should now be in make_slot_info format
-	for unlock_slot_info in unlocks_slot_infos:
-		if not ch.toggle_unlock(unlock_slot_info.gear_section_id, unlock_slot_info.x, unlock_slot_info.y):
-			sesh.errors.append("  failed to unlock %s" % str(unlock_slot_info))
-		
-		#var grid_slot: GridSlot = ch.get_grid_slot(unlock_info.gear_section_id, unlock_info.x, unlock_info.y)
-		#grid_slot.is_locked = false
-	
-	#var unlocks_info = []
-	#for real_slot_info in get_unlocked_slots():
-		#var json_slot_info = make_slot_info(real_slot_info.gear_section_id, real_slot_info.grid_slot_coords)
-		#unlocks_info.append(json_slot_info)
-	#result.unlocks = unlocks_info
-	
-	var internals := sesh.get_info("internals", {}) as Dictionary
-	# suspension might not get equipped before we hit weight cap, so ignore it
-	ch.enforce_weight_cap = false
-	if internals.is_empty():
-		# maybe this isn't an error?
-		sesh.errors.append("No internals found!")
-	else:
-		var first_key = internals.keys().front()
-		if (first_key == "0") or (int(first_key) != 0):
-			# old style
-			sesh.errors.append("Internals save format is from a previous version, attempting conversion")
-			var new_internals := {}
-			for slot_index in internals.keys():
-				# gear_section_name, gear_section_id, x, y
-				var slot_info: Dictionary = ch.grid_array_index_to_slot_info(int(slot_index))
-				var internal_name = internals[slot_index]
-				if not new_internals.has(slot_info.gear_section_name):
-					new_internals[slot_info.gear_section_name] = []
-				# fuck json
-				var internal_info := {
-					slot = global.vector_to_dictionary(Vector2i(slot_info.x, slot_info.y)),
-					internal_name = internal_name,
-				}
-				new_internals[slot_info.gear_section_name].append(internal_info)
-			internals = new_internals
-		
-		# new style
-		for gs_name in internals.keys():
-			var gsid := gear_section_name_to_id(gs_name)
-			var gs_internals_list: Array = internals[gs_name]
-			for i in range(gs_internals_list.size()):
-				# internal_info.slot: dictionary
-				#   x, y
-				# internal_info.internal: string
-				var internal_info: Dictionary = gs_internals_list[i]
-				var new_internal = item_scene.instantiate()
-				new_internal.load_item(internal_info.internal_name)
-				var primary_cell := global.dictionary_to_vector2i(internal_info.slot) # fuck json
-				var errors := ch.equip_internal(new_internal, gsid, primary_cell)
-				if not errors.is_empty():
-					sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
-	ch.enforce_weight_cap = true
-	
-	ch.developments = sesh.get_info("developments", [])
-	ch.maneuvers = sesh.get_info("maneuvers", [])
-	ch.deep_words = sesh.get_info("deep_words", [])
-	
-	finish_unmarshalling_session(sesh)
-	
-	return ch
 
 #endregion
 

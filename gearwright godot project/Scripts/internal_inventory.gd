@@ -6,23 +6,13 @@ class_name InternalInventory
 
 # "SECTION_ID_NAME": 0, etc.
 # (like an enum)
-#var gear_section_ids := {}
 var gear_sections := {}
 
-# TODO: leviathans get two
 var max_optics_count: int = 1
 
 #region Initialization
 
 func create_character_gear_sections() -> Dictionary:
-	#gear_section_ids = {
-		#TORSO = 0,
-		#LEFT_ARM = 1,
-		#RIGHT_ARM = 2,
-		#HEAD = 3,
-		#LEGS = 4,
-	#}
-	
 	var result := {
 		GearwrightActor.GSIDS.FISHER_TORSO:     GearSection.new(Vector2i(6, 6)),
 		GearwrightActor.GSIDS.FISHER_LEFT_ARM:  GearSection.new(Vector2i(6, 3)),
@@ -54,18 +44,6 @@ func create_character_gear_sections() -> Dictionary:
 	return result
 
 func create_fish_gear_sections(size: GearwrightFish.SIZE):
-	#gear_section_ids = {
-		#"TIP": 0,
-		#"TAIL": 1,
-		#"BODY": 2,
-		#"NECK": 3,
-		#"HEAD": 4,
-		#"LEFT_LEGS": 5,
-		#"RIGHT_LEGS": 6,
-		#"LEFT_ARM": 7,
-		#"RIGHT_ARM": 8,
-	#}
-	
 	gear_sections.clear()
 	if size == GearwrightFish.SIZE.SMALL:
 		gear_sections[GearwrightActor.GSIDS.FISH_BODY] = GearSection.new(Vector2i(3, 3))
@@ -190,27 +168,9 @@ func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array
 	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
 	if not errors.is_empty():
 		return errors
-	#if not is_valid_internal_equip(item, gear_section_id, primary_cell):
-		#push_error("failed to equip item %s in gear section: %s: %s" % [
-				#item.item_data.name,
-				#gear_section_id_to_name(gear_section_id),
-				#str(primary_cell)
-		#])
-		#global_util.fancy_print("invalid equip!")
-		#global_util.dedent()
-		#return false
-	
-	#var item_cell_offsets: Array = item.item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
-	#var item_cells := item_cell_offsets.map(func(offset): return primary_slot_coord + offset)
-	#var item_cells := get_item_cells(item, gear_section_id, primary_cell)
+
 	var item_cells: Array = item.get_relative_cells(primary_cell)
 	
-	# checked in check_internal_equip_validity
-	#if not gear_section_id in gear_section_ids.values():
-		#push_error("equip internal: bad gear section id")
-		##global_util.fancy_print("invalid equip!")
-		##global_util.dedent()
-		#return false
 	var gear_section: GearSection = gear_sections[gear_section_id]
 	
 	for cell in item_cells:
@@ -234,13 +194,6 @@ func unequip_internal(item, gear_section_id: int):
 		if grid_slot.installed_item == item:
 			grid_slot.installed_item = null
 			grid_slot.is_primary_install_point = false
-	
-	# TODO yeet comments
-	#for grid in item_held.item_grids:
-		#var grid_to_check = item_held.grid_anchor.slot_ID + grid[0] + grid[1] * column_count
-		#grid_array[grid_to_check].state = grid_array[grid_to_check].States.FREE
-		#grid_array[grid_to_check].installed_item = null
-		#internals.erase(grid_to_check)
 
 func full_reset():
 	unequip_all_internals()
@@ -294,7 +247,6 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	
 	var gear_section: GearSection = gear_sections[gear_section_id]
 	# for each slot that would become occupied:
-	#var cells := get_item_cells(item, gear_section_id, primary_cell)
 	var cells: Array = item.get_relative_cells(primary_cell)
 	var error_outside_grid := false
 	var error_locked_slot := false
@@ -323,7 +275,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	if error_overlap:
 		errors.append("Overlaps existing internal")
 	
-	# Limited
+	# tags (limited, bulky, etc)
 	var item_tags = item.item_data.tags
 	var limit: int = -1
 	var is_bulky := false
@@ -343,6 +295,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 		elif "unwieldy" in tag:
 			is_unwieldy = true
 	
+	# Limited tag
 	if 1 <= limit:
 		var item_name: String = item.item_data.name.to_snake_case()
 		var count: int = 1 # include the one we're adding
@@ -362,7 +315,6 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 		errors.append_array(check_tag_count("unwieldy", 1))
 	
 	if is_bulky:
-		#var equipped_item_infos := get_equipped_items()
 		var equipped_item_infos: Array = get_equipped_items_by_gs()[gear_section_id]
 		for equipped_item_info in equipped_item_infos:
 			var other_tags = equipped_item_info.internal.item_data.tags
@@ -385,9 +337,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 					if Vector2(cell).distance_squared_to(Vector2(other_cell)) <= 2.0:
 						bulky_violation = true
 			if bulky_violation:
-				#errors.append("Bulky: Adjacent to %s" % equipped_item_info.internal_name.capitalize())
 				errors.append("Bulky: Adjacent to %s" % equipped_item_info.internal.item_data.name)
-				
 	
 	return errors
 
@@ -400,7 +350,6 @@ func check_tag_count(tag_name: String, max_count: int) -> Array:
 		for tag in other_tags:
 			if tag_name in tag.to_lower():
 				other_count += 1
-				#var equipped_item_name: String = equipped_item_info.internal_name
 				var equipped_item_name: String = equipped_item_info.internal.item_data.name
 				errors.append("%s: already has %s" % [tag_name.capitalize(), equipped_item_name])
 				break
@@ -414,6 +363,10 @@ func check_tag_count(tag_name: String, max_count: int) -> Array:
 #   slot (gear_section_id, gear_section_name, x, y)
 #   internal_name: snake-case'd internal names (for marshalling)
 #   internal: actual Item value (only if include_item_values is true)
+#
+# FIXME: this and get_equipped_items_by_gs are dangerous
+# this function uses make_slot_info
+# get_equipped_items_by_gs doesn't
 func get_equipped_items(include_item_values := true) -> Array:
 	var internals_list := []
 	for gear_section_id in gear_sections.keys():
@@ -423,15 +376,13 @@ func get_equipped_items(include_item_values := true) -> Array:
 			if (grid_slot.installed_item != null) and (grid_slot.is_primary_install_point):
 				var internal_name = grid_slot.installed_item.item_data.name.to_snake_case()
 				var internal_info := {
-					slot = make_slot_info(gear_section_id, cell),
+					slot = global.make_slot_info(gear_section_id, cell),
 					internal_name = internal_name,
 				}
 				if include_item_values:
 					internal_info.internal = grid_slot.installed_item
 				internals_list.append(internal_info)
 	return internals_list
-
-# FIXME what the heck is going on with these two functions ^ v
 
 # returns a dictionary
 #  keys: gsid
@@ -533,27 +484,16 @@ func grid_array_index_to_slot_info(index: int) -> Dictionary:
 		breakpoint
 	
 	var gear_section: GearSection = gear_sections[gear_section_id]
-	#result.gear_section = gear_section
 	var x: int = adjusted_index % gear_section.grid.size.x
 	@warning_ignore("integer_division")
 	var y: int = adjusted_index / gear_section.grid.size.x
-	#result.x = x
-	#result.y = y
-	#result.grid_slot = gear_section.grid.get_contents(x, y)
 	assert(0 <= x)
 	assert(0 <= y)
 	assert(x < gear_section.grid.size.x)
 	assert(y < gear_section.grid.size.y)
-	return make_slot_info(gear_section_id, Vector2i(x, y))
+	return global.make_slot_info(gear_section_id, Vector2i(x, y))
 
 func get_active_gear_section_ids() -> Array:
-	#var result := []
-	#for gsid in gear_section_ids.values():
-		#if gear_sections.has(gsid):
-			#result.append(gsid)
-	#
-	#return result
-	
 	return gear_sections.keys()
 
 func _to_string() -> String:
@@ -562,7 +502,6 @@ func _to_string() -> String:
 				gear_sections.keys().size(),
 				get_active_gear_section_ids().size(),
 				get_equipped_items().size(),
-				#gear_sections.keys().map(func(gsid: int): return GearwrightFish.GEAR_SECTION_IDS.find_key(gsid)),
 				gear_sections.keys(),
 			]
 
@@ -570,23 +509,6 @@ func _to_string() -> String:
 
 
 
-
-
-#region Utility
-
-# for JSON-able slots
-# FIXME unduplicate in gearwright character and internal inventory
-func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
-	return {
-		gear_section_name = GearwrightCharacter.gear_section_id_to_name(gear_section_id),
-		gear_section_id = gear_section_id,
-		x = cell.x,
-		y = cell.y,
-	}
-
-
-
-#endregion
 
 
 

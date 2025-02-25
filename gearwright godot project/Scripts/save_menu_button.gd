@@ -3,8 +3,6 @@ class_name SaveLoadMenuButton
 
 signal button_selected(button_id: BUTTON_IDS)
 
-# var buttons_to_add := ["New Gear", "Save to File", "Load from File", "Open Saves Folder", "Screenshot", "Open Screenshot Folder"]
-
 enum BUTTON_IDS {
 	NEW_ACTOR,
 	SAVE_TO_FILE,

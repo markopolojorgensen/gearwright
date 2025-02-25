@@ -10,7 +10,6 @@ var item_data
 var hovering = false
 var popup_loaded = false
 
-#signal item_selected(data)
 signal item_selected(item_id)
 
 func _process(_delta):
@@ -34,7 +33,6 @@ func load_item(a_Item_data, a_Item_ID):
 	item_popup.unfocusable = true
 
 func _on_texture_button_button_down():
-	#get_parent().on_item_selected(item_ID)
 	item_selected.emit(item_ID)
 
 func _on_texture_button_mouse_entered():

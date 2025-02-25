@@ -4,6 +4,7 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
 ------------------------------------------------------------------------------------------------------- MEDIOM
+organize files
 ------------------------------------------------------------------------------------------------------- LORGE
 yeet all commented code / finish refactor
 go through all FIXMEs / TODOs / WHEREWASIs
@@ -14,6 +15,8 @@ switch to InputContext framework
 
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
+shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
+too many internals should not bork the fish editor legend
 multiple "A Brush With The Deep" developments should give you multiple deep words
 see if you cant make building smaller fish feel as nice as gears, i feel the size of the internals is the cause here.
 Mutation stat bonuses should add to the BASE stat, they should not be counted as a bonus. The Fish can't ever lose these mutations mid encounter so its easier to just add them to base.
@@ -192,6 +195,14 @@ OTHER DONE STUFF
   emit_signal("whatever") -> whatever.emit()
   download export templates
 
+
+
+
+
+------------------------------------------------------------------------------------------------------------------- LESSONS
+Label's mouse_entered and mouse_exited cause flickering...?
+  if you do want to use built-in mouse signals, don't forget mouse_filter:
+    label.mouse_filter = Control.MOUSE_FILTER_PASS
 
 
 

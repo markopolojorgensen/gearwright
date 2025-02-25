@@ -3,7 +3,6 @@ class_name PartMenu
 
 signal item_spawned(item_id)
 
-# @onready var tab_bar: TabBar = %TabBar
 @onready var tab_container: TabContainer = $TabContainer
 
 const part_list_scene := preload("res://Scenes/part_list.tscn")
@@ -14,8 +13,7 @@ func add_tab(tab_name: String):
 	part_list.name = tab_name
 	tab_container.add_child(part_list)
 
-# part_id is an index into item_data.json
-# TODO or fish_item_data? where does that come from?
+# part_id is an index into item_data.json or npc_item_data.json
 func add_part_to_tab(tab_name: String, part_id: String, part_data: Dictionary):
 	var part := part_item_scene.instantiate()
 	part.load_item.call_deferred(part_data, part_id)

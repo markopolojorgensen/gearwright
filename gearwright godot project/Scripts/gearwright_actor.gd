@@ -1,7 +1,8 @@
 class_name GearwrightActor
 extends RefCounted
 
-const item_scene = preload("res://Scenes/item.tscn")
+# Still no idea why this causes cyclic errors
+#const item_scene = preload("res://Scenes/item.tscn")
 
 # Gear Section IDs
 enum GSIDS {
@@ -74,21 +75,8 @@ func get_stat_info(_stat_name: String) -> Dictionary:
 	breakpoint
 	return {}
 
-
-
-
-
-
-class UnmarshalSession:
-	var errors := []
-	var info := {}
-	
-	func get_info(key, default = ""):
-		if info.has(key):
-			return info[key]
-		else:
-			errors.append("No %s info found!" % key)
-			return default
+static func gear_section_id_to_name(id: int) -> String:
+	return GSIDS_TO_NAMES.get(id, "unknown gear section id: %d" % id)
 
 static func start_unmarshalling_session(info: Dictionary) -> UnmarshalSession:
 	global_util.fancy_print("loading GearwrightActor...")

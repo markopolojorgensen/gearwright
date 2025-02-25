@@ -3,6 +3,7 @@ extends Control
 # if you scale a label up it looks bad
 # this uses font_size overrides to scale up instead
 
+# TODO yeet this script, I don't think it works
 
 var horizontal_alignment : set = set_horizontal_alignment
 var text : set = set_text

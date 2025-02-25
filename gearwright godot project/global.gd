@@ -9,6 +9,15 @@ const colors := {
 	"mitigation": Color("454545"),
 }
 
+# for JSON-able slots
+func make_slot_info(gear_section_id: int, cell: Vector2i) -> Dictionary:
+	return {
+		gear_section_name = GearwrightActor.gear_section_id_to_name(gear_section_id),
+		gear_section_id = gear_section_id,
+		x = cell.x,
+		y = cell.y,
+	}
+
 # fuck json
 func vector_to_dictionary(vector):
 	return {

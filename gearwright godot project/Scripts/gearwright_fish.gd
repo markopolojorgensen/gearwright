@@ -1,7 +1,7 @@
 extends GearwrightActor
 class_name GearwrightFish
 
-
+const non_cyclic_item_scene = preload("res://Scenes/item.tscn")
 
 const LEVIATHAN_FISH_GSIDS := [
 	GSIDS.FISH_TAIL,
@@ -82,6 +82,7 @@ var mutations: Array = []
 
 func initialize():
 	internal_inventory.create_fish_gear_sections(size)
+	
 	if size in [SIZE.LEVIATHAN, SIZE.SERPENT_LEVIATHAN, SIZE.SILTSTALKER]:
 		internal_inventory.max_optics_count = 2
 
@@ -114,48 +115,13 @@ func get_equipped_items() -> Array:
 # returns an empty list if there are no problems
 # doesn't necessarily give you all the problems at once, but tries to
 #
-# all the reasons we can't put an item in a slot:
-#   there is no item
-#   there is no slot
-#   for each slot that would become occupied:
-#     there's already something there
-#     slot is out of bounds
-#     slot is locked
+# there are no problems unique to fish, so they're all in internal_inventory
 func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
 	var errors := super(item, gear_section_id, primary_cell)
 	if errors.is_empty():
 		return internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell)
 	else:
 		return errors
-
-
-
-
-static func get_size_as_string(size_value: SIZE) -> String:
-	return (SIZE.find_key(size_value) as String).to_lower().replacen("_", " ")
-
-static func size_from_string(size_name: String) -> SIZE:
-	if "silt" in size_name.to_lower():
-		return SIZE.SILTSTALKER
-	return string_to_enum(size_name, SIZE) as SIZE
-
-static func get_type_as_string(type_value: TYPE) -> String:
-	return (TYPE.find_key(type_value) as String).to_lower().replacen("_", " ")
-
-static func type_from_string(type_name: String) -> TYPE:
-	return string_to_enum(type_name, TYPE) as TYPE
-
-# only works if the enum is named
-static func string_to_enum(string: String, target_enum: Dictionary) -> int:
-	string = string.to_upper()
-	string = string.replacen(" ", "_")
-	if not target_enum.has(string):
-		var error := "unknown enum value %s\n  valid values: %s" % [string, str(target_enum.keys())]
-		print(error)
-		push_error(error)
-		breakpoint
-		return -1
-	return target_enum.get(string)
 
 func get_stat_info(stat: String) -> Dictionary:
 	var snake_stat := stat.to_snake_case()
@@ -188,65 +154,6 @@ func get_stat_explanation(stat: String) -> String:
 		return ""
 	else:
 		return GearwrightCharacter.info_to_explanation_text(info)
-	
-	#var snake_stat := stat.to_snake_case()
-	#if snake_stat in [
-			#"close",
-			#"far",
-			#"mental",
-			#"power",
-			#"evasion",
-			#"willpower",
-			#"ap",
-			#"speed",
-			#"sensors",
-			#]:
-		##var info: Dictionary = call("get_%s_info" % snake_stat)
-		#var info = get_basic_info(snake_stat)
-		#return GearwrightCharacter.info_to_explanation_text(info)
-	#elif snake_stat == "weight":
-		#var info = get_weight_info()
-		#return GearwrightCharacter.info_to_explanation_text(info)
-	#elif snake_stat == "ballast":
-		#var info = get_ballast_info()
-		#return GearwrightCharacter.info_to_explanation_text(info)
-	#
-	#var error := "GearwrightFish: get_stat_explanation: unknown stat: %s" % stat
-	#push_error(error)
-	#print(error)
-	#return error
-
-#func get_stat_label_text(stat: String) -> String:
-	#if stat.is_empty():
-		#return ""
-	#
-	#var snake_stat := stat.to_snake_case()
-	#if snake_stat in [
-			#"close",
-			#"far",
-			#"mental",
-			#"power",
-			#"evasion",
-			#"willpower",
-			#"ap",
-			#"speed",
-			#"sensors",
-			#]:
-		##var info = call("get_%s_info" % snake_stat)
-		#var info = get_basic_info(snake_stat)
-		#var value = global_util.sum_array(info.values())
-		#return "%s: %s" % [stat, value]
-	#elif snake_stat == "weight":
-		#var value = global_util.sum_array(get_weight_info().values())
-		#return "%s: %s" % [stat, value]
-	#elif snake_stat == "ballast":
-		#var value = global_util.sum_array(get_ballast_info().values())
-		#value = clamp(value, 1, 10)
-		#return "%s: %s" % [stat, value]
-	#
-	#var error := "GearwrightCharacter: get_stat_label_text: unknown stat: %s" % stat
-	#push_error(error)
-	#return error
 
 func get_mutations_amount(stat: String) -> int:
 	var amount = mutations.count(stat) * mutation_mults.get(stat, 0)
@@ -270,33 +177,6 @@ func get_basic_info(stat: String) -> Dictionary:
 		info.mutations = get_mutations_amount(stat)
 	
 	return info
-
-#func get_close_info() -> Dictionary:
-	#return get_basic_info("close")
-#
-#func get_far_info() -> Dictionary:
-	#return get_basic_info("far")
-#
-#func get_mental_info() -> Dictionary:
-	#return get_basic_info("mental")
-#
-#func get_power_info() -> Dictionary:
-	#return get_basic_info("power")
-#
-#func get_evasion_info() -> Dictionary:
-	#return get_basic_info("evasion")
-#
-#func get_willpower_info() -> Dictionary:
-	#return get_basic_info("willpower")
-#
-#func get_ap_info() -> Dictionary:
-	#return get_basic_info("ap")
-#
-#func get_speed_info() -> Dictionary:
-	#return get_basic_info("speed")
-#
-#func get_sensors_info() -> Dictionary:
-	#return get_basic_info("sensors")
 
 func get_weight_info() -> Dictionary:
 	var info = get_basic_info("weight")
@@ -332,6 +212,34 @@ func get_size_stat_info(stat_name) -> Dictionary:
 
 func get_type_data() -> Dictionary:
 	return DataHandler.get_fish_type_data(TYPE.find_key(type).to_snake_case())
+
+
+
+static func get_size_as_string(size_value: SIZE) -> String:
+	return (SIZE.find_key(size_value) as String).to_lower().replacen("_", " ")
+
+static func size_from_string(size_name: String) -> SIZE:
+	if "silt" in size_name.to_lower():
+		return SIZE.SILTSTALKER
+	return string_to_enum(size_name, SIZE) as SIZE
+
+static func get_type_as_string(type_value: TYPE) -> String:
+	return (TYPE.find_key(type_value) as String).to_lower().replacen("_", " ")
+
+static func type_from_string(type_name: String) -> TYPE:
+	return string_to_enum(type_name, TYPE) as TYPE
+
+# only works if the enum is named
+static func string_to_enum(string: String, target_enum: Dictionary) -> int:
+	string = string.to_upper()
+	string = string.replacen(" ", "_")
+	if not target_enum.has(string):
+		var error := "unknown enum value %s\n  valid values: %s" % [string, str(target_enum.keys())]
+		print(error)
+		push_error(error)
+		breakpoint
+		return -1
+	return target_enum.get(string)
 
 #endregion
 
@@ -390,6 +298,7 @@ func set_fish_type(fish_type: TYPE):
 
 
 #region Save & Load
+
 func marshal() -> Dictionary:
 	var info := {
 		name = callsign, # callsign
@@ -415,7 +324,7 @@ func marshal() -> Dictionary:
 static func unmarshal(info: Dictionary) -> GearwrightFish:
 	global_util.fancy_print("loading fish...")
 	global_util.indent()
-	var sesh := start_unmarshalling_session(info)
+	var sesh: UnmarshalSession = start_unmarshalling_session(info)
 	
 	var new_fish := GearwrightFish.new()
 	new_fish.callsign = sesh.get_info("name")
@@ -454,10 +363,10 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 					#   x, y
 					# internal_info.internal: string
 					var internal_info: Dictionary = gs_internals_list[i]
-					var new_internal = item_scene.instantiate()
+					var new_internal = non_cyclic_item_scene.instantiate()
 					new_internal.load_item(internal_info.internal_name, false)
 					var primary_cell := global.dictionary_to_vector2i(internal_info.slot) # fuck json
-					var errors := new_fish.equip_internal(new_internal, gsid, primary_cell)
+					var errors: Array = new_fish.equip_internal(new_internal, gsid, primary_cell)
 					if not errors.is_empty():
 						sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
 	
@@ -466,10 +375,13 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 	global_util.fancy_print("...finished loading fish")
 	return new_fish
 
-
-
-
-
-
 #endregion
+
+
+
+
+
+
+
+
 

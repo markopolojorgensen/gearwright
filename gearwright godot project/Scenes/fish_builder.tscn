@@ -1,28 +1,13 @@
-[gd_scene load_steps=35 format=3 uid="uid://co3tgplgb8ego"]
+[gd_scene load_steps=20 format=3 uid="uid://co3tgplgb8ego"]
 
-[ext_resource type="Script" path="res://Scripts/fish_save_options_menu.gd" id="1_735o3"]
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_q2t5d"]
-[ext_resource type="Script" path="res://Scripts/fish_item_inventory.gd" id="1_wdkh4"]
 [ext_resource type="Script" path="res://Scripts/fish_builder.gd" id="2_bwekp"]
-[ext_resource type="Script" path="res://Scripts/fish_item_tab_bar.gd" id="2_jjwgj"]
-[ext_resource type="Script" path="res://Scripts/old_fish_size_selector.gd" id="4_d5w8l"]
-[ext_resource type="Script" path="res://Scripts/old_fish_builder.gd" id="4_exxim"]
-[ext_resource type="Script" path="res://Scripts/fish_stats_list.gd" id="4_pwufw"]
-[ext_resource type="Script" path="res://Scripts/fish_squisher.gd" id="4_s67pr"]
 [ext_resource type="Script" path="res://Scripts/internals_reset_button.gd" id="5_t4h7l"]
-[ext_resource type="Script" path="res://Scripts/fish_container_pusher.gd" id="5_tox4l"]
 [ext_resource type="StyleBox" uid="uid://dk4whtokbc1x6" path="res://Assets/blue_styleboxflat.tres" id="6_kp0yc"]
-[ext_resource type="Script" path="res://Scripts/fish_export_popup.gd" id="7_kqp07"]
 [ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://Scenes/export_popup.tscn" id="7_yusas"]
-[ext_resource type="Script" path="res://Scripts/internals_list_container.gd" id="8_4no82"]
 [ext_resource type="FontFile" uid="uid://bhdfh08bwxfgg" path="res://Assets/static/Montserrat-SemiBold.ttf" id="8_h3wbk"]
 [ext_resource type="Script" path="res://Scripts/fish_size_selector.gd" id="8_hbbxa"]
-[ext_resource type="Script" path="res://Scripts/fish_template_nameplate.gd" id="9_cisdc"]
-[ext_resource type="Script" path="res://Scripts/fish_pedestal.gd" id="10_kf674"]
-[ext_resource type="Script" path="res://Scripts/fish_name_input.gd" id="10_xbcqf"]
 [ext_resource type="Script" path="res://Scripts/template_selector.gd" id="12_obu5o"]
-[ext_resource type="Script" path="res://Scripts/fish_screenshot_popup.gd" id="15_mv077"]
-[ext_resource type="Script" path="res://Scripts/mutation_menu.gd" id="15_xgqqr"]
 [ext_resource type="PackedScene" uid="uid://cojllssnu0db" path="res://Scenes/save_menu_button.tscn" id="16_e7s83"]
 [ext_resource type="Theme" uid="uid://b20rfstklkoo0" path="res://Assets/big_font_theme.tres" id="18_h7vac"]
 [ext_resource type="Script" path="res://Scripts/back_button.gd" id="18_k0m5r"]
@@ -63,26 +48,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ItemInventory" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-script = ExtResource("1_wdkh4")
-
-[node name="TabBar" type="TabBar" parent="MarginContainer/HBoxContainer/PanelContainer/ItemInventory"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-script = ExtResource("2_jjwgj")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer/ItemInventory"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 20
-
 [node name="PartMenu" parent="MarginContainer/HBoxContainer" instance=ExtResource("23_nsdft")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(426, 0)
@@ -93,14 +58,6 @@ size_flags_horizontal = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("6_kp0yc")
-
-[node name="OldFishBuilder" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2"]
-visible = false
-custom_minimum_size = Vector2(1050, 800)
-layout_mode = 2
-size_flags_vertical = 0
-color = Color(0.0823529, 0.109804, 0.294118, 1)
-script = ExtResource("4_exxim")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2"]
 layout_mode = 2
@@ -121,14 +78,6 @@ layout_mode = 2
 [node name="FishSizeSelectLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer"]
 layout_mode = 2
 text = "  Fish Size:"
-
-[node name="OldFishSizeSelector" type="OptionButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer"]
-visible = false
-custom_minimum_size = Vector2(200, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-script = ExtResource("4_d5w8l")
 
 [node name="FishSizeSelector" type="OptionButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer"]
 unique_name_in_owner = true
@@ -161,68 +110,6 @@ layout_mode = 2
 size_flags_vertical = 8
 new_actor_text = "New Fish"
 
-[node name="SaveOptionsMenu" type="MenuButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
-visible = false
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-text = "Save/Load"
-flat = false
-script = ExtResource("1_735o3")
-
-[node name="ExportPopup" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu" instance=ExtResource("7_yusas")]
-visible = false
-script = ExtResource("7_kqp07")
-
-[node name="FileDialog" type="FileDialog" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu"]
-title = "Open a File"
-initial_position = 1
-size = Vector2i(800, 600)
-ok_button_text = "Open"
-file_mode = 0
-access = 1
-root_subfolder = "Saves"
-
-[node name="ScreenshotPopup" type="Popup" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu"]
-initial_position = 2
-size = Vector2i(200, 160)
-script = ExtResource("15_mv077")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "File Name"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-expand_to_text_length = true
-
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = ".png"
-
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Export"
-
 [node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
 custom_minimum_size = Vector2(160, 64)
 layout_mode = 2
@@ -233,12 +120,6 @@ script = ExtResource("18_k0m5r")
 
 [node name="Spacer2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
 layout_mode = 2
-
-[node name="FishSquisher" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
-visible = false
-layout_mode = 2
-color = Color(0.215686, 0.215686, 0.215686, 1)
-script = ExtResource("4_s67pr")
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
 layout_mode = 2
@@ -284,56 +165,18 @@ horizontal_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="InternalsLegendContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(180, 0)
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer"]
-visible = false
+custom_minimum_size = Vector2(184, 180)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
-visible = false
+[node name="InternalsLegendContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/InternalsLegendPanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-
-[node name="ColorRect3" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3"]
-custom_minimum_size = Vector2(180, 400)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-color = Color(0.215686, 0.215686, 0.215686, 1)
-
-[node name="InternalsListContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3"]
-custom_minimum_size = Vector2(160, 380)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -190.0
-offset_right = 80.0
-offset_bottom = 190.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 30
-script = ExtResource("8_4no82")
-
-[node name="FishContainerPusher" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
-visible = false
-custom_minimum_size = Vector2(10, 0)
-layout_mode = 2
-script = ExtResource("5_tox4l")
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 400)
@@ -350,7 +193,6 @@ custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 placeholder_text = "Fish Name"
 alignment = 1
-script = ExtResource("10_xbcqf")
 
 [node name="FishNameplate" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer"]
 unique_name_in_owner = true
@@ -359,12 +201,6 @@ theme_override_colors/font_color = Color(0.619608, 0.619608, 0.619608, 1)
 theme_override_fonts/font = ExtResource("8_h3wbk")
 text = "Common Small Fish"
 horizontal_alignment = 1
-script = ExtResource("9_cisdc")
-
-[node name="ContainerContainer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(420, 300)
-layout_mode = 2
 
 [node name="GearSectionControlContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
@@ -479,61 +315,6 @@ offset_top = 22.0
 offset_right = 421.0
 offset_bottom = 40.0
 
-[node name="FishPedestal" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-script = ExtResource("10_kf674")
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
-custom_minimum_size = Vector2(0, 15)
-layout_mode = 2
-
-[node name="Stats2" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
-custom_minimum_size = Vector2(180, 70)
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 4
-color = Color(0.215686, 0.215686, 0.215686, 1)
-
-[node name="WeightStatsList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats2/WeightStatsList"]
-custom_minimum_size = Vector2(0, 5)
-layout_mode = 2
-
-[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
-layout_mode = 2
-
-[node name="Stats" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2"]
-custom_minimum_size = Vector2(180, 310)
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 4
-color = Color(0.215686, 0.215686, 0.215686, 1)
-
-[node name="FishStatsList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
-script = ExtResource("4_pwufw")
-
 [node name="StatsListControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2" instance=ExtResource("24_ipx4r")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -590,28 +371,6 @@ text = "Same Mutation Limit:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
-
-[node name="ColorRect3" type="ColorRect" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-color = Color(0.215686, 0.215686, 0.215686, 1)
-
-[node name="MutationMenu" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = -10.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 10
-columns = 3
-script = ExtResource("15_xgqqr")
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -780,43 +539,17 @@ extension = ".png"
 
 [node name="OpenFileDialog" parent="." instance=ExtResource("33_j34d5")]
 
-[connection signal="tab_changed" from="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" method="_on_tab_changed"]
-[connection signal="tab_chosen" from="MarginContainer/HBoxContainer/PanelContainer/ItemInventory/TabBar" to="MarginContainer/HBoxContainer/PanelContainer/ItemInventory" method="_on_tab_bar_tab_chosen"]
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
-[connection signal="clear_internal_list" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_clear_internal_list"]
-[connection signal="item_installed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_item_installed"]
-[connection signal="item_installed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_builder_item_installed"]
-[connection signal="item_removed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer3/ColorRect3/InternalsListContainer" method="_on_fish_builder_item_removed"]
-[connection signal="item_removed" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_fish_builder_item_removed"]
-[connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/OldFishSizeSelector" method="_on_fish_builder_new_save_loaded"]
-[connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_builder_new_save_loaded"]
-[connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" method="_on_fish_builder_new_save_loaded"]
-[connection signal="new_save_loaded" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" method="_on_fish_builder_new_save_loaded"]
-[connection signal="update_name" from="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" method="_on_fish_builder_update_name"]
-[connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/OldFishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/OldFishSizeSelector" method="_on_item_selected"]
 [connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton" method="_on_button_down"]
 [connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton/InternalsResetConfirmDialog" to="." method="_on_internals_reset_confirm_dialog_confirmed"]
-[connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton/InternalsResetConfirmDialog" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_internals_reset_confirm_dialog_confirmed"]
 [connection signal="button_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
-[connection signal="load_save_data" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_save_options_menu_load_save_data"]
-[connection signal="new_fish_pressed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu" to="." method="_on_save_options_menu_new_fish_pressed"]
-[connection signal="about_to_popup" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" method="_on_about_to_popup"]
-[connection signal="screenshot_name_confirm" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu" method="_on_screenshot_popup_screenshot_name_confirm"]
-[connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup/VBoxContainer/Button" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveOptionsMenu/ScreenshotPopup" method="_on_button_button_down"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/BackButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/BackButton" method="_on_button_down"]
 [connection signal="text_changed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" to="." method="_on_fish_name_input_text_changed"]
 [connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
 [connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
-[connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" method="_on_item_selected"]
-[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_template_selector_load_template"]
-[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameplate" method="_on_template_selector_load_template"]
-[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_template_selector_load_template"]
-[connection signal="load_template" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" method="_on_template_selector_load_template"]
 [connection signal="type_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="." method="_on_template_selector_type_selected"]
-[connection signal="mutation_updated" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" to="MarginContainer/HBoxContainer/PanelContainer2/OldFishBuilder" method="_on_mutation_menu_mutation_updated"]
-[connection signal="mutation_updated" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/ColorRect3/MutationMenu" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer2/Stats/FishStatsList" method="_on_mutation_menu_mutation_updated"]
 [connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]
 [connection signal="export" from="FshExportPopup" to="." method="_on_fsh_export_popup_export"]
 [connection signal="export" from="PngExportPopup" to="." method="_on_png_export_popup_export"]

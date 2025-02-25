@@ -49,19 +49,10 @@ func leftclick(character):
 	match mode:
 		Modes.EQUIP:
 			pickup_item(character)
-			#for container in containers:
-				#if container.get_global_rect().has_point(get_global_mouse_position()):
-					#pickup_item()
 		Modes.PLACE:
 			place_item(character)
-			#for container in containers:
-				#if container.get_global_rect().has_point(get_global_mouse_position()):
-					#place_item()
 		Modes.UNLOCK:
 			toggle_current_slot_lock(character)
-			#for container in containers:
-				#if container.get_global_rect().has_point(get_global_mouse_position()):
-					#toggle_locked()
 
 func rightclick(_character):
 	match mode:
@@ -70,15 +61,11 @@ func rightclick(_character):
 
 
 func pickup_item(actor: GearwrightActor):
-	#if not current_slot or not current_slot.installed_item:
-		#return
 	if current_slot_info.is_empty():
 		return
 	if not current_grid_slot.installed_item:
 		return
 	
-	#var column_count = current_slot.get_parent().columns
-	#item_held = current_slot.installed_item
 	item_held = current_grid_slot.installed_item
 	item_held.grid_anchor = null
 	item_held.selected = true
@@ -86,31 +73,16 @@ func pickup_item(actor: GearwrightActor):
 	
 	actor.unequip_internal(item_held, current_slot_info.gear_section_id)
 	
-	#item_removed.emit(item_held) # TODO yeet this maybe?
-	#stats_container.update_weight_label_effect(item_held.item_data)
-	
-	#if is_slot_open(current_slot):
-		#set_grids.call_deferred(current_slot)
-	
 	mode = Modes.PLACE
 	
 	something_changed.emit()
-	#request_update_controls = true
 
 func place_item(actor: GearwrightActor):
 	if current_slot_info.is_empty():
 		return
 	
-	# equip_internal does all these checks
-	#if not character.is_valid_internal_equip(
-			#item_held,
-			#current_slot_info.gear_section_id,
-			#Vector2i(current_slot_info.x, current_slot_info.y)
-	#):
-		#return
-	
 	var current_slot_cell := Vector2i(current_slot_info.x, current_slot_info.y)
-	var errors := actor.equip_internal(
+	var errors: Array = actor.equip_internal(
 			item_held,
 			current_slot_info.gear_section_id,
 			current_slot_cell
@@ -124,55 +96,10 @@ func place_item(actor: GearwrightActor):
 			, ""), get_global_mouse_position() + Vector2(16, -16))
 		return
 	
-	#var column_count = current_slot.get_parent().columns
-	#var calculated_grid_id = current_slot.slot_ID + icon_anchor.x * column_count + icon_anchor.y
-	#if calculated_grid_id >= grid_array.size():
-		#return
-	
-	#var item_cells := current_character.get_item_cells(
-			#item_held,
-			#current_slot_info.gear_section_id,
-			#current_slot_cell
-	#)
-	#var top_left_cell = item_cells.reduce(func(best: Vector2i, current: Vector2i):
-		#best.x = min(best.x, current.x)
-		#best.y = min(best.y, current.y)
-		#return best
-		#, Vector2i(1000, 1000))
-	#var anchor_grid_slot_control: GridSlotControl = current_gear_section_control.control_grid.get_contents_v(top_left_cell)
-	
-	#item_held.get_parent().remove_child(item_held) # TODO maybe we need this?
-	#anchor_grid_slot_control.get_parent().add_child(item_held)
-	item_held.global_position = get_global_mouse_position()
-	
-	#item_held.snap_to(grid_array[calculated_grid_id].global_position)
-	#item_held.snap_to(anchor_grid_slot_control.global_position)
-	
-	#item_held.grid_anchor = current_slot
-	#for grid in item_held.item_grids:
-		#var grid_to_check = current_slot.slot_ID + grid[0] + grid[1] * column_count
-		#grid_array[grid_to_check].state = grid_array[grid_to_check].States.TAKEN
-		#grid_array[grid_to_check].installed_item = item_held
-	#item_held.grid_anchor = anchor_grid_slot_control
-	#for cell in item_cells:
-		#if not current_gear_section.grid.is_within_size_v(cell):
-			#continue
-		#
-		#var grid_slot: GridSlot = current_gear_section.grid.get_contents_v(cell)
-		#assert(not grid_slot.is_locked)
-		#assert(grid_slot.installed_item == null)
-		#grid_slot.installed_item = item_held
-	#current_grid_slot.is_primary_install_point = true
-	
-	#item_installed.emit(item_held) # TODO yeet?
-	#internals[current_slot.slot_ID] = item_held
-	
+	item_held.selected = false
 	item_held = null
 	mode = Modes.EQUIP
-	#stats_container.update_weight_label_effect(null)
-	#clear_grid()
 	
-	#request_update_controls = true
 	something_changed.emit()
 
 func toggle_current_slot_lock(character):
@@ -185,42 +112,7 @@ func toggle_current_slot_lock(character):
 			current_slot_info.y
 	)
 	
-	## slot is a default unlock
-	#if current_grid_slot.is_default_unlock:
-		#return
-	## slot has something in it
-	#if current_grid_slot.installed_item != null:
-		#return
-	#
-	## locked, but no unlocks left
-	## allow player to re-lock non-default unlocked slots
-	## allow player to unlock non-default locked slots when they have unlocks left
-	#if (current_grid_slot.is_locked) and (not current_character.has_unlocks_remaining()):
-		#return
-	#
-	#current_grid_slot.is_locked = not current_grid_slot.is_locked
-	#gear_data["unlocks"] = get_unlocked_slots()
-	
-	#request_update_controls = true
 	something_changed.emit()
-	
-	
-	#if not current_slot or not is_lock_toggleable(current_slot):
-		#return
-	#
-	#if current_slot.is_locked:
-		#current_slot.unlock()
-		#gear_data["unlocks"].push_back(current_slot.slot_ID)
-		#incrememnt_lock_tally.emit(1)
-		#
-	#else:
-		#if !current_slot.installed_item:
-			#current_slot.lock()
-			#gear_data["unlocks"].erase(current_slot.slot_ID)
-			#incrememnt_lock_tally.emit(-1)
-	#
-	#if is_lock_toggleable(current_slot):
-		#set_lock_grids.call_deferred(current_slot)
 
 func drop_item():
 	if not item_held:
@@ -230,71 +122,6 @@ func drop_item():
 	mode = Modes.EQUIP
 	#request_update_controls = true
 	something_changed.emit()
-
-# func check_slot_availability(a_Slot):
-# I modified this from the original, not sure if it works anymore lmao
-# references to can_place should use this instead I guess
-# not sure that is_slot_open is actually a good name, hmmmm
-#func is_slot_open(slot_info: Dictionary):
-	#var column_count = slot.get_parent().columns
-	#for grid in item_held.item_grids:
-		#var grid_to_check = slot.slot_ID + grid[0] + grid[1] * column_count
-		#var line_switch_check = slot.slot_ID % column_count + grid[0]
-		#if line_switch_check < 0 or line_switch_check >= column_count:
-			#return false
-		#if grid_to_check < 0 or grid_to_check >= grid_array.size():
-			#return false
-		#if grid_array[grid_to_check].state == grid_array[grid_to_check].States.TAKEN or grid_array[grid_to_check].is_locked:
-			#return false
-		#if grid_array[grid_to_check].get_parent() != current_slot.get_parent():
-			#return false
-		#if item_held.item_data["section"] != "any" and !grid_array[grid_to_check].get_parent().get_name().ends_with(item_held.item_data["section"].capitalize() + "Container"):
-			#return false
-		#if not stats_container.is_under_weight_limit(item_held.item_data):
-			#return false
-	#
-	#return true
-
-#func set_grids(slot):
-	#var column_count = slot.get_parent().columns
-	#for grid in item_held.item_grids:
-		#var grid_to_check = slot.slot_ID + grid[0] + grid[1] * column_count
-		#var line_switch_check = slot.slot_ID % column_count + grid[0]
-		#if line_switch_check < 0 or line_switch_check >= column_count:
-			#continue
-		#if grid_to_check < 0 or grid_to_check >= grid_array.size():
-			#continue
-		#if grid_array[grid_to_check].get_parent() != current_slot.get_parent():
-			#continue
-		#if is_slot_open(slot):
-			#grid_array[grid_to_check].set_color(grid_array[grid_to_check].States.FREE)
-			#
-			#if grid[1] < icon_anchor.x:
-				#icon_anchor.x = grid[1]
-			#if grid[0] < icon_anchor.y:
-				#icon_anchor.y = grid[0]
-		#else:
-			#grid_array[grid_to_check].set_color(grid_array[grid_to_check].States.TAKEN)
-
-#func clear_grid():
-	#for grid in grid_array:
-		#grid.set_color(grid.States.DEFAULT)
-
-# used to be check_lock_availability, modified can_lock
-#func is_lock_toggleable(slot):
-	#if not slot.is_locked and default_unlocks.has(slot.slot_ID):
-		#return false
-	#if slot.installed_item:
-		#return false
-	#if slot.is_locked and not stats_container.unlocks_remaining():
-		#return false
-	#return true
-
-#func set_lock_grids(slot):
-	#if is_lock_toggleable(slot):
-		#grid_array[slot.slot_ID].set_color(grid_array[slot.slot_ID].States.FREE)
-	#else: 
-		#grid_array[slot.slot_ID].set_color(grid_array[slot.slot_ID].States.TAKEN)
 
 #endregion
 
@@ -310,13 +137,9 @@ func toggle_unlock_mode():
 		drop_item()
 	
 	if mode == Modes.UNLOCK:
-		#clear_grid()
 		mode = Modes.EQUIP
 	else:
 		mode = Modes.UNLOCK
-		#for grid in grid_array:
-			#if default_unlocks.has(grid.slot_ID):
-				#grid.set_color(grid.States.TAKEN)
 
 #endregion
 
@@ -366,8 +189,6 @@ func update_internal_items(character, gear_section_controls: Dictionary):
 		var anchor_grid_slot_control: GridSlotControl = gear_section_control.control_grid.get_contents_v(top_left_cell)
 		item.snap_to(anchor_grid_slot_control.global_position)
 		item.grid_anchor = anchor_grid_slot_control
-
-
 
 func update_place_mode(actor: GearwrightActor, gear_section_controls: Dictionary):
 	if mode != Modes.PLACE:
@@ -444,7 +265,6 @@ func update_current_unlock_highlight(character):
 	else:
 		# not a default unlock, not locked, should be allowed to re-lock it
 		current_grid_slot_control.color_good()
-
 
 #endregion
 

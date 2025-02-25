@@ -1,8 +1,6 @@
 extends TextureRect
 class_name GridSlotControl
 
-# TODO yeet comments
-
 signal slot_entered
 signal slot_exited
 
@@ -11,12 +9,7 @@ signal slot_exited
 @onready var hovered_color_rect: ColorRect = $HoveredColorRect
 @onready var greyed_color_rect: ColorRect = %GreyedColorRect
 
-#var slot_ID
 var is_hovering := false
-#var locked := true
-#enum States {DEFAULT, TAKEN, FREE}
-#var state := States.DEFAULT
-#var installed_item = null
 
 func update(grid_slot: GridSlot):
 	if grid_slot.is_locked:
@@ -25,11 +18,6 @@ func update(grid_slot: GridSlot):
 		padlock.visible = false
 	
 	filter.color = Color(Color.WHITE, 0.0) # clear
-	
-	#if grid_slot.installed_item == null:
-		#rotation = 0
-	#else:
-		#rotation = deg_to_rad(45)
 
 func color_good():
 	filter.color = Color(Color.GREEN, 0.3)
@@ -49,23 +37,6 @@ func use_old_style():
 	$Padlock.scale *= 0.8
 	$Padlock.position = Vector2(2, 2)
 
-#func set_color(a_state = GridSlot.states.DEFAULT):
-	#match a_state:
-		#GridSlot.states.DEFAULT:
-			#filter.color = Color(Color.WHITE, 0.0)
-		#GridSlot.states.TAKEN:
-			#filter.color = Color(Color.DARK_ORANGE, 0.3)
-		#GridSlot.states.FREE:
-			#filter.color = Color(Color.GREEN, 0.3)
-
-#func lock():
-	#locked = true
-	#padlock.visible = true
-#
-#func unlock():
-	#locked = false
-	#padlock.visible = false
-
 func _process(_delta):
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if not is_hovering:
@@ -77,3 +48,6 @@ func _process(_delta):
 			is_hovering = false
 			hovered_color_rect.hide()
 			slot_exited.emit()
+
+
+

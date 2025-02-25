@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://ce4067la3emu8"]
+[gd_scene load_steps=2 format=3 uid="uid://ce4067la3emu8"]
 
-[ext_resource type="Script" path="res://Scripts/item_inventory.gd" id="1_mybhs"]
 [ext_resource type="Script" path="res://Scripts/part_menu.gd" id="1_qwop2"]
-[ext_resource type="Script" path="res://Scripts/tab_bar.gd" id="2_8bc07"]
 
 [node name="PartMenu" type="PanelContainer"]
 offset_right = 248.0
@@ -13,19 +11,3 @@ script = ExtResource("1_qwop2")
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
 theme_override_constants/side_margin = 0
-
-[node name="ItemInventory" type="VBoxContainer" parent="."]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 10
-script = ExtResource("1_mybhs")
-
-[node name="TabBar" type="TabBar" parent="ItemInventory"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-script = ExtResource("2_8bc07")
-
-[node name="MarginContainer" type="MarginContainer" parent="ItemInventory"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 20

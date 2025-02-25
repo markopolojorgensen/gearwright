@@ -1,24 +1,22 @@
 extends Control
 
-@onready var part_menu: PartMenu = %PartMenu
+const gear_section_control_scene = preload("res://Scenes/gear_section_control.tscn")
+
 const part_menu_tabs := ["Far", "Close", "Mental", "Active", "Passive", "Mitigation"]
+@onready var part_menu: PartMenu = %PartMenu
+
+const internals_legend_list_item_scene := preload("res://Scenes/internal_legend_list_item.tscn")
+@onready var internals_legend_container: Container = %InternalsLegendContainer
 
 @onready var inventory_system: DiabloStyleInventorySystem = $DiabloStyleInventorySystem
-const gear_section_control_scene = preload("res://Scenes/gear_section_control.tscn")
-@onready var gear_section_controls := {}
-	#GearwrightFish.FISH_GSIDS.TIP: %TipGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.TAIL: %TailGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.BODY: %BodyGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.NECK: %NeckGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.HEAD: %HeadGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.LEFT_LEGS: %LeftLegsGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.RIGHT_LEGS: %RightLegsGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.LEFT_ARM: %LeftArmGearSectionControl,
-	#GearwrightFish.FISH_GSIDS.RIGHT_ARM: %RightArmGearSectionControl,
-#}
 @onready var fish_size_selector: OptionButton = %FishSizeSelector
 @onready var floating_explanation_control: Control = $FloatingExplanationControl
-
+@onready var fish_name_input: LineEdit = %FishNameInput
+@onready var export_view_container: Container = %ExportViewContainer
+@onready var fsh_export_popup: Popup = $FshExportPopup
+@onready var png_export_popup: Popup = $PngExportPopup
+@onready var open_file_dialog: FileDialog = $OpenFileDialog
+@onready var gear_section_controls := {}
 @onready var mutation_edit_controls := {
 	"close":         %CloseCustomStatEditControl,
 	"far":             %FarCustomStatEditControl,
@@ -31,24 +29,13 @@ const gear_section_control_scene = preload("res://Scenes/gear_section_control.ts
 	"ballast":     %BallastCustomStatEditControl,
 }
 
-const internals_legend_list_item_scene := preload("res://Scenes/internal_legend_list_item.tscn")
-@onready var internals_legend_container: Container = %InternalsLegendContainer
-
 var request_update_controls: bool = false
-
 var current_character := GearwrightFish.new()
-
 # this is a pun
 # these are scale values for the gear section controls
 var fish_scale: float = 1.0
-
-@onready var fish_name_input: LineEdit = %FishNameInput
-
-@onready var export_view_container: Container = %ExportViewContainer
-@onready var fsh_export_popup: Popup = $FshExportPopup
-@onready var png_export_popup: Popup = $PngExportPopup
 var image_to_save: Image
-@onready var open_file_dialog: FileDialog = $OpenFileDialog
+
 
 func _ready():
 	for tab_name in part_menu_tabs:
@@ -158,28 +145,7 @@ func update_controls():
 		legend_item.set_legend_number(str(legend_number_start))
 		var info := infos.front() as Dictionary
 		legend_item.set_color.call_deferred(global.colors[info.internal.item_data.type])
-		#match info.internal.item_data.type:
-			#"active":
-				#legend_item.set_color.call_deferred(Color.DARK_GREEN)
-			#"passive":
-				#legend_item.set_color.call_deferred(Color.ORANGE.darkened(0.1))
-			#"mitigation":
-				#legend_item.set_color.call_deferred(Color.DIM_GRAY)
-			#"far":
-				#legend_item.set_color.call_deferred(Color.DARK_BLUE)
-			#"close":
-				#legend_item.set_color.call_deferred(Color.MEDIUM_PURPLE)
-			#"mental":
-				#legend_item.set_color.call_deferred(Color.CRIMSON)
-			#_:
-				#print(info.internal.item_data.type)
-		
-		#if legend_number_start == legend_number_end:
-		#else:
-			## never used now, lol
-			#legend_item.set_legend_number("%d-%d" % [legend_number_start, legend_number_end])
 		internals_legend_container.add_child(legend_item)
-		
 	
 	fish_name_input.text = current_character.callsign
 
@@ -194,20 +160,9 @@ func update_controls():
 
 
 
+#region Fish Sizes
 
-
-
-
-
-
-#region Reactivity
-
-func _on_diablo_style_inventory_system_something_changed() -> void:
-	request_update_controls = true
-
-func _on_part_menu_item_spawned(item_id: Variant) -> void:
-	inventory_system.on_part_menu_item_spawned(item_id)
-	request_update_controls = true
+const FISH_GRID_GAP: float = 16.0
 
 func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -> void:
 	current_character.reset_gear_sections()
@@ -221,20 +176,10 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 		var gear_section_control: GearSectionControl = gear_section_controls[gear_section_id]
 		gear_section_control.reset()
 		gear_section_control.queue_free()
-		#if current_character.has_gear_section(gear_section_id):
-			#gear_section_control.show()
-			## gear_section_control.scale = fish_scales[fish_size]
-		#else:
-			#gear_section_control.hide()
 	
 	gear_section_controls.clear()
 	
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
-	#var icon := Sprite2D.new()
-	#icon.texture = preload("res://Assets/Icon.png")
-	#icon.scale = Vector2(0.01, 0.01)
-	#add_child(icon)
-	#icon.position = center
 	match fish_size:
 		GearwrightFish.SIZE.SMALL, GearwrightFish.SIZE.MEDIUM, GearwrightFish.SIZE.LARGE, GearwrightFish.SIZE.MASSIVE:
 			var gs_control := create_gear_section_control(GearwrightActor.GSIDS.FISH_BODY)
@@ -287,7 +232,6 @@ func automagically_scale_control(control: Control):
 func center_control_manually(control: Control, location: Vector2):
 	control.global_position = location - (control.size * 0.5 * control.scale)
 
-const FISH_GRID_GAP: float = 16.0
 
 func position_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
@@ -369,6 +313,24 @@ func position_siltstalker_leviathan():
 	rarm_gsc.global_position.x = center.x + (FISH_GRID_GAP * 0.5)
 	rarm_gsc.position.y = larm_gsc.position.y
 
+#endregion
+
+
+
+
+
+
+
+
+
+#region Reactivity
+
+func _on_diablo_style_inventory_system_something_changed() -> void:
+	request_update_controls = true
+
+func _on_part_menu_item_spawned(item_id: Variant) -> void:
+	inventory_system.on_part_menu_item_spawned(item_id)
+	request_update_controls = true
 
 func _on_slot_entered(slot_info: Dictionary):
 	inventory_system.on_slot_mouse_entered(slot_info, current_character)
@@ -395,10 +357,6 @@ func _on_template_selector_type_selected(fish_type: GearwrightFish.TYPE) -> void
 func _on_mutation_change(stat_name: String, is_increase: bool):
 	current_character.modify_mutation(stat_name, is_increase)
 	request_update_controls = true
-
-# TODO disconnect & yeet
-func _on_save_options_menu_new_fish_pressed() -> void:
-	get_tree().reload_current_scene()
 
 func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_IDS) -> void:
 	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
@@ -453,7 +411,7 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 	var new_fish := GearwrightFish.unmarshal(info)
 	_on_fish_size_selector_fish_size_selected(new_fish.size)
 	current_character = new_fish
-	# TODO maybe yeet get_equipped_items
+	# TODO maybe yeet get_equipped_items?
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():

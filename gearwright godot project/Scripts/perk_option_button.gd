@@ -63,15 +63,19 @@ func update_option(index_threshold: int, char_perk_list: Array):
 	var perk = ""
 	if index < char_perk_list.size():
 		perk = char_perk_list[index]
-	var nice_dev_name = perk_info.get(perk, "None")
-	if nice_dev_name == "None":
+	var nice_name = perk_info.get(perk, "None")
+	if nice_name == "None":
 		$ColorRect.hide()
 	else:
 		$ColorRect.show()
 	for i in range(item_count):
-		if get_item_text(i) == nice_dev_name:
+		if get_item_text(i) == nice_name:
 			select(i)
-			break
+		#else:
+			#var other_perk_nice_name
+		
+	# TODO: disable perks already taken
+	# container.option_button.set_item_disabled(container.locations_in_menu.find(maneuver), true)
 
 
 

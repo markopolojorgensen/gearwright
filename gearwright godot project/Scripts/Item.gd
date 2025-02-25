@@ -1,3 +1,4 @@
+class_name Item
 extends Node2D
 
 # used to be onready, but items no longer get added to the tree before they
@@ -33,10 +34,8 @@ func initialize() -> void:
 	item_popup.hide()
 	initialized = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if selected:
-		#var scaled_offset = Vector2(x_offset - 5, y_offset + 5) * scale
 		var cell_offset: Vector2 = Vector2(top_left_corner_cell) - Vector2(0.5, 0.5)
 		var scaled_offset: Vector2 = cell_offset * world_cell_size * scale
 		global_position = lerp(global_position, get_global_mouse_position() + scaled_offset, 60 * delta)
@@ -48,16 +47,17 @@ func _process(delta):
 			item_popup.position = Vector2(icon.get_global_rect().end.x + 16, icon.get_global_rect().position.y)# + Vector2(140, 0)
 			item_popup.popup()
 
+# FIXME This should be more resilient
+# garbage in shouldn't cause crashes
 func load_item(a_itemID : String, is_player_item := true):
 	if not initialized:
 		initialize()
-	#item_data = DataHandler.item_data[a_itemID]
 	if is_player_item:
 		item_data = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.INTERNAL, a_itemID)
 	else:
 		item_data = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.FISH_INTERNAL, a_itemID)
 	
-	var image = Image.load_from_file(item_data["icon_path"])
+	var image = Image.load_from_file(item_data.get("icon_path", ""))
 	var texture = ImageTexture.create_from_image(image)
 	icon.texture = texture
 	
@@ -82,11 +82,8 @@ func load_item(a_itemID : String, is_player_item := true):
 		if coordinate[1] < lowest_y:
 			lowest_y = coordinate[1]
 	
-	#x_offset = ((41 * icon.scale.x)/2) + 11 + (-30 * lowest_x)
-	#y_offset = ((39 * icon.scale.y)/2) + (-30 * lowest_y)
 	# not necessarily a cell that is part of the internal!
 	top_left_corner_cell = Vector2i(lowest_x, lowest_y)
-	#print("top left corner cell: %s" % str(top_left_corner_cell))
 	
 	item_popup.unfocusable = true
 
@@ -111,27 +108,12 @@ func _on_icon_mouse_exited():
 
 
 
-# returns center of 0, 0 cell relative to item 0, 0 world position
-#func get_origin_cell_world_center() -> Vector2:
-	## still in cell terms
-	#var origin_to_top_left: Vector2 = -1 * Vector2(top_left_corner_cell)
-	#var origin_to_center: Vector2 = origin_to_top_left + Vector2(0.5, 0.5)
-	#var scaled = origin_to_center * world_cell_size * scale
-	#return scaled
-
-## not scaled
-#func get_world_center(cell: Vector2i) -> Vector2:
-	#var cell_center: Vector2 = Vector2(cell)# + Vector2(0.5, 0.5)
-	#return cell_center * world_cell_size
-
 # returns list of Vector2i
 func get_item_grids_as_cells() -> Array:
+	# item_grids is an array
+	# each element is a 2-element array representing coordinates
 	return item_grids.map(func(coord): return Vector2i(coord[0], coord[1]))
 
-# item_grids -> actual coords based on an actual slot
-# item_grids is an array
-# each element is a 2-element array representing coordinates
-#
 # this function returns a list of Vector2i elements
 # some of these might be out of bounds!
 func get_relative_cells(primary_cell: Vector2i) -> Array:
