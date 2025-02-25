@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://crc5iqf38uhvj"]
-
-[ext_resource type="Script" path="res://Scripts/diablo_style_inventory_system.gd" id="1_hxck6"]
-
-[node name="DiabloStyleInventorySystem" type="Node2D"]
-script = ExtResource("1_hxck6")

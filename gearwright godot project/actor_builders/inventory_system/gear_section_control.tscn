@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsfw5q2dojfyj"]
+
+[ext_resource type="Script" path="res://actor_builders/inventory_system/gear_section_control.gd" id="1_xujjt"]
+[ext_resource type="Texture2D" uid="uid://f2awmit7ooj1" path="res://Assets/grids/Gear_Belly.png" id="2_amd6j"]
+[ext_resource type="Texture2D" uid="uid://c17x6u0r8bfd0" path="res://Assets/grids/black_bg.png" id="3_xbifi"]
+
+[node name="GearSectionControl" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1649.0
+offset_bottom = -863.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+script = ExtResource("1_xujjt")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="TorsoOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_amd6j")
+centered = false
+offset = Vector2(-36, -30)
+
+[node name="TorsoBGSprite2D" type="Sprite2D" parent="MarginContainer/TorsoOverlaySprite2D"]
+z_index = -1
+texture = ExtResource("3_xbifi")
+centered = false
+offset = Vector2(-6, -7)
+
+[node name="CaptionLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+horizontal_alignment = 1

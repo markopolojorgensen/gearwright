@@ -6,7 +6,6 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------- MEDIOM
 organize files
 ------------------------------------------------------------------------------------------------------- LORGE
-yeet all commented code / finish refactor
 go through all FIXMEs / TODOs / WHEREWASIs
 switch to InputContext framework
   permanently unbork custom background editing
@@ -76,6 +75,7 @@ undo/redo?
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
+yeet all commented code / finish refactor
 too many different fish internals is a bit jank
 right clicking to inspect has some problems
   the popup always stays within the edges of the screen, but if you mouse over the popup it will disappear (or if the popup pops up under your mouse) as soon as you release right click

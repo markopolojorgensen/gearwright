@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://4g7i5o5oyj6n"]
+
+[ext_resource type="Script" path="res://actor_builders/floating_explanation_control.gd" id="1_2q1hv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdefs"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 0.784314)
+
+[node name="FloatingExplanationControl" type="PanelContainer"]
+z_index = 100
+offset_right = 123.0
+offset_bottom = 53.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gdefs")
+script = ExtResource("1_2q1hv")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="ExplanationLabel" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "background: +7
+level: +3"
+horizontal_alignment = 2

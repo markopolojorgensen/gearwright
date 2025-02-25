@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://48xw2bmucn5x"]
+
+[ext_resource type="Script" path="res://actor_builders/parts_ui/part_list_type_section.gd" id="1_wi2ym"]
+
+[node name="PartListTypeSection" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+script = ExtResource("1_wi2ym")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 1
+columns = 2
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2

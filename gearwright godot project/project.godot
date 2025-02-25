@@ -12,18 +12,18 @@ config_version=5
 
 config/name="Gearwright"
 config/version="1.4.2.0"
-run/main_scene="res://Scenes/main_menu.tscn"
+run/main_scene="res://main_menu/main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://Assets/Icon.png"
 config/windows_native_icon="res://Assets/icon.ico"
 
 [autoload]
 
-LocalDataHandler="*res://Scripts/LocalDataHandler.gd"
-DataHandler="*res://Scripts/DataHandler.gd"
-global_util="*res://Scripts/global_util.gd"
-version="*res://Scripts/version.gd"
-global="*res://global.gd"
+LocalDataHandler="*res://autoloads_globals_and_singletons/LocalDataHandler.gd"
+DataHandler="*res://autoloads_globals_and_singletons/DataHandler.gd"
+global_util="*res://utility/global_util.gd"
+version="*res://utility/version.gd"
+global="*res://autoloads_globals_and_singletons/global.gd"
 
 [display]
 
