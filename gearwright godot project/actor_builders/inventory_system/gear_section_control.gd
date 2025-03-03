@@ -17,11 +17,47 @@ var control_grid := SparseGrid.new()
 
 @onready var gsid_to_overlay := {
 	GearwrightActor.GSIDS.FISHER_TORSO: %TorsoOverlaySprite2D,
+	GearwrightActor.GSIDS.FISHER_HEAD: %HeadOverlaySprite2D,
+	GearwrightActor.GSIDS.FISHER_LEFT_ARM: %LeftArmOverlaySprite2D,
+	GearwrightActor.GSIDS.FISHER_RIGHT_ARM: %RightArmOverlaySprite2D,
+	GearwrightActor.GSIDS.FISHER_LEGS: %LegsOverlaySprite2D,
+}
+
+@onready var fish_overlays := {
+	Vector2i(3, 3): [
+		%"3x3FishOverlaySprite2DA",
+		%"3x3FishOverlaySprite2DB",
+		%"3x3FishOverlaySprite2DC",
+		%"3x3FishOverlaySprite2DD",
+	],
+	Vector2i(3, 4): [
+		%"3x4FishOverlaySprite2DA",
+		%"3x4FishOverlaySprite2DB",
+		%"3x4FishOverlaySprite2DC",
+		%"3x4FishOverlaySprite2DD",
+	],
+	Vector2i(3, 6): [
+		%"3x6FishOverlaySprite2DA",
+		%"3x6FishOverlaySprite2DB",
+	],
+	Vector2i(6, 3): [
+		%"6x3FishOverlaySprite2DA",
+		%"6x3FishOverlaySprite2DB",
+		%"6x3FishOverlaySprite2DC",
+		%"6x3FishOverlaySprite2DD",
+	],
+	Vector2i(6, 4): [
+		%"6x4FishOverlaySprite2DA",
+		%"6x4FishOverlaySprite2DB",
+		%"6x4FishOverlaySprite2DC",
+	],
+	Vector2i(6, 6): [
+		%"6x6FishOverlaySprite2D"
+	],
 }
 
 func _ready():
-	for overlay in gsid_to_overlay.values():
-		overlay.hide()
+	hide_overlays()
 	
 	if global_util.was_run_directly(self):
 		var fake_character := GearwrightCharacter.new()
@@ -49,8 +85,9 @@ func initialize(gear_section: GearSection):
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		#l.size_flags_horizontal = Control.SIZE_SHRINK_CENTER | Control.SIZE_EXPAND
-		l.size_flags_vertical = Control.SIZE_SHRINK_END
+		l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		l.modulate = Color("aeaeae")
+		l.custom_minimum_size.y = 28
 		#l.custom_minimum_size.y += 12
 		grid_container.add_child(l)
 		#l.update_scale()
@@ -70,15 +107,35 @@ func initialize(gear_section: GearSection):
 			grid_container.add_child(grid_slot_control)
 			control_grid.set_contents(x, y, grid_slot_control)
 	
-	for overlay in gsid_to_overlay.values():
-		overlay.hide()
+	hide_overlays()
+	var use_old_style := true
 	if gear_section.id in gsid_to_overlay.keys():
-		gsid_to_overlay[gear_section_id].show()
+		var overlay = gsid_to_overlay[gear_section_id]
+		overlay.show()
+		use_old_style = false
 	else:
+		# fish
+		var overlay_list: Array = fish_overlays[gear_section.grid.size]
+		overlay_list.pick_random().show()
+		use_old_style = false
+	if use_old_style:
 		for cell in control_grid.get_valid_entries():
 			var grid_slot_control = control_grid.get_contents_v(cell)
 			grid_slot_control.use_old_style()
+
+# all overlays
+func for_each_overlay(callable: Callable):
+	for overlay in gsid_to_overlay.values():
+		callable.call(overlay)
 	
+	for overlay_list in fish_overlays.values():
+		for overlay in overlay_list:
+			callable.call(overlay)
+
+func hide_overlays():
+	for_each_overlay(func(overlay):
+		overlay.hide()
+		)
 
 func update(gear_section: GearSection):
 	if not initialized:
@@ -99,9 +156,11 @@ func update(gear_section: GearSection):
 		#scaling_label.update_scale()
 	
 	# put overlays below column headers
-	if 7 <= grid_container.get_child_count():
-		for overlay in gsid_to_overlay.values():
-			overlay.position.y = grid_container.get_child(6).position.y
+	var width_plus_one: int = gear_section.grid.size.x
+	if width_plus_one <= grid_container.get_child_count():
+		for_each_overlay(func(overlay):
+			overlay.position.y = grid_container.get_child(width_plus_one).position.y
+			)
 
 func grey_out():
 	for coords in control_grid.get_valid_entries():
@@ -116,6 +175,7 @@ func reset():
 	global_util.clear_children(grid_container)
 	control_grid.clear()
 	initialized = false
+	hide_overlays()
 
 
 

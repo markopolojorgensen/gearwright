@@ -39,13 +39,21 @@ func _process(delta):
 		var cell_offset: Vector2 = Vector2(top_left_corner_cell) - Vector2(0.5, 0.5)
 		var scaled_offset: Vector2 = cell_offset * world_cell_size * scale
 		global_position = lerp(global_position, get_global_mouse_position() + scaled_offset, 60 * delta)
-		
-	if Input.is_action_just_pressed("mouse_rightclick") && hovering:
-		if item_popup.visible:
-			item_popup.hide()
-		else:
-			item_popup.position = Vector2(icon.get_global_rect().end.x + 16, icon.get_global_rect().position.y)# + Vector2(140, 0)
-			item_popup.popup()
+	
+	
+	if not Input.is_action_just_pressed("mouse_rightclick"):
+		return
+	if not hovering:
+		return
+	#if input_context_system.get_current_input_context_id() != input_context_system.INPUT_CONTEXT.MECH_BUILDER:
+	if input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM:
+		return
+	
+	if item_popup.visible:
+		item_popup.hide()
+	else:
+		item_popup.position = Vector2(icon.get_global_rect().end.x + 16, icon.get_global_rect().position.y)# + Vector2(140, 0)
+		item_popup.popup()
 
 # FIXME This should be more resilient
 # garbage in shouldn't cause crashes

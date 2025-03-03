@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://blbjufxq28b2f"]
 
-[ext_resource type="Texture2D" uid="uid://c5bgge45psx58" path="res://Assets/Repair Kit.png" id="1_v7wtm"]
+[ext_resource type="Texture2D" uid="uid://q8qmg0jp84ym" path="res://actor_builders/mech_builder/RepKitGrey.png" id="1_rmbvw"]
 
 [node name="TextureRect" type="TextureRect"]
 custom_minimum_size = Vector2(60, 60)
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("1_v7wtm")
+texture = ExtResource("1_rmbvw")
 expand_mode = 1
 stretch_mode = 4

@@ -11,7 +11,10 @@ extends Control
 # for control updates
 @onready var frame_selector: OptionButton = %FrameSelector
 @onready var level_selector: SpinBox = %LevelSelector
-@onready var unlocks_remaining: Label = %UnlocksRemainingLabel
+@onready var unlocks_remaining_label: Label = %UnlocksRemainingLabel
+@onready var unlocks_label_shaker: Node = %UnlocksLabelShaker
+@onready var weight_label: Label = %WeightLabel
+@onready var weight_label_shaker: Node = %WeightLabelShaker
 @onready var nameplate: Label = %LevelBackgroundNameplate
 @onready var gear_ability_title: Label = %GearAbilityTitle
 @onready var gear_ability_text: Label = %GearAbilityText
@@ -64,9 +67,8 @@ extends Control
 	"unlocks":    %UnlocksCustomStatEditControl,
 	"weight_cap": %WeightCapCustomStatEditControl,
 }
-@onready var fsh_export_popup: Popup = $FshExportPopup
-@onready var png_export_popup: Popup = $PngExportPopup
-@onready var open_file_dialog: FileDialog = $OpenFileDialog
+
+@onready var popup_collection = %PopupCollection
 
 @onready var gear_section_controls = {
 	GearwrightActor.GSIDS.FISHER_HEAD:      %HeadGearSectionControl,
@@ -88,11 +90,9 @@ var current_character := GearwrightCharacter.new()
 #   also prevents ui from asking for data before it's loaded
 var request_update_controls := false
 
-var image_to_save: Image
-
 var enforce_weight_cap := true
 var enforce_hardpoint_cap := true
-# TODO: enforce tags
+var enforce_tags := true
 
 #region initialization
 
@@ -151,12 +151,49 @@ func _ready():
 			var error = "unknown tab '%s' for item: %s" % [section_id, item_id]
 			push_error(error)
 			print(error)
+	
+	for gear_section_control in gear_section_controls.values():
+		gear_section_control.slot_entered.connect(_on_slot_mouse_entered)
+		gear_section_control.slot_exited.connect(_on_slot_mouse_exited)
+	
+	inventory_system.current_actor = current_character
+	
+	register_ic_base_mech_builder()
+	register_ic_custom_bg()
+	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
 
 func is_curio(item_data: Dictionary):
 	for tag in item_data.tags:
 		if "fathomless" in tag.to_lower():
 			return true
 	return false
+
+func register_ic_base_mech_builder():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.MECH_BUILDER
+	ic.activate = func(_is_stack_growing: bool):
+		stats_list_control.set_mouse_detector_filters(true)
+	ic.deactivate = func(_is_stack_growing: bool):
+		stats_list_control.set_mouse_detector_filters(false)
+	ic.handle_input = func(event: InputEvent):
+		if event.is_action_pressed("mouse_leftclick"):
+			if inventory_system.pickup_item():
+				get_viewport().set_input_as_handled()
+	input_context_system.register_input_context(ic)
+
+func register_ic_custom_bg():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.MECH_BUILDER_CUSTOM_BACKGROUND
+	ic.activate = func(_is_stack_growing: bool):
+		custom_bg_popup.show()
+		edit_bg_button.text = "Save Background"
+	ic.deactivate = func(_is_stack_growing: bool):
+		custom_bg_popup.hide()
+		edit_bg_button.text = "Edit Background"
+	ic.handle_input = func(_event: InputEvent):
+		pass
+	input_context_system.register_input_context(ic)
+
 
 #endregion
 
@@ -180,23 +217,7 @@ func is_curio(item_data: Dictionary):
 
 
 func _process(_delta):
-	$ModeDebugLabel.text = "Mode: %s" % str(inventory_system.get_mode())
-	
-	# TODO switch to InputContext style
-	if Input.is_action_just_pressed("mouse_leftclick"):
-		if (
-				png_export_popup.visible
-				or fsh_export_popup.visible
-				or open_file_dialog.visible
-				or internals_reset_dialog.visible
-				or hardpoints_reset_dialog.visible
-				or custom_bg_popup.visible
-				or global_util.is_warning_popup_active()
-		):
-			return
-		inventory_system.leftclick(current_character)
-	elif Input.is_action_just_pressed("mouse_rightclick"):
-		inventory_system.rightclick(current_character)
+	$ModeDebugLabel.text = "Context: %s" % input_context_system.get_current_input_context_name().capitalize()
 	
 	if request_update_controls:
 		request_update_controls = false
@@ -224,8 +245,6 @@ func _process(_delta):
 
 #region Reactivity
 
-# Grid Slots
-
 func _on_slot_mouse_entered(slot_info: Dictionary):
 	inventory_system.on_slot_mouse_entered(slot_info, current_character)
 	request_update_controls = true
@@ -233,43 +252,6 @@ func _on_slot_mouse_entered(slot_info: Dictionary):
 func _on_slot_mouse_exited(slot_info: Dictionary):
 	inventory_system.on_slot_mouse_exited(slot_info)
 	request_update_controls = true
-
-# TODO probably move these, huh
-# entered
-func _on_head_gear_section_control_slot_entered(slot_info: Dictionary) -> void:
-	_on_slot_mouse_entered(slot_info)
-
-func _on_chest_gear_section_control_slot_entered(slot_info: Dictionary) -> void:
-	_on_slot_mouse_entered(slot_info)
-
-func _on_left_arm_gear_section_control_slot_entered(slot_info: Dictionary) -> void:
-	_on_slot_mouse_entered(slot_info)
-
-func _on_right_arm_gear_section_control_slot_entered(slot_info: Dictionary) -> void:
-	_on_slot_mouse_entered(slot_info)
-
-func _on_legs_gear_section_control_slot_entered(slot_info: Dictionary) -> void:
-	_on_slot_mouse_entered(slot_info)
-
-# exited
-func _on_head_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
-	_on_slot_mouse_exited(slot_info)
-
-func _on_chest_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
-	_on_slot_mouse_exited(slot_info)
-
-func _on_left_arm_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
-	_on_slot_mouse_exited(slot_info)
-
-func _on_right_arm_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
-	_on_slot_mouse_exited(slot_info)
-
-func _on_legs_gear_section_control_slot_exited(slot_info: Dictionary) -> void:
-	_on_slot_mouse_exited(slot_info)
-
-
-
-
 
 
 var current_hover_stat := ""
@@ -287,6 +269,7 @@ func _on_stats_list_control_stat_mouse_exited(stat_name: String) -> void:
 
 
 func _on_part_menu_item_spawned(item_id: Variant) -> void:
+	input_context_system.pop_to(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
 	inventory_system.on_part_menu_item_spawned(item_id)
 	request_update_controls = true
 
@@ -296,7 +279,13 @@ func _on_level_selector_value_changed(value: float) -> void:
 	request_update_controls = true
 
 func _on_unlock_toggle_button_down():
-	inventory_system.toggle_unlock_mode()
+	var unlock_id = input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_UNLOCK
+	if input_context_system.get_current_input_context_id() == unlock_id:
+		input_context_system.pop_input_context_stack()
+	else:
+		input_context_system.pop_to(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
+		input_context_system.push_input_context(unlock_id)
+	#inventory_system.toggle_unlock_mode()
 	request_update_controls = true
 
 func _on_callsign_line_edit_text_changed(new_text: String) -> void:
@@ -310,14 +299,13 @@ func _on_background_option_button_item_selected(index: int) -> void:
 	request_update_controls = true
 
 func _on_edit_background_button_pressed() -> void:
-	if custom_bg_popup.visible:
-		custom_bg_popup.hide()
-		edit_bg_button.text = "Edit Background"
-		stats_list_control.set_mouse_detector_filters(true)
-	else:
-		custom_bg_popup.show()
-		edit_bg_button.text = "Save Background"
-		stats_list_control.set_mouse_detector_filters(false)
+	if input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.MECH_BUILDER_CUSTOM_BACKGROUND:
+		input_context_system.pop_input_context_stack()
+		return
+	
+	input_context_system.pop_to(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
+	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER_CUSTOM_BACKGROUND)
+
 
 # connected to custom bg widget in _ready
 func _on_custom_bg_change(stat_name: String, is_increase: bool):
@@ -328,58 +316,23 @@ func _on_diablo_style_inventory_system_something_changed() -> void:
 	request_update_controls = true
 
 func _on_save_menu_button_button_selected(button_id: int) -> void:
-	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
-		get_tree().reload_current_scene()
-	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
-		fsh_export_popup.set_line_edit_text(current_character.callsign)
-		fsh_export_popup.popup()
+	if button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
+		popup_collection.popup_fsh(current_character)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
 		# grab image before covering it up with export popup
 		callsign_line_edit.release_focus()
 		await get_tree().process_frame
 		await get_tree().process_frame
 		var border_rect := Rect2i(%MechImageRegion.get_global_rect())
-		image_to_save = get_viewport().get_texture().get_image().get_region(border_rect)
-		
-		png_export_popup.set_line_edit_text(current_character.callsign)
-		png_export_popup.popup()
+		var image_to_save: Image = get_viewport().get_texture().get_image().get_region(border_rect)
+		popup_collection.popup_png(current_character.callsign, image_to_save)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
-		open_file_dialog.popup()
-	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
-		global.open_folder("Saves")
-	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
-		global.open_folder("Screenshots")
+		popup_collection.popup_load_dialog()
 
-func _on_fsh_export_popup_export(filename: String) -> void:
-	var path = "user://Saves/" + filename
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	
-	#file.store_string(get_user_data_string())
-	file.store_string(JSON.stringify(current_character.marshal(), "  "))
-	file.close()
-	
-	global.open_folder("Saves")
-
-func _on_png_export_popup_export(filename: String) -> void:
-	image_to_save.save_png("user://Screenshots/" + filename)
-	global.open_folder("Screenshots")
-
-func _on_open_file_dialog_file_selected(path: String) -> void:
-	inventory_system.drop_item()
+func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
-	
-	var file = FileAccess.open(path, FileAccess.READ)
-	var file_text = file.get_as_text()
-	file.close()
-	var json = JSON.new()
-	if json.parse(file_text) != Error.OK:
-		var message = "JSON Parse Error at line %d: '%s'" % [json.get_error_line(), json.get_error_message()]
-		global_util.popup_warning("Failed to load fisher!", message)
-		push_warning(message)
-		return
-	
-	var info: Dictionary = json.data as Dictionary
 	current_character = GearwrightCharacter.unmarshal(info)
+	inventory_system.current_actor = current_character
 	current_character.enforce_weight_cap = enforce_weight_cap
 	current_character.enforce_hardpoint_cap = enforce_hardpoint_cap
 	var internals := current_character.get_equipped_items()
@@ -392,11 +345,17 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 func _on_weight_cap_check_button_toggled(toggled_on: bool) -> void:
 	enforce_weight_cap = toggled_on
 	current_character.enforce_weight_cap = toggled_on
+	request_update_controls = true
 
 func _on_unlocks_check_button_toggled(toggled_on: bool) -> void:
 	enforce_hardpoint_cap = toggled_on
 	current_character.enforce_hardpoint_cap = toggled_on
+	request_update_controls = true
 
+func _on_tags_check_button_toggled(toggled_on: bool) -> void:
+	enforce_tags = toggled_on
+	current_character.enforce_tags = toggled_on
+	request_update_controls = true
 
 
 
@@ -437,7 +396,7 @@ func _on_hardpoints_reset_confirm_dialog_confirmed():
 func update_controls():
 	inventory_system.fancy_update(current_character, gear_section_controls)
 	
-	update_stats_list_control()
+	stats_list_control.update(current_character)
 	
 	# frame selector
 	var frame_index := global_util.set_option_button_by_item_text(
@@ -450,18 +409,30 @@ func update_controls():
 	# level spinner
 	level_selector.set_value_no_signal(current_character.level)
 	
-	# hardpoint info
+	# hardpoint unlocks
 	var used_unlock_count = current_character.get_unlocked_slots_count()
 	var max_unlock_count = current_character.get_max_unlocks()
 	var unlocks_left_count: int = max_unlock_count - used_unlock_count
-	unlocks_remaining.text = "Unlocks Remaining:\n%d/%d" % [
+	unlocks_remaining_label.text = "Unlocks Remaining:\n%d/%d" % [
 		unlocks_left_count,
 		max_unlock_count,
 	]
 	if enforce_hardpoint_cap and unlocks_left_count < 0:
-		%UnlocksLabelShaker.start_shaking()
+		unlocks_label_shaker.start_shaking()
 	else:
-		%UnlocksLabelShaker.stop_shaking()
+		unlocks_label_shaker.stop_shaking()
+	
+	# weight
+	var weight: int = current_character.get_weight()
+	var weight_cap: int = current_character.get_weight_cap()
+	weight_label.text = "Weight:\n%d/%d" % [
+		weight,
+		weight_cap,
+	]
+	if enforce_weight_cap and current_character.is_overweight_with_item(inventory_system.item_held):
+		weight_label_shaker.start_shaking()
+	else:
+		weight_label_shaker.stop_shaking()
 	
 	nameplate.text = "EL %s | %s" % [
 		str(current_character.level),
@@ -521,19 +492,16 @@ func update_controls():
 		custom_bg_control.value = stat_value
 	custom_bg_points_label.text = str(current_character.get_custom_bg_points_remaining())
 
-func update_stats_list_control():
-	stats_list_control.update(current_character)
-	
-	if not enforce_weight_cap:
-		stats_list_control.under_weight()
-		return
-	
-	if current_character.is_overweight_with_item(inventory_system.item_held):
-		stats_list_control.over_weight()
-	else:
-		stats_list_control.under_weight()
-
 #endregion
+
+
+
+
+
+
+
+
+
 
 
 

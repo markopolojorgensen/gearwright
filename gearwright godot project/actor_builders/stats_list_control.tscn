@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://2d52tcveghpy"]
+[gd_scene load_steps=2 format=3 uid="uid://2d52tcveghpy"]
 
 [ext_resource type="Script" path="res://actor_builders/stats_list_control.gd" id="1_pb6eo"]
-[ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://utility/label_shaker.tscn" id="2_13sdk"]
 
 [node name="StatsListControl" type="PanelContainer"]
 custom_minimum_size = Vector2(250, 0)
@@ -91,5 +90,3 @@ horizontal_alignment = 2
 [node name="MouseDetectors" type="Control" parent="."]
 layout_mode = 2
 mouse_filter = 2
-
-[node name="WeightLabelShaker" parent="." instance=ExtResource("2_13sdk")]

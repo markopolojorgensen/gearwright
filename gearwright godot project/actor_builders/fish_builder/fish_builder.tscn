@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://co3tgplgb8ego"]
+[gd_scene load_steps=19 format=3 uid="uid://co3tgplgb8ego"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_5bw67"]
 [ext_resource type="Script" path="res://actor_builders/fish_builder/fish_builder.gd" id="2_e7pw6"]
@@ -13,11 +13,10 @@
 [ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://actor_builders/inventory_system/gear_section_control.tscn" id="11_57rid"]
 [ext_resource type="PackedScene" uid="uid://2d52tcveghpy" path="res://actor_builders/stats_list_control.tscn" id="12_u6b22"]
 [ext_resource type="Script" path="res://actor_builders/fish_builder/template_selector.gd" id="13_tdc46"]
-[ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/custom_stat_edit_control.tscn" id="14_pjp3h"]
+[ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="14_pjp3h"]
 [ext_resource type="PackedScene" uid="uid://crc5iqf38uhvj" path="res://actor_builders/inventory_system/diablo_style_inventory_system.tscn" id="15_60r37"]
 [ext_resource type="PackedScene" uid="uid://4g7i5o5oyj6n" path="res://actor_builders/floating_explanation_control.tscn" id="16_cfq45"]
-[ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://actor_builders/top_menu/export_popup.tscn" id="17_8vsrv"]
-[ext_resource type="PackedScene" uid="uid://dblq4eyop75be" path="res://actor_builders/top_menu/file_dialog.tscn" id="18_1rjji"]
+[ext_resource type="PackedScene" uid="uid://lsxxhvkd1frg" path="res://actor_builders/popup_collection.tscn" id="19_pstjp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm0fc"]
 bg_color = Color(0.215686, 0.215686, 0.215686, 1)
@@ -528,17 +527,29 @@ is_fish_mode = true
 [node name="FloatingExplanationControl" parent="." instance=ExtResource("16_cfq45")]
 layout_mode = 0
 
-[node name="FshExportPopup" parent="." instance=ExtResource("17_8vsrv")]
-auto_translate_mode = 1
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1272.0
+offset_top = 755.0
+offset_right = 1646.0
+offset_bottom = 886.0
+mouse_filter = 2
+alignment = 2
 
-[node name="PngExportPopup" parent="." instance=ExtResource("17_8vsrv")]
-auto_translate_mode = 1
-visible = false
-extension = ".png"
+[node name="FishScaleLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 2
 
-[node name="OpenFileDialog" parent="." instance=ExtResource("18_1rjji")]
+[node name="InputContextDebugLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 2
 
+[node name="PopupCollection" parent="." instance=ExtResource("19_pstjp")]
+unique_name_in_owner = true
+
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
 [connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
@@ -549,8 +560,7 @@ extension = ".png"
 [connection signal="text_changed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" to="." method="_on_fish_name_input_text_changed"]
 [connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
 [connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" method="_on_item_selected"]
 [connection signal="type_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="." method="_on_template_selector_type_selected"]
 [connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]
-[connection signal="export" from="FshExportPopup" to="." method="_on_fsh_export_popup_export"]
-[connection signal="export" from="PngExportPopup" to="." method="_on_png_export_popup_export"]
-[connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
+[connection signal="save_loaded" from="PopupCollection" to="." method="_on_popup_collection_save_loaded"]

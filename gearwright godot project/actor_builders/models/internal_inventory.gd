@@ -162,10 +162,10 @@ func create_fish_gear_sections(size: GearwrightFish.SIZE):
 # slot_info required keys: x, y, gear_section
 # returns array of String errors
 # empty array -> no problems
-func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+func equip_internal(item, gear_section_id: int, primary_cell: Vector2i, enforce_tags: bool) -> Array:
 	#global_util.fancy_print("equip_internal: %s, primary_cell: %s" % [item.item_data.name, str(primary_cell)])
 	#global_util.indent()
-	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
+	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell, enforce_tags)
 	if not errors.is_empty():
 		return errors
 
@@ -237,7 +237,7 @@ func unlock_all():
 #  slot is locked
 #  slot already has something
 #  exceeds limited tag
-func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
+func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i, enforce_tags: bool) -> Array:
 	var errors := []
 	
 	# there is no gear section
@@ -275,7 +275,11 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	if error_overlap:
 		errors.append("Overlaps existing internal")
 	
-	# tags (limited, bulky, etc)
+	
+	# only tags beyond this point! (limited, bulky, etc)
+	if not enforce_tags:
+		return errors
+	
 	var item_tags = item.item_data.tags
 	var limit: int = -1
 	var is_bulky := false
@@ -413,7 +417,8 @@ func get_equipped_items_by_gs(include_item_values := true) -> Dictionary:
 #   keys are gear_section_id and grid_slot_coords
 # does not include slots that are unlocked by default on the frame
 # (these are only slots that the player has unlocked)
-# TODO is this used anywhere?
+#
+# as far as I can tell this is only used for counting how many unlocked slots there are
 func get_unlocked_slots() -> Array:
 	var result := []
 	for id in gear_sections.keys():

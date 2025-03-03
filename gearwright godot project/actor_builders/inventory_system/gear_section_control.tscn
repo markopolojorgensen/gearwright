@@ -1,8 +1,34 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsfw5q2dojfyj"]
+[gd_scene load_steps=30 format=3 uid="uid://dsfw5q2dojfyj"]
 
 [ext_resource type="Script" path="res://actor_builders/inventory_system/gear_section_control.gd" id="1_xujjt"]
-[ext_resource type="Texture2D" uid="uid://f2awmit7ooj1" path="res://Assets/grids/Gear_Belly.png" id="2_amd6j"]
-[ext_resource type="Texture2D" uid="uid://c17x6u0r8bfd0" path="res://Assets/grids/black_bg.png" id="3_xbifi"]
+[ext_resource type="Texture2D" uid="uid://f2awmit7ooj1" path="res://actor_builders/inventory_system/gear_sprites/Gear_Belly.png" id="2_amd6j"]
+[ext_resource type="Texture2D" uid="uid://c17x6u0r8bfd0" path="res://actor_builders/inventory_system/gear_sprites/black_bg.png" id="3_xbifi"]
+[ext_resource type="Texture2D" uid="uid://ch5reyjn1blqd" path="res://actor_builders/inventory_system/gear_sprites/GW_Head_Grid.png" id="4_2fbx5"]
+[ext_resource type="Texture2D" uid="uid://b0m74s8wv4wn7" path="res://actor_builders/inventory_system/gear_sprites/GW_Head_Box.png" id="5_h6wbw"]
+[ext_resource type="Texture2D" uid="uid://6tlatvwgyfle" path="res://actor_builders/inventory_system/gear_sprites/GW_Left_Arm_Grid.png" id="6_7jv1k"]
+[ext_resource type="Texture2D" uid="uid://by5v6khwu4l10" path="res://actor_builders/inventory_system/gear_sprites/GW_Left_Arm_Box.png" id="7_77co2"]
+[ext_resource type="Texture2D" uid="uid://ckr5jywb2mw28" path="res://actor_builders/inventory_system/gear_sprites/GW_Right_Arm_Grid.png" id="8_h7dl4"]
+[ext_resource type="Texture2D" uid="uid://bfj65wekmqljc" path="res://actor_builders/inventory_system/gear_sprites/GW_Right_Arm_Box.png" id="9_j6jeg"]
+[ext_resource type="Texture2D" uid="uid://b4mwrveiniolw" path="res://actor_builders/inventory_system/gear_sprites/GW_Legs_Grid.png" id="10_tnrc5"]
+[ext_resource type="Texture2D" uid="uid://b2ogu5ku5syiw" path="res://actor_builders/inventory_system/gear_sprites/GW_Legs_Box.png" id="11_wnq1g"]
+[ext_resource type="Texture2D" uid="uid://burin4dugpk03" path="res://actor_builders/inventory_system/fish_sprites/3x3a.png" id="13_rhmuy"]
+[ext_resource type="Texture2D" uid="uid://b040at64xk7q7" path="res://actor_builders/inventory_system/fish_sprites/3x3b.png" id="14_jgkqp"]
+[ext_resource type="Texture2D" uid="uid://b5drnlkxsrh5m" path="res://actor_builders/inventory_system/fish_sprites/3x3c.png" id="15_car6a"]
+[ext_resource type="Texture2D" uid="uid://cupj0ajm4fwub" path="res://actor_builders/inventory_system/fish_sprites/3x3d.png" id="16_igadm"]
+[ext_resource type="Texture2D" uid="uid://dfqanl4qom1f0" path="res://actor_builders/inventory_system/fish_sprites/3x4a.png" id="17_hwwmu"]
+[ext_resource type="Texture2D" uid="uid://dwhskt34u2678" path="res://actor_builders/inventory_system/fish_sprites/3x4b.png" id="18_5pghk"]
+[ext_resource type="Texture2D" uid="uid://5ajyy5jnb74s" path="res://actor_builders/inventory_system/fish_sprites/3x4c.png" id="19_jum5a"]
+[ext_resource type="Texture2D" uid="uid://y7iypiis5f64" path="res://actor_builders/inventory_system/fish_sprites/3x4d.png" id="20_cbdbb"]
+[ext_resource type="Texture2D" uid="uid://btu04n6rn6etk" path="res://actor_builders/inventory_system/fish_sprites/3x6a.png" id="21_htycv"]
+[ext_resource type="Texture2D" uid="uid://ovhc71imc8c6" path="res://actor_builders/inventory_system/fish_sprites/3x6b.png" id="22_xwlct"]
+[ext_resource type="Texture2D" uid="uid://bjr4cmalkqkit" path="res://actor_builders/inventory_system/fish_sprites/6x3a.png" id="23_4tsbj"]
+[ext_resource type="Texture2D" uid="uid://c6mb6rwye3r7a" path="res://actor_builders/inventory_system/fish_sprites/6x3b.png" id="24_cumjj"]
+[ext_resource type="Texture2D" uid="uid://cd4nobmdl1qeq" path="res://actor_builders/inventory_system/fish_sprites/6x3c.png" id="25_ot045"]
+[ext_resource type="Texture2D" uid="uid://t8w5ghw82776" path="res://actor_builders/inventory_system/fish_sprites/6x3d.png" id="26_btjul"]
+[ext_resource type="Texture2D" uid="uid://cajroieg2urdx" path="res://actor_builders/inventory_system/fish_sprites/6x4a.png" id="27_w5kgt"]
+[ext_resource type="Texture2D" uid="uid://dqs46owpbety3" path="res://actor_builders/inventory_system/fish_sprites/6x4b.png" id="28_rnnam"]
+[ext_resource type="Texture2D" uid="uid://b38av4fn65ckq" path="res://actor_builders/inventory_system/fish_sprites/6x4c.png" id="29_55cmv"]
+[ext_resource type="Texture2D" uid="uid://ddjjkxocyorfp" path="res://actor_builders/inventory_system/fish_sprites/6x6.png" id="30_7n81q"]
 
 [node name="GearSectionControl" type="VBoxContainer"]
 anchors_preset = 15
@@ -36,7 +62,7 @@ z_index = 1
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_amd6j")
 centered = false
-offset = Vector2(-36, -30)
+offset = Vector2(-35, -28)
 
 [node name="TorsoBGSprite2D" type="Sprite2D" parent="MarginContainer/TorsoOverlaySprite2D"]
 z_index = -1
@@ -44,8 +70,213 @@ texture = ExtResource("3_xbifi")
 centered = false
 offset = Vector2(-6, -7)
 
+[node name="HeadOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_2fbx5")
+centered = false
+offset = Vector2(-26, -14)
+
+[node name="BGSprite2D" type="Sprite2D" parent="MarginContainer/HeadOverlaySprite2D"]
+z_index = -1
+texture = ExtResource("5_h6wbw")
+centered = false
+
+[node name="LeftArmOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("6_7jv1k")
+centered = false
+offset = Vector2(-18, -25)
+
+[node name="BGSprite2D" type="Sprite2D" parent="MarginContainer/LeftArmOverlaySprite2D"]
+z_index = -1
+texture = ExtResource("7_77co2")
+centered = false
+offset = Vector2(0, -2)
+
+[node name="RightArmOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_h7dl4")
+centered = false
+offset = Vector2(-24, -22)
+
+[node name="BGSprite2D" type="Sprite2D" parent="MarginContainer/RightArmOverlaySprite2D"]
+z_index = -1
+texture = ExtResource("9_j6jeg")
+centered = false
+offset = Vector2(-3, -2)
+
+[node name="LegsOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("10_tnrc5")
+centered = false
+offset = Vector2(-27, -27)
+
+[node name="BGSprite2D" type="Sprite2D" parent="MarginContainer/LegsOverlaySprite2D"]
+z_index = -1
+texture = ExtResource("11_wnq1g")
+centered = false
+
+[node name="3x3FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("13_rhmuy")
+centered = false
+offset = Vector2(-30, -36)
+
+[node name="3x3FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("14_jgkqp")
+centered = false
+offset = Vector2(-45, -42)
+
+[node name="3x3FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("15_car6a")
+centered = false
+offset = Vector2(-42, -36)
+
+[node name="3x3FishOverlaySprite2DD" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("16_igadm")
+centered = false
+offset = Vector2(-45, -30)
+
+[node name="3x4FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("17_hwwmu")
+centered = false
+offset = Vector2(-30, -36)
+
+[node name="3x4FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("18_5pghk")
+centered = false
+offset = Vector2(-42, -36)
+
+[node name="3x4FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("19_jum5a")
+centered = false
+offset = Vector2(-42, -21)
+
+[node name="3x4FishOverlaySprite2DD" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("20_cbdbb")
+centered = false
+offset = Vector2(-43, -30)
+
+[node name="3x6FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("21_htycv")
+centered = false
+offset = Vector2(-42, -35)
+
+[node name="3x6FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("22_xwlct")
+centered = false
+offset = Vector2(-43, -37)
+
+[node name="6x3FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("23_4tsbj")
+centered = false
+offset = Vector2(-42, -42)
+
+[node name="6x3FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("24_cumjj")
+centered = false
+offset = Vector2(-28, -36)
+
+[node name="6x3FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("25_ot045")
+centered = false
+offset = Vector2(-26, -29)
+
+[node name="6x3FishOverlaySprite2DD" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("26_btjul")
+centered = false
+offset = Vector2(-24, -30)
+
+[node name="6x4FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("27_w5kgt")
+centered = false
+offset = Vector2(-28, -36)
+
+[node name="6x4FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("28_rnnam")
+centered = false
+offset = Vector2(-26, -28)
+
+[node name="6x4FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("29_55cmv")
+centered = false
+offset = Vector2(-42, -32)
+
+[node name="6x6FishOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("30_7n81q")
+centered = false
+offset = Vector2(-42, -36)
+
 [node name="CaptionLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
 horizontal_alignment = 1
+vertical_alignment = 2

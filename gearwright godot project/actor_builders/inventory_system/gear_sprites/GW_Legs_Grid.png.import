@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7i2vstthocql"
-path="res://.godot/imported/plus_icon.png-39d41a534bc789d85426d8a27eb1e41c.ctex"
+uid="uid://b4mwrveiniolw"
+path="res://.godot/imported/GW_Legs_Grid.png-c7a59d64989548a3b451d5932ba37644.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/plus_icon.png"
-dest_files=["res://.godot/imported/plus_icon.png-39d41a534bc789d85426d8a27eb1e41c.ctex"]
+source_file="res://actor_builders/inventory_system/gear_sprites/GW_Legs_Grid.png"
+dest_files=["res://.godot/imported/GW_Legs_Grid.png-c7a59d64989548a3b451d5932ba37644.ctex"]
 
 [params]
 

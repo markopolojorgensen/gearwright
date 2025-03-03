@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0x5n1le61l05"
-path="res://.godot/imported/Locked_Block.png.png-a4a522e5f2a29ecc3ad87cca95b8eb64.ctex"
+uid="uid://f2awmit7ooj1"
+path="res://.godot/imported/Gear_Belly.png-b8c1923b21ab05a5418b98d033b4ef96.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/grids/Locked_Block.png.png"
-dest_files=["res://.godot/imported/Locked_Block.png.png-a4a522e5f2a29ecc3ad87cca95b8eb64.ctex"]
+source_file="res://actor_builders/inventory_system/gear_sprites/Gear_Belly.png"
+dest_files=["res://.godot/imported/Gear_Belly.png-b8c1923b21ab05a5418b98d033b4ef96.ctex"]
 
 [params]
 

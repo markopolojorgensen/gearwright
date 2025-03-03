@@ -17,7 +17,15 @@ enum BUTTON_IDS {
 func _ready() -> void:
 	get_popup().set_item_text(BUTTON_IDS.NEW_ACTOR, new_actor_text)
 	get_popup().id_pressed.connect(func(id: int):
-		button_selected.emit(id)
+		if id == BUTTON_IDS.NEW_ACTOR:
+			input_context_system.clear()
+			get_tree().reload_current_scene()
+		elif id == BUTTON_IDS.SAVES_FOLDER:
+			global.open_folder("Saves")
+		elif id == BUTTON_IDS.IMAGES_FOLDER:
+			global.open_folder("Screenshots")
+		else:
+			button_selected.emit(id)
 		)
 
 

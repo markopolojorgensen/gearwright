@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfs7lmjjmnx3o"]
+[gd_scene load_steps=7 format=3 uid="uid://dfs7lmjjmnx3o"]
 
+[ext_resource type="Script" path="res://main_menu/main_menu.gd" id="1_aumut"]
 [ext_resource type="Texture2D" uid="uid://borlycprd6hya" path="res://Assets/Icon.png" id="1_lu8u5"]
 [ext_resource type="Script" path="res://main_menu/gear_builder_button.gd" id="2_0hsn1"]
 [ext_resource type="Script" path="res://main_menu/fish_builder_button.gd" id="3_rm4m5"]
@@ -20,6 +21,7 @@ offset_right = 566.0
 offset_bottom = 324.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_aumut")
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]

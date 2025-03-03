@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1u2fcd5t3x7m"]
+
+[ext_resource type="Script" path="res://testing/cosine_similarity_analysis.gd" id="1_gfmei"]
+
+[node name="CosineSimilarityAnalysis" type="Node2D"]
+script = ExtResource("1_gfmei")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 335.0
+offset_bottom = 890.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 32
+columns = 3
+
+[node name="AngleDiffLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="CosineLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="ProjectionLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="non-label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="CosineProgressBar" type="ProgressBar" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+show_percentage = false
+
+[node name="ProjectionProgressBar" type="ProgressBar" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+show_percentage = false
+
+[node name="Label2" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Angle Diff"
+
+[node name="Label3" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Cosine"
+
+[node name="Label4" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Projection"
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(499, 823)
+
+[node name="AColorRect" type="ColorRect" parent="Node2D"]
+unique_name_in_owner = true
+offset_right = 773.0
+offset_bottom = 10.0
+
+[node name="BColorRect" type="ColorRect" parent="Node2D"]
+unique_name_in_owner = true
+offset_right = 773.0
+offset_bottom = 10.0

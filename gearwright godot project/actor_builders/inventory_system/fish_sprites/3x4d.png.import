@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c17x6u0r8bfd0"
-path="res://.godot/imported/black_bg.png-36b786bb055e3a18a883004a7426273a.ctex"
+uid="uid://y7iypiis5f64"
+path="res://.godot/imported/3x4d.png-4041a4e80fbccb20ff57a72234b2543f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/grids/black_bg.png"
-dest_files=["res://.godot/imported/black_bg.png-36b786bb055e3a18a883004a7426273a.ctex"]
+source_file="res://actor_builders/inventory_system/fish_sprites/3x4d.png"
+dest_files=["res://.godot/imported/3x4d.png-4041a4e80fbccb20ff57a72234b2543f.ctex"]
 
 [params]
 

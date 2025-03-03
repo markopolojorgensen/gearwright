@@ -32,7 +32,6 @@ var enforce_hardpoint_cap := true
 
 
 
-
 #region Initialization
 
 func _init():
@@ -85,7 +84,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	if not gear_section_id in valid_section_ids:
 		errors.append("%s can't go in %s section" % [item.item_data.name, gear_section_id_to_name(gear_section_id).capitalize()])
 	
-	errors.append_array(internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell))
+	errors.append_array(internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell, enforce_tags))
 	
 	return errors
 
@@ -251,7 +250,6 @@ func get_far() -> int:
 func get_mental_info() -> Dictionary:
 	return add_dev_info("mental", {
 		background = get_bg_amount("mental")
-		# internals TODO fish have this
 	})
 
 func get_mental() -> int:
@@ -278,7 +276,6 @@ func get_evasion() -> int:
 func get_willpower_info() -> Dictionary:
 	return add_dev_info("willpower", {
 		background = get_bg_amount("willpower"),
-		# fish internals TODO
 	})
 
 func get_willpower() -> int:
@@ -377,11 +374,12 @@ func get_ballast() -> int:
 	var value: int = global_util.sum_array(get_ballast_info().values())
 	return clamp(value, 1, 10)
 
-func get_deep_word_count_info() -> Dictionary:
-	return add_dev_info("deep_words", {})
+#func get_deep_word_count_info() -> Dictionary:
+	#return add_dev_info("deep_words", {})
 
 func get_deep_word_count() -> int:
-	return global_util.sum_array(get_deep_word_count_info().values())
+	return developments.count("a_brush_with_the_deep")
+	#return global_util.sum_array(get_deep_word_count_info().values())
 
 func get_maneuver_count_info() -> Dictionary:
 	var result := {

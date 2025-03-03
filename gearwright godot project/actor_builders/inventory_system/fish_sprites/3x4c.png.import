@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f2awmit7ooj1"
-path="res://.godot/imported/Gear_Belly.png-8ad461d6b9b47b38deadde9683752269.ctex"
+uid="uid://5ajyy5jnb74s"
+path="res://.godot/imported/3x4c.png-a3451e613150608ac994d7784937e888.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/grids/Gear_Belly.png"
-dest_files=["res://.godot/imported/Gear_Belly.png-8ad461d6b9b47b38deadde9683752269.ctex"]
+source_file="res://actor_builders/inventory_system/fish_sprites/3x4c.png"
+dest_files=["res://.godot/imported/3x4c.png-a3451e613150608ac994d7784937e888.ctex"]
 
 [params]
 

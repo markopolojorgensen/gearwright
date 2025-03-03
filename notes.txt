@@ -4,32 +4,13 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
 ------------------------------------------------------------------------------------------------------- MEDIOM
-organize files
 ------------------------------------------------------------------------------------------------------- LORGE
-go through all FIXMEs / TODOs / WHEREWASIs
-switch to InputContext framework
-  permanently unbork custom background editing
-  unbork trying to edit fish export name
 ------------------------------------------------------------------------------------------------------- MYSTERY
+4.4 upgrade
+
 
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
-shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
-too many internals should not bork the fish editor legend
-multiple "A Brush With The Deep" developments should give you multiple deep words
-see if you cant make building smaller fish feel as nice as gears, i feel the size of the internals is the cause here.
-Mutation stat bonuses should add to the BASE stat, they should not be counted as a bonus. The Fish can't ever lose these mutations mid encounter so its easier to just add them to base.
-"enforce tags" toggle
-don't let players take repeat developments (exception A Brush With The Deep)
-don't let players take repeat manuevers
-bonus manuever from 6 mental needs to be limited to mental maneuvers
-zoom font changes
-  maybe make everything huge and then always be scaling down?
-    i.e. quit pre-shrinking the assets?
-
-incorporate new assets for gear sections (waiting on assets)
-  fishers and fish alike
-
 non-standard fisher adjustments
   probably spinboxes along the side of the stats thing, oof
   "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
@@ -46,6 +27,24 @@ non-standard fisher adjustments
 tab switcher - narrative profile
   labels descriptor equipment
 
+zoom font changes
+  maybe make everything huge and then always be scaling down?
+    i.e. quit pre-shrinking the assets?
+
+too many internals should not bork the fish editor legend
+don't let players take repeat developments (exception A Brush With The Deep)
+don't let players take repeat manuevers
+see if you cant make building smaller fish feel as nice as gears, i feel the size of the internals is the cause here.
+bonus manuever from 6 mental needs to be limited to mental maneuvers
+right click on developments/maneuvers/deepwords in gear builder to see what they do
+hovering over weight should cause all equipped internals to display their weight
+curio disclaimer "Curios are only obtainable via Development or GM Fiat"
+fish internal number bubbles should be toggleable
+sometimes an internal is un-selectable / un-right-clickable because another internal's shape completely occludes it
+Loading a fish with a template should not set the "Mutations remaining" value to max (when you have already spent the mutations)
+
+show known saves on main menu
+
 warn when data would be lost (keep track of most recent save)
   exit
   return to main menu
@@ -59,23 +58,12 @@ edit .json files
     Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
   pinned discord message
 
-we can definitely move weight cap and weight underneath unlocks, maybe that creates room in the stats bar for an "edit stats" button
-
-right click on developments/maneuvers/deepwords in gear builder to see what they do
-show known saves (duh)
-hovering over weight should cause all equipped internals to display their weight
-curio disclaimer "Curios are only obtainable via Development or GM Fiat"
-fish internal number bubbles should be toggleable
-don't export pngs with name bar selected (I think this is already working, double check)
-Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common".
-sometimes an internal is un-selectable / un-right-clickable because another internal's shape completely occludes it
-Loading a fish with a template should not set the "Mutations remaining" value to max (when you have already spent the mutations)
-Fisher advancements should be displayed when loading a save
 undo/redo?
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
-yeet all commented code / finish refactor
+shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
+go through all FIXMEs / TODOs / WHEREWASIs
 too many different fish internals is a bit jank
 right clicking to inspect has some problems
   the popup always stays within the edges of the screen, but if you mouse over the popup it will disappear (or if the popup pops up under your mouse) as soon as you release right click
@@ -108,7 +96,22 @@ sort fish internal legend by type (color)
 
 
 DONE
-
+  Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common"
+  "enforce tags" toggle
+  move weight cap and weight underneath unlocks
+  new assets for repair kits & core integrity
+  multiple "A Brush With The Deep" developments should give you multiple deep words
+  Mutation stat bonuses should add to the BASE stat, they should not be counted as a bonus. The Fish can't ever lose these mutations mid encounter so its easier to just add them to base.
+  pngs don't get exported with name bar selected (was already working)
+  custom backgrounds work again
+  no more picking stuff up behind a popup
+  unduplicate popups & popup ICs from mech & fish builder
+  custom fisher backgrounds work again
+  clicking on popups no longer causes you to pick up internals behind the popup
+  new fish gear section art assets
+  new character gear section art assets
+  organize files
+  yeet all commented code / finish refactor
 2.0.1
   text size shenanigans
 2.0.0
@@ -204,6 +207,12 @@ Label's mouse_entered and mouse_exited cause flickering...?
   if you do want to use built-in mouse signals, don't forget mouse_filter:
     label.mouse_filter = Control.MOUSE_FILTER_PASS
 
+z_index influences when a node is drawn, but it does not influence the order in which nodes receive gui inputs
+  if you want a control to be in front of other controls (and get input events before them) it's not enough to set the z_index
+  reorder the tree to get the control "in front" of other input-consuming nodes (i.e. lower in the Scene dock)
+  after that is determined, you can mess with z_index all you like to get the look you want
+
+Maybe you should learn about the Popup class, huh?
 
 
 

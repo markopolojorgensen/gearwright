@@ -45,6 +45,8 @@ var callsign := ""
 
 var internal_inventory := InternalInventory.new()
 
+var enforce_tags := true
+
 func check_internal_equip_validity(item, gear_section_id: int, _primary_cell: Vector2i) -> Array:
 	var errors := []
 	
@@ -61,7 +63,7 @@ func check_internal_equip_validity(item, gear_section_id: int, _primary_cell: Ve
 func equip_internal(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
 	var errors := check_internal_equip_validity(item, gear_section_id, primary_cell)
 	if errors.is_empty():
-		return internal_inventory.equip_internal(item, gear_section_id, primary_cell)
+		return internal_inventory.equip_internal(item, gear_section_id, primary_cell, enforce_tags)
 	else:
 		return errors
 

@@ -13,12 +13,18 @@ var popup_loaded = false
 signal item_selected(item_id)
 
 func _process(_delta):
-	if Input.is_action_just_pressed("mouse_rightclick") && hovering:
-		if item_popup.visible:
-			item_popup.hide()
-		else:
-			item_popup.position = global_position + Vector2(140, 0)
-			item_popup.popup()
+	if not Input.is_action_just_pressed("mouse_rightclick"):
+		return
+	if not hovering:
+		return
+	#if input_context_system.get_current_input_context_id() != input_context_system.INPUT_CONTEXT.MECH_BUILDER:
+		#return
+	
+	if item_popup.visible:
+		item_popup.hide()
+	else:
+		item_popup.position = global_position + Vector2(140, 0)
+		item_popup.popup()
 
 # must be called after being added to scene tree
 func load_item(a_Item_data, a_Item_ID):

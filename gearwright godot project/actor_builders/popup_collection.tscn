@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://lsxxhvkd1frg"]
+
+[ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://actor_builders/top_menu/export_popup.tscn" id="1_oyab8"]
+[ext_resource type="Script" path="res://actor_builders/popup_collection.gd" id="1_usxd4"]
+[ext_resource type="PackedScene" uid="uid://dblq4eyop75be" path="res://actor_builders/top_menu/file_dialog.tscn" id="2_oqm70"]
+
+[node name="PopupCollection" type="Node2D"]
+script = ExtResource("1_usxd4")
+
+[node name="FshExportPopup" parent="." instance=ExtResource("1_oyab8")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+visible = false
+
+[node name="PngExportPopup" parent="." instance=ExtResource("1_oyab8")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+visible = false
+extension = ".png"
+
+[node name="OpenFileDialog" parent="." instance=ExtResource("2_oqm70")]
+unique_name_in_owner = true
+
+[connection signal="export" from="FshExportPopup" to="." method="_on_fsh_export_popup_export"]
+[connection signal="popup_hide" from="FshExportPopup" to="." method="_on_fsh_export_popup_popup_hide"]
+[connection signal="export" from="PngExportPopup" to="." method="_on_png_export_popup_export"]
+[connection signal="popup_hide" from="PngExportPopup" to="." method="_on_png_export_popup_popup_hide"]
+[connection signal="canceled" from="OpenFileDialog" to="." method="_on_open_file_dialog_canceled"]
+[connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]

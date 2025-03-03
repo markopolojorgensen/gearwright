@@ -12,7 +12,7 @@ func _ready():
 func _process(_delta):
 	if is_shaking:
 		var current_offset := Vector2(randf_range(-max_offset, max_offset), randf_range(-max_offset, max_offset))
-		effect_label.global_position = target_label.global_position + current_offset
+		effect_label.global_position = target_label.global_position + current_offset - Vector2(6.0, 3.0)
 
 func start_shaking():
 	effect_label.text = target_label.text

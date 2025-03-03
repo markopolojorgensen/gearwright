@@ -9,12 +9,12 @@ signal something_changed
 
 const item_scene = preload("res://actor_builders/inventory_system/Item.tscn")
 
-enum Modes {
-	EQUIP,
-	PLACE,
-	UNLOCK,
-}
-var mode = Modes.EQUIP
+#enum Modes {
+	#EQUIP,
+	#PLACE,
+	#UNLOCK,
+#}
+#var mode = Modes.EQUIP
 var item_held
 
 # keys:
@@ -30,14 +30,44 @@ var current_grid_slot: GridSlot
 var current_grid_slot_control: GridSlotControl
 
 var control_scale: float = 1.0
+var current_actor: GearwrightActor
 
+func _ready():
+	register_ic_holding_item()
+	register_ic_unlock()
 
-func get_mode() -> String:
-	return Modes.find_key(mode)
+func register_ic_holding_item():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM
+	ic.activate = func(_is_stack_growing: bool):
+		pass
+	ic.deactivate = func(_is_stack_growing: bool):
+		# to avoid yeeting items we've just placed, place_item sets item_held to null
+		if item_held != null:
+			item_held.queue_free()
+		item_held = null
+		something_changed.emit()
+	ic.handle_input = func(event: InputEvent):
+		if event.is_action_pressed("mouse_leftclick"):
+			get_viewport().set_input_as_handled()
+			place_item()
+		elif event.is_action_pressed("mouse_rightclick"):
+			get_viewport().set_input_as_handled()
+			input_context_system.pop_input_context_stack()
+	input_context_system.register_input_context(ic)
 
-
-
-
+func register_ic_unlock():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_UNLOCK
+	ic.activate = func(_is_stack_growing: bool):
+		pass
+	ic.deactivate = func(_is_stack_growing: bool):
+		something_changed.emit()
+	ic.handle_input = func(event: InputEvent):
+		if event.is_action_pressed("mouse_leftclick"):
+			if toggle_current_slot_lock():
+				get_viewport().set_input_as_handled()
+	input_context_system.register_input_context(ic)
 
 
 
@@ -45,44 +75,33 @@ func get_mode() -> String:
 
 #region Leftclick Rightclick
 
-func leftclick(character):
-	match mode:
-		Modes.EQUIP:
-			pickup_item(character)
-		Modes.PLACE:
-			place_item(character)
-		Modes.UNLOCK:
-			toggle_current_slot_lock(character)
-
-func rightclick(_character):
-	match mode:
-		Modes.PLACE:
-			drop_item()
-
-
-func pickup_item(actor: GearwrightActor):
+# returns true if something got picked up, false otherwise
+func pickup_item() -> bool:
 	if current_slot_info.is_empty():
-		return
+		return false
 	if not current_grid_slot.installed_item:
-		return
+		return false
 	
 	item_held = current_grid_slot.installed_item
 	item_held.grid_anchor = null
 	item_held.selected = true
 	item_held.hide_legend_number()
 	
-	actor.unequip_internal(item_held, current_slot_info.gear_section_id)
+	current_actor.unequip_internal(item_held, current_slot_info.gear_section_id)
 	
-	mode = Modes.PLACE
+	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM)
+	#mode = Modes.PLACE
 	
 	something_changed.emit()
+	
+	return true
 
-func place_item(actor: GearwrightActor):
+func place_item():
 	if current_slot_info.is_empty():
 		return
 	
 	var current_slot_cell := Vector2i(current_slot_info.x, current_slot_info.y)
-	var errors: Array = actor.equip_internal(
+	var errors: Array = current_actor.equip_internal(
 			item_held,
 			current_slot_info.gear_section_id,
 			current_slot_cell
@@ -98,50 +117,29 @@ func place_item(actor: GearwrightActor):
 	
 	item_held.selected = false
 	item_held = null
-	mode = Modes.EQUIP
+	input_context_system.pop_input_context_stack()
 	
 	something_changed.emit()
 
-func toggle_current_slot_lock(character):
+# returns true if something was accomplished
+func toggle_current_slot_lock() -> bool:
 	if current_slot_info.is_empty():
-		return
+		return false
 	
-	character.toggle_unlock(
+	current_actor.toggle_unlock(
 			current_slot_info.gear_section_id,
 			current_slot_info.x,
 			current_slot_info.y
 	)
 	
 	something_changed.emit()
-
-func drop_item():
-	if not item_held:
-		return
-	item_held.queue_free()
-	item_held = null
-	mode = Modes.EQUIP
-	#request_update_controls = true
-	something_changed.emit()
-
-#endregion
-
-
-
-
-
-
-#region Mutation
-
-func toggle_unlock_mode():
-	if item_held:
-		drop_item()
 	
-	if mode == Modes.UNLOCK:
-		mode = Modes.EQUIP
-	else:
-		mode = Modes.UNLOCK
+	return true
 
 #endregion
+
+
+
 
 
 
@@ -190,8 +188,10 @@ func update_internal_items(character, gear_section_controls: Dictionary):
 		item.snap_to(anchor_grid_slot_control.global_position)
 		item.grid_anchor = anchor_grid_slot_control
 
+# holding item
 func update_place_mode(actor: GearwrightActor, gear_section_controls: Dictionary):
-	if mode != Modes.PLACE:
+	#if mode != Modes.PLACE:
+	if input_context_system.get_current_input_context_id() != input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM:
 		return
 	if item_held == null:
 		return
@@ -233,7 +233,8 @@ func update_place_mode(actor: GearwrightActor, gear_section_controls: Dictionary
 				grid_slot_control.color_bad()
 
 func update_unlock_mode(character, gear_section_controls: Dictionary):
-	if mode != Modes.UNLOCK:
+	#if mode != Modes.UNLOCK:
+	if input_context_system.get_current_input_context_id() != input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_UNLOCK:
 		return
 	
 	# default frame unlocks
@@ -303,7 +304,8 @@ func on_part_menu_item_spawned(item_id: Variant) -> void:
 	new_item.load_item(item_id, not is_fish_mode)
 	new_item.selected = true
 	item_held = new_item
-	mode = Modes.PLACE
+	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM)
+	#mode = Modes.PLACE
 
 #endregion
 

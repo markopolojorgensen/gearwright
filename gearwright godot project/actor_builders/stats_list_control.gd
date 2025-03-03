@@ -23,8 +23,8 @@ const pretty_stat_names_character := [
 	"Repair Kits",
 	"",
 	"Unlocks",
-	"Weight Cap",
-	"Weight",
+	#"Weight Cap",
+	#"Weight",
 	"Ballast",
 ]
 const pretty_stat_names_fish := [
@@ -45,7 +45,6 @@ const pretty_stat_names_fish := [
 ]
 var pretty_stat_names: Array
 
-@onready var weight_label_shaker = $WeightLabelShaker
 @onready var grid_container: GridContainer = %GridContainer
 
 # key: stat_name
@@ -90,9 +89,6 @@ func _ready():
 		for label in label_list:
 			grid_container.add_child(label)
 	
-	weight_label_shaker.target_label = labels["Weight"][0] # magic constants, yippee
-	
-	
 	if global_util.was_run_directly(self):
 		update(GearwrightCharacter.new())
 
@@ -129,6 +125,7 @@ func update(character: GearwrightActor):
 		var base: int = 0
 		base += info.get("background", 0)
 		base += info.get("frame", 0)
+		base += info.get("mutations", 0)
 		for key in info.keys():
 			if "fish" in key.to_lower():
 				base += info[key]
@@ -157,8 +154,6 @@ func set_mouse_detector_filters(active: bool):
 		else:
 			md.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-func over_weight():
-	weight_label_shaker.start_shaking()
 
-func under_weight():
-	weight_label_shaker.stop_shaking()
+
+
