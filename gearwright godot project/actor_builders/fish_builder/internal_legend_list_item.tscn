@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6bbhmgycxpg3"]
 
-[ext_resource type="Script" path="res://actor_builders/fish_builder/internal_legend_list_item.gd" id="1_2bees"]
+[ext_resource type="Script" uid="uid://dhigb4r7ngpru" path="res://actor_builders/fish_builder/internal_legend_list_item.gd" id="1_2bees"]
 [ext_resource type="Texture2D" uid="uid://c1m8uugmb5g88" path="res://Assets/number_background.png" id="2_cxl1x"]
 
 [node name="InternalLegendListItem" type="HBoxContainer"]

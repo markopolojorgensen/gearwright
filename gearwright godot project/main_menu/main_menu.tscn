@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://dfs7lmjjmnx3o"]
 
-[ext_resource type="Script" path="res://main_menu/main_menu.gd" id="1_aumut"]
+[ext_resource type="Script" uid="uid://dawq5cfwpjv86" path="res://main_menu/main_menu.gd" id="1_aumut"]
 [ext_resource type="Texture2D" uid="uid://borlycprd6hya" path="res://Assets/Icon.png" id="1_lu8u5"]
-[ext_resource type="Script" path="res://main_menu/gear_builder_button.gd" id="2_0hsn1"]
-[ext_resource type="Script" path="res://main_menu/fish_builder_button.gd" id="3_rm4m5"]
-[ext_resource type="Script" path="res://main_menu/data_import_button.gd" id="4_5e2oq"]
+[ext_resource type="Script" uid="uid://c4w320r0psmh2" path="res://main_menu/gear_builder_button.gd" id="2_0hsn1"]
+[ext_resource type="Script" uid="uid://t734qv4pg2ud" path="res://main_menu/fish_builder_button.gd" id="3_rm4m5"]
+[ext_resource type="Script" uid="uid://djxjnrh3hx8tx" path="res://main_menu/data_import_button.gd" id="4_5e2oq"]
 [ext_resource type="PackedScene" uid="uid://dkiv4ctslv22q" path="res://main_menu/file_import_dialog.tscn" id="5_4h3nc"]
 
 [node name="MainMenu" type="Control"]

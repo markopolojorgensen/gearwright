@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://csjegalexnndd"]
 
-[ext_resource type="Script" path="res://actor_builders/parts_ui/part_list.gd" id="1_jb8th"]
+[ext_resource type="Script" uid="uid://dnuii04qco5d2" path="res://actor_builders/parts_ui/part_list.gd" id="1_jb8th"]
 
 [node name="PartList" type="MarginContainer"]
 offset_right = 40.0

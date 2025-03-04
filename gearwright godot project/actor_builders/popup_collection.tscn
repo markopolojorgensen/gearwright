@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://lsxxhvkd1frg"]
 
 [ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://actor_builders/top_menu/export_popup.tscn" id="1_oyab8"]
-[ext_resource type="Script" path="res://actor_builders/popup_collection.gd" id="1_usxd4"]
+[ext_resource type="Script" uid="uid://bvsnq8s1qmoqh" path="res://actor_builders/popup_collection.gd" id="1_usxd4"]
 [ext_resource type="PackedScene" uid="uid://dblq4eyop75be" path="res://actor_builders/top_menu/file_dialog.tscn" id="2_oqm70"]
 
 [node name="PopupCollection" type="Node2D"]

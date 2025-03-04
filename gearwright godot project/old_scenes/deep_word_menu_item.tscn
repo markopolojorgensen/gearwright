@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3vc58mm5wsco"]
 
-[ext_resource type="Script" path="res://old_scenes/deep_word_menu_item.gd" id="1_8r4p3"]
+[ext_resource type="Script" uid="uid://dmkrgbh3etqhb" path="res://old_scenes/deep_word_menu_item.gd" id="1_8r4p3"]
 [ext_resource type="Texture2D" uid="uid://dy4u85o5632jt" path="res://Assets/teeny tiny.png" id="2_lgruv"]
 
 [node name="DeepWordMenuItem" type="ColorRect"]

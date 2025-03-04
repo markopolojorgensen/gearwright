@@ -1,19 +1,19 @@
 [gd_scene load_steps=22 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
-[ext_resource type="Script" path="res://actor_builders/mech_builder/mech_builder.gd" id="1_t8ijy"]
+[ext_resource type="Script" uid="uid://eatpbgbpvng8" path="res://actor_builders/mech_builder/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="PackedScene" uid="uid://ce4067la3emu8" path="res://actor_builders/parts_ui/part_menu.tscn" id="3_5feer"]
 [ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://actor_builders/inventory_system/gear_section_control.tscn" id="5_n5byg"]
-[ext_resource type="Script" path="res://actor_builders/mech_builder/icon_container.gd" id="13_4mhq6"]
+[ext_resource type="Script" uid="uid://iq7dan03gypt" path="res://actor_builders/mech_builder/icon_container.gd" id="13_4mhq6"]
 [ext_resource type="PackedScene" uid="uid://blbjufxq28b2f" path="res://actor_builders/mech_builder/repair_kit_icon.tscn" id="16_ohmr2"]
 [ext_resource type="FontFile" uid="uid://bhdfh08bwxfgg" path="res://Assets/static/Montserrat-SemiBold.ttf" id="18_1ekyg"]
 [ext_resource type="PackedScene" uid="uid://ch88imkihrety" path="res://actor_builders/mech_builder/perk_option_button.tscn" id="18_1sybq"]
 [ext_resource type="PackedScene" uid="uid://lsxxhvkd1frg" path="res://actor_builders/popup_collection.tscn" id="19_afxqt"]
-[ext_resource type="Script" path="res://actor_builders/mech_builder/frame_selector.gd" id="21_yfj5f"]
-[ext_resource type="Script" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="26_hdcjo"]
+[ext_resource type="Script" uid="uid://mmicvg14rts4" path="res://actor_builders/mech_builder/frame_selector.gd" id="21_yfj5f"]
+[ext_resource type="Script" uid="uid://btrf8hkko1yne" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="26_hdcjo"]
 [ext_resource type="PackedScene" uid="uid://cojllssnu0db" path="res://actor_builders/top_menu/save_menu_button.tscn" id="26_v0iwd"]
-[ext_resource type="Script" path="res://actor_builders/mech_builder/hardpoints_reset_button.gd" id="27_1gsxs"]
-[ext_resource type="Script" path="res://actor_builders/top_menu/back_button.gd" id="29_86svk"]
+[ext_resource type="Script" uid="uid://blw4jyb2i6ga" path="res://actor_builders/mech_builder/hardpoints_reset_button.gd" id="27_1gsxs"]
+[ext_resource type="Script" uid="uid://xo6f3e8bvtlu" path="res://actor_builders/top_menu/back_button.gd" id="29_86svk"]
 [ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://utility/label_shaker.tscn" id="34_dotfp"]
 [ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="34_naqed"]
 [ext_resource type="PackedScene" uid="uid://2d52tcveghpy" path="res://actor_builders/stats_list_control.tscn" id="39_x85sl"]
@@ -84,11 +84,11 @@ layout_mode = 2
 
 [node name="FrameSelectContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="FrameSelectLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer"]
 layout_mode = 2
-text = "  Gear:
-"
+text = "  Gear:"
 
 [node name="FrameSelector" type="OptionButton" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer"]
 unique_name_in_owner = true
@@ -105,8 +105,7 @@ size_flags_vertical = 0
 
 [node name="LevelSelectLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/LevelSelectContainer"]
 layout_mode = 2
-text = "Level:
-"
+text = "Level:"
 
 [node name="LevelSelector" type="SpinBox" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/LevelSelectContainer"]
 unique_name_in_owner = true
@@ -231,6 +230,7 @@ ok_button_text = " OK "
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 0
+popup/item_0/id = 0
 
 [node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer"]
 custom_minimum_size = Vector2(0, 64)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://48xw2bmucn5x"]
 
-[ext_resource type="Script" path="res://actor_builders/parts_ui/part_list_type_section.gd" id="1_wi2ym"]
+[ext_resource type="Script" uid="uid://cwytltme5llyl" path="res://actor_builders/parts_ui/part_list_type_section.gd" id="1_wi2ym"]
 
 [node name="PartListTypeSection" type="VBoxContainer"]
 offset_right = 40.0

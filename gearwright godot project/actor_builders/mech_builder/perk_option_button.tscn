@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ch88imkihrety"]
 
-[ext_resource type="Script" path="res://actor_builders/mech_builder/perk_option_button.gd" id="1_oij8f"]
+[ext_resource type="Script" uid="uid://x77ewlpspx8q" path="res://actor_builders/mech_builder/perk_option_button.gd" id="1_oij8f"]
 
 [node name="PerkOptionButton" type="OptionButton"]
 theme_override_font_sizes/font_size = 12

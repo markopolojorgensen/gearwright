@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cx8s4iaox16a2"]
 
-[ext_resource type="Script" path="res://actor_builders/parts_ui/part_menu_item.gd" id="1_hhkp4"]
-[ext_resource type="Script" path="res://actor_builders/inventory_system/item_popup.gd" id="2_makmb"]
+[ext_resource type="Script" uid="uid://uski11ldy8ka" path="res://actor_builders/parts_ui/part_menu_item.gd" id="1_hhkp4"]
+[ext_resource type="Script" uid="uid://dovonmbw3vymd" path="res://actor_builders/inventory_system/item_popup.gd" id="2_makmb"]
 
 [node name="PartMenuItem" type="ColorRect"]
 custom_minimum_size = Vector2(130, 120)

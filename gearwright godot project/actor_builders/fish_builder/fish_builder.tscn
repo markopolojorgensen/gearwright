@@ -1,18 +1,18 @@
 [gd_scene load_steps=19 format=3 uid="uid://co3tgplgb8ego"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_5bw67"]
-[ext_resource type="Script" path="res://actor_builders/fish_builder/fish_builder.gd" id="2_e7pw6"]
+[ext_resource type="Script" uid="uid://c874bmnoqr3go" path="res://actor_builders/fish_builder/fish_builder.gd" id="2_e7pw6"]
 [ext_resource type="PackedScene" uid="uid://ce4067la3emu8" path="res://actor_builders/parts_ui/part_menu.tscn" id="3_35145"]
 [ext_resource type="StyleBox" uid="uid://dk4whtokbc1x6" path="res://Assets/blue_styleboxflat.tres" id="4_nmcsm"]
-[ext_resource type="Script" path="res://actor_builders/fish_builder/fish_size_selector.gd" id="5_2oj0h"]
-[ext_resource type="Script" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="6_d5qo3"]
+[ext_resource type="Script" uid="uid://c0hoafnl0jggb" path="res://actor_builders/fish_builder/fish_size_selector.gd" id="5_2oj0h"]
+[ext_resource type="Script" uid="uid://btrf8hkko1yne" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="6_d5qo3"]
 [ext_resource type="PackedScene" uid="uid://cojllssnu0db" path="res://actor_builders/top_menu/save_menu_button.tscn" id="7_yspy3"]
-[ext_resource type="Script" path="res://actor_builders/top_menu/back_button.gd" id="8_ueu4c"]
+[ext_resource type="Script" uid="uid://xo6f3e8bvtlu" path="res://actor_builders/top_menu/back_button.gd" id="8_ueu4c"]
 [ext_resource type="Theme" uid="uid://b20rfstklkoo0" path="res://Assets/big_font_theme.tres" id="9_th3j2"]
 [ext_resource type="FontFile" uid="uid://bhdfh08bwxfgg" path="res://Assets/static/Montserrat-SemiBold.ttf" id="10_67712"]
 [ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://actor_builders/inventory_system/gear_section_control.tscn" id="11_57rid"]
 [ext_resource type="PackedScene" uid="uid://2d52tcveghpy" path="res://actor_builders/stats_list_control.tscn" id="12_u6b22"]
-[ext_resource type="Script" path="res://actor_builders/fish_builder/template_selector.gd" id="13_tdc46"]
+[ext_resource type="Script" uid="uid://cb7u8vl4pom6b" path="res://actor_builders/fish_builder/template_selector.gd" id="13_tdc46"]
 [ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="14_pjp3h"]
 [ext_resource type="PackedScene" uid="uid://crc5iqf38uhvj" path="res://actor_builders/inventory_system/diablo_style_inventory_system.tscn" id="15_60r37"]
 [ext_resource type="PackedScene" uid="uid://4g7i5o5oyj6n" path="res://actor_builders/floating_explanation_control.tscn" id="16_cfq45"]
@@ -107,6 +107,7 @@ size = Vector2i(200, 80)
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 8
+popup/item_0/id = 0
 new_actor_text = "New Fish"
 
 [node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]

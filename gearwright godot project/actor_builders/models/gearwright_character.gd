@@ -291,10 +291,10 @@ func get_ap() -> int:
 	return global_util.sum_array(get_ap_info().values())
 
 func get_speed_info() -> Dictionary:
-	return {
+	return add_dev_info("speed", {
 		frame = frame_stats.speed,
 		internals = internal_inventory.sum_internals_for_stat("speed"),
-	}
+	})
 
 func get_speed() -> int:
 	return global_util.sum_array(get_speed_info().values())

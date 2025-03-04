@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cojllssnu0db"]
 
-[ext_resource type="Script" path="res://actor_builders/top_menu/save_menu_button.gd" id="1_xpdcm"]
+[ext_resource type="Script" uid="uid://otjubtk2at8c" path="res://actor_builders/top_menu/save_menu_button.gd" id="1_xpdcm"]
 
 [node name="SaveMenuButton" type="MenuButton"]
 offset_right = 8.0

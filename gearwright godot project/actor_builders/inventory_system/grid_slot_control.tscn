@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ct6d6kdknygnl"]
 
 [ext_resource type="Texture2D" uid="uid://butsvck7ilv1o" path="res://Assets/gridBackground.png" id="1_fdtyn"]
-[ext_resource type="Script" path="res://actor_builders/inventory_system/grid_slot_control.gd" id="2_u53nv"]
+[ext_resource type="Script" uid="uid://7glh06rxpts0" path="res://actor_builders/inventory_system/grid_slot_control.gd" id="2_u53nv"]
 [ext_resource type="Texture2D" uid="uid://bud7gj80ocsfc" path="res://Assets/padlock.png" id="3_oqgua"]
 [ext_resource type="Texture2D" uid="uid://c0x5n1le61l05" path="res://actor_builders/inventory_system/gear_sprites/Locked_Block.png.png" id="3_pkn38"]
 

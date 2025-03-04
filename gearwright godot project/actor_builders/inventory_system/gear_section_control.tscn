@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://dsfw5q2dojfyj"]
 
-[ext_resource type="Script" path="res://actor_builders/inventory_system/gear_section_control.gd" id="1_xujjt"]
+[ext_resource type="Script" uid="uid://b48bdcyw6mnvt" path="res://actor_builders/inventory_system/gear_section_control.gd" id="1_xujjt"]
 [ext_resource type="Texture2D" uid="uid://f2awmit7ooj1" path="res://actor_builders/inventory_system/gear_sprites/Gear_Belly.png" id="2_amd6j"]
 [ext_resource type="Texture2D" uid="uid://c17x6u0r8bfd0" path="res://actor_builders/inventory_system/gear_sprites/black_bg.png" id="3_xbifi"]
 [ext_resource type="Texture2D" uid="uid://ch5reyjn1blqd" path="res://actor_builders/inventory_system/gear_sprites/GW_Head_Grid.png" id="4_2fbx5"]

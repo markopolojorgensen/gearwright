@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://4g7i5o5oyj6n"]
 
-[ext_resource type="Script" path="res://actor_builders/floating_explanation_control.gd" id="1_2q1hv"]
+[ext_resource type="Script" uid="uid://785ea3ptgt5k" path="res://actor_builders/floating_explanation_control.gd" id="1_2q1hv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdefs"]
 bg_color = Color(0.215686, 0.215686, 0.215686, 0.784314)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://2d52tcveghpy"]
 
-[ext_resource type="Script" path="res://actor_builders/stats_list_control.gd" id="1_pb6eo"]
+[ext_resource type="Script" uid="uid://bgj5hwn4b0b2g" path="res://actor_builders/stats_list_control.gd" id="1_pb6eo"]
 
 [node name="StatsListControl" type="PanelContainer"]
 custom_minimum_size = Vector2(250, 0)

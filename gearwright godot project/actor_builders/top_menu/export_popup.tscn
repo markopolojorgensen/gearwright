@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvw486r7metmw"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_35jdk"]
-[ext_resource type="Script" path="res://actor_builders/top_menu/export_popup.gd" id="1_ficay"]
+[ext_resource type="Script" uid="uid://dbdvhrrv3ahif" path="res://actor_builders/top_menu/export_popup.gd" id="1_ficay"]
 
 [node name="ExportPopup" type="Popup"]
 initial_position = 2

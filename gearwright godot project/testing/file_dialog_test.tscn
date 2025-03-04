@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bn5g8liarwdwg"]
 
-[ext_resource type="Script" path="res://testing/file_dialog_test.gd" id="1_6ybqr"]
+[ext_resource type="Script" uid="uid://bkkcsgumtf07b" path="res://testing/file_dialog_test.gd" id="1_6ybqr"]
 
 [node name="FileDialogTest" type="Node2D"]
 script = ExtResource("1_6ybqr")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cfwgb2kcqpgc1"]
 
-[ext_resource type="Script" path="res://utility/label_shaker.gd" id="1_80u7v"]
+[ext_resource type="Script" uid="uid://dfqq6wcr0qyq1" path="res://utility/label_shaker.gd" id="1_80u7v"]
 
 [node name="LabelShaker" type="Node"]
 script = ExtResource("1_80u7v")

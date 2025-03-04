@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cip7d2y0x5dr7"]
 
-[ext_resource type="Script" path="res://utility/rising_text.gd" id="1_eworf"]
+[ext_resource type="Script" uid="uid://bd364pvqtaap7" path="res://utility/rising_text.gd" id="1_eworf"]
 
 [node name="RisingText" type="Label"]
 offset_right = 40.0

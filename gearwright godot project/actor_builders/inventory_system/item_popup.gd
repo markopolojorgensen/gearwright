@@ -50,7 +50,7 @@ func set_data(a_Item_Data):
 	else:
 		item_type_weight_label.text = "%s Internal" % a_Item_Data["type"].capitalize()
 	
-	item_type_weight_label.text += " - Weight %s" % str(a_Item_Data["weight"])
+	item_type_weight_label.text += " - Weight %d" % a_Item_Data["weight"]
 	
 	if a_Item_Data["tags"]:
 		var temp_tags = "Tags: "
@@ -68,7 +68,7 @@ func set_data(a_Item_Data):
 	else:
 		for stat in a_Item_Data:
 			if stat in stats_to_list && a_Item_Data[stat] != 0:
-				temp_stats += ("%s +%s, " if a_Item_Data[stat] > 0 else "%s %s, ") % [stat.to_upper() if stat in stats_to_capitalize else stat.capitalize(), a_Item_Data[stat]]
+				temp_stats += ("%s +%d, " if a_Item_Data[stat] > 0 else "%s %d, ") % [stat.to_upper() if stat in stats_to_capitalize else stat.capitalize(), a_Item_Data[stat]]
 	if temp_stats:
 		temp_stats = temp_stats.erase(temp_stats.length() - 2, 2)
 		item_stats_label.text = "[center]%s[/center]" % temp_stats
@@ -91,7 +91,7 @@ func set_data(a_Item_Data):
 		var action_data = a_Item_Data["action_data"]
 		
 		if a_Item_Data["type"] != "passive":
-			engage_text_label.text = "Engage (%sAP)" % str(action_data["ap_cost"])
+			engage_text_label.text = "Engage (%dAP)" % int(action_data.get("ap_cost", 0))
 			engage_text_label.visible = true
 			
 			size.y = size.y + 23
@@ -100,9 +100,9 @@ func set_data(a_Item_Data):
 			engage_text_label.text += ": %s Attack" % a_Item_Data["type"].to_upper()
 			
 			if action_data.has("marble_damage") && action_data["marble_damage"] != 0:
-				range_damage_label.text = "Range %s - Marble Damage [%s]" % [str(action_data["range"]), str(action_data["marble_damage"])]
+				range_damage_label.text = "Range %d - Marble Damage [%d]" % [action_data["range"], action_data["marble_damage"]]
 			else:
-				range_damage_label.text = "Range %s - Damage [%s]" % [str(action_data["range"]), str(action_data["damage"])]
+				range_damage_label.text = "Range %d - Damage [%d]" % [action_data["range"], action_data["damage"]]
 			
 			range_damage_label.visible = true
 			size.y = size.y + 23

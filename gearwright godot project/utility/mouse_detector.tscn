@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://6brpjgjqrspp"]
 
-[ext_resource type="Script" path="res://utility/mouse_detector.gd" id="1_00hno"]
+[ext_resource type="Script" uid="uid://cy5fffpwvwo5h" path="res://utility/mouse_detector.gd" id="1_00hno"]
 
 [node name="MouseDetector" type="Control"]
 layout_mode = 3

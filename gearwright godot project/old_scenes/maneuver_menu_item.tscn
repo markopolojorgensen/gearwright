@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://gtk2esm4lg2i"]
 
-[ext_resource type="Script" path="res://old_scenes/maneuver_menu_item.gd" id="1_05vqt"]
+[ext_resource type="Script" uid="uid://d0otocb5j8mnk" path="res://old_scenes/maneuver_menu_item.gd" id="1_05vqt"]
 [ext_resource type="Texture2D" uid="uid://dy4u85o5632jt" path="res://Assets/teeny tiny.png" id="2_8upqr"]
 
 [node name="ManeuverMenuItem" type="ColorRect"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bl6mfhevxrh0n"]
 
-[ext_resource type="Script" path="res://actor_builders/fish_builder/scaling_label.gd" id="1_7apuh"]
+[ext_resource type="Script" uid="uid://we5k6hjol7ir" path="res://actor_builders/fish_builder/scaling_label.gd" id="1_7apuh"]
 
 [node name="ScalingLabel" type="Control"]
 custom_minimum_size = Vector2(18.25, 22)

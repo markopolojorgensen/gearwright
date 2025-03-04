@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpqsndip45d3a"]
 
-[ext_resource type="Script" path="res://testing/gsc_font_size_test.gd" id="1_8vitf"]
+[ext_resource type="Script" uid="uid://bidjb2iglivfn" path="res://testing/gsc_font_size_test.gd" id="1_8vitf"]
 [ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://actor_builders/inventory_system/gear_section_control.tscn" id="1_p34j0"]
 
 [sub_resource type="GDScript" id="GDScript_3tggn"]

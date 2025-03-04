@@ -3,10 +3,18 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
+more than nine repair kits shouldn't break the editor
+custom background should be "+X" instead of "xX"
+massive fish internal scale
+newline on stat explanation
 ------------------------------------------------------------------------------------------------------- MEDIOM
+put weight & unlocks in stats block
 ------------------------------------------------------------------------------------------------------- LORGE
+new .fsh file for ralf
+  galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
+  scrubber needs the same "\n" treatment as line linker in item_data.json
+  `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
 ------------------------------------------------------------------------------------------------------- MYSTERY
-4.4 upgrade
 
 
 
@@ -34,7 +42,6 @@ zoom font changes
 too many internals should not bork the fish editor legend
 don't let players take repeat developments (exception A Brush With The Deep)
 don't let players take repeat manuevers
-see if you cant make building smaller fish feel as nice as gears, i feel the size of the internals is the cause here.
 bonus manuever from 6 mental needs to be limited to mental maneuvers
 right click on developments/maneuvers/deepwords in gear builder to see what they do
 hovering over weight should cause all equipped internals to display their weight
@@ -52,11 +59,16 @@ warn when data would be lost (keep track of most recent save)
   new fish / new gear
 
 edit .json files
-  custom background description
-  lightweight construction / ballast fish mutation / gas pockets
-  "Lightweight Construction
-    Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
-  pinned discord message
+  galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
+  scrubber needs the same "\n" treatment as line linker in item_data.json
+  `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
+
+  I think ralf took care of these?
+    custom background description
+    lightweight construction / ballast fish mutation / gas pockets
+    "Lightweight Construction
+      Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
+    pinned discord message
 
 undo/redo?
 
@@ -96,6 +108,8 @@ sort fish internal legend by type (color)
 
 
 DONE
+2.1.0
+  make building smaller fish feel better, probably needs smaller scale
   Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common"
   "enforce tags" toggle
   move weight cap and weight underneath unlocks
@@ -103,8 +117,6 @@ DONE
   multiple "A Brush With The Deep" developments should give you multiple deep words
   Mutation stat bonuses should add to the BASE stat, they should not be counted as a bonus. The Fish can't ever lose these mutations mid encounter so its easier to just add them to base.
   pngs don't get exported with name bar selected (was already working)
-  custom backgrounds work again
-  no more picking stuff up behind a popup
   unduplicate popups & popup ICs from mech & fish builder
   custom fisher backgrounds work again
   clicking on popups no longer causes you to pick up internals behind the popup

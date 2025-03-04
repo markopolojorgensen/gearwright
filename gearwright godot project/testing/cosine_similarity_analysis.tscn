@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1u2fcd5t3x7m"]
 
-[ext_resource type="Script" path="res://testing/cosine_similarity_analysis.gd" id="1_gfmei"]
+[ext_resource type="Script" uid="uid://0h4eykx60ohv" path="res://testing/cosine_similarity_analysis.gd" id="1_gfmei"]
 
 [node name="CosineSimilarityAnalysis" type="Node2D"]
 script = ExtResource("1_gfmei")
