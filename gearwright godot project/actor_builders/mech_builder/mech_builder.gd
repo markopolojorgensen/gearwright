@@ -264,6 +264,17 @@ func _on_stats_list_control_stat_mouse_exited(stat_name: String) -> void:
 		current_hover_stat = ""
 		floating_explanation_control.text = ""
 
+func _on_weight_mouse_detector_safe_mouse_entered() -> void:
+	_on_stats_list_control_stat_mouse_entered("weight_cap")
+
+func _on_weight_mouse_detector_safe_mouse_exited() -> void:
+	_on_stats_list_control_stat_mouse_exited("weight_cap")
+
+func _on_unlocks_mouse_detector_safe_mouse_entered() -> void:
+	_on_stats_list_control_stat_mouse_entered("unlocks")
+
+func _on_unlocks_mouse_detector_safe_mouse_exited() -> void:
+	_on_stats_list_control_stat_mouse_exited("unlocks")
 
 
 
@@ -413,7 +424,9 @@ func update_controls():
 	var used_unlock_count = current_character.get_unlocked_slots_count()
 	var max_unlock_count = current_character.get_max_unlocks()
 	var unlocks_left_count: int = max_unlock_count - used_unlock_count
-	unlocks_remaining_label.text = "Unlocks Remaining:\n%d/%d" % [
+	#unlocks_remaining_label.text = "Unlocks Remaining:\n%d/%d" % [
+	#unlocks_remaining_label.text = "Unlocks Remaining: %d/%d" % [
+	unlocks_remaining_label.text = "%d/%d" % [
 		unlocks_left_count,
 		max_unlock_count,
 	]
@@ -425,7 +438,9 @@ func update_controls():
 	# weight
 	var weight: int = current_character.get_weight()
 	var weight_cap: int = current_character.get_weight_cap()
-	weight_label.text = "Weight:\n%d/%d" % [
+	#weight_label.text = "Weight:\n%d/%d" % [
+	#weight_label.text = "Weight: %d/%d" % [
+	weight_label.text = "%d/%d" % [
 		weight,
 		weight_cap,
 	]

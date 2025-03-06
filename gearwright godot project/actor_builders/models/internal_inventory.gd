@@ -104,7 +104,7 @@ func create_fish_gear_sections(size: GearwrightFish.SIZE):
 		gear_sections[GearwrightActor.GSIDS.FISH_HEAD].dice_string = "(11-12)"
 		gear_sections[GearwrightActor.GSIDS.FISH_HEAD].id = GearwrightActor.GSIDS.FISH_HEAD
 		
-	elif size == GearwrightFish.SIZE.SILTSTALKER:
+	elif size == GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
 		gear_sections[GearwrightActor.GSIDS.FISH_LEFT_LEGS]  = GearSection.new(Vector2i(3, 4))
 		gear_sections[GearwrightActor.GSIDS.FISH_LEFT_LEGS].name = "L. Legs"
 		gear_sections[GearwrightActor.GSIDS.FISH_LEFT_LEGS].dice_string = "(2-3)"

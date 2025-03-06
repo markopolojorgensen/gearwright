@@ -15,6 +15,9 @@ var deep_word_data := {}
 var fish_size_data := {}
 var fish_type_data := {}
 
+const local_data_dir = "user://LocalData"
+const update_path = "user://latest_update.pck"
+
 var item_data_path          = "user://LocalData/item_data.json"
 var fish_item_data_path     = "user://LocalData/npc_item_data.json"
 var update_data_path        = "user://latest_update.pck"
@@ -204,6 +207,8 @@ func _ready():
 	load_all_data()
 
 func load_all_data():
+	ProjectSettings.load_resource_pack(update_data_path, true)
+	
 	item_data        = load_data(item_data_path)
 	fish_item_data   = load_data(fish_item_data_path)
 	frame_data       = load_data(frame_data_path)
@@ -221,15 +226,10 @@ func is_data_loaded():
 	return not item_data.is_empty()
 
 func load_data(path):
-	ProjectSettings.load_resource_pack(update_data_path, true)
-	if not FileAccess.file_exists(path):
-		printerr("file not found")
-		push_error("file not found: %s" % path)
-	var file = FileAccess.open(path, FileAccess.READ)
-	var text := file.get_as_text()
-	file.close()
+	var text := global_util.file_to_string(path)
 	if text.is_empty():
-		push_warning("%s was empty, data import necessary!" % path)
+		#push_warning("%s was empty, data import necessary!" % path)
+		print("%s was empty, data import necessary!" % path)
 		return {}
 	return JSON.parse_string(text)
 
@@ -354,7 +354,40 @@ func get_perk_info(perk_type: PerkOptionButton.PERK_TYPE) -> Dictionary:
 			push_error("DataHandler: bad perk type: %d" % perk_type)
 	return result
 
-
+# returns true on success, false on failure
+func load_fsh_file(path: String) -> bool:
+	var zipreader = ZIPReader.new()
+	var _err = zipreader.open(path)
+	var files_to_import = zipreader.get_files()
+	
+	for file_name in files_to_import:
+		#print("looking at %s" % file_name)
+		file_name = file_name as String
+		var split_path := file_name.split("/")
+		var split_file_name := split_path[-1] # remove directory
+		#print("  -> %s" % split_file_name)
+		
+		if file_name.ends_with(".pck"):
+			#print("  pck file")
+			var data = zipreader.read_file(file_name)
+			var dest_file := FileAccess.open(update_path, FileAccess.WRITE)
+			dest_file.store_buffer(data)
+			dest_file.close()
+		elif file_name.ends_with(".json"):
+			#print("  json file")
+			var data = zipreader.read_file(file_name).get_string_from_utf8()
+			var dest_file := FileAccess.open(local_data_dir.path_join(split_file_name), FileAccess.WRITE)
+			if dest_file == null:
+				global_util.popup_warning(error_string(FileAccess.get_open_error()), "Failed to open file for writing: %s" % file_name)
+				return false
+			dest_file.store_string(data)
+			dest_file.close()
+		else:
+			pass
+			#print("  ignoring")
+	
+	DataHandler.load_all_data()
+	return true
 
 
 

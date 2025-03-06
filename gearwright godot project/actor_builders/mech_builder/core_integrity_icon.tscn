@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://bbrp7qumf1aqh"]
 
-[ext_resource type="Texture2D" uid="uid://r0vbay1qqp1c" path="res://actor_builders/mech_builder/CoreGrey.png" id="1_i6bf6"]
+[ext_resource type="Texture2D" uid="uid://da7k56llg4jxe" path="res://actor_builders/mech_builder/Core_Integrity.png" id="1_rc7vi"]
 
 [node name="TextureRect" type="TextureRect"]
 custom_minimum_size = Vector2(60, 60)
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("1_i6bf6")
+texture = ExtResource("1_rc7vi")
 expand_mode = 1
 stretch_mode = 4

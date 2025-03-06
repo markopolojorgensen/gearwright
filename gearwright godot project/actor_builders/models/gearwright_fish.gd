@@ -34,7 +34,7 @@ enum SIZE {
 	MASSIVE,
 	LEVIATHAN,
 	SERPENT_LEVIATHAN,
-	SILTSTALKER,
+	SILTSTALKER_LEVIATHAN,
 }
 
 const SIZE_NAMES := {
@@ -44,7 +44,7 @@ const SIZE_NAMES := {
 	SIZE.MASSIVE: "massive",
 	SIZE.LEVIATHAN: "leviathan",
 	SIZE.SERPENT_LEVIATHAN: "serpent leviathan",
-	SIZE.SILTSTALKER: "siltstalker leviathan",
+	SIZE.SILTSTALKER_LEVIATHAN: "siltstalker leviathan",
 }
 
 # fish_template_data.json
@@ -83,7 +83,7 @@ var mutations: Array = []
 func initialize():
 	internal_inventory.create_fish_gear_sections(size)
 	
-	if size in [SIZE.LEVIATHAN, SIZE.SERPENT_LEVIATHAN, SIZE.SILTSTALKER]:
+	if size in [SIZE.LEVIATHAN, SIZE.SERPENT_LEVIATHAN, SIZE.SILTSTALKER_LEVIATHAN]:
 		internal_inventory.max_optics_count = 2
 
 
@@ -220,7 +220,7 @@ static func get_size_as_string(size_value: SIZE) -> String:
 
 static func size_from_string(size_name: String) -> SIZE:
 	if "silt" in size_name.to_lower():
-		return SIZE.SILTSTALKER
+		return SIZE.SILTSTALKER_LEVIATHAN
 	return string_to_enum(size_name, SIZE) as SIZE
 
 static func get_type_as_string(type_value: TYPE) -> String:

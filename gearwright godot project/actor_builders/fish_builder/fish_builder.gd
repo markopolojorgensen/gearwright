@@ -206,7 +206,7 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 				create_gear_section_control(gsid)
 			fish_scale = 1.25
 			position_serpent_leviathan.call_deferred()
-		GearwrightFish.SIZE.SILTSTALKER:
+		GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
 			for gsid in GearwrightFish.SILTSTALKER_LEVIATHAN_FISH_GSIDS:
 				create_gear_section_control(gsid)
 			fish_scale = 1.45
@@ -237,6 +237,7 @@ func automagically_scale_control(control: Control):
 	var factor = max_size / control.size
 	var actual_scale = min(factor.x, factor.y) * 0.9
 	fish_scale = actual_scale
+	inventory_system.control_scale = fish_scale
 	control.scale = Vector2(1.0, 1.0) * fish_scale
 
 func center_control_manually(control: Control, location: Vector2):

@@ -139,7 +139,7 @@ func get_stat_explanation(stat: String) -> String:
 		return info_to_explanation_text(info)
 
 static func info_to_explanation_text(info: Dictionary) -> String:
-	var result = ""
+	var result := ""
 	for key in info.keys():
 		var number: int = info[key]
 		var number_string := ""
@@ -151,6 +151,11 @@ static func info_to_explanation_text(info: Dictionary) -> String:
 			number_string = "-"
 		
 		result += "%s: %s\n" % [key.capitalize(), number_string]
+	
+	# trim trailing newline
+	if result.ends_with("\n"):
+		result = result.left(-1)
+	
 	return result
 
 func has_unlocks_remaining() -> bool:

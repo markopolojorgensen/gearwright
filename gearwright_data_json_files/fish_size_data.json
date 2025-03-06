@@ -1,0 +1,93 @@
+{
+  "small": {
+    "size": "small",
+    "weight": 5,
+    "ap": 3,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 14,
+    "willpower": 11,
+    "speed": 4,
+    "sensors": 3,
+    "power": 3
+  },
+  "medium": {
+    "size": "medium",
+    "weight": 10,
+    "ap": 4,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 13,
+    "willpower": 11,
+    "speed": 4,
+    "sensors": 3,
+    "power": 5
+  },
+  "large": {
+    "size": "large",
+    "weight": 15,
+    "ap": 4,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 13,
+    "willpower": 11,
+    "speed": 3,
+    "sensors": 3,
+    "power": 6
+  },
+  "massive": {
+    "size": "massive",
+    "weight": 20,
+    "ap": 5,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 12,
+    "willpower": 11,
+    "speed": 3,
+    "sensors": 3,
+    "power": 7
+  },
+  "leviathan": {
+    "size": "leviathan",
+    "weight": 40,
+    "ap": 6,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 11,
+    "willpower": 11,
+    "speed": 2,
+    "sensors": 3,
+    "power": 9
+  },
+  "serpent_leviathan": {
+    "size": "serpent_leviathan",
+    "weight": 40,
+    "ap": 6,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 11,
+    "willpower": 11,
+    "speed": 2,
+    "sensors": 3,
+    "power": 9
+  },
+  "siltstalker_leviathan": {
+    "size": "siltstalker_leviathan",
+    "weight": 40,
+    "ap": 6,
+    "close": 4,
+    "far": 4,
+    "mental": 4,
+    "evasion": 11,
+    "willpower": 11,
+    "speed": 2,
+    "sensors": 3,
+    "power": 9
+  }
+}

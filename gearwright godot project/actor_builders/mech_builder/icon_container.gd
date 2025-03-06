@@ -6,5 +6,7 @@ func update(count: int):
 	for node in get_children():
 		node.queue_free()
 	
+	count = clampi(count, 0, 9)
+	
 	for i in range(count):
 		add_child(icon_scene.instantiate())

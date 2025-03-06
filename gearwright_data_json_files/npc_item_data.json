@@ -1,0 +1,3183 @@
+{
+  "close_eye_+2": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +2 CLOSE and +2 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 2,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Close Eye +2",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 2,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "close_eye_+3": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +3 CLOSE and +5 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 3,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, -1]",
+      "[-1, 0]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Close Eye +3",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 5,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "close_eye_+4": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +4 CLOSE and +7 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 4,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Close Eye +4",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 7,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "close_eye_+5": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +5 CLOSE and +12 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 5,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[1, 1]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Close Eye +5",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 12,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 8,
+    "willpower": 0
+  },
+  "far_eye_+2": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +2 FAR and +2 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 2,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Far Eye +2",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 2,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "far_eye_+3": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +3 FAR and +5 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 3,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Far Eye +3",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 5,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "far_eye_+4": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +4 FAR and +7 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 4,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Far Eye +4",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 7,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "far_eye_+5": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +5 FAR and +12 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 5,
+    "grid": [
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]",
+      "[1, 0]",
+      "[1, 1]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[-1, 0]",
+      "[0, 0]"
+    ],
+    "mental": 0,
+    "name": "Far Eye +5",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 12,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 8,
+    "willpower": 0
+  },
+  "omni_eye_+2": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +2 CLOSE, +2 FAR and +5 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 2,
+    "core": 0,
+    "evasion": 0,
+    "far": 2,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Omni Eye +2",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 5,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "omni_eye_+3": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain +3 CLOSE, +3 FAR and +7 SENSORS until the start of your next turn."
+    },
+    "ap": 0,
+    "close": 3,
+    "core": 0,
+    "evasion": 0,
+    "far": 3,
+    "grid": [
+      "[-1, -1]",
+      "[-1, 0]",
+      "[-1, 1]",
+      "[0, 1]",
+      "[0, 0]",
+      "[1, 0]",
+      "[1, 1]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Omni Eye +3",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 7,
+    "speed": 0,
+    "tags": [
+      "optics"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "vascular_engine_+1": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Immediately gain +1 AP."
+    },
+    "ap": 1,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 0]"
+    ],
+    "mental": 0,
+    "name": "Vascular Engine +1",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "engine"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "focus": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain the Focused Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]"
+    ],
+    "mental": 0,
+    "name": "Focus",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 3"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "scrubber_glands": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Clear 1 Condition currently affecting you (except for Hooked and Hover) OR gain the Stalwart Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Scrubber Glands",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "frenzy_sac": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain the Berserk Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, -1]",
+      "[0, -1]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Frenzy Sac",
+    "power": 0,
+    "extra_rules": "When this Internal is destroyed you gain the Frenzy Condition. If you would also be destroyed you first resolve the Frenzy Condition and are then destroyed.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "hover_bladder": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain the Hover Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Hover Bladder",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "active",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "leadership_markings": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "You and up to two target Allies gain the Focused Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 1]",
+      "[0, -1]",
+      "[0, 0]",
+      "[1, -1]",
+      "[2, -1]"
+    ],
+    "mental": 0,
+    "name": "Leadership Markings",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "active",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "brains_+1": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]"
+    ],
+    "mental": 1,
+    "name": "Brains +1",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 1,
+    "willpower": 1
+  },
+  "evasion_center_+1": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 1,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Evasion Center +1",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "evasion_center_+2": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 2,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 1]",
+      "[1, 2]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Evasion Center +2",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "power_guts_+1": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]",
+      "[0, -1]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Power Guts +1",
+    "power": 1,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "sturdy"
+    ],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "power_guts_+2": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Power Guts +2",
+    "power": 2,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "sturdy"
+    ],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "sensor_organ_+5": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Sensor Organ +5",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 5,
+    "speed": 0,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 1,
+    "willpower": 0
+  },
+  "speed_fin_+1": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Speed Fin +1",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 1,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "speed_fin_+2": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 1]",
+      "[0, 0]",
+      "[-1, -1]",
+      "[-2, -1]",
+      "[0, 2]"
+    ],
+    "mental": 0,
+    "name": "Speed Fin +2",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 2,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "marrow_bulkhead": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]"
+    ],
+    "mental": 0,
+    "name": "Marrow Bulkhead",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "bulkhead",
+      "bulky",
+      "limited 4"
+    ],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "vertical_armored_scales": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Vertical Armored Scales",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "armored",
+      "limited 6"
+    ],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 1,
+    "willpower": 0
+  },
+  "horizontal_armored_scales": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]"
+    ],
+    "mental": 0,
+    "name": "Horizontal Armored Scales",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "armored",
+      "limited 6"
+    ],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 1,
+    "willpower": 0
+  },
+  "camouflage": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Until the start of your next turn you benefit from Hard Cover. Actors still ignore this benefit for being in Range 2."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Camouflage",
+    "power": 0,
+    "extra_rules": "You benefit from Hard Cover until the start of your first turn. Actors still ignore this benefit for being in Range 2.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "restorator": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 0]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Restorator",
+    "power": 0,
+    "extra_rules": "At the start of your turn you may remove 1 Marked Damage from one of your non-Mitigation Internals.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "regeneration_organ": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[-1, 1]"
+    ],
+    "mental": 0,
+    "name": "Regeneration Organ",
+    "power": 0,
+    "extra_rules": "At the end of your turn, if this Internal is not destroyed automatically remove all damage from it.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "bulky",
+      "limited 2"
+    ],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "beak_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Beak I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "breaching",
+      "crushing"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "beak_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[1, 0]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Beak II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "breaching",
+      "crushing"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "horn_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 2,
+      "action_text": "On a hit the target gains the Pushed 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[1, 0]",
+      "[-1, -1]",
+      "[-1, 0]"
+    ],
+    "mental": 0,
+    "name": "Horn I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "horn_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 3,
+      "action_text": "On a hit the target gains the Pushed 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[-1, -1]",
+      "[0, 0]",
+      "[1, 0]",
+      "[0, -1]",
+      "[2, 0]"
+    ],
+    "mental": 0,
+    "name": "Horn II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "horn_iii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 2,
+      "damage": 4,
+      "action_text": "On a hit the target gains the Pushed 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-2, 0]",
+      "[-1, 0]",
+      "[1, 0]",
+      "[2, 0]",
+      "[3, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Horn III",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "horn_iv": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "close",
+      "range": 3,
+      "damage": 5,
+      "action_text": "On a hit the target gains the Pushed 2 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-2, 0]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[2, 0]",
+      "[3, 0]",
+      "[0, -1]",
+      "[-1, -1]",
+      "[-1, 1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Horn IV",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "crushing"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "flailing_appendage": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "close",
+      "range": 1,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 0]",
+      "[-1, 1]"
+    ],
+    "mental": 0,
+    "name": "Flailing Appendage",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 2"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "maw_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[1, 0]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Maw I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 1,
+    "willpower": 0
+  },
+  "maw_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 1]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Maw II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "maw_iii": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "close",
+      "range": 1,
+      "damage": 5,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[1, -1]",
+      "[0, -1]",
+      "[0, 1]",
+      "[1, 1]",
+      "[0, 0]",
+      "[2, -1]",
+      "[2, 1]"
+    ],
+    "mental": 0,
+    "name": "Maw III",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "devastating"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "maw_iv": {
+    "action_data": {
+      "ap_cost": 3,
+      "attribute": "close",
+      "range": 1,
+      "damage": 8,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, -2]",
+      "[1, -2]",
+      "[2, -2]",
+      "[3, -2]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 1]",
+      "[2, 1]",
+      "[3, 1]"
+    ],
+    "mental": 0,
+    "name": "Maw IV",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "breaching",
+      "crushing"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "razor_teeth_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 1,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]"
+    ],
+    "mental": 0,
+    "name": "Razor Teeth I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "barrage 2"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "razor_teeth_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]"
+    ],
+    "mental": 0,
+    "name": "Razor Teeth II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "barrage 2"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "razor_teeth_iii": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "close",
+      "range": 1,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 1]",
+      "[0, 1]",
+      "[0, 0]",
+      "[0, -1]",
+      "[0, -2]"
+    ],
+    "mental": 0,
+    "name": "Razor Teeth III",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "barrage 2"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "stinger_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 1]",
+      "[0, 0]"
+    ],
+    "mental": 0,
+    "name": "Stinger I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "fragile",
+      "penetrating"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 2,
+    "willpower": 0
+  },
+  "stinger_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 4,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -2]",
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Stinger II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "penetrating"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "tentacles_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 1,
+      "damage": 2,
+      "action_text": "On a hit the target gains the Restrained 1 and Slowed 1 Conditions."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Tentacles I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "tentacles_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "close",
+      "range": 2,
+      "damage": 3,
+      "action_text": "On a hit the target gains the Restrained 2 and Slowed 2 Conditions."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -2]",
+      "[-1, -1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, 1]",
+      "[0, 2]"
+    ],
+    "mental": 0,
+    "name": "Tentacles II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "close",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "thorn_spitter_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 8,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Thorn Spitter I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "far",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "thorn_spitter_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 8,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[1, -1]",
+      "[2, 0]"
+    ],
+    "mental": 0,
+    "name": "Thorn Spitter II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "far",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "thorn_spitter_iii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 10,
+      "damage": 4,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-2, 0]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[2, 0]",
+      "[1, -1]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Thorn Spitter III",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "crushing"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "thorn_spitter_iv": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 10,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-2, 0]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[2, 0]",
+      "[1, -1]",
+      "[1, 1]",
+      "[-1, 1]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Thorn Spitter IV",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "barrage 3",
+      "unwieldy"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 7,
+    "willpower": 0
+  },
+  "steam_breath_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 2,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[1, 0]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Steam Breath I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 1",
+      "point blank"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "steam_breath_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 5,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[1, 0]",
+      "[0, 0]",
+      "[-1, 0]",
+      "[-1, 1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Steam Breath II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 1"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "steam_breath_iii": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 8,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[-1, 0]",
+      "[1, -1]"
+    ],
+    "mental": 0,
+    "name": "Steam Breath III",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 2"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "steam_breath_iv": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 10,
+      "damage": 4,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[1, -1]",
+      "[1, 0]",
+      "[1, 1]",
+      "[2, -1]"
+    ],
+    "mental": 0,
+    "name": "Steam Breath IV",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 2",
+      "unwieldy",
+      "guided"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 7,
+    "willpower": 0
+  },
+  "lightning_vein_i": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 3,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Lightning Vein I",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "rapid fire 2"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "lightning_vein_ii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 3,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -2]",
+      "[0, -1]",
+      "[0, 0]",
+      "[1, 1]",
+      "[-1, 1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Lightning Vein II",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "rapid fire 2",
+      "sustained"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "lightning_vein_iii": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 3,
+      "damage": 3,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -2]",
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[1, 1]",
+      "[1, -1]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Lightning Vein III",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "rapid fire 2",
+      "sustained"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "lightning_vein_iv": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 5,
+      "damage": 4,
+      "action_text": "On a hit the target gains the Dazed 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -2]",
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[-1, 2]",
+      "[1, 1]",
+      "[1, 2]",
+      "[1, -1]",
+      "[-1, -1]"
+    ],
+    "mental": 0,
+    "name": "Lightning Vein IV",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "rapid fire 2",
+      "sustained"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "ripperswarm_nest": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 3,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[1, -1]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[0, 0]",
+      "[-1, 0]",
+      "[-1, 1]",
+      "[0, 1]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Ripperswarm Nest",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "barrage 3",
+      "point blank"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "pressure_jet": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "far",
+      "range": 5,
+      "damage": 3,
+      "action_text": "On a hit the target gains the Pushed 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[-1, 1]",
+      "[0, 0]",
+      "[1, 0]",
+      "[0, 1]",
+      "[2, -1]",
+      "[2, 0]"
+    ],
+    "mental": 0,
+    "name": "Pressure Jet",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "far",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "sudden_shock": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 1,
+      "action_text": "On a hit the target gains the Restrained 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[1, -1]",
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Sudden Shock",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "harrowing_thoughts": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 1,
+      "action_text": "On a hit the target gains the Dazed 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Harrowing Thoughts",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "mournful_regrets": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 1,
+      "action_text": "On a hit the target gains the Fatigued 2 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Mournful Regrets",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "terrifier": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Pushed 4 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 0]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Terrifier",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "mesmerizing_lure": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Pulled 4 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[2, -2]",
+      "[1, -2]",
+      "[0, -2]",
+      "[2, -1]",
+      "[0, 1]",
+      "[0, 0]"
+    ],
+    "mental": 0,
+    "name": "Mesmerizing Lure",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "mental_scream": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Dazed 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[-1, 1]",
+      "[1, 1]",
+      "[1, 0]",
+      "[0, 0]",
+      "[-1, 2]",
+      "[0, 2]",
+      "[1, 2]"
+    ],
+    "mental": 0,
+    "name": "Mental Scream",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 1"
+    ],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "crushing_realization": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Drained 1 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 1]",
+      "[1, 0]",
+      "[1, -1]",
+      "[2, 0]",
+      "[-1, 0]"
+    ],
+    "mental": 0,
+    "name": "Crushing Realization",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "drowning_in_fear": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Restrained 2 and Slowed 2 Conditions."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[-1, 0]",
+      "[-1, 1]",
+      "[1, 0]",
+      "[1, 1]",
+      "[-1, 2]",
+      "[1, 2]",
+      "[0, 0]"
+    ],
+    "mental": 0,
+    "name": "Drowning In Fear",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "the_visions": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Blind Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[1, 0]",
+      "[0, 0]",
+      "[-2, 1]",
+      "[-1, 1]",
+      "[1, 1]",
+      "[2, 1]"
+    ],
+    "mental": 0,
+    "name": "The Visions",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "cognitive_burial": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Burdened 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[0, 2]",
+      "[-1, 0]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Cognitive Burial",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "psychic_drain": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Fatigued 3 Condition and you may remove one of their Conditions."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]",
+      "[-2, -1]",
+      "[-1, -1]",
+      "[1, 0]",
+      "[2, 0]"
+    ],
+    "mental": 0,
+    "name": "Psychic Drain",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "doomsiren": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Doomed 2 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, -2]",
+      "[0, -2]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Doomsiren",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "cruel_animosity": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Frenzy Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[1, -1]",
+      "[2, -1]",
+      "[-1, 1]"
+    ],
+    "mental": 0,
+    "name": "Cruel Animosity",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "catatonia": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 3,
+      "action_text": "On a hit the target gains the Jammed Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-2, 0]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[0, -2]",
+      "[0, 1]",
+      "[0, 2]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Catatonia",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "the_whispers": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Dazed 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[0, -1]",
+      "[0, 0]",
+      "[-1, 0]",
+      "[0, 1]",
+      "[1, 1]",
+      "[1, 2]",
+      "[0, 2]"
+    ],
+    "mental": 0,
+    "name": "The Whispers",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "straitjacket": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 2,
+      "action_text": "On a hit the target gains the Restrained 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -1]",
+      "[2, -1]",
+      "[3, -1]",
+      "[0, 0]",
+      "[0, 1]",
+      "[1, -1]",
+      "[2, 0]",
+      "[3, 0]"
+    ],
+    "mental": 0,
+    "name": "Straitjacket",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "adrenal_engine_+3": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Immediately gain +3 AP. After your turn ends you immediately gain the Drained 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[1, 0]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Adrenal Engine +3",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "engine"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 3,
+    "willpower": 0
+  },
+  "broadside_bladder": {
+    "action_data": {
+      "ap_cost": 0,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Choose one of your Weapon Internals, it gains the Rapid Fire 2 Tag until the end of this turn. If it already has the Rapid Fire tag it adds +1 to the tag."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]",
+      "[-1, 0]",
+      "[-1, -1]",
+      "[-1, 1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Broadside Bladder",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "engine"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "fathomless_dance": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "You and up to two target Allies may immediately move up to 2 spaces."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]",
+      "[0, 0]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Fathomless Dance",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "feeding_frenzy": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "You and up to two target Allies gain the Quickened 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]",
+      "[-1, 1]",
+      "[0, 1]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Feeding Frenzy",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "ascended_form": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-2, 0]",
+      "[0, -1]",
+      "[2, 0]",
+      "[0, 1]",
+      "[-2, -1]",
+      "[-1, -1]",
+      "[1, -1]",
+      "[2, -1]",
+      "[-1, 1]",
+      "[-1, 2]",
+      "[-1, 3]",
+      "[1, 1]",
+      "[1, 2]",
+      "[1, 3]",
+      "[0, -2]"
+    ],
+    "mental": 0,
+    "name": "Ascended Form",
+    "power": 0,
+    "extra_rules": "You know all Deep Words, except for the Final Word. You may voice up to three of them on your turn ignoring the Fathomless Tag. They deal [1] Marble damage if they are Mental attacks.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "luminescence": {
+    "action_data": {
+      "ap_cost": 1,
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Adjacent Fishers gain the Fatigued 2 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[-1, 1]",
+      "[0, 1]"
+    ],
+    "mental": 0,
+    "name": "Luminescence",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "active",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "feelers": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, 1]",
+      "[1, 0]",
+      "[-1, 1]"
+    ],
+    "mental": 0,
+    "name": "Feelers",
+    "power": 0,
+    "extra_rules": "Your FAR weapons gain the Point Blank Tag unless they already have them.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "depth_charge": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]",
+      "[1, 0]",
+      "[0, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[-1, 0]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Depth Charge",
+    "power": 0,
+    "extra_rules": "You automatically fail all Kill Checks. When you are destroyed, you explode and all actors in Range 3 take [3] damage.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1",
+      "sturdy"
+    ],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "bone_plating": {
+    "action_data": {
+      "ap_cost": "1",
+      "attribute": "",
+      "range": 0,
+      "damage": 0,
+      "marble_damage": 0,
+      "action_text": "Gain the Ironclad 2 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 0]",
+      "[0, 0]",
+      "[-1, -1]",
+      "[0, -1]",
+      "[1, -1]",
+      "[1, 0]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Bone Plating",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "armored",
+      "bulky",
+      "limited 1"
+    ],
+    "type": "mitigation",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "ingrown_rifle": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 8,
+      "damage": 2,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 1]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[1, 0]",
+      "[1, 1]",
+      "[2, 0]"
+    ],
+    "mental": 0,
+    "name": "Ingrown Rifle",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "barrage 2"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "ingrown_cannon": {
+    "action_data": {
+      "ap_cost": 3,
+      "attribute": "far",
+      "range": 10,
+      "damage": 6,
+      "action_text": ""
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-1, 1]",
+      "[0, 1]",
+      "[-1, 0]",
+      "[-2, 0]",
+      "[-1, -1]",
+      "[-2, -1]",
+      "[0, 0]",
+      "[0, -1]",
+      "[1, -1]",
+      "[2, -1]",
+      "[3, -1]",
+      "[3, 0]",
+      "[2, 0]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Ingrown Cannon",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 1",
+      "breaching",
+      "unwieldy"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 6,
+    "willpower": 0
+  },
+  "pincers": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "close",
+      "range": 1,
+      "damage": 4,
+      "action_text": "On a hit the target gains the Slowed 3 Condition."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[-2, -1]",
+      "[-2, 0]",
+      "[-1, 0]",
+      "[0, 0]",
+      "[0, -1]",
+      "[1, -1]",
+      "[0, 1]",
+      "[1, 1]"
+    ],
+    "mental": 0,
+    "name": "Pincers",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "crushing"
+    ],
+    "type": "close",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  },
+  "forbidden_knowledge": {
+    "action_data": {
+      "ap_cost": 3,
+      "attribute": "mental",
+      "range": 5,
+      "damage": 0,
+      "marble_damage": 4,
+      "action_text": "On a hit the target gains the Restrained 3, Fatigued 3 and Doomed 3 Conditions."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]",
+      "[-1, 0]",
+      "[-2, 0]",
+      "[-2, 1]",
+      "[0, 1]",
+      "[1, 1]",
+      "[2, 1]",
+      "[2, 0]"
+    ],
+    "mental": 0,
+    "name": "Forbidden Knowledge",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "mental",
+    "ballast": 0,
+    "weight": 8,
+    "willpower": 0
+  },
+  "quest_internal": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]"
+    ],
+    "mental": 0,
+    "name": "Quest Internal",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 0,
+    "willpower": 0
+  },
+  "willpower_stem_+2": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[0, -1]",
+      "[1, 0]"
+    ],
+    "mental": 0,
+    "name": "Willpower Stem +2",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 1,
+    "willpower": 2
+  },
+  "cerebellum": {
+    "action_data": {},
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, 0]",
+      "[-1, 0]",
+      "[1, 0]",
+      "[0, 1]",
+      "[1, 1]"
+    ],
+    "mental": 2,
+    "name": "Cerebellum",
+    "power": 0,
+    "extra_rules": "Your MENTAL Attacks gain +3 Range.",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "limited 1"
+    ],
+    "type": "passive",
+    "ballast": 0,
+    "weight": 4,
+    "willpower": 0
+  },
+  "fathomless_vortex": {
+    "action_data": {
+      "ap_cost": 2,
+      "attribute": "far",
+      "range": 1,
+      "damage": 3,
+      "action_text": "The Blast of this attack may include yourself and other Allies, it does not make attacks against either."
+    },
+    "ap": 0,
+    "close": 0,
+    "core": 0,
+    "evasion": 0,
+    "far": 0,
+    "grid": [
+      "[0, -2]",
+      "[-1, -2]",
+      "[0, -1]",
+      "[-1, -1]",
+      "[0, 0]",
+      "[1, 0]",
+      "[-1, 0]",
+      "[-2, 0]",
+      "[0, 1]",
+      "[-1, 1]",
+      "[0, 2]",
+      "[-1, 2]",
+      "[-2, 2]",
+      "[1, 2]"
+    ],
+    "mental": 0,
+    "name": "Fathomless Vortex",
+    "power": 0,
+    "extra_rules": "",
+    "sensors": 0,
+    "speed": 0,
+    "tags": [
+      "blast 2",
+      "devastating",
+      "point blank"
+    ],
+    "type": "far",
+    "ballast": 0,
+    "weight": 5,
+    "willpower": 0
+  }
+}

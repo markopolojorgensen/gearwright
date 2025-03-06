@@ -3,111 +3,111 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
-more than nine repair kits shouldn't break the editor
-custom background should be "+X" instead of "xX"
-massive fish internal scale
-newline on stat explanation
 ------------------------------------------------------------------------------------------------------- MEDIOM
-put weight & unlocks in stats block
 ------------------------------------------------------------------------------------------------------- LORGE
-new .fsh file for ralf
-  galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
-  scrubber needs the same "\n" treatment as line linker in item_data.json
-  `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
 ------------------------------------------------------------------------------------------------------- MYSTERY
+  non-standard fisher adjustments
+    probably spinboxes along the side of the stats thing, oof
+    "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
+    injuries
+      todo: list all the stuff injuries can change
+      ballast?
+      close/far/mental/power/ballast/ap? (temporary)
+      close/far? (permanent)
+    touch of the deep
+      todo: list all the stuff totd can change
+    deep word count should be manually adjustable to support campaign progression unlocks
+    other stuff I'm missing?
 
 
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
-non-standard fisher adjustments
-  probably spinboxes along the side of the stats thing, oof
-  "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
-  injuries
-    todo: list all the stuff injuries can change
-    ballast?
-    close/far/mental/power/ballast/ap? (temporary)
-    close/far? (permanent)
-  touch of the deep
-    todo: list all the stuff totd can change
-  deep word count should be manually adjustable to support campaign progression unlocks
-  other stuff I'm missing?
 
-tab switcher - narrative profile
-  labels descriptor equipment
+  tab switcher - narrative profile
+    labels descriptor equipment
 
-zoom font changes
-  maybe make everything huge and then always be scaling down?
-    i.e. quit pre-shrinking the assets?
+  zoom font changes
+    maybe make everything huge and then always be scaling down?
+      i.e. quit pre-shrinking the assets?
 
-too many internals should not bork the fish editor legend
-don't let players take repeat developments (exception A Brush With The Deep)
-don't let players take repeat manuevers
-bonus manuever from 6 mental needs to be limited to mental maneuvers
-right click on developments/maneuvers/deepwords in gear builder to see what they do
-hovering over weight should cause all equipped internals to display their weight
-curio disclaimer "Curios are only obtainable via Development or GM Fiat"
-fish internal number bubbles should be toggleable
-sometimes an internal is un-selectable / un-right-clickable because another internal's shape completely occludes it
-Loading a fish with a template should not set the "Mutations remaining" value to max (when you have already spent the mutations)
+  too many internals should not bork the fish editor legend
+  don't let players take repeat developments (exception A Brush With The Deep)
+  don't let players take repeat manuevers
+  bonus manuever from 6 mental needs to be limited to mental maneuvers
+  right click on developments/maneuvers/deepwords in gear builder to see what they do
+  hovering over weight should cause all equipped internals to display their weight
+  curio disclaimer "Curios are only obtainable via Development or GM Fiat"
+  fish internal number bubbles should be toggleable
+  sometimes an internal is un-selectable / un-right-clickable because another internal's shape completely occludes it
+  Loading a fish with a template should not set the "Mutations remaining" value to max (when you have already spent the mutations)
 
-show known saves on main menu
+  show known saves on main menu
 
-warn when data would be lost (keep track of most recent save)
-  exit
-  return to main menu
-  load
-  new fish / new gear
+  warn when data would be lost (keep track of most recent save)
+    exit
+    return to main menu
+    load
+    new fish / new gear
 
-edit .json files
-  galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
-  scrubber needs the same "\n" treatment as line linker in item_data.json
-  `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
-
-  I think ralf took care of these?
+  edit .json files
     custom background description
+    pinned discord message...?
+  done
+    galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
+    scrubber needs the same "\n" treatment as line linker in item_data.json
+    `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
     lightweight construction / ballast fish mutation / gas pockets
-    "Lightweight Construction
-      Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
-    pinned discord message
+      "Lightweight Construction
+        Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
+    siltstalker -> siltstalker_leviathan
+    abberant -> aberrant (fish template and developments)
 
-undo/redo?
+  undo/redo?
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
-shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
-go through all FIXMEs / TODOs / WHEREWASIs
-too many different fish internals is a bit jank
-right clicking to inspect has some problems
-  the popup always stays within the edges of the screen, but if you mouse over the popup it will disappear (or if the popup pops up under your mouse) as soon as you release right click
-  right clicking empty spaces sometimes gives you popup of the item whose aabb overlaps that empty space
-    also causes problems since multiple items can occupy the same space
+  shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
+  go through all FIXMEs / TODOs / WHEREWASIs
+  too many different fish internals is a bit jank
+  right clicking to inspect has some problems
+    the popup always stays within the edges of the screen, but if you mouse over the popup it will disappear (or if the popup pops up under your mouse) as soon as you release right click
+    right clicking empty spaces sometimes gives you popup of the item whose aabb overlaps that empty space
+      also causes problems since multiple items can occupy the same space
 
-what is the difference between numbers vs no_numbers genie export?
+  what is the difference between numbers vs no_numbers genie export?
 
-power saving / performance mode?
+  power saving / performance mode?
 
-UI polish pass
-startup time seems a bit slow
+  UI polish pass
+  startup time seems a bit slow
 
-=QUALITY ASSURANCE=
+  =QUALITY ASSURANCE=
 
-X Ralf goes through everything and sees if all the stats are correct for everything and if everything is there, some developments are missing for example.
+  X Ralf goes through everything and sees if all the stats are correct for everything and if everything is there, some developments are missing for example.
 
-=IF SANTA IS GOOD TO ME THIS YEAR=
+  =IF SANTA IS GOOD TO ME THIS YEAR=
 
-X I am commissioning Terrain for Fathomless Gears, coupled with the fact that its a simple square grid and that all maps are 20x20 and all terrain pieces are
-rectangles it really shouldn't be to hard to throw a map editor into the program. It would be the cherry on top of everything.
+  X I am commissioning Terrain for Fathomless Gears, coupled with the fact that its a simple square grid and that all maps are 20x20 and all terrain pieces are
+  rectangles it really shouldn't be to hard to throw a map editor into the program. It would be the cherry on top of everything.
 
-Do you want a "battle" mode, where you can track all the stuff you currently track by drawing Xs on stuff in real time?
-  (it would be a pretty sizeable undertaking)
-  no
+  Do you want a "battle" mode, where you can track all the stuff you currently track by drawing Xs on stuff in real time?
+    (it would be a pretty sizeable undertaking)
+    no
 
-sort fish internal legend by type (color)
-  unnecessary
+  sort fish internal legend by type (color)
+    unnecessary
 
 
 
 DONE
+2.2.0
+  new core integrity & repair kit icons
+  new .fsh file
+  put weight & unlocks in stats block
+  trim newline on stat explanation
+  massive fish internal scale wasn't set correctly
+  custom background should use "+" instead of "x"
+  more than nine repair kits shouldn't break the editor
 2.1.0
   make building smaller fish feel better, probably needs smaller scale
   Reset Internals on the Fish should also Reset fish Template and its bonuses to "Common"
@@ -198,20 +198,28 @@ DONE
     leviathan
     the others
   some way to clear currently selected internal (right click?) (this already works mark you dummy)
-
-
-
-NEW FEATURES LIST
   Stat list now shows breakdown on hover
   non-head sections grey out if you pick up a head internal, same for all internals/sections
   li'l slot hover hightlight
-OTHER DONE STUFF
   old mech builder moved into top level mech builder script
   emit_signal("whatever") -> whatever.emit()
   download export templates
 
 
+------------------------------------------------------------------------------------------------------------------- gearwright data archive
 
+gearwright data
+
+it's a zip file renamed to .fsh
+inside there's a bunch of json files and _assets.pck
+  that's where all the sprites are stored
+  need godot gre tools to make that pck, I suppose?
+  maybe not, but whatever
+
+originally it was a ctr-a -> send to zip situation
+no top-level folder in the archive
+
+I changed that recently by accident
 
 
 ------------------------------------------------------------------------------------------------------------------- LESSONS

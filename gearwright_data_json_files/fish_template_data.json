@@ -1,0 +1,30 @@
+{
+  "common": {
+    "template":"common",
+    "weight": 0,
+    "mutations": 0,
+    "mutation_cap": 0,
+    "extra_rules": ""
+  },
+  "aberrant": {
+    "template":"aberrant",
+    "weight": 5,
+    "mutations": 2,
+    "mutation_cap": 1,
+    "extra_rules": ""
+  },
+  "deepspawn": {
+    "template":"deepspawn",
+    "weight": 10,
+    "mutations": 4,
+    "mutation_cap": 2,
+    "extra_rules": ""
+  },
+  "elder_deepspawn": {
+    "template":"elder_deepspawn",
+    "weight": 20,
+    "mutations": 6,
+    "mutation_cap": 3,
+    "extra_rules": "Additionally, at the start of this Actor's turn it may remove 1 Marked damage from any of its non-Mitigation Internals."
+  }
+}

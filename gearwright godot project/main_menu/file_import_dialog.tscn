@@ -14,7 +14,8 @@ script = ExtResource("1_xriw7")
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 title = "Error"
 initial_position = 1
-dialog_text = "Invalid file"
+size = Vector2i(181, 100)
+dialog_text = "Failed to load archive"
 
 [node name="SuccessDialog" type="AcceptDialog" parent="."]
 title = "Success"

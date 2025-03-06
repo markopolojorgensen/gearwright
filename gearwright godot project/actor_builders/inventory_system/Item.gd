@@ -45,7 +45,6 @@ func _process(delta):
 		return
 	if not hovering:
 		return
-	#if input_context_system.get_current_input_context_id() != input_context_system.INPUT_CONTEXT.MECH_BUILDER:
 	if input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM:
 		return
 	

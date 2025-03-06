@@ -8,7 +8,7 @@ func _ready():
 	for directory in dirs_to_check:
 		directory = "user://".path_join(directory)
 		if !DirAccess.dir_exists_absolute(directory):
-			DirAccess.make_dir_recursive_absolute(directory)
+			DirAccess.make_dir_recursive_absolute(directory) 
 	
 	# I don't know why this exists
 	var dir = DirAccess.open(data_dir)

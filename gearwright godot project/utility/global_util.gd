@@ -349,7 +349,24 @@ func pop_verbose():
 	verbose = _verbosity_stack.pop_back()
 
 func file_to_string(path: String) -> String:
-	return FileAccess.open(path, FileAccess.READ).get_as_text()
+	#return FileAccess.open(path, FileAccess.READ).get_as_text()
+	if not FileAccess.file_exists(path):
+		var error_message := "file not found: %s" % path
+		printerr(error_message)
+		push_error(error_message)
+		return ""
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		var error := FileAccess.get_open_error()
+		var err_message := "Error opening file: %d" % error
+		printerr(err_message)
+		push_error(err_message)
+		return ""
+	
+	var text := file.get_as_text()
+	file.close()
+	return text
 
 func var_to_file(storage, path: String):
 	var file = FileAccess.open(path, FileAccess.WRITE)

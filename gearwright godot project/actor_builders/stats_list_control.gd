@@ -22,7 +22,7 @@ const pretty_stat_names_character := [
 	"Sensors",
 	"Repair Kits",
 	"",
-	"Unlocks",
+	#"Unlocks",
 	#"Weight Cap",
 	#"Weight",
 	"Ballast",
