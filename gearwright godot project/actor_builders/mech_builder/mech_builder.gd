@@ -20,6 +20,9 @@ extends Control
 @onready var gear_ability_text: Label = %GearAbilityText
 @onready var core_integrity_control: Control = %CoreIconContainer
 @onready var repair_kits_control: Control = %RepairIconContainer
+@onready var developments_title_control: Control = %DevelopmentsPerkSectionTitleControl
+@onready var maneuvers_title_control: Control = %ManeuversPerkSectionTitleControl
+@onready var deep_words_title_control: Control = %DeepWordsPerkSectionTitleControl
 @onready var development_option_buttons := [
 	%DevelopmentPerkOptionButton1,
 	%DevelopmentPerkOptionButton2,
@@ -67,7 +70,7 @@ extends Control
 	"unlocks":    %UnlocksCustomStatEditControl,
 	"weight_cap": %WeightCapCustomStatEditControl,
 }
-
+@onready var manual_button: Button = %ManualButton
 @onready var popup_collection = %PopupCollection
 
 @onready var gear_section_controls = {
@@ -160,6 +163,7 @@ func _ready():
 	
 	register_ic_base_mech_builder()
 	register_ic_custom_bg()
+	register_ic_manual_adjustment()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
 
 func is_curio(item_data: Dictionary):
@@ -194,6 +198,29 @@ func register_ic_custom_bg():
 		pass
 	input_context_system.register_input_context(ic)
 
+func register_ic_manual_adjustment():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.MECH_BUILDER_MANUAL_ADJUSTMENT
+	ic.activate = func(_is_stack_growing: bool):
+		stats_list_control.show_hide_spinboxes(true)
+		developments_title_control.show_manual_adjustment_control()
+		maneuvers_title_control.show_manual_adjustment_control()
+		deep_words_title_control.show_manual_adjustment_control()
+		manual_button.text = "Save Manual\nAdjustments"
+		manual_button.set_deferred("button_pressed", true)
+		request_update_controls = true
+	ic.deactivate = func(_is_stack_growing: bool):
+		stats_list_control.show_hide_spinboxes(false)
+		developments_title_control.hide_manual_adjustment_control()
+		maneuvers_title_control.hide_manual_adjustment_control()
+		deep_words_title_control.hide_manual_adjustment_control()
+		manual_button.text = "Edit Manual\nAdjustments"
+		# don't immediately double-pop
+		manual_button.set_deferred("button_pressed", false)
+		request_update_controls = true
+	ic.handle_input = func(_event: InputEvent):
+		pass
+	input_context_system.register_input_context(ic)
 
 #endregion
 
@@ -257,7 +284,7 @@ func _on_slot_mouse_exited(slot_info: Dictionary):
 var current_hover_stat := ""
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
 	current_hover_stat = stat_name
-	floating_explanation_control.text = current_character.get_stat_explanation(stat_name)
+	floating_explanation_control.text = current_character.get_stat_explanation(current_hover_stat)
 
 func _on_stats_list_control_stat_mouse_exited(stat_name: String) -> void:
 	if current_hover_stat == stat_name:
@@ -321,6 +348,46 @@ func _on_edit_background_button_pressed() -> void:
 # connected to custom bg widget in _ready
 func _on_custom_bg_change(stat_name: String, is_increase: bool):
 	current_character.modify_custom_background(stat_name, is_increase)
+	request_update_controls = true
+
+# toggled_on reflects the new state, not the old one
+func _on_manual_button_toggled(toggled_on: bool) -> void:
+	if (not toggled_on) and (input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.MECH_BUILDER_MANUAL_ADJUSTMENT):
+		input_context_system.pop_input_context_stack()
+	elif toggled_on:
+		input_context_system.pop_to(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
+		input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER_MANUAL_ADJUSTMENT)
+
+func _on_stats_list_control_manual_stat_increase(stat_name: String) -> void:
+	current_character.manual_stat_increase(stat_name)
+	request_update_controls = true
+
+func _on_stats_list_control_manual_stat_decrease(stat_name: String) -> void:
+	current_character.manual_stat_decrease(stat_name)
+	request_update_controls = true
+
+func _on_developments_perk_section_title_control_increase() -> void:
+	current_character.manual_stat_change("developments", 1)
+	request_update_controls = true
+
+func _on_developments_perk_section_title_control_decrease() -> void:
+	current_character.manual_stat_change("developments", -1)
+	request_update_controls = true
+
+func _on_maneuvers_perk_section_title_control_increase() -> void:
+	current_character.manual_stat_change("maneuvers", 1)
+	request_update_controls = true
+
+func _on_maneuvers_perk_section_title_control_decrease() -> void:
+	current_character.manual_stat_change("maneuvers", -1)
+	request_update_controls = true
+
+func _on_deep_words_perk_section_title_control_increase() -> void:
+	current_character.manual_stat_change("deep_words", 1)
+	request_update_controls = true
+
+func _on_deep_words_perk_section_title_control_decrease() -> void:
+	current_character.manual_stat_change("deep_words", -1)
 	request_update_controls = true
 
 func _on_diablo_style_inventory_system_something_changed() -> void:
@@ -506,8 +573,16 @@ func update_controls():
 		var stat_value = current_character.custom_background.count(stat_name)
 		custom_bg_control.value = stat_value
 	custom_bg_points_label.text = str(current_character.get_custom_bg_points_remaining())
+	
+	if not current_hover_stat.is_empty():
+		floating_explanation_control.text = current_character.get_stat_explanation(current_hover_stat)
 
 #endregion
+
+
+
+
+
 
 
 

@@ -29,6 +29,8 @@ const custom_background_caps := {
 var enforce_weight_cap := true
 var enforce_hardpoint_cap := true
 
+# string -> int
+var manual_stat_adjustments := {}
 
 
 
@@ -114,7 +116,8 @@ func get_stat_info(stat: String) -> Dictionary:
 			"weight_cap",
 			"ballast",
 			]:
-		return call("get_%s_info" % snake_stat)
+		return get_basic_info(snake_stat)
+		#return call("get_%s_info" % snake_stat)
 	
 	match snake_stat:
 		"background":
@@ -122,7 +125,9 @@ func get_stat_info(stat: String) -> Dictionary:
 		"marbles":
 			return get_max_marbles_info()
 		"core_integrity":
-			return {frame = frame_stats.core_integrity}
+			var result := {frame = frame_stats.core_integrity}
+			result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("core_integrity"))
+			return result
 		"unlocks":
 			return get_max_unlocks_info()
 		"":
@@ -186,7 +191,7 @@ func get_level_development_count():
 	if not level_stats.has("developments"):
 		push_error("GearwrightCharacter: no development info in level: %s" % str(level_stats))
 		return 0
-	return level_stats.developments
+	return level_stats.developments + get_manual_stat_adjustment("developments")
 
 func get_custom_bg_points_remaining():
 	var result = 4 - custom_background.size()
@@ -219,16 +224,21 @@ func get_bg_amount(stat: String):
 		"unlocks":2,
 		"weight_cap":2,
 	}
-	var bg_amount: int = background_stats[stat]
+	var bg_amount: int = background_stats.get(stat, 0)
 	if background_stats.background.to_lower() == "custom":
 		bg_amount += custom_background.count(stat) * mults.get(stat, 0)
 	return bg_amount
 
+func get_manual_stat_adjustment(stat: String) -> int:
+	stat = stat.to_snake_case()
+	return manual_stat_adjustments.get(stat, 0)
 
 func get_max_marbles_info() -> Dictionary:
-	return add_dev_info("marbles", {
+	var result := _add_dev_info("marbles", {
 		background = get_bg_amount("marbles")
 	})
+	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("marbles"))
+	return result
 
 func get_max_marbles() -> int:
 	return global_util.sum_array(get_max_marbles_info().values())
@@ -253,7 +263,7 @@ func get_far() -> int:
 	return global_util.sum_array(get_far_info().values())
 
 func get_mental_info() -> Dictionary:
-	return add_dev_info("mental", {
+	return _add_dev_info("mental", {
 		background = get_bg_amount("mental")
 	})
 
@@ -279,7 +289,7 @@ func get_evasion() -> int:
 	return global_util.sum_array(get_evasion_info().values())
 
 func get_willpower_info() -> Dictionary:
-	return add_dev_info("willpower", {
+	return _add_dev_info("willpower", {
 		background = get_bg_amount("willpower"),
 	})
 
@@ -296,7 +306,7 @@ func get_ap() -> int:
 	return global_util.sum_array(get_ap_info().values())
 
 func get_speed_info() -> Dictionary:
-	return add_dev_info("speed", {
+	return _add_dev_info("speed", {
 		frame = frame_stats.speed,
 		internals = internal_inventory.sum_internals_for_stat("speed"),
 	})
@@ -314,16 +324,18 @@ func get_sensors() -> int:
 	return global_util.sum_array(get_sensors_info().values())
 
 func get_repair_kits_info() -> Dictionary:
-	return add_dev_info("repair_kits", {
+	var result := _add_dev_info("repair_kits", {
 		frame = frame_stats.repair_kits,
 		internals = internal_inventory.sum_internals_for_stat("repair_kits"),
 	})
+	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("repair_kits"))
+	return result
 
 func get_repair_kits() -> int:
 	return global_util.sum_array(get_repair_kits_info().values())
 
 func get_max_unlocks_info() -> Dictionary:
-	return add_dev_info("unlocks", {
+	return _add_dev_info("unlocks", {
 		background = get_bg_amount("unlocks"),
 		level = level_stats.unlocks,
 	})
@@ -346,7 +358,7 @@ func get_weight_cap_info() -> Dictionary:
 		level = level_stats.weight_cap,
 		internals = internal_inventory.sum_internals_for_stat("weight_cap"),
 	}
-	result = add_dev_info("weight_cap", result)
+	result = _add_dev_info("weight_cap", result)
 	return result
 
 func get_weight_cap() -> int:
@@ -360,7 +372,7 @@ func get_ballast_info() -> Dictionary:
 		internals = internal_inventory.sum_internals_for_stat("ballast"),
 	}
 	const LIGHTWEIGHT := "lightweight_modifier"
-	var lightweight_info := add_dev_info(LIGHTWEIGHT, {})
+	var lightweight_info := _add_dev_info(LIGHTWEIGHT, {})
 	if not lightweight_info.is_empty():
 		var dev_name: String = lightweight_info.keys()[0]
 		var adjusted_weight: int = get_weight() - lightweight_info[dev_name]
@@ -383,7 +395,7 @@ func get_ballast() -> int:
 	#return add_dev_info("deep_words", {})
 
 func get_deep_word_count() -> int:
-	return developments.count("a_brush_with_the_deep")
+	return developments.count("a_brush_with_the_deep") + get_manual_stat_adjustment("deep_words")
 	#return global_util.sum_array(get_deep_word_count_info().values())
 
 func get_maneuver_count_info() -> Dictionary:
@@ -392,6 +404,7 @@ func get_maneuver_count_info() -> Dictionary:
 	}
 	if 6 <= get_mental():
 		result.mental = 1
+	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("maneuvers"))
 	return result
 
 func get_maneuver_count() -> int:
@@ -406,7 +419,24 @@ func get_maneuver_count() -> int:
 	#return sum_array(get__info().values())
 
 func get_core_integrity() -> int:
-	return frame_stats.core_integrity
+	#return frame_stats.core_integrity
+	return global_util.sum_array(get_stat_info("core_integrity").values())
+
+func get_basic_info(stat_name: String) -> Dictionary:
+	stat_name = stat_name.to_snake_case()
+	var result := {}
+	result = _add_nonzero_kv_pair(result, "background", get_bg_amount(stat_name))
+	result = _add_nonzero_kv_pair(result, "frame", frame_stats.get(stat_name, 0))
+	result = _add_nonzero_kv_pair(result, "level", level_stats.get(stat_name, 0))
+	result = _add_nonzero_kv_pair(result, "internals", internal_inventory.sum_internals_for_stat(stat_name))
+	result = _add_dev_info(stat_name, result)
+	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment(stat_name))
+	return result
+
+func _add_nonzero_kv_pair(dictionary: Dictionary, key, value: int) -> Dictionary:
+	if value != 0:
+		dictionary[key] = value
+	return dictionary
 
 #endregion
 
@@ -519,7 +549,7 @@ func find_devs_that_modify(stat: String) -> Dictionary:
 	return result
 
 # modify stat info dictionary with development stats
-func add_dev_info(stat_name: String, stat_info: Dictionary) -> Dictionary:
+func _add_dev_info(stat_name: String, stat_info: Dictionary) -> Dictionary:
 	var devs := find_devs_that_modify(stat_name)
 	for dev_name in devs.keys():
 		var dev: Dictionary = devs[dev_name]
@@ -538,6 +568,21 @@ func modify_custom_background(stat: String, is_increase: bool):
 	elif not is_increase:
 		custom_background.erase(stat)
 
+func manual_stat_increase(stat_name: String):
+	manual_stat_change(stat_name, 1)
+
+func manual_stat_decrease(stat_name: String):
+	manual_stat_change(stat_name, -1)
+
+func manual_stat_change(stat_name: String, change: int):
+	stat_name = stat_name.to_snake_case()
+	var old_value = manual_stat_adjustments.get(stat_name, 0)
+	var new_value = old_value + change
+	if new_value == 0:
+		manual_stat_adjustments.erase(stat_name)
+	else:
+		manual_stat_adjustments[stat_name] = new_value
+
 #endregion
 
 
@@ -552,7 +597,8 @@ func marshal() -> Dictionary:
 		callsign = callsign,
 		frame = frame_name,
 		background = background_stats.background.to_snake_case(),
-		level = str(level)
+		level = str(level),
+		manual_stat_adjustments = manual_stat_adjustments,
 	}
 	
 	result.custom_background = custom_background
@@ -590,6 +636,7 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	ch.load_frame(sesh.get_info("frame"))
 	ch.load_background(sesh.get_info("background"))
 	ch.set_level(sesh.get_info("level", 1))
+	ch.manual_stat_adjustments = sesh.get_info("manual_stat_adjustments", {})
 	
 	ch.custom_background = sesh.get_info("custom_background", [])
 	

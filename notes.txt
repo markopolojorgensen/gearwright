@@ -5,21 +5,18 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------- SMOL
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- LORGE
+  bonus manuever from 6 mental needs to be limited to mental maneuvers
+  right click on developments/maneuvers/deepwords in gear builder to see what they do
+
 ------------------------------------------------------------------------------------------------------- MYSTERY
-  non-standard fisher adjustments
-    probably spinboxes along the side of the stats thing, oof
-    "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
-    injuries
-      todo: list all the stuff injuries can change
-      ballast?
-      close/far/mental/power/ballast/ap? (temporary)
-      close/far? (permanent)
-    touch of the deep
-      todo: list all the stuff totd can change
-    deep word count should be manually adjustable to support campaign progression unlocks
-    other stuff I'm missing?
-
-
+  injuries
+    todo: list all the stuff injuries can change
+    ballast?
+    close/far/mental/power/ballast/ap? (temporary)
+    close/far? (permanent)
+  touch of the deep
+    todo: list all the stuff totd can change
+  other stuff I'm missing?
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
@@ -33,8 +30,6 @@ Q1 2025, definitely before May
   too many internals should not bork the fish editor legend
   don't let players take repeat developments (exception A Brush With The Deep)
   don't let players take repeat manuevers
-  bonus manuever from 6 mental needs to be limited to mental maneuvers
-  right click on developments/maneuvers/deepwords in gear builder to see what they do
   hovering over weight should cause all equipped internals to display their weight
   curio disclaimer "Curios are only obtainable via Development or GM Fiat"
   fish internal number bubbles should be toggleable
@@ -100,6 +95,11 @@ Q1 2025, definitely before May
 
 
 DONE
+
+  non-standard fisher adjustments
+    probably spinboxes along the side of the stats thing, oof
+    "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
+    deep word count should be manually adjustable to support campaign progression unlocks
 2.2.0
   new core integrity & repair kit icons
   new .fsh file

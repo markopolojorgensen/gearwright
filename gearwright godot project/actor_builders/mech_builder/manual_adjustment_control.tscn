@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpk8ekv8cq3xp"]
+
+[ext_resource type="Script" uid="uid://df2fj4sgsu3n6" path="res://actor_builders/mech_builder/manual_adjustment_control.gd" id="1_4hxe8"]
+[ext_resource type="StyleBox" uid="uid://cvilpq4euadkt" path="res://actor_builders/mech_builder/style_box_flat_manual_adjustments.tres" id="1_p1buv"]
+[ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="1_sw0mv"]
+
+[node name="ManualAdjustmentControl" type="PanelContainer"]
+offset_right = 66.0
+offset_bottom = 23.0
+theme_override_styles/panel = ExtResource("1_p1buv")
+script = ExtResource("1_4hxe8")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="CustomStatEditControl" parent="MarginContainer" instance=ExtResource("1_sw0mv")]
+unique_name_in_owner = true
+layout_mode = 2

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://2d52tcveghpy"]
+[gd_scene load_steps=3 format=3 uid="uid://2d52tcveghpy"]
 
 [ext_resource type="Script" uid="uid://bgj5hwn4b0b2g" path="res://actor_builders/stats_list_control.gd" id="1_pb6eo"]
+[ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="2_lodx8"]
 
 [node name="StatsListControl" type="PanelContainer"]
 custom_minimum_size = Vector2(250, 0)
@@ -64,24 +65,24 @@ unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 3
-columns = 3
+theme_override_constants/v_separation = 0
+columns = 4
 
 [node name="Label4" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-visible = false
 modulate = Color(0.4984, 0.63546, 0.89, 1)
 layout_mode = 2
 text = "Willpower"
 horizontal_alignment = 2
 
 [node name="Label5" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-visible = false
 modulate = Color(0.4984, 0.63546, 0.89, 1)
 layout_mode = 2
 text = "20"
 
+[node name="CustomStatEditControl" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_lodx8")]
+layout_mode = 2
+
 [node name="Label6" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-visible = false
 modulate = Color(0.4984, 0.63546, 0.89, 1)
 layout_mode = 2
 text = "(10+10)"

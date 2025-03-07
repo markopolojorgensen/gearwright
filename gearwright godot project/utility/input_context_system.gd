@@ -13,6 +13,7 @@ enum INPUT_CONTEXT {
 	INVENTORY_SYSTEM_UNLOCK,
 	POPUP_ACTIVE,
 	FISH_BUILDER,
+	MECH_BUILDER_MANUAL_ADJUSTMENT,
 }
 
 func register_input_context(input_context: InputContext):
