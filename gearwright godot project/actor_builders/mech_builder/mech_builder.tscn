@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=28 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" uid="uid://eatpbgbpvng8" path="res://actor_builders/mech_builder/mech_builder.gd" id="1_t8ijy"]
@@ -29,6 +29,12 @@ bg_color = Color(0.0823529, 0.109804, 0.294118, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3w80"]
 bg_color = Color(0.18, 0.18, 0.18, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jqhhk"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eea8l"]
+bg_color = Color(0, 0.0595, 0.21, 1)
 
 [node name="MechBuilder" type="Control"]
 custom_minimum_size = Vector2(1650, 890)
@@ -484,6 +490,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 perk_type = 1
+mental_only = true
 
 [node name="SpacerControl2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PerksContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -920,6 +927,55 @@ layout_mode = 2
 
 [node name="PopupCollection" parent="." instance=ExtResource("19_afxqt")]
 unique_name_in_owner = true
+
+[node name="PerkInfoContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+z_index = 2
+layout_mode = 1
+offset_right = 624.0
+offset_bottom = 91.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jqhhk")
+
+[node name="MarginContainer" type="MarginContainer" parent="PerkInfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="PerkInfoContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PerkInfoContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PerkInfoContainer/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PerkInfoColorPanel" type="PanelContainer" parent="PerkInfoContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eea8l")
+
+[node name="MarginContainer" type="MarginContainer" parent="PerkInfoContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PerkInfoColorPanel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PerkTitleLabel" type="Label" parent="PerkInfoContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/PerkInfoColorPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "A Brush With The Deep"
+
+[node name="PerkInfoLabel" type="Label" parent="PerkInfoContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 24)
+layout_mode = 2
+text = "+1 fish word"
+autowrap_mode = 3
 
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer/FrameSelector" to="MarginContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer/FrameSelector" method="_on_item_selected"]

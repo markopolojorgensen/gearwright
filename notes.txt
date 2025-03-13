@@ -4,22 +4,14 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
 ------------------------------------------------------------------------------------------------------- MEDIOM
+  get .fsh gearwright data file from 12throot and edit
+    burnout ap cost should be 0, not "x"
 ------------------------------------------------------------------------------------------------------- LORGE
-  bonus manuever from 6 mental needs to be limited to mental maneuvers
   right click on developments/maneuvers/deepwords in gear builder to see what they do
-
+  color coded perks?
 ------------------------------------------------------------------------------------------------------- MYSTERY
-  injuries
-    todo: list all the stuff injuries can change
-    ballast?
-    close/far/mental/power/ballast/ap? (temporary)
-    close/far? (permanent)
-  touch of the deep
-    todo: list all the stuff totd can change
-  other stuff I'm missing?
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
-
   tab switcher - narrative profile
     labels descriptor equipment
 
@@ -59,6 +51,16 @@ Q1 2025, definitely before May
 
   undo/redo?
 
+fancy custom ux for totd/injuries?
+  injuries
+    todo: list all the stuff injuries can change
+    ballast?
+    close/far/mental/power/ballast/ap? (temporary)
+    close/far? (permanent)
+  touch of the deep
+    todo: list all the stuff totd can change
+  other stuff I'm missing?
+
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
   shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
@@ -95,11 +97,12 @@ Q1 2025, definitely before May
 
 
 DONE
-
+  bonus manuever from 6 mental needs to be limited to mental maneuvers
   non-standard fisher adjustments
-    probably spinboxes along the side of the stats thing, oof
+    spinboxes along the side of the stats thing
     "Fisher stats need to be freely adjustable as Fishers can regularly pick up stat-increases during campaign play, decreases are also possible."
     deep word count should be manually adjustable to support campaign progression unlocks
+    developments & maneuvers are also now freely adjustable because why not
 2.2.0
   new core integrity & repair kit icons
   new .fsh file

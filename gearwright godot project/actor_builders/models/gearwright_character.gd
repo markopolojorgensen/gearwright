@@ -12,6 +12,7 @@ var level := 1
 
 var developments := []
 var maneuvers := []
+var mental_maneuver := ""
 var deep_words := []
 
 var frame_stats := DataHandler.frame_stats_template.duplicate(true)
@@ -99,9 +100,13 @@ func has_gear_section(gsid: int) -> bool:
 func get_gear_section(gsid: int) -> GearSection:
 	return internal_inventory.gear_sections[gsid]
 
+func get_stat(stat: String) -> int:
+	return global_util.sum_array(get_stat_info(stat).values())
+
 func get_stat_info(stat: String) -> Dictionary:
 	var snake_stat := stat.to_snake_case()
 	if snake_stat in [
+			"marbles",
 			"close",
 			"far",
 			"mental",
@@ -115,6 +120,8 @@ func get_stat_info(stat: String) -> Dictionary:
 			"weight",
 			"weight_cap",
 			"ballast",
+			"unlocks",
+			"weight_cap",
 			]:
 		return get_basic_info(snake_stat)
 		#return call("get_%s_info" % snake_stat)
@@ -122,14 +129,10 @@ func get_stat_info(stat: String) -> Dictionary:
 	match snake_stat:
 		"background":
 			return {}
-		"marbles":
-			return get_max_marbles_info()
 		"core_integrity":
 			var result := {frame = frame_stats.core_integrity}
 			result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("core_integrity"))
 			return result
-		"unlocks":
-			return get_max_unlocks_info()
 		"":
 			return {}
 		_:
@@ -165,7 +168,7 @@ static func info_to_explanation_text(info: Dictionary) -> String:
 
 func has_unlocks_remaining() -> bool:
 	if enforce_hardpoint_cap:
-		return get_unlocked_slots_count() < get_max_unlocks()
+		return get_unlocked_slots_count() < get_stat("unlocks")
 	else:
 		return true
 
@@ -173,8 +176,8 @@ func get_unlocked_slots_count() -> int:
 	return  internal_inventory.get_unlocked_slots().size()
 
 func is_overweight_with_item(item):
-	var weight := get_weight()
-	var weight_cap := get_weight_cap()
+	var weight := get_stat("weight")
+	var weight_cap := get_stat("weight_cap")
 	if item != null:
 		weight += item.item_data.weight
 		weight_cap += item.item_data.weight_cap
@@ -233,139 +236,139 @@ func get_manual_stat_adjustment(stat: String) -> int:
 	stat = stat.to_snake_case()
 	return manual_stat_adjustments.get(stat, 0)
 
-func get_max_marbles_info() -> Dictionary:
-	var result := _add_dev_info("marbles", {
-		background = get_bg_amount("marbles")
-	})
-	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("marbles"))
-	return result
+#func get_max_marbles_info() -> Dictionary:
+	#var result := _add_dev_info("marbles", {
+		#background = get_bg_amount("marbles")
+	#})
+	#result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("marbles"))
+	#return result
+#
+#func get_max_marbles() -> int:
+	#return global_util.sum_array(get_max_marbles_info().values())
 
-func get_max_marbles() -> int:
-	return global_util.sum_array(get_max_marbles_info().values())
 
+#func get_close_info() -> Dictionary:
+	#return {
+		#frame = frame_stats.close,
+		#internals = internal_inventory.sum_internals_for_stat("close")
+	#}
 
-func get_close_info() -> Dictionary:
-	return {
-		frame = frame_stats.close,
-		internals = internal_inventory.sum_internals_for_stat("close")
-	}
+#func get_close() -> int:
+	#return global_util.sum_array(get_close_info().values())
 
-func get_close() -> int:
-	return global_util.sum_array(get_close_info().values())
+#func get_far_info() -> Dictionary:
+	#return {
+		#frame = frame_stats.far,
+		#internals = internal_inventory.sum_internals_for_stat("far")
+	#}
+#
+#func get_far() -> int:
+	#return global_util.sum_array(get_far_info().values())
 
-func get_far_info() -> Dictionary:
-	return {
-		frame = frame_stats.far,
-		internals = internal_inventory.sum_internals_for_stat("far")
-	}
+#func get_mental_info() -> Dictionary:
+	#return _add_dev_info("mental", {
+		#background = get_bg_amount("mental")
+	#})
+#
+#func get_mental() -> int:
+	#return global_util.sum_array(get_mental_info().values())
 
-func get_far() -> int:
-	return global_util.sum_array(get_far_info().values())
+#func get_power_info() -> Dictionary:
+	#return {
+		#frame = frame_stats.power,
+		#internals = internal_inventory.sum_internals_for_stat("power"),
+	#}
+#
+#func get_power() -> int:
+	#return global_util.sum_array(get_power_info().values())
 
-func get_mental_info() -> Dictionary:
-	return _add_dev_info("mental", {
-		background = get_bg_amount("mental")
-	})
+#func get_evasion_info() -> Dictionary:
+	#return {
+		#frame = frame_stats.evasion,
+		#internals = internal_inventory.sum_internals_for_stat("evasion")
+	#}
+#
+#func get_evasion() -> int:
+	#return global_util.sum_array(get_evasion_info().values())
 
-func get_mental() -> int:
-	return global_util.sum_array(get_mental_info().values())
+#func get_willpower_info() -> Dictionary:
+	#return _add_dev_info("willpower", {
+		#background = get_bg_amount("willpower"),
+	#})
+#
+#func get_willpower() -> int:
+	#return global_util.sum_array(get_willpower_info().values())
 
-func get_power_info() -> Dictionary:
-	return {
-		frame = frame_stats.power,
-		internals = internal_inventory.sum_internals_for_stat("power"),
-	}
+#func get_ap_info() -> Dictionary:
+	#return {
+		#frame = frame_stats.ap,
+		#internals = internal_inventory.sum_internals_for_stat("ap"),
+	#}
+#
+#func get_ap() -> int:
+	#return global_util.sum_array(get_ap_info().values())
 
-func get_power() -> int:
-	return global_util.sum_array(get_power_info().values())
+#func get_speed_info() -> Dictionary:
+	#return _add_dev_info("speed", {
+		#frame = frame_stats.speed,
+		#internals = internal_inventory.sum_internals_for_stat("speed"),
+	#})
+#
+#func get_speed() -> int:
+	#return global_util.sum_array(get_speed_info().values())
 
-func get_evasion_info() -> Dictionary:
-	return {
-		frame = frame_stats.evasion,
-		internals = internal_inventory.sum_internals_for_stat("evasion")
-	}
+#func get_sensors_info() -> Dictionary:
+	#return {
+		#frame = frame_stats.sensors,
+		#internals = internal_inventory.sum_internals_for_stat("sensors"),
+	#}
+#
+#func get_sensors() -> int:
+	#return global_util.sum_array(get_sensors_info().values())
 
-func get_evasion() -> int:
-	return global_util.sum_array(get_evasion_info().values())
+#func get_repair_kits_info() -> Dictionary:
+	#var result := _add_dev_info("repair_kits", {
+		#frame = frame_stats.repair_kits,
+		#internals = internal_inventory.sum_internals_for_stat("repair_kits"),
+	#})
+	#result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("repair_kits"))
+	#return result
+#
+#func get_repair_kits() -> int:
+	#return global_util.sum_array(get_repair_kits_info().values())
 
-func get_willpower_info() -> Dictionary:
-	return _add_dev_info("willpower", {
-		background = get_bg_amount("willpower"),
-	})
+#func get_max_unlocks_info() -> Dictionary:
+	#return _add_dev_info("unlocks", {
+		#background = get_bg_amount("unlocks"),
+		#level = level_stats.unlocks,
+	#})
+#
+#func get_max_unlocks() -> int:
+	#return global_util.sum_array(get_max_unlocks_info().values())
 
-func get_willpower() -> int:
-	return global_util.sum_array(get_willpower_info().values())
+#func get_weight_info() -> Dictionary:
+	#return {
+		#internals = internal_inventory.sum_internals_for_stat("weight")
+	#}
+#
+#func get_weight() -> int:
+	#return global_util.sum_array(get_weight_info().values())
 
-func get_ap_info() -> Dictionary:
-	return {
-		frame = frame_stats.ap,
-		internals = internal_inventory.sum_internals_for_stat("ap"),
-	}
-
-func get_ap() -> int:
-	return global_util.sum_array(get_ap_info().values())
-
-func get_speed_info() -> Dictionary:
-	return _add_dev_info("speed", {
-		frame = frame_stats.speed,
-		internals = internal_inventory.sum_internals_for_stat("speed"),
-	})
-
-func get_speed() -> int:
-	return global_util.sum_array(get_speed_info().values())
-
-func get_sensors_info() -> Dictionary:
-	return {
-		frame = frame_stats.sensors,
-		internals = internal_inventory.sum_internals_for_stat("sensors"),
-	}
-
-func get_sensors() -> int:
-	return global_util.sum_array(get_sensors_info().values())
-
-func get_repair_kits_info() -> Dictionary:
-	var result := _add_dev_info("repair_kits", {
-		frame = frame_stats.repair_kits,
-		internals = internal_inventory.sum_internals_for_stat("repair_kits"),
-	})
-	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("repair_kits"))
-	return result
-
-func get_repair_kits() -> int:
-	return global_util.sum_array(get_repair_kits_info().values())
-
-func get_max_unlocks_info() -> Dictionary:
-	return _add_dev_info("unlocks", {
-		background = get_bg_amount("unlocks"),
-		level = level_stats.unlocks,
-	})
-
-func get_max_unlocks() -> int:
-	return global_util.sum_array(get_max_unlocks_info().values())
-
-func get_weight_info() -> Dictionary:
-	return {
-		internals = internal_inventory.sum_internals_for_stat("weight")
-	}
-
-func get_weight() -> int:
-	return global_util.sum_array(get_weight_info().values())
-
-func get_weight_cap_info() -> Dictionary:
-	var result := {
-		background = get_bg_amount("weight_cap"),
-		frame = frame_stats.weight_cap,
-		level = level_stats.weight_cap,
-		internals = internal_inventory.sum_internals_for_stat("weight_cap"),
-	}
-	result = _add_dev_info("weight_cap", result)
-	return result
-
-func get_weight_cap() -> int:
-	return global_util.sum_array(get_weight_cap_info().values())
+#func get_weight_cap_info() -> Dictionary:
+	#var result := {
+		#background = get_bg_amount("weight_cap"),
+		#frame = frame_stats.weight_cap,
+		#level = level_stats.weight_cap,
+		#internals = internal_inventory.sum_internals_for_stat("weight_cap"),
+	#}
+	#result = _add_dev_info("weight_cap", result)
+	#return result
+#
+#func get_weight_cap() -> int:
+	#return global_util.sum_array(get_weight_cap_info().values())
 
 func get_ballast_info() -> Dictionary:
-	var ballast_from_weight: int = weight_to_ballast(get_weight())
+	var ballast_from_weight: int = weight_to_ballast(get_stat("weight"))
 	var result = {
 		frame = frame_stats.ballast,
 		weight = ballast_from_weight,
@@ -375,7 +378,7 @@ func get_ballast_info() -> Dictionary:
 	var lightweight_info := _add_dev_info(LIGHTWEIGHT, {})
 	if not lightweight_info.is_empty():
 		var dev_name: String = lightweight_info.keys()[0]
-		var adjusted_weight: int = get_weight() - lightweight_info[dev_name]
+		var adjusted_weight: int = get_stat("weight") - lightweight_info[dev_name]
 		var ballast_from_adjusted_weight: int = weight_to_ballast(adjusted_weight)
 		var ballast_effect = ballast_from_adjusted_weight - ballast_from_weight
 		result[dev_name] = ballast_effect
@@ -398,17 +401,26 @@ func get_deep_word_count() -> int:
 	return developments.count("a_brush_with_the_deep") + get_manual_stat_adjustment("deep_words")
 	#return global_util.sum_array(get_deep_word_count_info().values())
 
-func get_maneuver_count_info() -> Dictionary:
+func get_maneuver_count_info(include_mental := true) -> Dictionary:
 	var result := {
 		level = level_stats.maneuvers
 	}
-	if 6 <= get_mental():
+	if include_mental and (6 <= get_stat("mental")):
 		result.mental = 1
 	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("maneuvers"))
 	return result
 
-func get_maneuver_count() -> int:
-	return global_util.sum_array(get_maneuver_count_info().values())
+func get_maneuver_count(include_mental := true) -> int:
+	return global_util.sum_array(get_maneuver_count_info(include_mental).values())
+
+func has_mental_maneuver():
+	return get_maneuver_count_info(true).has("mental")
+
+func get_maneuvers(include_mental := true) -> Array:
+	if include_mental:
+		return maneuvers + [mental_maneuver]
+	else:
+		return maneuvers
 
 #func get__info() -> Dictionary:
 	#return {
@@ -521,7 +533,10 @@ func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String):
 		PerkOptionButton.PERK_TYPE.MANEUVER:
 			if not name.is_empty():
 				DataHandler.get_maneuver_data(name) # trigger popup
-			_edit_perk(maneuvers, get_maneuver_count(), slot, name)
+			if 0 <= slot:
+				_edit_perk(maneuvers, get_maneuver_count(), slot, name)
+			elif slot == -1:
+				mental_maneuver = name
 		PerkOptionButton.PERK_TYPE.DEEP_WORD:
 			if not name.is_empty():
 				DataHandler.get_deep_word_data(name) # trigger popup
@@ -599,6 +614,7 @@ func marshal() -> Dictionary:
 		background = background_stats.background.to_snake_case(),
 		level = str(level),
 		manual_stat_adjustments = manual_stat_adjustments,
+		mental_maneuver = mental_maneuver,
 	}
 	
 	result.custom_background = custom_background
@@ -637,6 +653,7 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	ch.load_background(sesh.get_info("background"))
 	ch.set_level(sesh.get_info("level", 1))
 	ch.manual_stat_adjustments = sesh.get_info("manual_stat_adjustments", {})
+	ch.mental_maneuver = sesh.get_info("mental_maneuver")
 	
 	ch.custom_background = sesh.get_info("custom_background", [])
 	

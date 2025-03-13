@@ -72,6 +72,10 @@ extends Control
 }
 @onready var manual_button: Button = %ManualButton
 @onready var popup_collection = %PopupCollection
+@onready var perk_info_container: Container = %PerkInfoContainer
+@onready var perk_color_panel: PanelContainer = %PerkInfoColorPanel
+@onready var perk_title_label: Label = %PerkTitleLabel
+@onready var perk_info_label: Label = %PerkInfoLabel
 
 @onready var gear_section_controls = {
 	GearwrightActor.GSIDS.FISHER_HEAD:      %HeadGearSectionControl,
@@ -111,18 +115,23 @@ func _ready():
 			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEVELOPMENT, perk_slot, perk)
 			request_update_controls = true
 			)
+		option_button.perk_hovered.connect(update_perk_popup.bind(option_button, PerkOptionButton.PERK_TYPE.DEVELOPMENT))
 	
 	for option_button in maneuver_option_buttons:
 		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
 			current_character.set_perk(PerkOptionButton.PERK_TYPE.MANEUVER, perk_slot, perk)
 			request_update_controls = true
 			)
+		option_button.perk_hovered.connect(update_perk_popup.bind(option_button, PerkOptionButton.PERK_TYPE.MANEUVER))
 	
 	for option_button in deep_word_option_buttons:
 		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
 			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEEP_WORD, perk_slot, perk)
 			request_update_controls = true
 			)
+		option_button.perk_hovered.connect(update_perk_popup.bind(option_button, PerkOptionButton.PERK_TYPE.DEEP_WORD))
+	
+	perk_info_container.hide()
 	
 	for background_id in DataHandler.background_data.keys():
 		var nice_name: String = DataHandler.background_data[background_id].background
@@ -171,6 +180,59 @@ func is_curio(item_data: Dictionary):
 		if "fathomless" in tag.to_lower():
 			return true
 	return false
+
+func update_perk_popup(perk: String, option_button: OptionButton, perk_type: PerkOptionButton.PERK_TYPE):
+	if perk.is_empty():
+		perk_info_container.hide()
+		return
+	
+	perk_info_container.show()
+	perk_info_container.set_deferred("size", Vector2())
+	var popup = option_button.get_popup()
+	perk_info_container.global_position.x = popup.position.x + popup.size.x + 8
+	perk_info_container.global_position.y = option_button.get_global_rect().end.y - 24
+	match perk_type:
+		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
+			var perk_info: Dictionary = DataHandler.get_development_data(perk)
+			perk_title_label.text = perk_info.get("name", "")
+			perk_info_label.text = perk_info.get("description", "")
+		PerkOptionButton.PERK_TYPE.MANEUVER:
+			var perk_info: Dictionary = DataHandler.get_maneuver_data(perk)
+			perk_title_label.text = perk_info.get("name", "")
+			var text := ""
+			var ap_cost = perk_info.get("ap_cost", 0)
+			if (ap_cost is int) or (ap_cost is float):
+				text += "AP: %d\n" % int(ap_cost)
+			elif ap_cost is String:
+				text += "AP: %s\n" % ap_cost
+			text += perk_info.get("action_text", "")
+			perk_info_label.text = text
+		PerkOptionButton.PERK_TYPE.DEEP_WORD:
+			var perk_info: Dictionary = DataHandler.get_deep_word_data(perk)
+			perk_title_label.text = perk_info.get("full_name", "")
+			var text := ""
+			text += "AP: %d\n" % perk_info.get("ap_cost", 0)
+			if perk_info.has("damage"):
+				text += "Damage: %s" % perk_info.damage
+			text += perk_info.get("action_text", "")
+			if perk_info.has("extra_rules"):
+				text += "\n" + perk_info.extra_rules
+			var tags := []
+			tags = add_tag_string(tags, perk_info, "fathomless")
+			tags = add_tag_string(tags, perk_info, "range")
+			if not tags.is_empty():
+				text += "\n" + ", ".join(tags)
+			perk_info_label.text = text
+	
+	await get_tree().process_frame
+	while get_viewport_rect().size.y < perk_info_container.get_global_rect().end.y:
+		perk_info_container.position.y -= 1
+	#perk_color_panel.self_modulate = global.colors
+
+func add_tag_string(tag_list: Array, info: Dictionary, tag: String) -> Array:
+	if info.has(tag):
+		tag_list.append("%s %d" % [tag.capitalize(), info[tag]])
+	return tag_list
 
 func register_ic_base_mech_builder():
 	var ic := InputContext.new()
@@ -489,7 +551,7 @@ func update_controls():
 	
 	# hardpoint unlocks
 	var used_unlock_count = current_character.get_unlocked_slots_count()
-	var max_unlock_count = current_character.get_max_unlocks()
+	var max_unlock_count = current_character.get_stat("unlocks")
 	var unlocks_left_count: int = max_unlock_count - used_unlock_count
 	#unlocks_remaining_label.text = "Unlocks Remaining:\n%d/%d" % [
 	#unlocks_remaining_label.text = "Unlocks Remaining: %d/%d" % [
@@ -503,8 +565,8 @@ func update_controls():
 		unlocks_label_shaker.stop_shaking()
 	
 	# weight
-	var weight: int = current_character.get_weight()
-	var weight_cap: int = current_character.get_weight_cap()
+	var weight: int = current_character.get_stat("weight")
+	var weight_cap: int = current_character.get_stat("weight_cap")
 	#weight_label.text = "Weight:\n%d/%d" % [
 	#weight_label.text = "Weight: %d/%d" % [
 	weight_label.text = "%d/%d" % [
@@ -541,7 +603,7 @@ func update_controls():
 		edit_bg_button.disabled = true
 	
 	core_integrity_control.update(current_character.get_core_integrity())
-	repair_kits_control.update(current_character.get_repair_kits())
+	repair_kits_control.update(current_character.get_stat("repair_kits"))
 	
 	# developments
 	if 0 < current_character.get_level_development_count():
@@ -567,6 +629,14 @@ func update_controls():
 	for option_button in deep_word_option_buttons:
 		option_button.update(current_character)
 	
+	# perk manual adjustments
+	var manual_amount: int = current_character.get_manual_stat_adjustment("developments")
+	developments_title_control.get_manual_adjustment_spinbox().set_value(manual_amount)
+	manual_amount = current_character.get_manual_stat_adjustment("maneuvers")
+	maneuvers_title_control.get_manual_adjustment_spinbox().set_value(manual_amount)
+	manual_amount = current_character.get_manual_stat_adjustment("deep_words")
+	deep_words_title_control.get_manual_adjustment_spinbox().set_value(manual_amount)
+	
 	# custom background
 	for stat_name in custom_bg_stat_edit_controls.keys():
 		var custom_bg_control = custom_bg_stat_edit_controls[stat_name]
@@ -576,6 +646,8 @@ func update_controls():
 	
 	if not current_hover_stat.is_empty():
 		floating_explanation_control.text = current_character.get_stat_explanation(current_hover_stat)
+	
+	
 
 #endregion
 

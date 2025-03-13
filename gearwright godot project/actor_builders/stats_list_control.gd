@@ -152,8 +152,9 @@ func update(character: GearwrightActor):
 		
 		control_list[1].text = str(stat_value)
 		
-		var manual_amount: int = character.get_manual_stat_adjustment(stat_name)
-		control_list[2].get_spin_box().value = manual_amount
+		if not is_fish:
+			var manual_amount: int = character.get_manual_stat_adjustment(stat_name)
+			control_list[2].get_spin_box().value = manual_amount
 		
 		var base: int = 0
 		base += info.get("background", 0)

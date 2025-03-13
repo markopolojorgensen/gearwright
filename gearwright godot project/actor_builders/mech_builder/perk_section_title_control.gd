@@ -22,3 +22,6 @@ func show_manual_adjustment_control():
 func hide_manual_adjustment_control():
 	%ManualAdjustmentControl.hide()
 	#size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+
+func get_manual_adjustment_spinbox():
+	return %ManualAdjustmentControl.get_spin_box()

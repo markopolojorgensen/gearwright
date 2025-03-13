@@ -331,7 +331,9 @@ func set_grid_and_icon_data():
 			fish_item_grid_data[item] = temp_grid_array
 			fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
 
-
+# returns a dictionary
+# key: perk "id" (snake case name)
+# value: perk pretty name
 func get_perk_info(perk_type: PerkOptionButton.PERK_TYPE) -> Dictionary:
 	var result := {}
 	match perk_type:
