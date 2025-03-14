@@ -112,21 +112,27 @@ func _ready():
 	
 	for option_button in development_option_buttons:
 		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
-			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEVELOPMENT, perk_slot, perk)
+			var error := current_character.set_perk(PerkOptionButton.PERK_TYPE.DEVELOPMENT, perk_slot, perk)
+			if not error.is_empty():
+				global_util.rising_text(error, option_button.get_global_rect().end + Vector2(16, -32))
 			request_update_controls = true
 			)
 		option_button.perk_hovered.connect(update_perk_popup.bind(option_button, PerkOptionButton.PERK_TYPE.DEVELOPMENT))
 	
 	for option_button in maneuver_option_buttons:
 		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
-			current_character.set_perk(PerkOptionButton.PERK_TYPE.MANEUVER, perk_slot, perk)
+			var error := current_character.set_perk(PerkOptionButton.PERK_TYPE.MANEUVER, perk_slot, perk)
+			if not error.is_empty():
+				global_util.rising_text(error, option_button.get_global_rect().end + Vector2(16, -32))
 			request_update_controls = true
 			)
 		option_button.perk_hovered.connect(update_perk_popup.bind(option_button, PerkOptionButton.PERK_TYPE.MANEUVER))
 	
 	for option_button in deep_word_option_buttons:
 		option_button.perk_selected.connect(func(perk_slot: int, perk: String):
-			current_character.set_perk(PerkOptionButton.PERK_TYPE.DEEP_WORD, perk_slot, perk)
+			var error := current_character.set_perk(PerkOptionButton.PERK_TYPE.DEEP_WORD, perk_slot, perk)
+			if not error.is_empty():
+				global_util.rising_text(error, option_button.get_global_rect().end + Vector2(16, -32))
 			request_update_controls = true
 			)
 		option_button.perk_hovered.connect(update_perk_popup.bind(option_button, PerkOptionButton.PERK_TYPE.DEEP_WORD))
@@ -146,6 +152,7 @@ func _ready():
 	
 	for tab_name in part_menu_tabs:
 		part_menu.add_tab(tab_name)
+	part_menu.add_label_to_tab("Curios", "Only available via\nDevelopment or GM Fiat")
 	
 	for item_id in DataHandler.item_data.keys():
 		var item_data = DataHandler.get_internal_data(item_id)
@@ -189,13 +196,18 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 	perk_info_container.show()
 	perk_info_container.set_deferred("size", Vector2())
 	var popup = option_button.get_popup()
-	perk_info_container.global_position.x = popup.position.x + popup.size.x + 8
+	if popup.visible:
+		perk_info_container.global_position.x = [popup.position.x + popup.size.x, option_button.get_global_rect().end.x].max() + 8
+	else:
+		perk_info_container.global_position.x = option_button.get_global_rect().end.x + 8
 	perk_info_container.global_position.y = option_button.get_global_rect().end.y - 24
+	var perk_color
 	match perk_type:
 		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
 			var perk_info: Dictionary = DataHandler.get_development_data(perk)
 			perk_title_label.text = perk_info.get("name", "")
 			perk_info_label.text = perk_info.get("description", "")
+			perk_color = global.colors["generic_perk"]
 		PerkOptionButton.PERK_TYPE.MANEUVER:
 			var perk_info: Dictionary = DataHandler.get_maneuver_data(perk)
 			perk_title_label.text = perk_info.get("name", "")
@@ -207,6 +219,10 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 				text += "AP: %s\n" % ap_cost
 			text += perk_info.get("action_text", "")
 			perk_info_label.text = text
+			if perk_info.get("category", "") == "mental":
+				perk_color = global.colors["mental"]
+			else:
+				perk_color = global.colors["generic_perk"]
 		PerkOptionButton.PERK_TYPE.DEEP_WORD:
 			var perk_info: Dictionary = DataHandler.get_deep_word_data(perk)
 			perk_title_label.text = perk_info.get("full_name", "")
@@ -223,11 +239,15 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 			if not tags.is_empty():
 				text += "\n" + ", ".join(tags)
 			perk_info_label.text = text
+			perk_color = global.colors["deep_word"]
+	if perk_color == null:
+		perk_color_panel.self_modulate = Color.DIM_GRAY.darkened(0.2)
+	else:
+		perk_color_panel.self_modulate = perk_color
 	
 	await get_tree().process_frame
 	while get_viewport_rect().size.y < perk_info_container.get_global_rect().end.y:
 		perk_info_container.position.y -= 1
-	#perk_color_panel.self_modulate = global.colors
 
 func add_tag_string(tag_list: Array, info: Dictionary, tag: String) -> Array:
 	if info.has(tag):
@@ -244,6 +264,9 @@ func register_ic_base_mech_builder():
 	ic.handle_input = func(event: InputEvent):
 		if event.is_action_pressed("mouse_leftclick"):
 			if inventory_system.pickup_item():
+				get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("mouse_rightclick"):
+			if inventory_system.item_info_popup():
 				get_viewport().set_input_as_handled()
 	input_context_system.register_input_context(ic)
 
@@ -354,9 +377,19 @@ func _on_stats_list_control_stat_mouse_exited(stat_name: String) -> void:
 		floating_explanation_control.text = ""
 
 func _on_weight_mouse_detector_safe_mouse_entered() -> void:
+	current_character.get_equipped_items().map(func(info: Dictionary):
+		var item = info.get("internal", null)
+		if item != null:
+			item.show_weight()
+		)
 	_on_stats_list_control_stat_mouse_entered("weight_cap")
 
 func _on_weight_mouse_detector_safe_mouse_exited() -> void:
+	current_character.get_equipped_items().map(func(info: Dictionary):
+		var item = info.get("internal", null)
+		if item != null:
+			item.hide_weight()
+		)
 	_on_stats_list_control_stat_mouse_exited("weight_cap")
 
 func _on_unlocks_mouse_detector_safe_mouse_entered() -> void:
@@ -478,7 +511,7 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():
-			add_child(internal_info.internal)
+			inventory_system.add_child(internal_info.internal)
 	
 	request_update_controls = true
 

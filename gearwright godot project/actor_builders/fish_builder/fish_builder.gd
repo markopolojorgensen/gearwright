@@ -33,6 +33,7 @@ var current_character := GearwrightFish.new()
 # this is a pun
 # these are scale values for the gear section controls
 var fish_scale: float = 1.0
+var legend_font_size = 21
 
 
 
@@ -79,6 +80,9 @@ func register_ic_fish_builder_base():
 		if event.is_action_pressed("mouse_leftclick"):
 			if inventory_system.pickup_item():
 				get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("mouse_rightclick"):
+			if inventory_system.item_info_popup():
+				get_viewport().set_input_as_handled()
 	input_context_system.register_input_context(ic)
 
 func _process(_delta: float) -> void:
@@ -88,6 +92,7 @@ func _process(_delta: float) -> void:
 	if request_update_controls:
 		request_update_controls = false
 		update_controls()
+
 
 func update_controls():
 	inventory_system.fancy_update(current_character, gear_section_controls)
@@ -140,7 +145,7 @@ func update_controls():
 		#var legend_number_end: int = legend_number
 		for info in infos:
 			info = info as Dictionary
-			info.internal.set_legend_number(legend_number)
+			info.internal.set_legend_number(legend_number, %LegendNumbersCheckButton.button_pressed)
 			internal_name = info.internal.item_data.name
 			#legend_number_end = legend_number
 			#legend_number += 1
@@ -153,8 +158,32 @@ func update_controls():
 		internals_legend_container.add_child(legend_item)
 	
 	fish_name_input.text = current_character.callsign
+	
+	for legend_item in internals_legend_container.get_children():
+		legend_item.set_font_size(legend_font_size)
+	await get_tree().process_frame
+	
+	# legend size
+	var total_height: float = get_internal_legend_items_total_height()
+	while (legend_font_size < 20) and (total_height <= (internals_legend_container.get_parent().size.y * 0.7)):
+		legend_font_size = clamp(legend_font_size + 1, 1, 20)
+		for legend_item in internals_legend_container.get_children():
+			legend_item.set_font_size(legend_font_size)
+		await get_tree().process_frame
+		total_height = get_internal_legend_items_total_height()
+	const min_font_size = 8
+	total_height = get_internal_legend_items_total_height()
+	while (min_font_size < legend_font_size) and (internals_legend_container.get_parent().size.y <= total_height):
+		legend_font_size = clamp(legend_font_size - 1, min_font_size, 20)
+		for legend_item in internals_legend_container.get_children():
+			legend_item.set_font_size(legend_font_size)
+		await get_tree().process_frame
+		total_height = get_internal_legend_items_total_height()
 
-
+func get_internal_legend_items_total_height() -> float:
+	return global_util.sum_array(internals_legend_container.get_children().map(func(control: Control):
+		return control.size.y + 4 # internals_legend_container.get_theme_constant("separation")
+	))
 
 
 
@@ -359,11 +388,28 @@ var current_hover_stat := ""
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
 	current_hover_stat = stat_name
 	floating_explanation_control.text = current_character.get_stat_explanation(stat_name)
+	
+	if stat_name.to_lower() == "weight":
+		current_character.get_equipped_items().map(func(info: Dictionary):
+			var item = info.get("internal", null)
+			if item != null:
+				item.show_weight()
+				item.hide_legend_number()
+			)
 
 func _on_stats_list_control_stat_mouse_exited(stat_name) -> void:
 	if current_hover_stat == stat_name:
 		current_hover_stat = ""
 		floating_explanation_control.text = ""
+	
+	if stat_name.to_lower() == "weight":
+		current_character.get_equipped_items().map(func(info: Dictionary):
+			var item = info.get("internal", null)
+			if item != null:
+				item.hide_weight()
+				if %LegendNumbersCheckButton.button_pressed:
+					item.show_legend_number()
+			)
 
 func _on_template_selector_type_selected(fish_type: GearwrightFish.TYPE) -> void:
 	current_character.set_fish_type(fish_type)
@@ -415,7 +461,12 @@ func _on_internals_reset_confirm_dialog_confirmed() -> void:
 func _on_tree_exited() -> void:
 	input_context_system.clear()
 
+func _on_legend_numbers_check_button_toggled(_toggled_on: bool) -> void:
+	request_update_controls = true
+
 #endregion
+
+
 
 
 

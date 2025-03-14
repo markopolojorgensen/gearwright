@@ -101,7 +101,10 @@ func get_gear_section(gsid: int) -> GearSection:
 	return internal_inventory.gear_sections[gsid]
 
 func get_stat(stat: String) -> int:
-	return global_util.sum_array(get_stat_info(stat).values())
+	if stat == "ballast":
+		return get_ballast()
+	else:
+		return global_util.sum_array(get_stat_info(stat).values())
 
 func get_stat_info(stat: String) -> Dictionary:
 	var snake_stat := stat.to_snake_case()
@@ -119,7 +122,6 @@ func get_stat_info(stat: String) -> Dictionary:
 			"repair_kits",
 			"weight",
 			"weight_cap",
-			"ballast",
 			"unlocks",
 			"weight_cap",
 			]:
@@ -133,6 +135,8 @@ func get_stat_info(stat: String) -> Dictionary:
 			var result := {frame = frame_stats.core_integrity}
 			result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("core_integrity"))
 			return result
+		"ballast":
+			return get_ballast_info()
 		"":
 			return {}
 		_:
@@ -524,15 +528,26 @@ func toggle_unlock(gear_section_id: int, x: int, y: int) -> bool:
 	grid_slot.is_locked = not grid_slot.is_locked
 	return true
 
-func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String):
+# returns an error message, or an empty string if everything's fine
+func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String) -> String:
 	match perk_type:
 		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
 			if not name.is_empty():
 				DataHandler.get_development_data(name) # trigger popup
-			_edit_perk(developments, get_level_development_count(), slot, name)
+			if (name in ["", "a_brush_with_the_deep"]) or (not name in developments):
+				_edit_perk(developments, get_level_development_count(), slot, name)
+			else:
+				# repeat development
+				return "Fisher already has development '%s'" % name.capitalize()
 		PerkOptionButton.PERK_TYPE.MANEUVER:
 			if not name.is_empty():
 				DataHandler.get_maneuver_data(name) # trigger popup
+			
+			var devs = maneuvers.duplicate()
+			devs.append(mental_maneuver)
+			if (name != "") and (name in devs):
+				return "Fisher already has maneuver '%s'" % name.capitalize()
+			
 			if 0 <= slot:
 				_edit_perk(maneuvers, get_maneuver_count(), slot, name)
 			elif slot == -1:
@@ -540,7 +555,10 @@ func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String):
 		PerkOptionButton.PERK_TYPE.DEEP_WORD:
 			if not name.is_empty():
 				DataHandler.get_deep_word_data(name) # trigger popup
+			if (name != "") and (name in deep_words):
+				return "Fisher already knows %s" % name.capitalize()
 			_edit_perk(deep_words, get_deep_word_count(), slot, name)
+	return ""
 
 func _edit_perk(list: Array, list_size: int, slot: int, name: String):
 	while list.size() < list_size:

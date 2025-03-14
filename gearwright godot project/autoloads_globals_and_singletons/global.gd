@@ -7,6 +7,8 @@ const colors := {
 	"close": Color("452255"),
 	"mental": Color("572129"),
 	"mitigation": Color("454545"),
+	"deep_word": Color("5a4d91"),
+	"generic_perk": Color.BLACK,
 }
 
 # for JSON-able slots

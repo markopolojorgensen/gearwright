@@ -16,6 +16,7 @@ const item_scene = preload("res://actor_builders/inventory_system/Item.tscn")
 #}
 #var mode = Modes.EQUIP
 var item_held
+var popup_item
 
 # keys:
 #   gear_section_id
@@ -133,6 +134,19 @@ func toggle_current_slot_lock() -> bool:
 	)
 	
 	something_changed.emit()
+	
+	return true
+
+func item_info_popup() -> bool:
+	if current_slot_info.is_empty():
+		return false
+	if item_held != null:
+		return false
+	if current_grid_slot.installed_item == null:
+		return false
+	
+	current_grid_slot.installed_item.toggle_popup()
+	popup_item = current_grid_slot.installed_item
 	
 	return true
 
@@ -294,6 +308,14 @@ func on_slot_mouse_exited(slot_info: Dictionary):
 			and (slot_info.gear_section_id == current_slot_info.gear_section_id)
 	):
 		current_slot_info = {}
+	
+	hide_item_popup.call_deferred()
+
+func hide_item_popup():
+	if popup_item != null:
+		if current_slot_info.is_empty() or (current_grid_slot.installed_item != popup_item):
+			popup_item.hide_popup()
+			popup_item = null
 
 func on_part_menu_item_spawned(item_id: Variant) -> void:
 	if item_held:

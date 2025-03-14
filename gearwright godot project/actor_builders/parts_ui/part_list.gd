@@ -43,3 +43,9 @@ func set_grid_column_count(new_column_count: int):
 	for type_section in type_sections_by_type.values():
 		type_section.set_grid_column_count(new_column_count)
 
+func add_label(string: String):
+	var label := Label.new()
+	label.text = string
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	type_section_container.add_child(label)
+	type_section_container.move_child(label, 0) # kind of a hack

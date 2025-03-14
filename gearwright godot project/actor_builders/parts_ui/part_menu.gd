@@ -25,6 +25,11 @@ func add_part_to_tab(tab_name: String, part_id: String, part_data: Dictionary):
 	assert(part_list != null)
 	part_list.add_part(part, part_data.type)
 
+func add_label_to_tab(tab_name: String, string: String):
+	var part_list = tab_container.get_node(tab_name)
+	assert(part_list != null)
+	part_list.add_label(string)
+
 # only affects existing grids
 # only call this after add all items!
 func set_grid_column_count(new_column_count: int):

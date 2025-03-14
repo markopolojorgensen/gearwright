@@ -34,7 +34,7 @@ bg_color = Color(0.18, 0.18, 0.18, 1)
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eea8l"]
-bg_color = Color(0, 0.0595, 0.21, 1)
+bg_color = Color(1, 1, 1, 1)
 
 [node name="MechBuilder" type="Control"]
 custom_minimum_size = Vector2(1650, 890)

@@ -61,24 +61,26 @@ theme_override_styles/panel = ExtResource("4_nmcsm")
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2"]
 layout_mode = 2
 
-[node name="MenuHeader" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="MenuHeader" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
-layout_mode = 2
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="FishSizeSelectContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer"]
+[node name="FishSizeSelectContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 layout_mode = 2
 
-[node name="FishSizeSelectLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer"]
+[node name="FishSizeSelectLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer"]
 layout_mode = 2
 text = "  Fish Size:"
 
-[node name="FishSizeSelector" type="OptionButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer"]
+[node name="FishSizeSelector" type="OptionButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
@@ -86,39 +88,53 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 script = ExtResource("5_2oj0h")
 
-[node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="LegendNumbersCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+button_pressed = true
+text = "show legend numbers"
+
+[node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InternalsResetButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
+[node name="InternalsResetButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_vertical = 8
 text = " Reset
  Internals "
 script = ExtResource("6_d5qo3")
 
-[node name="InternalsResetConfirmDialog" type="ConfirmationDialog" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton"]
+[node name="InternalsResetConfirmDialog" type="ConfirmationDialog" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton"]
 title = "Reset Internals?"
 initial_position = 2
 size = Vector2i(200, 80)
 
-[node name="SaveMenuButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader" instance=ExtResource("7_yspy3")]
+[node name="SaveMenuButton" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer" instance=ExtResource("7_yspy3")]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_vertical = 8
 popup/item_0/id = 0
 new_actor_text = "New Fish"
 
-[node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
+[node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 custom_minimum_size = Vector2(160, 64)
 layout_mode = 2
-size_flags_vertical = 8
 text = "Main Menu
 "
 script = ExtResource("8_ueu4c")
 
-[node name="Spacer2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader"]
+[node name="Spacer2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
@@ -552,12 +568,13 @@ unique_name_in_owner = true
 
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
-[connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
-[connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/MarginContainer/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
-[connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton" method="_on_button_down"]
-[connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/InternalsResetButton/InternalsResetConfirmDialog" to="." method="_on_internals_reset_confirm_dialog_confirmed"]
-[connection signal="button_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
-[connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/BackButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/BackButton" method="_on_button_down"]
+[connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
+[connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/LegendNumbersCheckButton" to="." method="_on_legend_numbers_check_button_toggled"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton" method="_on_button_down"]
+[connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton/InternalsResetConfirmDialog" to="." method="_on_internals_reset_confirm_dialog_confirmed"]
+[connection signal="button_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/BackButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/BackButton" method="_on_button_down"]
 [connection signal="text_changed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" to="." method="_on_fish_name_input_text_changed"]
 [connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
 [connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]

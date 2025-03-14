@@ -17,3 +17,6 @@ func set_legend_name(new_name: String):
 # only call after adding to tree!
 func set_color(new_color: Color):
 	color_rect.color = new_color
+
+func set_font_size(new_font_size: int):
+	%NameLabel.add_theme_font_size_override("font_size", new_font_size)
