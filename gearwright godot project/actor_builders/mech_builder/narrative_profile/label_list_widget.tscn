@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyho0rpwjhwco"]
+
+[ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_3ja4b"]
+[ext_resource type="Script" uid="uid://d3pdfgfpp1gh7" path="res://actor_builders/mech_builder/narrative_profile/label_list_widget.gd" id="1_a5k00"]
+
+[node name="LabelListWidget" type="TabContainer"]
+offset_right = 384.0
+offset_bottom = 306.0
+size_flags_vertical = 3
+theme = ExtResource("1_3ja4b")
+theme_override_font_sizes/font_size = 24
+current_tab = 0
+script = ExtResource("1_a5k00")
+
+[node name="FisherLabels" type="MarginContainer" parent="."]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="FisherLabels"]
+layout_mode = 2
+vertical_scroll_mode = 2
+
+[node name="FisherLabelContainer" type="VBoxContainer" parent="FisherLabels/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="Add" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Add"]
+layout_mode = 2
+
+[node name="AllLabelContainer" type="VBoxContainer" parent="Add/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3

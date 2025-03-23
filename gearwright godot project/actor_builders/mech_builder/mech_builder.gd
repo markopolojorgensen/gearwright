@@ -85,6 +85,9 @@ extends Control
 	GearwrightActor.GSIDS.FISHER_LEGS:      %LegsGearSectionControl,
 }
 
+@onready var descriptor_label_list_widget: Control = %DescriptorLLWidget
+@onready var equipment_label_list_widget: Control  = %EquipmentLLWidget
+
 @onready var part_menu: PartMenu = %PartMenu
 const part_menu_tabs := ["Head", "Chest", "Arm", "Leg", "Curios"]
 
@@ -177,10 +180,26 @@ func _ready():
 	
 	inventory_system.current_actor = current_character
 	
+	register_ic_player()
 	register_ic_base_mech_builder()
 	register_ic_custom_bg()
 	register_ic_manual_adjustment()
-	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
+	register_ic_fisher_profile()
+	
+	# Narrative Labels
+	var label_list_widgets := [
+		descriptor_label_list_widget,
+		equipment_label_list_widget,
+	]
+	for label_list_widget in label_list_widgets:
+		label_list_widget.label_hovered.connect(_on_narrative_label_hovered)
+		label_list_widget.label_added.connect(_on_narrative_label_added)
+		label_list_widget.label_removed.connect(_on_narrative_label_removed)
+	
+	%GearContainer.hide()
+	%FisherContainer.hide()
+	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.PLAYER)
+	_on_tab_bar_tab_changed(0)
 
 func is_curio(item_data: Dictionary):
 	for tag in item_data.tags:
@@ -259,8 +278,15 @@ func register_ic_base_mech_builder():
 	ic.id = input_context_system.INPUT_CONTEXT.MECH_BUILDER
 	ic.activate = func(_is_stack_growing: bool):
 		stats_list_control.set_mouse_detector_filters(true)
-	ic.deactivate = func(_is_stack_growing: bool):
+		$DiabloStyleInventorySystem.show()
+		%GearContainer.show()
+		$ModeDebugLabel.show()
+	ic.deactivate = func(is_stack_growing: bool):
 		stats_list_control.set_mouse_detector_filters(false)
+		if not is_stack_growing:
+			$DiabloStyleInventorySystem.hide()
+			%GearContainer.hide()
+			$ModeDebugLabel.hide()
 	ic.handle_input = func(event: InputEvent):
 		if event.is_action_pressed("mouse_leftclick"):
 			if inventory_system.pickup_item():
@@ -306,6 +332,32 @@ func register_ic_manual_adjustment():
 	ic.handle_input = func(_event: InputEvent):
 		pass
 	input_context_system.register_input_context(ic)
+
+func register_ic_player():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.PLAYER
+	ic.activate = func(_is_stack_growing: bool):
+		request_update_controls = true
+	ic.deactivate = func(_is_stack_growing: bool):
+		request_update_controls = true
+	ic.handle_input = func(_event: InputEvent):
+		pass
+	input_context_system.register_input_context(ic)
+
+func register_ic_fisher_profile():
+	var ic := InputContext.new()
+	ic.id = input_context_system.INPUT_CONTEXT.FISHER_PROFILE
+	ic.activate = func(_is_stack_growing: bool):
+		%FisherContainer.show()
+		request_update_controls = true
+	ic.deactivate = func(is_stack_growing: bool):
+		if not is_stack_growing:
+			%FisherContainer.hide()
+		request_update_controls = true
+	ic.handle_input = func(_event: InputEvent):
+		pass
+	input_context_system.register_input_context(ic)
+
 
 #endregion
 
@@ -369,12 +421,13 @@ func _on_slot_mouse_exited(slot_info: Dictionary):
 var current_hover_stat := ""
 func _on_stats_list_control_stat_mouse_entered(stat_name: String) -> void:
 	current_hover_stat = stat_name
-	floating_explanation_control.text = current_character.get_stat_explanation(current_hover_stat)
+	request_update_controls = true
 
 func _on_stats_list_control_stat_mouse_exited(stat_name: String) -> void:
 	if current_hover_stat == stat_name:
 		current_hover_stat = ""
 		floating_explanation_control.text = ""
+		request_update_controls = true
 
 func _on_weight_mouse_detector_safe_mouse_entered() -> void:
 	current_character.get_equipped_items().map(func(info: Dictionary):
@@ -530,7 +583,83 @@ func _on_tags_check_button_toggled(toggled_on: bool) -> void:
 	current_character.enforce_tags = toggled_on
 	request_update_controls = true
 
+enum MECH_BUILDER_TAB {
+	GEAR,
+	FISHER,
+}
 
+func _on_tab_bar_tab_changed(tab: int) -> void:
+	var new_tab: MECH_BUILDER_TAB = MECH_BUILDER_TAB.values()[tab]
+	input_context_system.pop_to(input_context_system.INPUT_CONTEXT.PLAYER)
+	match new_tab:
+		MECH_BUILDER_TAB.GEAR:
+			input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
+		MECH_BUILDER_TAB.FISHER:
+			input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.FISHER_PROFILE)
+
+# connected in _ready to label list widgets
+func _on_narrative_label_hovered(label_id: String):
+	if label_id == "custom":
+		%NarrativeLabelInfoContainer.hide()
+		%CustomNarrativeLabelContainer.show()
+		return
+	else:
+		%NarrativeLabelInfoContainer.show()
+		%CustomNarrativeLabelContainer.hide()
+	
+	var label_info: Dictionary
+	if current_character.custom_label_info.has(label_id):
+		label_info = current_character.custom_label_info[label_id]
+	else:
+		label_info = DataHandler.get_label_data(label_id)
+	%InfoNameLabel.text = label_info.name
+	%InfoTypeLabel.text = "[i]%s[/i]" % label_info.label_type.capitalize()
+	%InfoDescriptionLabel.text = label_info.description
+
+# connected in _ready to label list widgets
+func _on_narrative_label_added(label_id: String):
+	if label_id == "custom":
+		_on_narrative_custom_label_add_button_pressed()
+		return
+	
+	current_character.add_label(label_id)
+	request_update_controls = true
+
+# connected in _ready to label list widgets
+func _on_narrative_label_removed(label_id: String):
+	current_character.remove_label(label_id)
+	request_update_controls = true
+
+func _on_backlash_stat_edit_control_increase() -> void:
+	current_character.backlash = clamp(current_character.backlash + 1, 0, INF) 
+	request_update_controls = true
+
+func _on_backlash_stat_edit_control_decrease() -> void:
+	current_character.backlash = clamp(current_character.backlash - 1, 0, INF) 
+	request_update_controls = true
+
+func _on_narrative_custom_label_add_button_pressed() -> void:
+	var label_info := {}
+	label_info.name = %NarrativeCustomLineEdit.text
+	if %CustomLabelEquipmentCheckBox.button_pressed:
+		label_info.label_type = "equipment"
+	else:
+		label_info.label_type = "descriptor"
+	label_info.description = %CustomLabelTextEdit.text
+	
+	var label_id: String = label_info.name.to_snake_case()
+	current_character.custom_label_info[label_id] = label_info
+	current_character.custom_labels.append(label_id)
+	
+	request_update_controls = true
+
+func _on_narrative_marbles_stat_edit_control_increase() -> void:
+	current_character.current_marbles += 1
+	request_update_controls = true
+
+func _on_narrative_marbles_stat_edit_control_decrease() -> void:
+	current_character.current_marbles -= 1
+	request_update_controls = true
 
 
 ## Reactivity - things that reset internals
@@ -677,12 +806,49 @@ func update_controls():
 		custom_bg_control.value = stat_value
 	custom_bg_points_label.text = str(current_character.get_custom_bg_points_remaining())
 	
-	if not current_hover_stat.is_empty():
+	if not current_hover_stat.is_empty() and input_context_system.is_in_stack(input_context_system.INPUT_CONTEXT.MECH_BUILDER):
 		floating_explanation_control.text = current_character.get_stat_explanation(current_hover_stat)
 	
 	
+	
+	# Narrative page
+	
+	%NarrativeCallsignLabel.text = current_character.callsign
+	
+	# labels
+	# has to be a list to support duplicates
+	var label_infos := []
+	for label_id in current_character.labels:
+		var label_info: Dictionary = DataHandler.get_label_data(label_id)
+		label_info.label_id = label_id
+		label_infos.append(label_info)
+	for label_id in current_character.custom_labels:
+		var label_info: Dictionary = current_character.custom_label_info[label_id]
+		label_info.label_id = label_id
+		label_infos.append(label_info)
+	equipment_label_list_widget.set_fisher_labels(label_infos)
+	descriptor_label_list_widget.set_fisher_labels(label_infos)
+	
+	# backlash
+	%BacklashStatEditControl.value = current_character.backlash
+	
+	# current marbles
+	%NarrativeMarblesStatEditControl.value = current_character.current_marbles
+	%NarrativeMarblesStatEditControl.max_value = current_character.get_stat("marbles")
 
 #endregion
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

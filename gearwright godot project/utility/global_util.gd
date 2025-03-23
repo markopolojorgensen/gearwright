@@ -342,6 +342,9 @@ func indent():
 func dedent():
 	_indentation = _indentation.left(-2)
 
+func clear_indentation():
+	_indentation = ""
+
 func push_verbose():
 	_verbosity_stack.append(verbose)
 

@@ -1,0 +1,44 @@
+NAME	Type	Description
+Fishing Gear	Equipment Label	Gears are powerful humanoid machines capable of bringing to bear the strength of a hundred men. Powered by Galvanic engines these massive iron behemoths are utilized in many different fields: Warfare, Construction, Demolition, Mining, Fishing. This specific Gear is adapted for underwater use and able to operate fully submerged for hours.
+Diving Suit	Equipment Label	A heavy-duty diving suit, reinforced and able to withstand great pressure. Often equipped with inflatable airbags that ensure a Fisher safely reaches the surface after performing an emergency exit from their Gear.
+Whaler	Equipment Label	Whalers are massive, bulky ships used all over the Cauldron. Older vessels are made of wood and sail, while modern whalers sport iron hulls and powerful galvanic engines.
+Muscular	Descriptor Label	You sport a phenomenal physique, corded muscles ripple across your frame. You are much stronger than the average person.
+Charismatic	Descriptor Label	You have a way with people. People like you and like interacting with you, giving you an edge in social encounters.
+Learned	Descriptor Label	You were lucky to receive a formal education and are more knowledgeable about the world than the average person.
+Criminal	Descriptor Label	Before you became a Fisher you often found yourself on the wrong side of the law. The skills and connections that helped you then may still be useful in your new profession.
+Soldier	Descriptor Label	You fought in the trenches of the Prav-Crescent war as a soldier and the trenches of Grenzland left their mark on you. You are self-reliant and can handle yourself in a fight. You may also have contact with former war buddies.
+Disgraced	Descriptor Label	Becoming a Fisher was not your first choice but you have fallen on hard times. Perhaps you were part of Crescent’s declining nobility or maybe from one of the rich merchant or industrialist families. Whatever your background, your wealth has evaporated but some people may still be impressed by your former status.
+Sailor	Descriptor Label	You grew up on the roiling seas aboard a sturdy vessel, perhaps one of the massive whalers that traverse the oceans of Halcyon. You are very familiar with nautical matters.
+Menacing	Descriptor Label	You have an intimidating aura and others find you imposing - even scary. You are very good at intimidating people.
+Butcher	Descriptor Label	You’re an expert at processing and dismembering fish, separating their edible parts from their galvanic bladder. As a result, you are very familiar with a variety of fish.
+Deep Touched	Descriptor Label	You have heard the whispers of the Deep and they have had a lasting impact on you. You are familiar with the mystic aspect of the Deep and its denizens and can comprehend them.
+Mechanic	Descriptor Label	You are intimately familiar with all sorts of machinery. While most Fishers can repair and tinker with their Gear you are skilled and knowledgeable with all parts of your Gear’s assembly, down to the smallest mechanism.
+Freefisher	Descriptor Label	You used to be, or still are, part of the Freefisher clans of southern Crescent. The rough and tumble life of a Freefisher has made you well-versed in a plethora of piracy-related fields.
+Acobat	Descriptor Label	Former circus performer or just naturally gifted? You are exceptionally agile and can pull off impressive feats of dexterity.
+Charlatan	Descriptor Label	Lying and deception are second nature to you and you are very good at it. Some say you’re on the run from disgruntled people and that is why you became a Fisher…
+Cook	Descriptor Label	Galvanic oil isn’t the only thing a fish is good for. The inhabitants of Crescent eat a lot of fish and you are adept at preparing the tender meat and determining what is and isn’t edible.
+Archivist	Descriptor Label	You’re an archivist of the runic church. It is not unheard of for archivists to become fishers, taking the fight directly to the Deep and its denizens. With your training and background, you can be a potent source of spiritual nourishment for your brace.
+Severely Deeptouched	Descriptor Label	The touch of the Deep has altered your body in some way. Be sure to hide it in potent source of spiritual nourishment for your brace. beneficial. Are those gills, tentacles, webbed feet?
+Toolbox	Equipment Label	A sturdy toolbox containing a plethora of useful tools.
+Handgun	Equipment Label	Easy to conceal sidearm. Many Fishers carry one just to feel more secure, though these small caliber weapons are unlikely to stop a denizen of the deep.
+Trenchgun	Equipment Label	Standard issue scatter gun used in the Prav-Crescent war. Perhaps you got yours from the black market or maybe you fought in the war? Less concealable but with superior stopping power. Could deter anything up to the size of a charging bull.
+Velorian Long Gun	Equipment Label	Unwieldy long range rifle, often used by the hunters of the Velorian Plains. Not very useful up close.
+Military Kit	Equipment Label	Standard military kit, canteen, trench-axe, rations, backpack, fatigues, and other useful items. Handy in many situations.
+Buzzsaw	Equipment Label	Handheld buzzsaw used for processing fish. Powered via a small Galvanic engine fitted in a backpack.
+Sopyglass	Equipment Label	Telescoping bronze-plated spyglass. A rare and valuable piece of equipment.
+Fisher's Almanach	Equipment Label	This hefty tome contains information about fish living around the shores of Crescent. By no means exhaustive but many Braces have at least one copy between them.
+Field Surgical Kit	Equipment Label	Contains everything needed to treat wounds on the fly.
+Fishing Rod	Equipment Label	Any fish caught with a rod is likely too small to process for oil, but some people enjoy the calming activity of rod-fishing.
+Pocket Watch	Equipment Label	Sturdy waterproof pocket watch, reliably tells the time no matter the conditions.
+Deck of Cards	Equipment Label	Gambling is an incredibly popular pastime in and around the harbors of most cities. Hopefully, there isn’t anything fishy going on with your deck because if there is, and people notice, there might be trouble.
+Animal Companion	Equipment Label	Sometimes Fishers befriend one of the local animals and keep them as a pet. Cats, dogs, birds or even some of the smarter crabs.
+Radio-Pack	Equipment Label	Man-portable radios are incredibly bulky and require a backpack to carry around. Operators need specialized training to properly set up and maintain this equipment and usually have a military background.
+Bottle of Rum	Equipment Label	What’s better than a good swig of room after a successful fishing trip. It keeps you warm and steadies the nerves.
+Oil Lantern	Equipment Label	Electric lanterns powered by a small amount of Galvanic oil and quickly replacing the wick and oil versions.
+Bundle of Maps	Equipment Label	A collection of maps depicting areas of Crescent. Most navigators possess an eclectic collection gathered over the years. Some of which can be quite valuable.
+Eye Protection	Equipment Label	Sturdy goggles used to protect the eyes from harm. Perhaps in the shape of shaded welding goggles or a gas mask used in the war.
+Vehicle (Land)	Equipment Label	Autocarriages are slowly arriving on the scene but are still relatively expensive. Most people, especially in smaller towns, utilize the tried and true horse and cart. Either way, you possess some means of getting around.
+Vehicle (Sea)	Equipment Label	Your boat is much smaller than a commercial whaler. Perhaps barely large enough to carry the brace and their Gears, maybe equipped with a little galvanic engine for propulsion.
+Magnifying Glass	Equipment Label	Magnifying glass to focus on even the smallest of details.
+Fine Clothes	Equipment Label	Fishers aren’t necessarily known for their fine garb and sense of fashion, often dressing in grimy overalls that stink of fish. This set of clothes however is finely made and in fashion. Be careful to keep them away from fish guts.
+Galvanic Lighter	Equipment Label	Simple, lighter operating with refined galvanic oil, utilizing high voltage electricity to spark a flame and quickly replacing the tinderboxes of old.

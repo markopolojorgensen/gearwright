@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://5rn1aaiquoo8"]
+
+[ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="1_tl70f"]
+
+[node name="BigCustomStatEditControl" instance=ExtResource("1_tl70f")]
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MinusTextureButton" parent="." index="0"]
+custom_minimum_size = Vector2(40, 40)
+
+[node name="Label" parent="." index="1"]
+theme_override_font_sizes/font_size = 30
+
+[node name="PlusTextureButton" parent="." index="2"]
+custom_minimum_size = Vector2(40, 40)

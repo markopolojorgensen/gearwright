@@ -8,7 +8,9 @@ const non_cyclic_item_scene = preload("res://actor_builders/inventory_system/Ite
 
 # keys in game data json files
 var frame_name := ""
-var level := 1
+var level: int = 1
+var backlash: int = 0
+var current_marbles: int = 0
 
 var developments := []
 var maneuvers := []
@@ -32,7 +34,13 @@ var enforce_hardpoint_cap := true
 
 # string -> int
 var manual_stat_adjustments := {}
-
+# lists of string label_ids
+var labels := ["fishing_gear", "diving_suit"]
+var custom_labels := []
+# key: label_id String
+# value: label_info Dictionary
+#   see DataHandler label_template
+var custom_label_info := {}
 
 
 #region Initialization
@@ -616,6 +624,25 @@ func manual_stat_change(stat_name: String, change: int):
 	else:
 		manual_stat_adjustments[stat_name] = new_value
 
+func add_label(label_id: String):
+	labels.append(label_id)
+
+func remove_label(label_id: String):
+	labels.erase(label_id)
+	custom_labels.erase(label_id)
+	
+	var to_erase := []
+	for custom_label_id in custom_label_info.keys():
+		if not custom_label_id in custom_labels:
+			to_erase.append(custom_label_id)
+	for custom_label_id in to_erase:
+		custom_label_info.erase(custom_label_id)
+
+# overrites previous entries
+func add_custom_label(label_id: String, label_info: Dictionary):
+	custom_label_info[label_id] = label_info
+	custom_labels.append(label_id)
+
 #endregion
 
 
@@ -633,6 +660,11 @@ func marshal() -> Dictionary:
 		level = str(level),
 		manual_stat_adjustments = manual_stat_adjustments,
 		mental_maneuver = mental_maneuver,
+		backlash = backlash,
+		labels = labels,
+		custom_labels = custom_labels,
+		custom_label_info = custom_label_info,
+		current_marbles = current_marbles,
 	}
 	
 	result.custom_background = custom_background
@@ -672,6 +704,12 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	ch.set_level(sesh.get_info("level", 1))
 	ch.manual_stat_adjustments = sesh.get_info("manual_stat_adjustments", {})
 	ch.mental_maneuver = sesh.get_info("mental_maneuver")
+	ch.backlash = sesh.get_info("backlash", 0)
+	ch.labels = sesh.get_info("labels", [])
+	ch.custom_labels = sesh.get_info("custom_labels", [])
+	ch.custom_label_info = sesh.get_info("custom_label_info", {})
+	ch.current_marbles = sesh.get_info("current_marbles", 0)
+	
 	
 	ch.custom_background = sesh.get_info("custom_background", [])
 	

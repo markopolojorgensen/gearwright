@@ -30,6 +30,14 @@ const deep_word_data_path = "user://LocalData/deep_words.json"
 const fish_size_data_path = "user://LocalData/fish_size_data.json"
 const fish_type_data_path = "user://LocalData/fish_template_data.json"
 
+const label_data_path    = "user://LocalData/labels.json"
+var label_data := {}
+const label_template := {
+	"name": "Label",
+	"description": "I'm homestar and this is a website",
+	"label_type": "equipment",
+}
+
 const gear_data_template := { # TODO yeet?
 	"callsign": "",
 	"frame": "",
@@ -201,6 +209,7 @@ enum DATA_TYPE {
 	FISH_INTERNAL,
 	FISH_SIZE,
 	FISH_TYPE,
+	FISHER_LABEL,
 }
 
 func _ready():
@@ -219,6 +228,7 @@ func load_all_data():
 	deep_word_data   = load_data(deep_word_data_path)
 	fish_size_data   = load_data(fish_size_data_path)
 	fish_type_data   = load_data(fish_type_data_path)
+	label_data       = load_data(label_data_path)
 	
 	set_grid_and_icon_data()
 
@@ -275,6 +285,9 @@ func get_thing_nicely(data_type: DATA_TYPE, key):
 		DATA_TYPE.FISH_TYPE:
 			data = fish_type_data
 			default = fish_type_template
+		DATA_TYPE.FISHER_LABEL:
+			data = label_data
+			default = label_template
 		_:
 			push_error("DataHandler: unknown data type: %s '%s'" % [data_type, DATA_TYPE.find_key(data_type)])
 			breakpoint
@@ -311,6 +324,9 @@ func get_fish_size_data(size_name: String):
 
 func get_fish_type_data(type_name: String):
 	return get_thing_nicely(DATA_TYPE.FISH_TYPE, type_name.to_snake_case())
+
+func get_label_data(label_id: String):
+	return get_thing_nicely(DATA_TYPE.FISHER_LABEL, label_id)
 
 
 

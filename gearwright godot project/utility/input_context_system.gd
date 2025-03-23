@@ -14,6 +14,8 @@ enum INPUT_CONTEXT {
 	POPUP_ACTIVE,
 	FISH_BUILDER,
 	MECH_BUILDER_MANUAL_ADJUSTMENT,
+	FISHER_PROFILE,
+	PLAYER,
 }
 
 func register_input_context(input_context: InputContext):
@@ -42,10 +44,12 @@ func push_input_context(input_context: INPUT_CONTEXT):
 	var new_context: InputContext = input_contexts[input_context] as InputContext
 	input_context_stack.append(new_context)
 	_activate_input_context(true)
+	global_util.fancy_print("pushed input context: %s" % str(INPUT_CONTEXT.find_key(input_context)))
 	global_util.indent()
 
 func pop_input_context_stack():
 	global_util.dedent()
+	global_util.fancy_print("popped input context")
 	_deactivate_input_context(false)
 	input_context_stack.pop_back()
 	_activate_input_context(false)
@@ -62,12 +66,17 @@ func pop_to(input_context: INPUT_CONTEXT):
 # doesn't pop anything off the stack, just yeets everything
 func clear():
 	input_context_stack.clear()
+	global_util.clear_indentation()
 
 func get_current_input_context_id() -> INPUT_CONTEXT:
 	return input_context_stack.back().id
 
 func get_current_input_context_name() -> String:
 	return INPUT_CONTEXT.find_key(get_current_input_context_id())
+
+func is_in_stack(input_context: INPUT_CONTEXT):
+	return input_context in input_context_stack.map(func(ic: InputContext): return ic.id)
+
 
 
 # always operates on back context
@@ -96,4 +105,4 @@ func _input(event: InputEvent) -> void:
 	
 	input_context_stack_handle_input(event)
 
-#endregion
+

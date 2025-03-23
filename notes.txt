@@ -3,13 +3,16 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
+document fisher format changes
+  labels
+  custom_labels
+  custom_label_info
+  backlash
+  current_marbles
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
-  tab switcher - narrative profile
-    labels descriptor equipment
-
   zoom font changes
     maybe make everything huge and then always be scaling down?
       i.e. quit pre-shrinking the assets?
@@ -22,11 +25,13 @@ Q1 2025, definitely before May
     load
     new fish / new gear
 
-  edit .json files (most recent is in discord dms from 12throot)
-    burnout ap cost should be 0, not "x"
-    custom background description
+  edit .json files (most recent is 25_03_21_00)
+    labels
+      severely deeptouched description
+    custom background description...?
     pinned discord message...?
   done
+    burnout ap cost should be 0, not "X"
     galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
     scrubber needs the same "\n" treatment as line linker in item_data.json
     `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
@@ -81,8 +86,13 @@ Q1 2025, definitely before May
     unnecessary
 
 
-
 DONE
+2.3.1
+  equipped internals no longer appear in narrative panel
+2.3.0
+  player label manager
+  player current marbles tracker
+  player backlash tracker
   Curio disclaimer
   hovering over weight causes all equipped internals to display their weight
   Loading fish doesn't cause weird behavior with "Mutations remaining" (was already fixed)
@@ -222,6 +232,12 @@ no top-level folder in the archive
 
 I changed that recently by accident
 
+
+to edit:
+  get the previous version of the .fsh file
+  .fsh -> .zip
+  unzip (7zip -> Extract Here)
+  make edits
 
 ------------------------------------------------------------------------------------------------------------------- LESSONS
 Label's mouse_entered and mouse_exited cause flickering...?
