@@ -1,15 +1,18 @@
-[gd_scene load_steps=36 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=39 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" uid="uid://eatpbgbpvng8" path="res://actor_builders/mech_builder/mech_builder.gd" id="1_t8ijy"]
 [ext_resource type="PackedScene" uid="uid://ce4067la3emu8" path="res://actor_builders/parts_ui/part_menu.tscn" id="3_5feer"]
 [ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://actor_builders/inventory_system/gear_section_control.tscn" id="5_n5byg"]
 [ext_resource type="StyleBox" uid="uid://01bjpasyv3ta" path="res://actor_builders/mech_builder/style_box_flat_manual_adjustments_highlight.tres" id="5_soym3"]
+[ext_resource type="FontFile" uid="uid://c0l674lupwfwg" path="res://Assets/static/Roboto_Mono/static/RobotoMono-Medium.ttf" id="9_1qcb5"]
+[ext_resource type="Script" uid="uid://dgacbx1yvs01q" path="res://utility/control_that_allows_scaling_children.gd" id="12_b5qwr"]
 [ext_resource type="PackedScene" uid="uid://cyoygpnr2w05c" path="res://actor_builders/mech_builder/perk_section_title_control.tscn" id="12_eea8l"]
 [ext_resource type="Script" uid="uid://iq7dan03gypt" path="res://actor_builders/mech_builder/icon_container.gd" id="13_4mhq6"]
 [ext_resource type="StyleBox" uid="uid://dk4whtokbc1x6" path="res://Assets/blue_styleboxflat.tres" id="16_jqhhk"]
 [ext_resource type="PackedScene" uid="uid://blbjufxq28b2f" path="res://actor_builders/mech_builder/repair_kit_icon.tscn" id="16_ohmr2"]
 [ext_resource type="PackedScene" uid="uid://6brpjgjqrspp" path="res://utility/mouse_detector.tscn" id="16_ugbt0"]
+[ext_resource type="PackedScene" uid="uid://bpk8ekv8cq3xp" path="res://actor_builders/mech_builder/manual_adjustment_control.tscn" id="17_andp6"]
 [ext_resource type="StyleBox" uid="uid://cvilpq4euadkt" path="res://actor_builders/mech_builder/style_box_flat_manual_adjustments.tres" id="17_soym3"]
 [ext_resource type="FontFile" uid="uid://bhdfh08bwxfgg" path="res://Assets/static/Montserrat-SemiBold.ttf" id="18_1ekyg"]
 [ext_resource type="PackedScene" uid="uid://ch88imkihrety" path="res://actor_builders/mech_builder/perk_option_button.tscn" id="18_1sybq"]
@@ -22,7 +25,7 @@
 [ext_resource type="Script" uid="uid://btrf8hkko1yne" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="26_hdcjo"]
 [ext_resource type="PackedScene" uid="uid://cojllssnu0db" path="res://actor_builders/top_menu/save_menu_button.tscn" id="26_v0iwd"]
 [ext_resource type="Script" uid="uid://blw4jyb2i6ga" path="res://actor_builders/mech_builder/hardpoints_reset_button.gd" id="27_1gsxs"]
-[ext_resource type="Script" uid="uid://xo6f3e8bvtlu" path="res://actor_builders/top_menu/back_button.gd" id="29_86svk"]
+[ext_resource type="PackedScene" uid="uid://bfhqnu6eyngx2" path="res://utility/lost_data_preventer.tscn" id="31_1qcb5"]
 [ext_resource type="PackedScene" uid="uid://cfwgb2kcqpgc1" path="res://utility/label_shaker.tscn" id="34_dotfp"]
 [ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="34_naqed"]
 [ext_resource type="PackedScene" uid="uid://2d52tcveghpy" path="res://actor_builders/stats_list_control.tscn" id="39_x85sl"]
@@ -307,6 +310,7 @@ layout_mode = 2
 [node name="BackgroundOptionButton" type="OptionButton" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PerksContainer/MarginContainer/VBoxContainer/BackgroundContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("9_1qcb5")
 
 [node name="EditBackgroundButton" type="Button" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PerksContainer/MarginContainer/VBoxContainer/BackgroundContainer"]
 unique_name_in_owner = true
@@ -604,9 +608,18 @@ layout_mode = 2
 size_flags_horizontal = 0
 placeholder_text = "Callsign"
 
-[node name="HeadGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("5_n5byg")]
-unique_name_in_owner = true
+[node name="ControlThatAllowsScalingChildren" type="Control" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+script = ExtResource("12_b5qwr")
+enabled = true
+
+[node name="HeadGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/ControlThatAllowsScalingChildren" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_bottom = 88.0
+scale = Vector2(0.3, 0.3)
 size_flags_horizontal = 4
 size_flags_vertical = 10
 gear_section_id = 3
@@ -635,9 +648,16 @@ layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 2
 
-[node name="LeftArmGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/HBoxContainer" instance=ExtResource("5_n5byg")]
-unique_name_in_owner = true
+[node name="Control" type="Control" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
+script = ExtResource("12_b5qwr")
+enabled = true
+
+[node name="LeftArmGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/HBoxContainer/Control" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_bottom = 88.0
+scale = Vector2(0.3, 0.3)
 size_flags_horizontal = 8
 size_flags_vertical = 0
 gear_section_id = 1
@@ -646,15 +666,29 @@ gear_section_id = 1
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="TorsoGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("5_n5byg")]
-unique_name_in_owner = true
+[node name="Control2" type="Control" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+script = ExtResource("12_b5qwr")
+enabled = true
+
+[node name="TorsoGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/Control2" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_bottom = 88.0
+scale = Vector2(0.3, 0.3)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="RightArmGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("5_n5byg")]
-unique_name_in_owner = true
+[node name="Control3" type="Control" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+script = ExtResource("12_b5qwr")
+enabled = true
+
+[node name="RightArmGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/Control3" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_bottom = 88.0
+scale = Vector2(0.3, 0.3)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 gear_section_id = 2
@@ -693,9 +727,18 @@ theme_override_font_sizes/font_size = 14
 text = "As a 0AP Action you may either gain 1 AP or the Focused Condition. You may use this action up to 6 times each Encounter."
 autowrap_mode = 2
 
-[node name="LegsGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("5_n5byg")]
-unique_name_in_owner = true
+[node name="Control4" type="Control" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+script = ExtResource("12_b5qwr")
+enabled = true
+
+[node name="LegsGearSectionControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/GridContainer/Control4" instance=ExtResource("5_n5byg")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_bottom = 88.0
+scale = Vector2(0.3, 0.3)
 size_flags_horizontal = 4
 size_flags_vertical = 0
 gear_section_id = 4
@@ -764,6 +807,10 @@ offset_right = 86.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="UnlocksManualAdjustmentControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("17_andp6")]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="UnlocksRemainingLabel" type="Label" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -790,6 +837,10 @@ anchor_bottom = 1.0
 offset_right = 180.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="WeightCapManualAdjustmentControl" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("17_andp6")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="WeightLabel" type="Label" parent="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
@@ -895,6 +946,14 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "John Gear"
+horizontal_alignment = 1
+
+[node name="NarrativeBGLabel" type="RichTextLabel" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "[i]Lancer[/i]"
+fit_content = true
 horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer"]
@@ -1041,13 +1100,12 @@ layout_mode = 2
 size_flags_vertical = 0
 popup/item_0/id = 0
 
-[node name="BackButton" type="Button" parent="MarginContainer2/HBoxContainer2"]
+[node name="MainMenuBackButton" type="Button" parent="MarginContainer2/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 0
 text = "Main Menu
 "
-script = ExtResource("29_86svk")
 
 [node name="ModeDebugLabel" type="Label" parent="."]
 visible = false
@@ -1094,6 +1152,11 @@ horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="CustomBGPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="CustomBackgroundNameLineEdit" type="LineEdit" parent="CustomBGPanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Background Name"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CustomBGPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -1232,6 +1295,8 @@ layout_mode = 2
 text = "+1 fish word"
 autowrap_mode = 3
 
+[node name="LostDataPreventer" parent="." instance=ExtResource("31_1qcb5")]
+
 [connection signal="item_spawned" from="GearContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
 [connection signal="item_selected" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer/FrameSelector" to="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer/FrameSelector" method="_on_item_selected"]
 [connection signal="load_frame" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/MarginContainer/TopMenuHBoxContainer/HBoxContainer/FrameSelectContainer/FrameSelector" to="." method="_on_frame_selector_load_frame"]
@@ -1260,8 +1325,12 @@ autowrap_mode = 3
 [connection signal="stat_mouse_exited" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
 [connection signal="safe_mouse_entered" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Label/UnlocksMouseDetector" to="." method="_on_unlocks_mouse_detector_safe_mouse_entered"]
 [connection signal="safe_mouse_exited" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Label/UnlocksMouseDetector" to="." method="_on_unlocks_mouse_detector_safe_mouse_exited"]
+[connection signal="decrease" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/UnlocksManualAdjustmentControl" to="." method="_on_unlocks_manual_adjustment_control_decrease"]
+[connection signal="increase" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/UnlocksManualAdjustmentControl" to="." method="_on_unlocks_manual_adjustment_control_increase"]
 [connection signal="safe_mouse_entered" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Label/WeightMouseDetector" to="." method="_on_weight_mouse_detector_safe_mouse_entered"]
 [connection signal="safe_mouse_exited" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Label/WeightMouseDetector" to="." method="_on_weight_mouse_detector_safe_mouse_exited"]
+[connection signal="decrease" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/WeightCapManualAdjustmentControl" to="." method="_on_weight_cap_manual_adjustment_control_decrease"]
+[connection signal="increase" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/WeightCapManualAdjustmentControl" to="." method="_on_weight_cap_manual_adjustment_control_increase"]
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NarrativeMarblesStatEditControl" to="." method="_on_narrative_marbles_stat_edit_control_decrease"]
 [connection signal="increase" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NarrativeMarblesStatEditControl" to="." method="_on_narrative_marbles_stat_edit_control_increase"]
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_decrease"]
@@ -1269,6 +1338,8 @@ autowrap_mode = 3
 [connection signal="pressed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/PanelContainer/MarginContainer/NarrativeCustomLabelAddButton" to="." method="_on_narrative_custom_label_add_button_pressed"]
 [connection signal="tab_changed" from="MarginContainer2/HBoxContainer2/TabBar" to="." method="_on_tab_bar_tab_changed"]
 [connection signal="button_selected" from="MarginContainer2/HBoxContainer2/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
-[connection signal="button_down" from="MarginContainer2/HBoxContainer2/BackButton" to="MarginContainer2/HBoxContainer2/BackButton" method="_on_button_down"]
+[connection signal="pressed" from="MarginContainer2/HBoxContainer2/MainMenuBackButton" to="." method="_on_main_menu_back_button_pressed"]
 [connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]
+[connection signal="text_changed" from="CustomBGPanelContainer/MarginContainer/VBoxContainer/CustomBackgroundNameLineEdit" to="." method="_on_custom_background_name_line_edit_text_changed"]
+[connection signal="fsh_saved" from="PopupCollection" to="." method="_on_popup_collection_fsh_saved"]
 [connection signal="save_loaded" from="PopupCollection" to="." method="_on_popup_collection_save_loaded"]

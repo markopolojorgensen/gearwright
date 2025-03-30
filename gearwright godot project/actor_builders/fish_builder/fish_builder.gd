@@ -66,8 +66,11 @@ func _ready():
 		mutation_control.increase.connect(_on_mutation_change.bind(stat_name, true))
 		mutation_control.decrease.connect(_on_mutation_change.bind(stat_name, false))
 	
+	$LostDataPreventer.saved_data = current_character.marshal()
+	
 	register_ic_fish_builder_base()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.FISH_BUILDER)
+
 
 func register_ic_fish_builder_base():
 	var ic := InputContext.new()
@@ -217,7 +220,7 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 		GearwrightFish.SIZE.SMALL, GearwrightFish.SIZE.MEDIUM:
 			var gs_control := create_gear_section_control(GearwrightActor.GSIDS.FISH_BODY)
 			# previously they scaled to like 3.2 or something
-			fish_scale = 2.66 # same as large automagically scales to
+			fish_scale = 0.8 # same as large automagically scales to
 			gs_control.scale = Vector2(1.0, 1.0) * fish_scale
 			#automagically_scale_control.call_deferred(gs_control)
 			center_control_manually.call_deferred(gs_control, center)
@@ -228,17 +231,17 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 		GearwrightFish.SIZE.LEVIATHAN:
 			for gsid in GearwrightFish.LEVIATHAN_FISH_GSIDS:
 				create_gear_section_control(gsid)
-			fish_scale = 1.6
+			fish_scale = 0.5
 			position_leviathan.call_deferred()
 		GearwrightFish.SIZE.SERPENT_LEVIATHAN:
 			for gsid in GearwrightFish.SERPENT_LEVIATHAN_FISH_GSIDS:
 				create_gear_section_control(gsid)
-			fish_scale = 1.25
+			fish_scale = 0.35
 			position_serpent_leviathan.call_deferred()
 		GearwrightFish.SIZE.SILTSTALKER_LEVIATHAN:
 			for gsid in GearwrightFish.SILTSTALKER_LEVIATHAN_FISH_GSIDS:
 				create_gear_section_control(gsid)
-			fish_scale = 1.45
+			fish_scale = 0.4
 			position_siltstalker_leviathan.call_deferred()
 		_:
 			print(fish_size)
@@ -263,8 +266,9 @@ func create_gear_section_control(gsid: GearwrightActor.GSIDS) -> Control:
 # for gear_section_controls
 func automagically_scale_control(control: Control):
 	var max_size: Vector2 = %FreeRangeGearSections.size
-	var factor = max_size / control.size
-	var actual_scale = min(factor.x, factor.y) * 0.9
+	var bounded_max_size = max_size * 0.95
+	var factor = bounded_max_size / control.size
+	var actual_scale = [factor.x, factor.y, 0.8].min() # maxes out at 0.8 for better ux
 	fish_scale = actual_scale
 	inventory_system.control_scale = fish_scale
 	control.scale = Vector2(1.0, 1.0) * fish_scale
@@ -420,7 +424,13 @@ func _on_mutation_change(stat_name: String, is_increase: bool):
 	request_update_controls = true
 
 func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_IDS) -> void:
-	if button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
+	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
+		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.check_lost_data(func():
+			input_context_system.clear()
+			get_tree().reload_current_scene()
+			)
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
 		popup_collection.popup_fsh(current_character)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
 		# grab image before covering it up with export popup
@@ -431,7 +441,8 @@ func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_I
 		var image_to_save: Image = get_viewport().get_texture().get_image().get_region(border_rect)
 		popup_collection.popup_png(current_character.callsign, image_to_save)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
-		popup_collection.popup_load_dialog()
+		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
 
 func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
@@ -463,6 +474,18 @@ func _on_tree_exited() -> void:
 
 func _on_legend_numbers_check_button_toggled(_toggled_on: bool) -> void:
 	request_update_controls = true
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.check_lost_data(func(): get_tree().quit())
+
+func _on_main_menu_back_button_pressed() -> void:
+	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.check_lost_data(func(): get_tree().change_scene_to_file("res://main_menu/main_menu.tscn"))
+
+func _on_popup_collection_fsh_saved() -> void:
+	$LostDataPreventer.saved_data = current_character.marshal()
 
 #endregion
 

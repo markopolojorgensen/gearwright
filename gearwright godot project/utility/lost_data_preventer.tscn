@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfhqnu6eyngx2"]
+
+[ext_resource type="Script" uid="uid://dk1cip36u8w5i" path="res://utility/lost_data_preventer.gd" id="1_l046r"]
+
+[node name="LostDataPreventer" type="Node2D"]
+script = ExtResource("1_l046r")
+
+[node name="UnsavedWarningDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Confirm Lost Changes..."
+size = Vector2i(359, 132)
+ok_button_text = "Continue"
+dialog_text = "Changes have been made since the last save
+was made, and those changes will be lost!
+Continue anyway?"
+
+[connection signal="confirmed" from="UnsavedWarningDialog" to="." method="_on_unsaved_warning_dialog_confirmed"]

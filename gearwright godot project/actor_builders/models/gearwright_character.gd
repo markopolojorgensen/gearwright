@@ -10,7 +10,7 @@ const non_cyclic_item_scene = preload("res://actor_builders/inventory_system/Ite
 var frame_name := ""
 var level: int = 1
 var backlash: int = 0
-var current_marbles: int = 0
+var current_marbles: int = -1
 
 var developments := []
 var maneuvers := []
@@ -20,6 +20,7 @@ var deep_words := []
 var frame_stats := DataHandler.frame_stats_template.duplicate(true)
 var level_stats := DataHandler.level_stats_template.duplicate(true)
 var background_stats := DataHandler.background_stats_template.duplicate(true)
+var custom_background_name := ""
 var custom_background := []
 const custom_background_caps := {
 	"marbles":    2,
@@ -131,7 +132,6 @@ func get_stat_info(stat: String) -> Dictionary:
 			"weight",
 			"weight_cap",
 			"unlocks",
-			"weight_cap",
 			]:
 		return get_basic_info(snake_stat)
 		#return call("get_%s_info" % snake_stat)
@@ -216,6 +216,9 @@ func get_custom_bg_points_remaining():
 func grid_array_index_to_slot_info(index: int):
 	return internal_inventory.grid_array_index_to_slot_info(index)
 
+func are_marbles_quantum():
+	return current_marbles == -1
+
 #endregion
 
 
@@ -248,137 +251,6 @@ func get_manual_stat_adjustment(stat: String) -> int:
 	stat = stat.to_snake_case()
 	return manual_stat_adjustments.get(stat, 0)
 
-#func get_max_marbles_info() -> Dictionary:
-	#var result := _add_dev_info("marbles", {
-		#background = get_bg_amount("marbles")
-	#})
-	#result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("marbles"))
-	#return result
-#
-#func get_max_marbles() -> int:
-	#return global_util.sum_array(get_max_marbles_info().values())
-
-
-#func get_close_info() -> Dictionary:
-	#return {
-		#frame = frame_stats.close,
-		#internals = internal_inventory.sum_internals_for_stat("close")
-	#}
-
-#func get_close() -> int:
-	#return global_util.sum_array(get_close_info().values())
-
-#func get_far_info() -> Dictionary:
-	#return {
-		#frame = frame_stats.far,
-		#internals = internal_inventory.sum_internals_for_stat("far")
-	#}
-#
-#func get_far() -> int:
-	#return global_util.sum_array(get_far_info().values())
-
-#func get_mental_info() -> Dictionary:
-	#return _add_dev_info("mental", {
-		#background = get_bg_amount("mental")
-	#})
-#
-#func get_mental() -> int:
-	#return global_util.sum_array(get_mental_info().values())
-
-#func get_power_info() -> Dictionary:
-	#return {
-		#frame = frame_stats.power,
-		#internals = internal_inventory.sum_internals_for_stat("power"),
-	#}
-#
-#func get_power() -> int:
-	#return global_util.sum_array(get_power_info().values())
-
-#func get_evasion_info() -> Dictionary:
-	#return {
-		#frame = frame_stats.evasion,
-		#internals = internal_inventory.sum_internals_for_stat("evasion")
-	#}
-#
-#func get_evasion() -> int:
-	#return global_util.sum_array(get_evasion_info().values())
-
-#func get_willpower_info() -> Dictionary:
-	#return _add_dev_info("willpower", {
-		#background = get_bg_amount("willpower"),
-	#})
-#
-#func get_willpower() -> int:
-	#return global_util.sum_array(get_willpower_info().values())
-
-#func get_ap_info() -> Dictionary:
-	#return {
-		#frame = frame_stats.ap,
-		#internals = internal_inventory.sum_internals_for_stat("ap"),
-	#}
-#
-#func get_ap() -> int:
-	#return global_util.sum_array(get_ap_info().values())
-
-#func get_speed_info() -> Dictionary:
-	#return _add_dev_info("speed", {
-		#frame = frame_stats.speed,
-		#internals = internal_inventory.sum_internals_for_stat("speed"),
-	#})
-#
-#func get_speed() -> int:
-	#return global_util.sum_array(get_speed_info().values())
-
-#func get_sensors_info() -> Dictionary:
-	#return {
-		#frame = frame_stats.sensors,
-		#internals = internal_inventory.sum_internals_for_stat("sensors"),
-	#}
-#
-#func get_sensors() -> int:
-	#return global_util.sum_array(get_sensors_info().values())
-
-#func get_repair_kits_info() -> Dictionary:
-	#var result := _add_dev_info("repair_kits", {
-		#frame = frame_stats.repair_kits,
-		#internals = internal_inventory.sum_internals_for_stat("repair_kits"),
-	#})
-	#result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("repair_kits"))
-	#return result
-#
-#func get_repair_kits() -> int:
-	#return global_util.sum_array(get_repair_kits_info().values())
-
-#func get_max_unlocks_info() -> Dictionary:
-	#return _add_dev_info("unlocks", {
-		#background = get_bg_amount("unlocks"),
-		#level = level_stats.unlocks,
-	#})
-#
-#func get_max_unlocks() -> int:
-	#return global_util.sum_array(get_max_unlocks_info().values())
-
-#func get_weight_info() -> Dictionary:
-	#return {
-		#internals = internal_inventory.sum_internals_for_stat("weight")
-	#}
-#
-#func get_weight() -> int:
-	#return global_util.sum_array(get_weight_info().values())
-
-#func get_weight_cap_info() -> Dictionary:
-	#var result := {
-		#background = get_bg_amount("weight_cap"),
-		#frame = frame_stats.weight_cap,
-		#level = level_stats.weight_cap,
-		#internals = internal_inventory.sum_internals_for_stat("weight_cap"),
-	#}
-	#result = _add_dev_info("weight_cap", result)
-	#return result
-#
-#func get_weight_cap() -> int:
-	#return global_util.sum_array(get_weight_cap_info().values())
-
 func get_ballast_info() -> Dictionary:
 	var ballast_from_weight: int = weight_to_ballast(get_stat("weight"))
 	var result = {
@@ -394,6 +266,8 @@ func get_ballast_info() -> Dictionary:
 		var ballast_from_adjusted_weight: int = weight_to_ballast(adjusted_weight)
 		var ballast_effect = ballast_from_adjusted_weight - ballast_from_weight
 		result[dev_name] = ballast_effect
+	
+	result = _add_nonzero_kv_pair(result, "manual adj", get_manual_stat_adjustment("ballast"))
 	
 	return result
 
@@ -643,6 +517,14 @@ func add_custom_label(label_id: String, label_info: Dictionary):
 	custom_label_info[label_id] = label_info
 	custom_labels.append(label_id)
 
+func modify_current_marbles(amount: int):
+	if are_marbles_quantum():
+		collapse_quantum_marbles()
+	current_marbles = clamp(current_marbles + amount, 0, get_stat("marbles"))
+
+func collapse_quantum_marbles():
+	current_marbles = get_stat("marbles")
+
 #endregion
 
 
@@ -653,6 +535,9 @@ func add_custom_label(label_id: String, label_info: Dictionary):
 #region save & load
 
 func marshal() -> Dictionary:
+	if are_marbles_quantum():
+		collapse_quantum_marbles()
+	
 	var result := {
 		callsign = callsign,
 		frame = frame_name,
@@ -665,6 +550,7 @@ func marshal() -> Dictionary:
 		custom_labels = custom_labels,
 		custom_label_info = custom_label_info,
 		current_marbles = current_marbles,
+		custom_background_name = custom_background_name,
 	}
 	
 	result.custom_background = custom_background
@@ -698,6 +584,12 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	var sesh: UnmarshalSession = start_unmarshalling_session(info)
 	
 	var ch := GearwrightCharacter.new()
+	# suspension might not get equipped before we hit weight cap, so ignore it
+	# other things too, ignore it all until everything is loaded
+	ch.enforce_weight_cap = false
+	ch.enforce_hardpoint_cap = false
+	ch.enforce_tags = false
+	
 	ch.callsign = sesh.get_info("callsign")
 	ch.load_frame(sesh.get_info("frame"))
 	ch.load_background(sesh.get_info("background"))
@@ -709,9 +601,11 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	ch.custom_labels = sesh.get_info("custom_labels", [])
 	ch.custom_label_info = sesh.get_info("custom_label_info", {})
 	ch.current_marbles = sesh.get_info("current_marbles", 0)
-	
-	
+	ch.developments = sesh.get_info("developments", [])
+	ch.maneuvers = sesh.get_info("maneuvers", [])
+	ch.deep_words = sesh.get_info("deep_words", [])
 	ch.custom_background = sesh.get_info("custom_background", [])
+	ch.custom_background_name = sesh.get_info("custom_background_name")
 	
 	var unlocks_raw_data = sesh.get_info("unlocks")
 	var unlocks_slot_infos := [] # list of make_slot_info results
@@ -739,8 +633,6 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 			sesh.errors.append("  failed to unlock %s" % str(unlock_slot_info))
 	
 	var internals := sesh.get_info("internals", {}) as Dictionary
-	# suspension might not get equipped before we hit weight cap, so ignore it
-	ch.enforce_weight_cap = false
 	if internals.is_empty():
 		# maybe this isn't an error?
 		sesh.errors.append("No internals found!")
@@ -780,11 +672,10 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 				var errors: Array = ch.equip_internal(new_internal, gsid, primary_cell)
 				if not errors.is_empty():
 					sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
-	ch.enforce_weight_cap = true
 	
-	ch.developments = sesh.get_info("developments", [])
-	ch.maneuvers = sesh.get_info("maneuvers", [])
-	ch.deep_words = sesh.get_info("deep_words", [])
+	ch.enforce_weight_cap = true
+	ch.enforce_hardpoint_cap = false
+	ch.enforce_tags = false
 	
 	finish_unmarshalling_session(sesh)
 	

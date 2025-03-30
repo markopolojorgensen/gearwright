@@ -132,7 +132,7 @@ func set_legend_number(number: int, make_visible := true):
 	
 	var cell_offset = Vector2(get_filled_cell() - top_left_corner_cell)
 	$LegendNumberControl.position = cell_offset * world_cell_size
-	$LegendNumberControl.scale = Vector2(1.5, 1.5) / scale # TODO maybe adjust this
+	#$LegendNumberControl.scale = Vector2(1.5, 1.5) / scale # TODO maybe adjust this
 
 func hide_legend_number():
 	$LegendNumberControl.hide()

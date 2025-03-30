@@ -159,10 +159,10 @@ func get_mutations_amount(stat: String) -> int:
 	var amount = mutations.count(stat) * mutation_mults.get(stat, 0)
 	return amount
 
-func get_mutations_remaining():
+func get_mutations_remaining() -> int:
 	return get_type_data().get("mutations", 0) - mutations.size()
 
-func get_same_mutations_limit():
+func get_same_mutations_limit() -> int:
 	return get_type_data().get("mutation_cap", 0)
 
 func get_basic_info(stat: String) -> Dictionary:

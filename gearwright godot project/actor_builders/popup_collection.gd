@@ -1,6 +1,7 @@
 extends Node2D
 
 signal save_loaded(info: Dictionary)
+signal fsh_saved
 
 @onready var fsh_export_popup: Popup = %FshExportPopup
 @onready var png_export_popup: Popup = %PngExportPopup
@@ -41,6 +42,7 @@ func _on_fsh_export_popup_export(filename: String) -> void:
 	file.close()
 	
 	global.open_folder("Saves")
+	fsh_saved.emit()
 
 func _on_fsh_export_popup_popup_hide() -> void:
 	input_context_system.pop_input_context_stack()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://co3tgplgb8ego"]
+[gd_scene load_steps=18 format=3 uid="uid://co3tgplgb8ego"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_5bw67"]
 [ext_resource type="Script" uid="uid://c874bmnoqr3go" path="res://actor_builders/fish_builder/fish_builder.gd" id="2_e7pw6"]
@@ -7,15 +7,14 @@
 [ext_resource type="Script" uid="uid://c0hoafnl0jggb" path="res://actor_builders/fish_builder/fish_size_selector.gd" id="5_2oj0h"]
 [ext_resource type="Script" uid="uid://btrf8hkko1yne" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="6_d5qo3"]
 [ext_resource type="PackedScene" uid="uid://cojllssnu0db" path="res://actor_builders/top_menu/save_menu_button.tscn" id="7_yspy3"]
-[ext_resource type="Script" uid="uid://xo6f3e8bvtlu" path="res://actor_builders/top_menu/back_button.gd" id="8_ueu4c"]
 [ext_resource type="Theme" uid="uid://b20rfstklkoo0" path="res://Assets/big_font_theme.tres" id="9_th3j2"]
 [ext_resource type="FontFile" uid="uid://bhdfh08bwxfgg" path="res://Assets/static/Montserrat-SemiBold.ttf" id="10_67712"]
-[ext_resource type="PackedScene" uid="uid://dsfw5q2dojfyj" path="res://actor_builders/inventory_system/gear_section_control.tscn" id="11_57rid"]
 [ext_resource type="PackedScene" uid="uid://2d52tcveghpy" path="res://actor_builders/stats_list_control.tscn" id="12_u6b22"]
 [ext_resource type="Script" uid="uid://cb7u8vl4pom6b" path="res://actor_builders/fish_builder/template_selector.gd" id="13_tdc46"]
 [ext_resource type="PackedScene" uid="uid://dsdvpwp8xgsae" path="res://actor_builders/stat_edit_control/custom_stat_edit_control.tscn" id="14_pjp3h"]
 [ext_resource type="PackedScene" uid="uid://crc5iqf38uhvj" path="res://actor_builders/inventory_system/diablo_style_inventory_system.tscn" id="15_60r37"]
 [ext_resource type="PackedScene" uid="uid://4g7i5o5oyj6n" path="res://actor_builders/floating_explanation_control.tscn" id="16_cfq45"]
+[ext_resource type="PackedScene" uid="uid://bfhqnu6eyngx2" path="res://utility/lost_data_preventer.tscn" id="16_hj5my"]
 [ext_resource type="PackedScene" uid="uid://lsxxhvkd1frg" path="res://actor_builders/popup_collection.tscn" id="19_pstjp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm0fc"]
@@ -127,12 +126,11 @@ layout_mode = 2
 popup/item_0/id = 0
 new_actor_text = "New Fish"
 
-[node name="BackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
+[node name="MainMenuBackButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 custom_minimum_size = Vector2(160, 64)
 layout_mode = 2
 text = "Main Menu
 "
-script = ExtResource("8_ueu4c")
 
 [node name="Spacer2" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 layout_mode = 2
@@ -238,98 +236,6 @@ alignment = 1
 [node name="FreeRangeGearSections" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="LeftLegsGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 361.0
-offset_right = 362.0
-offset_bottom = 18.0
-
-[node name="TipGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 378.0
-offset_right = 379.0
-offset_bottom = 18.0
-
-[node name="TailGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 395.0
-offset_right = 396.0
-offset_bottom = 18.0
-
-[node name="BodyGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 412.0
-offset_right = 413.0
-offset_bottom = 18.0
-
-[node name="NeckGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 429.0
-offset_right = 430.0
-offset_bottom = 18.0
-
-[node name="HeadGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 446.0
-offset_right = 447.0
-offset_bottom = 18.0
-
-[node name="RightLegsGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 463.0
-offset_right = 464.0
-offset_bottom = 18.0
-
-[node name="LeftArmGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 403.0
-offset_top = 22.0
-offset_right = 404.0
-offset_bottom = 40.0
-
-[node name="RightArmGearSectionControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/GearSectionControlContainer/FreeRangeGearSections" instance=ExtResource("11_57rid")]
-unique_name_in_owner = true
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 420.0
-offset_top = 22.0
-offset_right = 421.0
-offset_bottom = 40.0
 
 [node name="StatsListControl" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2" instance=ExtResource("12_u6b22")]
 unique_name_in_owner = true
@@ -566,6 +472,8 @@ horizontal_alignment = 2
 [node name="PopupCollection" parent="." instance=ExtResource("19_pstjp")]
 unique_name_in_owner = true
 
+[node name="LostDataPreventer" parent="." instance=ExtResource("16_hj5my")]
+
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="item_spawned" from="MarginContainer/HBoxContainer/PartMenu" to="." method="_on_part_menu_item_spawned"]
 [connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
@@ -574,11 +482,12 @@ unique_name_in_owner = true
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton" method="_on_button_down"]
 [connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton/InternalsResetConfirmDialog" to="." method="_on_internals_reset_confirm_dialog_confirmed"]
 [connection signal="button_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
-[connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/BackButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/BackButton" method="_on_button_down"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/MainMenuBackButton" to="." method="_on_main_menu_back_button_pressed"]
 [connection signal="text_changed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/VBoxContainer/FishNameInputContainer/FishNameInput" to="." method="_on_fish_name_input_text_changed"]
 [connection signal="stat_mouse_entered" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_entered"]
 [connection signal="stat_mouse_exited" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/PanelContainer/ExportViewContainer/HBoxContainer2/StatsListControl" to="." method="_on_stats_list_control_stat_mouse_exited"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" method="_on_item_selected"]
 [connection signal="type_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TypeSelector" to="." method="_on_template_selector_type_selected"]
 [connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]
+[connection signal="fsh_saved" from="PopupCollection" to="." method="_on_popup_collection_fsh_saved"]
 [connection signal="save_loaded" from="PopupCollection" to="." method="_on_popup_collection_save_loaded"]

@@ -301,11 +301,18 @@ func get_thing_nicely(data_type: DATA_TYPE, key):
 		
 		push_error("%s: %s" % [title, message])
 		print("%s: %s" % [title, message])
-		global_util.popup_warning(title, message)
+		#global_util.popup_warning(title, message)
 		return default
 
 func get_development_data(dev_name: String):
 	return get_thing_nicely(DATA_TYPE.DEVELOPMENT, dev_name)
+
+func is_development_name(dev_name: String) -> bool:
+	for dev_id in development_data.keys():
+		var dev_info: Dictionary = development_data[dev_id]
+		if dev_info.name == dev_name:
+			return true
+	return false
 
 func get_maneuver_data(man_name: String):
 	return get_thing_nicely(DATA_TYPE.MANEUVER, man_name)

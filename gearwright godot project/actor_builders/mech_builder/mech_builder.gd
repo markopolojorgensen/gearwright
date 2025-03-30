@@ -104,9 +104,13 @@ var enforce_weight_cap := true
 var enforce_hardpoint_cap := true
 var enforce_tags := true
 
+var custom_background_index: int = -1
+
 #region initialization
 
 func _ready():
+	get_tree().set_auto_accept_quit(false)
+	
 	global_util.verbose = debug
 	if not debug:
 		$ModeDebugLabel.hide()
@@ -142,7 +146,11 @@ func _ready():
 	
 	perk_info_container.hide()
 	
-	for background_id in DataHandler.background_data.keys():
+	var background_ids = DataHandler.background_data.keys()
+	for i in range(background_ids.size()):
+		var background_id = background_ids[i]
+		if background_id == "custom":
+			custom_background_index = i
 		var nice_name: String = DataHandler.background_data[background_id].background
 		background_option_button.add_item(nice_name)
 	_on_background_option_button_item_selected.call_deferred(0)
@@ -198,8 +206,15 @@ func _ready():
 	
 	%GearContainer.hide()
 	%FisherContainer.hide()
+	%UnlocksManualAdjustmentControl.hide()
+	%WeightCapManualAdjustmentControl.hide()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.PLAYER)
 	_on_tab_bar_tab_changed(0)
+	
+	$LostDataPreventer.saved_data = current_character.marshal()
+	
+	await get_tree().process_frame
+	inventory_system.control_scale = gear_section_controls.values().front().scale.x
 
 func is_curio(item_data: Dictionary):
 	for tag in item_data.tags:
@@ -231,11 +246,15 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 			var perk_info: Dictionary = DataHandler.get_maneuver_data(perk)
 			perk_title_label.text = perk_info.get("name", "")
 			var text := ""
+			# ap and range go on the same line
 			var ap_cost = perk_info.get("ap_cost", 0)
 			if (ap_cost is int) or (ap_cost is float):
-				text += "AP: %d\n" % int(ap_cost)
+				text += "AP: %d" % int(ap_cost)
 			elif ap_cost is String:
-				text += "AP: %s\n" % ap_cost
+				text += "AP: %s" % ap_cost
+			if perk_info.has("range"):
+				text += " - Range %d" % perk_info["range"]
+			text += "\n"
 			text += perk_info.get("action_text", "")
 			perk_info_label.text = text
 			if perk_info.get("category", "") == "mental":
@@ -246,7 +265,10 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 			var perk_info: Dictionary = DataHandler.get_deep_word_data(perk)
 			perk_title_label.text = perk_info.get("full_name", "")
 			var text := ""
-			text += "AP: %d\n" % perk_info.get("ap_cost", 0)
+			text += "AP: %d" % perk_info.get("ap_cost", 0)
+			if perk_info.has("range"):
+				text += " - Range: %d" % perk_info.get("range")
+			text += "\n"
 			if perk_info.has("damage"):
 				text += "Damage: %s" % perk_info.damage
 			text += perk_info.get("action_text", "")
@@ -254,7 +276,6 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 				text += "\n" + perk_info.extra_rules
 			var tags := []
 			tags = add_tag_string(tags, perk_info, "fathomless")
-			tags = add_tag_string(tags, perk_info, "range")
 			if not tags.is_empty():
 				text += "\n" + ", ".join(tags)
 			perk_info_label.text = text
@@ -305,6 +326,7 @@ func register_ic_custom_bg():
 	ic.deactivate = func(_is_stack_growing: bool):
 		custom_bg_popup.hide()
 		edit_bg_button.text = "Edit Background"
+		request_update_controls = true
 	ic.handle_input = func(_event: InputEvent):
 		pass
 	input_context_system.register_input_context(ic)
@@ -317,6 +339,8 @@ func register_ic_manual_adjustment():
 		developments_title_control.show_manual_adjustment_control()
 		maneuvers_title_control.show_manual_adjustment_control()
 		deep_words_title_control.show_manual_adjustment_control()
+		%UnlocksManualAdjustmentControl.show()
+		%WeightCapManualAdjustmentControl.show()
 		manual_button.text = "Save Manual\nAdjustments"
 		manual_button.set_deferred("button_pressed", true)
 		request_update_controls = true
@@ -325,12 +349,16 @@ func register_ic_manual_adjustment():
 		developments_title_control.hide_manual_adjustment_control()
 		maneuvers_title_control.hide_manual_adjustment_control()
 		deep_words_title_control.hide_manual_adjustment_control()
+		%UnlocksManualAdjustmentControl.hide()
+		%WeightCapManualAdjustmentControl.hide()
 		manual_button.text = "Edit Manual\nAdjustments"
 		# don't immediately double-pop
 		manual_button.set_deferred("button_pressed", false)
 		request_update_controls = true
-	ic.handle_input = func(_event: InputEvent):
-		pass
+	ic.handle_input = func(event: InputEvent):
+		if event.is_action_pressed("mouse_rightclick"):
+			if inventory_system.item_info_popup():
+				get_viewport().set_input_as_handled()
 	input_context_system.register_input_context(ic)
 
 func register_ic_player():
@@ -480,6 +508,8 @@ func _on_callsign_line_edit_text_changed(new_text: String) -> void:
 
 func _on_background_option_button_item_selected(index: int) -> void:
 	var nice_name: String = background_option_button.get_item_text(index)
+	if index == custom_background_index:
+		nice_name = "Custom"
 	var bg_id := nice_name.to_snake_case()
 	current_character.load_background(bg_id)
 	request_update_controls = true
@@ -487,10 +517,9 @@ func _on_background_option_button_item_selected(index: int) -> void:
 func _on_edit_background_button_pressed() -> void:
 	if input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.MECH_BUILDER_CUSTOM_BACKGROUND:
 		input_context_system.pop_input_context_stack()
-		return
-	
-	input_context_system.pop_to(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
-	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER_CUSTOM_BACKGROUND)
+	else:
+		input_context_system.pop_to(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
+		input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER_CUSTOM_BACKGROUND)
 
 
 # connected to custom bg widget in _ready
@@ -512,6 +541,22 @@ func _on_stats_list_control_manual_stat_increase(stat_name: String) -> void:
 
 func _on_stats_list_control_manual_stat_decrease(stat_name: String) -> void:
 	current_character.manual_stat_decrease(stat_name)
+	request_update_controls = true
+
+func _on_unlocks_manual_adjustment_control_increase() -> void:
+	current_character.manual_stat_increase("unlocks")
+	request_update_controls = true
+
+func _on_unlocks_manual_adjustment_control_decrease() -> void:
+	current_character.manual_stat_decrease("unlocks")
+	request_update_controls = true
+
+func _on_weight_cap_manual_adjustment_control_increase() -> void:
+	current_character.manual_stat_increase("weight_cap")
+	request_update_controls = true
+
+func _on_weight_cap_manual_adjustment_control_decrease() -> void:
+	current_character.manual_stat_decrease("weight_cap")
 	request_update_controls = true
 
 func _on_developments_perk_section_title_control_increase() -> void:
@@ -542,18 +587,28 @@ func _on_diablo_style_inventory_system_something_changed() -> void:
 	request_update_controls = true
 
 func _on_save_menu_button_button_selected(button_id: int) -> void:
-	if button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
+	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
+		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.check_lost_data(func():
+			input_context_system.clear()
+			get_tree().reload_current_scene()
+			)
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
 		popup_collection.popup_fsh(current_character)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
 		# grab image before covering it up with export popup
 		callsign_line_edit.release_focus()
+		# in case we're in narrative mode
+		input_context_system.pop_to(input_context_system.INPUT_CONTEXT.PLAYER)
+		input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.MECH_BUILDER)
 		await get_tree().process_frame
 		await get_tree().process_frame
 		var border_rect := Rect2i(%MechImageRegion.get_global_rect())
 		var image_to_save: Image = get_viewport().get_texture().get_image().get_region(border_rect)
 		popup_collection.popup_png(current_character.callsign, image_to_save)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
-		popup_collection.popup_load_dialog()
+		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
 
 func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
@@ -564,7 +619,7 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():
-			inventory_system.add_child(internal_info.internal)
+			inventory_system.add_scaled_child(internal_info.internal)
 	
 	request_update_controls = true
 
@@ -654,12 +709,28 @@ func _on_narrative_custom_label_add_button_pressed() -> void:
 	request_update_controls = true
 
 func _on_narrative_marbles_stat_edit_control_increase() -> void:
-	current_character.current_marbles += 1
+	current_character.modify_current_marbles(1)
 	request_update_controls = true
 
 func _on_narrative_marbles_stat_edit_control_decrease() -> void:
-	current_character.current_marbles -= 1
+	current_character.modify_current_marbles(-1)
 	request_update_controls = true
+
+func _on_custom_background_name_line_edit_text_changed(new_text: String) -> void:
+	current_character.custom_background_name = new_text.left(18)
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.check_lost_data(func(): get_tree().quit())
+
+func _on_main_menu_back_button_pressed() -> void:
+	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.check_lost_data(func(): get_tree().change_scene_to_file("res://main_menu/main_menu.tscn"))
+
+func _on_popup_collection_fsh_saved() -> void:
+	$LostDataPreventer.saved_data = current_character.marshal()
+
 
 
 ## Reactivity - things that reset internals
@@ -699,6 +770,8 @@ func update_controls():
 	inventory_system.fancy_update(current_character, gear_section_controls)
 	
 	stats_list_control.update(current_character)
+	%UnlocksManualAdjustmentControl.get_spin_box().value = current_character.get_manual_stat_adjustment("unlocks")
+	%WeightCapManualAdjustmentControl.get_spin_box().value = current_character.get_manual_stat_adjustment("weight_cap")
 	
 	# frame selector
 	var frame_index := global_util.set_option_button_by_item_text(
@@ -753,16 +826,26 @@ func update_controls():
 	gear_ability_title.text = "Gear Ability:\n%s" % current_character.frame_stats.gear_ability_name
 	
 	# background
-	var background_index := global_util.set_option_button_by_item_text(
-			background_option_button,
-			current_character.background_stats.background
-	)
-	if background_index == -1:
-		push_error("update_controls: bad background: %s" % current_character.background_stats.background)
-	if current_character.background_stats.background.to_snake_case() == "custom":
+	var current_background: String = current_character.background_stats.background
+	if current_background.to_lower() == "custom":
 		edit_bg_button.disabled = false
+		if current_character.custom_background_name.is_empty():
+			background_option_button.set_item_text(custom_background_index, "Custom")
+		else:
+			background_option_button.set_item_text(
+					custom_background_index,
+					current_character.custom_background_name
+			)
+		background_option_button.select(custom_background_index)
+		current_background = current_character.custom_background_name
 	else:
 		edit_bg_button.disabled = true
+		var background_index := global_util.set_option_button_by_item_text(
+				background_option_button,
+				current_background
+		)
+		if background_index == -1:
+			push_error("update_controls: bad background: %s" % current_character.background_stats.background)
 	
 	core_integrity_control.update(current_character.get_core_integrity())
 	repair_kits_control.update(current_character.get_stat("repair_kits"))
@@ -805,7 +888,9 @@ func update_controls():
 		var stat_value = current_character.custom_background.count(stat_name)
 		custom_bg_control.value = stat_value
 	custom_bg_points_label.text = str(current_character.get_custom_bg_points_remaining())
+	%CustomBackgroundNameLineEdit.text = current_character.custom_background_name
 	
+	# hover explanation
 	if not current_hover_stat.is_empty() and input_context_system.is_in_stack(input_context_system.INPUT_CONTEXT.MECH_BUILDER):
 		floating_explanation_control.text = current_character.get_stat_explanation(current_hover_stat)
 	
@@ -814,12 +899,13 @@ func update_controls():
 	# Narrative page
 	
 	%NarrativeCallsignLabel.text = current_character.callsign
+	%NarrativeBGLabel.text = "[i]%s[/i]" % current_background
 	
 	# labels
 	# has to be a list to support duplicates
 	var label_infos := []
 	for label_id in current_character.labels:
-		var label_info: Dictionary = DataHandler.get_label_data(label_id)
+		var label_info: Dictionary = DataHandler.get_label_data(label_id).duplicate()
 		label_info.label_id = label_id
 		label_infos.append(label_info)
 	for label_id in current_character.custom_labels:
@@ -833,10 +919,22 @@ func update_controls():
 	%BacklashStatEditControl.value = current_character.backlash
 	
 	# current marbles
-	%NarrativeMarblesStatEditControl.value = current_character.current_marbles
+	if current_character.are_marbles_quantum():
+		%NarrativeMarblesStatEditControl.value = current_character.get_stat("marbles")
+	else:
+		%NarrativeMarblesStatEditControl.value = current_character.current_marbles
 	%NarrativeMarblesStatEditControl.max_value = current_character.get_stat("marbles")
 
 #endregion
+
+
+
+
+
+
+
+
+
 
 
 

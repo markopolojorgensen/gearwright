@@ -163,6 +163,9 @@ func update(character: GearwrightActor):
 		for key in info.keys():
 			if "fish" in key.to_lower():
 				base += info[key]
+			# developments edit base stats
+			elif DataHandler.is_development_name(key):
+				base += info[key]
 		
 		var bonus: int = global_util.sum_array(info.values()) - base
 		if 0 <= bonus:

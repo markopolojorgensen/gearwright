@@ -2,45 +2,22 @@ TODO
 Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
+  json changes (most recent is 25_03_23_00)
+    none right now, yay
+  save format changes
+    new keys in manual_adjustments: "unlocks" and "weight_cap"
+    new key in characters: "custom_background_name"
 ------------------------------------------------------------------------------------------------------- SMOL
-document fisher format changes
-  labels
-  custom_labels
-  custom_label_info
-  backlash
-  current_marbles
+  embed pck
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
-  zoom font changes
-    maybe make everything huge and then always be scaling down?
-      i.e. quit pre-shrinking the assets?
 
+  fisher/fish saves/exports should go in different folders
   show known saves on main menu
 
-  warn when data would be lost (keep track of most recent save)
-    exit
-    return to main menu
-    load
-    new fish / new gear
-
-  edit .json files (most recent is 25_03_21_00)
-    labels
-      severely deeptouched description
-    custom background description...?
-    pinned discord message...?
-  done
-    burnout ap cost should be 0, not "X"
-    galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
-    scrubber needs the same "\n" treatment as line linker in item_data.json
-    `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
-    lightweight construction / ballast fish mutation / gas pockets
-      "Lightweight Construction
-        Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
-    siltstalker -> siltstalker_leviathan
-    abberant -> aberrant (fish template and developments)
-
+------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
   fancy custom ux for totd/injuries?
     injuries
       todo: list all the stuff injuries can change
@@ -53,7 +30,6 @@ document fisher format changes
 
   undo/redo?
 
-------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
   shouldn't crash if fed garbage save files (e.g. "cam" instead of "optics")
   go through all FIXMEs / TODOs / WHEREWASIs
   too many different fish internals is a bit jank
@@ -86,7 +62,48 @@ document fisher format changes
     unnecessary
 
 
-DONE
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------- DONE
+  json edits
+    Touch of the Deep: The touch of the Deep has altered your body in some way. Be sure to hide it in polite society. The features you now share with marine life may be beneficial. Are those gills, tentacles, webbed feet?
+    burnout ap cost should be 0, not "X"
+    galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
+    scrubber needs the same "\n" treatment as line linker in item_data.json
+    `"speed": 1,` needs to be added to lightweight_construction in fisher_developments.json
+    lightweight construction / ballast fish mutation / gas pockets
+      "Lightweight Construction
+        Gain +1 Speed. After your Gear’s final BALLAST has been determined, reduce it by 1."
+    siltstalker -> siltstalker_leviathan
+    abberant -> aberrant (fish template and developments)
+
+
+
+2.4.0
+  warn user when data might be lost:
+    on program exit
+    trying to return to main menu
+    loading a file
+    new fish / new gear
+  Range for deep words & mental maneuvers 
+  background is shown in narrative tab
+  You can name your custom background
+  Column numbers no longer look washed
+  you can now make manual stat adjustments to weight cap & unlocks
+  stat bonuses granted by developments are now counted as base and not bonus
+  you can now right click on internals while making manual stat adjustments
+  mutation stats are not floating points, for real though
+  "save to png..." now kicks you back to gear view
+  ballast manual adjustments work now
+  no more million popup softlock if you try to load a file with bad data (now it just kinda breaks quietly)
+  current marbles mostly stay between 0 and max marbles
+  current marbles stay at max until you save the character for the first time or edit current marbles
+  Loading saves with tinkerer is no longer borked
 2.3.1
   equipped internals no longer appear in narrative panel
 2.3.0

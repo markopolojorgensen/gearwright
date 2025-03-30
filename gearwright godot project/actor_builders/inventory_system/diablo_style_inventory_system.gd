@@ -68,6 +68,9 @@ func register_ic_unlock():
 		if event.is_action_pressed("mouse_leftclick"):
 			if toggle_current_slot_lock():
 				get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("mouse_rightclick"):
+			if item_info_popup():
+				get_viewport().set_input_as_handled()
 	input_context_system.register_input_context(ic)
 
 
@@ -328,6 +331,10 @@ func on_part_menu_item_spawned(item_id: Variant) -> void:
 	item_held = new_item
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.INVENTORY_SYSTEM_HOLDING_ITEM)
 	#mode = Modes.PLACE
+
+func add_scaled_child(new_child: Node):
+	new_child.scale = Vector2(1.0, 1.0) * control_scale
+	add_child(new_child)
 
 #endregion
 

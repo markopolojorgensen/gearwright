@@ -31,15 +31,12 @@
 [ext_resource type="Texture2D" uid="uid://ddjjkxocyorfp" path="res://actor_builders/inventory_system/fish_sprites/6x6.png" id="30_7n81q"]
 
 [node name="GearSectionControl" type="VBoxContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1649.0
-offset_bottom = -863.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 1.0
+offset_bottom = 26.0
 theme_override_constants/separation = 0
 script = ExtResource("1_xujjt")
+metadata/_edit_vertical_guides_ = [100.0, 200.0, 300.0, 400.0, 500.0, 600.0]
+metadata/_edit_horizontal_guides_ = [100.0, 200.0, 300.0, 400.0, 500.0, 600.0]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -59,22 +56,19 @@ theme_override_constants/v_separation = 0
 unique_name_in_owner = true
 visible = false
 z_index = 1
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_amd6j")
 centered = false
-offset = Vector2(-35, -28)
+offset = Vector2(-36, -28)
 
 [node name="TorsoBGSprite2D" type="Sprite2D" parent="MarginContainer/TorsoOverlaySprite2D"]
 z_index = -1
 texture = ExtResource("3_xbifi")
 centered = false
-offset = Vector2(-6, -7)
 
 [node name="HeadOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
 z_index = 1
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("4_2fbx5")
 centered = false
 offset = Vector2(-26, -14)
@@ -88,10 +82,9 @@ centered = false
 unique_name_in_owner = true
 visible = false
 z_index = 1
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("6_7jv1k")
 centered = false
-offset = Vector2(-18, -25)
+offset = Vector2(-19.5, -23)
 
 [node name="BGSprite2D" type="Sprite2D" parent="MarginContainer/LeftArmOverlaySprite2D"]
 z_index = -1
@@ -103,10 +96,9 @@ offset = Vector2(0, -2)
 unique_name_in_owner = true
 visible = false
 z_index = 1
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("8_h7dl4")
 centered = false
-offset = Vector2(-24, -22)
+offset = Vector2(-25, -22)
 
 [node name="BGSprite2D" type="Sprite2D" parent="MarginContainer/RightArmOverlaySprite2D"]
 z_index = -1
@@ -118,7 +110,6 @@ offset = Vector2(-3, -2)
 unique_name_in_owner = true
 visible = false
 z_index = 1
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("10_tnrc5")
 centered = false
 offset = Vector2(-27, -27)
@@ -131,31 +122,27 @@ centered = false
 [node name="3x3FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("13_rhmuy")
 centered = false
-offset = Vector2(-30, -36)
+offset = Vector2(-28, -36)
 
 [node name="3x3FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("14_jgkqp")
 centered = false
-offset = Vector2(-45, -42)
+offset = Vector2(-42, -40)
 
 [node name="3x3FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("15_car6a")
 centered = false
-offset = Vector2(-42, -36)
+offset = Vector2(-40, -36)
 
 [node name="3x3FishOverlaySprite2DD" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("16_igadm")
 centered = false
 offset = Vector2(-45, -30)
@@ -163,7 +150,6 @@ offset = Vector2(-45, -30)
 [node name="3x4FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("17_hwwmu")
 centered = false
 offset = Vector2(-30, -36)
@@ -171,7 +157,6 @@ offset = Vector2(-30, -36)
 [node name="3x4FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("18_5pghk")
 centered = false
 offset = Vector2(-42, -36)
@@ -179,7 +164,6 @@ offset = Vector2(-42, -36)
 [node name="3x4FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("19_jum5a")
 centered = false
 offset = Vector2(-42, -21)
@@ -187,7 +171,6 @@ offset = Vector2(-42, -21)
 [node name="3x4FishOverlaySprite2DD" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("20_cbdbb")
 centered = false
 offset = Vector2(-43, -30)
@@ -195,7 +178,6 @@ offset = Vector2(-43, -30)
 [node name="3x6FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("21_htycv")
 centered = false
 offset = Vector2(-42, -35)
@@ -203,7 +185,6 @@ offset = Vector2(-42, -35)
 [node name="3x6FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("22_xwlct")
 centered = false
 offset = Vector2(-43, -37)
@@ -211,7 +192,6 @@ offset = Vector2(-43, -37)
 [node name="6x3FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("23_4tsbj")
 centered = false
 offset = Vector2(-42, -42)
@@ -219,7 +199,6 @@ offset = Vector2(-42, -42)
 [node name="6x3FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("24_cumjj")
 centered = false
 offset = Vector2(-28, -36)
@@ -227,7 +206,6 @@ offset = Vector2(-28, -36)
 [node name="6x3FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("25_ot045")
 centered = false
 offset = Vector2(-26, -29)
@@ -235,7 +213,6 @@ offset = Vector2(-26, -29)
 [node name="6x3FishOverlaySprite2DD" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("26_btjul")
 centered = false
 offset = Vector2(-24, -30)
@@ -243,7 +220,6 @@ offset = Vector2(-24, -30)
 [node name="6x4FishOverlaySprite2DA" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("27_w5kgt")
 centered = false
 offset = Vector2(-28, -36)
@@ -251,7 +227,6 @@ offset = Vector2(-28, -36)
 [node name="6x4FishOverlaySprite2DB" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("28_rnnam")
 centered = false
 offset = Vector2(-26, -28)
@@ -259,7 +234,6 @@ offset = Vector2(-26, -28)
 [node name="6x4FishOverlaySprite2DC" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("29_55cmv")
 centered = false
 offset = Vector2(-42, -32)
@@ -267,16 +241,21 @@ offset = Vector2(-42, -32)
 [node name="6x6FishOverlaySprite2D" type="Sprite2D" parent="MarginContainer"]
 unique_name_in_owner = true
 visible = false
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("30_7n81q")
 centered = false
 offset = Vector2(-42, -36)
 
 [node name="CaptionLabel" type="Label" parent="."]
-custom_minimum_size = Vector2(0, 26)
+custom_minimum_size = Vector2(0, 88)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.682353, 0.682353, 0.682353, 1)
+theme_override_font_sizes/font_size = 56
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
