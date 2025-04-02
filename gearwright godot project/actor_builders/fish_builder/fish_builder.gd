@@ -70,6 +70,14 @@ func _ready():
 	
 	register_ic_fish_builder_base()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.FISH_BUILDER)
+	
+	if global.path_to_shortcutted_file != null:
+		await get_tree().process_frame
+		input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.POPUP_ACTIVE)
+		popup_collection._on_open_file_dialog_file_selected(global.path_to_shortcutted_file)
+		global.path_to_shortcutted_file = null
+		set_deferred("request_update_controls", true)
+
 
 
 func register_ic_fish_builder_base():
@@ -200,6 +208,10 @@ func get_internal_legend_items_total_height() -> float:
 #region Fish Sizes
 
 func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -> void:
+	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.check_lost_data(change_fish_size.bind(fish_size))
+
+func change_fish_size(fish_size: GearwrightFish.SIZE) -> void:
 	current_character.reset_gear_sections()
 	
 	current_character = GearwrightFish.new()
@@ -253,6 +265,7 @@ func _on_fish_size_selector_fish_size_selected(fish_size: GearwrightFish.SIZE) -
 		gear_section_control.slot_entered.connect(_on_slot_entered)
 		gear_section_control.slot_exited.connect(_on_slot_exited)
 	
+	$LostDataPreventer.saved_data = current_character.marshal()
 	request_update_controls = true
 
 func create_gear_section_control(gsid: GearwrightActor.GSIDS) -> Control:
@@ -443,11 +456,15 @@ func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_I
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
 		$LostDataPreventer.current_data = current_character.marshal()
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
+		global.open_folder(LocalDataHandler.paths["Fish"]["fsh"])
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
+		global.open_folder(LocalDataHandler.paths["Fish"]["png"])
 
 func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
 	var new_fish := GearwrightFish.unmarshal(info)
-	_on_fish_size_selector_fish_size_selected(new_fish.size)
+	change_fish_size(new_fish.size) # skip LostDataPreventer
 	current_character = new_fish
 	inventory_system.current_actor = current_character
 	var internals := current_character.get_equipped_items()
@@ -455,6 +472,7 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 		if not internal_info.internal.is_inside_tree():
 			add_child(internal_info.internal)
 	
+	$LostDataPreventer.saved_data = current_character.marshal()
 	request_update_controls = true
 
 func _on_open_file_dialog_canceled() -> void:

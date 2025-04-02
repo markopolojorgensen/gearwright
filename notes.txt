@@ -13,10 +13,6 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
-
-  fisher/fish saves/exports should go in different folders
-  show known saves on main menu
-
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
   fancy custom ux for totd/injuries?
     injuries
@@ -85,11 +81,18 @@ Q1 2025, definitely before May
 
 
 2.4.0
+  known saves are now shown on main menu
+    truncated to 25 characters
+    scrollable if there's a lot of them
+  limit custom label name size
+  fisher/fish saves/exports -> Saves/Fish/ and Saves/Gears
   warn user when data might be lost:
     on program exit
     trying to return to main menu
     loading a file
     new fish / new gear
+    change fish size
+    change gear frame
   Range for deep words & mental maneuvers 
   background is shown in narrative tab
   You can name your custom background

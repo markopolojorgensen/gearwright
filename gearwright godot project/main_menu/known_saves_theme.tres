@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://leubc6itca05"]
+
+[ext_resource type="FontFile" uid="uid://c0l674lupwfwg" path="res://Assets/static/Roboto_Mono/static/RobotoMono-Medium.ttf" id="1_es03o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gcr1t"]
+bg_color = Color(0.152, 0.19, 0.38, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6at21"]
+bg_color = Color(0.0504533, 0.0336, 0.16, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kecin"]
+bg_color = Color(0.05572, 0.0504, 0.21, 0.901961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es03o"]
+bg_color = Color(0.05572, 0.0504, 0.21, 0.901961)
+
+[resource]
+Button/font_sizes/font_size = 14
+Button/fonts/font = ExtResource("1_es03o")
+Button/styles/hover = SubResource("StyleBoxFlat_gcr1t")
+Button/styles/normal = SubResource("StyleBoxFlat_6at21")
+Panel/styles/panel = SubResource("StyleBoxFlat_kecin")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_es03o")

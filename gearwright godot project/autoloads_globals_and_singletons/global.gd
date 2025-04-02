@@ -1,5 +1,8 @@
 extends Node
 
+# user selects an existing file to load from main menu
+var path_to_shortcutted_file
+
 const colors := {
 	"passive": Color("753706"),
 	"active": Color("215328"),
@@ -33,7 +36,8 @@ func dictionary_to_vector2i(dict: Dictionary) -> Vector2i:
 func dictionary_to_vector2(dict: Dictionary) -> Vector2:
 	return Vector2(float(dict.x), float(dict.y))
 
-func open_folder(folder_name):
+func open_folder(folder_name: String):
+	folder_name = folder_name.replace("user://", "")
 	var path
 	if OS.has_feature("editor"):
 		path = ProjectSettings.globalize_path("user://%s" % folder_name)

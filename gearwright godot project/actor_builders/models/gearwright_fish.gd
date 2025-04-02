@@ -304,7 +304,7 @@ func marshal() -> Dictionary:
 		name = callsign, # callsign
 		size = SIZE_NAMES[size],
 		template = TYPE_NAMES[type], # type
-		mutations = mutations,
+		mutations = mutations.duplicate(),
 	}
 	
 	#info.internals = internal_inventory.get_equipped_items(false)

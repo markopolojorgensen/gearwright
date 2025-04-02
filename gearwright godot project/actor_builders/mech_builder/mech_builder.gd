@@ -211,10 +211,22 @@ func _ready():
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.PLAYER)
 	_on_tab_bar_tab_changed(0)
 	
-	$LostDataPreventer.saved_data = current_character.marshal()
 	
 	await get_tree().process_frame
 	inventory_system.control_scale = gear_section_controls.values().front().scale.x
+	
+	$LostDataPreventer.saved_data = current_character.marshal()
+	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.checksum()
+	
+	if global.path_to_shortcutted_file != null:
+		await get_tree().process_frame
+		input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.POPUP_ACTIVE)
+		popup_collection._on_open_file_dialog_file_selected(global.path_to_shortcutted_file)
+		global.path_to_shortcutted_file = null
+		await get_tree().create_timer(0.2).timeout
+		request_update_controls = true
+
 
 func is_curio(item_data: Dictionary):
 	for tag in item_data.tags:
@@ -410,6 +422,13 @@ func register_ic_fisher_profile():
 
 func _process(_delta):
 	$ModeDebugLabel.text = "Context: %s" % input_context_system.get_current_input_context_name().capitalize()
+	
+	#%UnsavedChangesLabel.text = "Changes Saved?\n"
+	#var current_data = current_character.marshal()
+	#if $LostDataPreventer.saved_data == current_data:
+		#%UnsavedChangesLabel.text += "Yes"
+	#else:
+		#%UnsavedChangesLabel.text += "No"
 	
 	if request_update_controls:
 		request_update_controls = false
@@ -609,6 +628,10 @@ func _on_save_menu_button_button_selected(button_id: int) -> void:
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
 		$LostDataPreventer.current_data = current_character.marshal()
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
+		global.open_folder(LocalDataHandler.paths["Gear"]["fsh"])
+	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
+		global.open_folder(LocalDataHandler.paths["Gear"]["png"])
 
 func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
@@ -621,6 +644,7 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 		if not internal_info.internal.is_inside_tree():
 			inventory_system.add_scaled_child(internal_info.internal)
 	
+	$LostDataPreventer.saved_data = current_character.marshal()
 	request_update_controls = true
 
 func _on_weight_cap_check_button_toggled(toggled_on: bool) -> void:
@@ -696,6 +720,7 @@ func _on_backlash_stat_edit_control_decrease() -> void:
 func _on_narrative_custom_label_add_button_pressed() -> void:
 	var label_info := {}
 	label_info.name = %NarrativeCustomLineEdit.text
+	label_info.name = label_info.name.left(20)
 	if %CustomLabelEquipmentCheckBox.button_pressed:
 		label_info.label_type = "equipment"
 	else:
@@ -731,6 +756,9 @@ func _on_main_menu_back_button_pressed() -> void:
 func _on_popup_collection_fsh_saved() -> void:
 	$LostDataPreventer.saved_data = current_character.marshal()
 
+func _on_help_button_pressed() -> void:
+	%HelpPanel.visible = not %HelpPanel.visible
+
 
 
 ## Reactivity - things that reset internals
@@ -740,8 +768,12 @@ func _on_internals_reset_confirm_dialog_confirmed():
 	request_update_controls = true
 
 func _on_frame_selector_load_frame(frame_name: String):
-	current_character.load_frame(frame_name)
-	request_update_controls = true
+	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.check_lost_data(func():
+		current_character.load_frame(frame_name)
+		request_update_controls = true
+		$LostDataPreventer.saved_data = current_character.marshal()
+		)
 
 func _on_hardpoints_reset_confirm_dialog_confirmed():
 	current_character.reset_gear_sections()
@@ -926,6 +958,8 @@ func update_controls():
 	%NarrativeMarblesStatEditControl.max_value = current_character.get_stat("marbles")
 
 #endregion
+
+
 
 
 

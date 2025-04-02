@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=40 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" uid="uid://eatpbgbpvng8" path="res://actor_builders/mech_builder/mech_builder.gd" id="1_t8ijy"]
@@ -43,6 +43,9 @@ thickness = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n4val"]
 bg_color = Color(0.295867, 0.295867, 0.295866, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1qcb5"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3w80"]
 bg_color = Color(0.18, 0.18, 0.18, 1)
@@ -1073,18 +1076,31 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -364.0
-offset_bottom = 74.0
+offset_bottom = 142.0
 grow_horizontal = 0
+mouse_filter = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="TabBar" type="TabBar" parent="MarginContainer2/HBoxContainer2"]
+[node name="UnsavedChangesLabel" type="Label" parent="MarginContainer2/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "unsaved changes?
+"
+horizontal_alignment = 2
+
+[node name="TabBar" type="TabBar" parent="MarginContainer2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 0
@@ -1094,18 +1110,44 @@ tab_count = 2
 tab_0/title = "Gear"
 tab_1/title = "Fisher"
 
-[node name="SaveMenuButton" parent="MarginContainer2/HBoxContainer2" instance=ExtResource("26_v0iwd")]
+[node name="SaveMenuButton" parent="MarginContainer2/VBoxContainer/HBoxContainer2" instance=ExtResource("26_v0iwd")]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 0
 popup/item_0/id = 0
 
-[node name="MainMenuBackButton" type="Button" parent="MarginContainer2/HBoxContainer2"]
+[node name="MainMenuBackButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 0
 text = "Main Menu
 "
+
+[node name="HelpButton" type="Button" parent="MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "?"
+
+[node name="HelpPanel" type="PanelContainer" parent="MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1qcb5")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpPanel"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpPanel/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer2/VBoxContainer/HelpPanel/MarginContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 512)
+layout_mode = 2
+text = "HERE IS THE TEXT THAT EXPLAINS HOW TO USE THIS PROGRAM"
 
 [node name="ModeDebugLabel" type="Label" parent="."]
 visible = false
@@ -1336,9 +1378,10 @@ autowrap_mode = 3
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_decrease"]
 [connection signal="increase" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_increase"]
 [connection signal="pressed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/PanelContainer/MarginContainer/NarrativeCustomLabelAddButton" to="." method="_on_narrative_custom_label_add_button_pressed"]
-[connection signal="tab_changed" from="MarginContainer2/HBoxContainer2/TabBar" to="." method="_on_tab_bar_tab_changed"]
-[connection signal="button_selected" from="MarginContainer2/HBoxContainer2/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
-[connection signal="pressed" from="MarginContainer2/HBoxContainer2/MainMenuBackButton" to="." method="_on_main_menu_back_button_pressed"]
+[connection signal="tab_changed" from="MarginContainer2/VBoxContainer/HBoxContainer2/TabBar" to="." method="_on_tab_bar_tab_changed"]
+[connection signal="button_selected" from="MarginContainer2/VBoxContainer/HBoxContainer2/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/HBoxContainer2/MainMenuBackButton" to="." method="_on_main_menu_back_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/HelpButton" to="." method="_on_help_button_pressed"]
 [connection signal="something_changed" from="DiabloStyleInventorySystem" to="." method="_on_diablo_style_inventory_system_something_changed"]
 [connection signal="text_changed" from="CustomBGPanelContainer/MarginContainer/VBoxContainer/CustomBackgroundNameLineEdit" to="." method="_on_custom_background_name_line_edit_text_changed"]
 [connection signal="fsh_saved" from="PopupCollection" to="." method="_on_popup_collection_fsh_saved"]

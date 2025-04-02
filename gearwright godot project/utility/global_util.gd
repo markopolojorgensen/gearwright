@@ -623,3 +623,25 @@ func rising_text(text: String, location: Vector2):
 	
 	debug_drawing_cl.add_child(label)
 
+func dir_contents(path) -> Dictionary:
+	var results := {
+		"dirs": [],
+		"files": [],
+	}
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				#print("Found directory: " + file_name)
+				results.dirs.append(file_name)
+			else:
+				#print("Found file: " + file_name)
+				results.files.append(file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+	return results
+
+

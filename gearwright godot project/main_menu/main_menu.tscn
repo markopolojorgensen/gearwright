@@ -1,116 +1,131 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfs7lmjjmnx3o"]
+[gd_scene load_steps=10 format=3 uid="uid://dfs7lmjjmnx3o"]
 
 [ext_resource type="Script" uid="uid://dawq5cfwpjv86" path="res://main_menu/main_menu.gd" id="1_aumut"]
-[ext_resource type="Texture2D" uid="uid://borlycprd6hya" path="res://Assets/Icon.png" id="1_lu8u5"]
-[ext_resource type="Script" uid="uid://c4w320r0psmh2" path="res://main_menu/gear_builder_button.gd" id="2_0hsn1"]
-[ext_resource type="Script" uid="uid://t734qv4pg2ud" path="res://main_menu/fish_builder_button.gd" id="3_rm4m5"]
-[ext_resource type="Script" uid="uid://djxjnrh3hx8tx" path="res://main_menu/data_import_button.gd" id="4_5e2oq"]
+[ext_resource type="Texture2D" uid="uid://dnflbtds3hmsp" path="res://main_menu/assets/HookLineMecha_Lamprey.png" id="2_6at21"]
+[ext_resource type="Texture2D" uid="uid://dxqkghwn4ty16" path="res://main_menu/assets/HookLineMecha_Rhombus_png.png" id="3_6at21"]
+[ext_resource type="Texture2D" uid="uid://d10oudqfpquti" path="res://main_menu/assets/FG_Title_FIN_reFont_a2-blue.png" id="3_ia84y"]
+[ext_resource type="PackedScene" uid="uid://3d73vuqrag75" path="res://main_menu/known_saves_list_widget.tscn" id="3_t6bnd"]
 [ext_resource type="PackedScene" uid="uid://dkiv4ctslv22q" path="res://main_menu/file_import_dialog.tscn" id="5_4h3nc"]
+[ext_resource type="FontFile" uid="uid://krxk4t0donjr" path="res://main_menu/assets/Amarante-Regular.ttf" id="6_ia84y"]
+[ext_resource type="Texture2D" uid="uid://cpoqn1bbuk61w" path="res://main_menu/assets/Shaded_Icon.png" id="7_6at21"]
 
-[node name="MainMenu" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6bnd"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="MainMenu" type="MarginContainer"]
 custom_minimum_size = Vector2(1132, 648)
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -566.0
-offset_top = -324.0
-offset_right = 566.0
-offset_bottom = 324.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_aumut")
-metadata/_edit_use_anchors_ = true
+metadata/_edit_horizontal_guides_ = [890.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-offset_right = 1132.0
-offset_bottom = 648.0
+layout_mode = 2
 color = Color(0.0823529, 0.109804, 0.294118, 1)
 
-[node name="ColorRect" type="ColorRect" parent="ColorRect"]
-custom_minimum_size = Vector2(400, 600)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -300.0
-offset_right = 200.0
-offset_bottom = 300.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.215686, 0.215686, 0.215686, 1)
+[node name="HookLineMechaLamprey" type="Sprite2D" parent="."]
+position = Vector2(1497, 446)
+scale = Vector2(0.194285, 0.194285)
+texture = ExtResource("2_6at21")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/ColorRect"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 45.0
-offset_right = -42.0
-offset_bottom = 90.0
-grow_horizontal = 2
+[node name="HookLineMechaRhombusPng" type="Sprite2D" parent="."]
+position = Vector2(263, 453)
+scale = Vector2(0.1892, 0.1892)
+texture = ExtResource("3_6at21")
 
-[node name="TextureRect" type="TextureRect" parent="ColorRect/ColorRect/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-texture = ExtResource("1_lu8u5")
-expand_mode = 2
+theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="ColorRect/ColorRect/HBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 10
-theme_override_font_sizes/font_size = 40
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 32
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_ia84y")
+expand_mode = 5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="GearKnownSavesListWidget" parent="HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("3_t6bnd")]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t6bnd")
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2"]
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("6_ia84y")
+theme_override_font_sizes/font_size = 50
 text = "Gearwright"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ColorRect"]
-custom_minimum_size = Vector2(400, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 10
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
 
-[node name="GearBuilderButton" type="Button" parent="ColorRect/ColorRect/VBoxContainer"]
+[node name="GearBuilderButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Gear Builder
 "
-script = ExtResource("2_0hsn1")
 
-[node name="FishBuilderButton" type="Button" parent="ColorRect/ColorRect/VBoxContainer"]
+[node name="FishBuilderButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fish Builder
 "
-script = ExtResource("3_rm4m5")
 
-[node name="DataImportButton" type="Button" parent="ColorRect/ColorRect/VBoxContainer"]
+[node name="DataImportButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Import Data"
-script = ExtResource("4_5e2oq")
 
-[node name="CreditsButton" type="Button" parent="ColorRect/ColorRect/VBoxContainer"]
+[node name="CreditsButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
@@ -119,8 +134,28 @@ size_flags_vertical = 4
 text = "Credits
 "
 
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("7_6at21")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FishKnownSavesListWidget" parent="HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("3_t6bnd")]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+save_type = "Fish"
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="FileDialog" parent="." instance=ExtResource("5_4h3nc")]
 
-[connection signal="button_down" from="ColorRect/ColorRect/VBoxContainer/GearBuilderButton" to="ColorRect/ColorRect/VBoxContainer/GearBuilderButton" method="_on_button_down"]
-[connection signal="button_down" from="ColorRect/ColorRect/VBoxContainer/FishBuilderButton" to="ColorRect/ColorRect/VBoxContainer/FishBuilderButton" method="_on_button_down"]
-[connection signal="button_down" from="ColorRect/ColorRect/VBoxContainer/DataImportButton" to="ColorRect/ColorRect/VBoxContainer/DataImportButton" method="_on_button_down"]
+[connection signal="file_selected" from="HBoxContainer/VBoxContainer/HBoxContainer2/GearKnownSavesListWidget" to="." method="_on_gear_known_saves_list_widget_file_selected"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/GearBuilderButton" to="." method="_on_gear_builder_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/FishBuilderButton" to="." method="_on_fish_builder_button_pressed"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataImportButton" to="." method="_on_data_import_button_button_down"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataImportButton" to="HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataImportButton" method="_on_button_down"]
+[connection signal="file_selected" from="HBoxContainer/VBoxContainer/HBoxContainer2/FishKnownSavesListWidget" to="." method="_on_fish_known_saves_list_widget_file_selected"]

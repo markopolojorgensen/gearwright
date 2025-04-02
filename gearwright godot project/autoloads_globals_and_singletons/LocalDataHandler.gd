@@ -2,11 +2,26 @@ extends Node
 
 @onready var data_dir = "res://Data"
 
-var dirs_to_check := ["LocalData", "Saves", "Screenshots"]
+var dirs_to_check := [
+	"user://LocalData",
+]
+
+const paths := {
+	"Gear": {
+		"fsh": "user://Saves/Gears/Files/",
+		"png": "user://Saves/Gears/Images/",
+	},
+	"Fish": {
+		"fsh": "user://Saves/Fish/Files/",
+		"png": "user://Saves/Fish/Images/",
+	},
+}
 
 func _ready():
+	for dict in paths.values():
+		dirs_to_check.append_array(dict.values())
+	
 	for directory in dirs_to_check:
-		directory = "user://".path_join(directory)
 		if !DirAccess.dir_exists_absolute(directory):
 			DirAccess.make_dir_recursive_absolute(directory) 
 	

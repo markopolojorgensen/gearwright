@@ -3,6 +3,8 @@ extends Node2D
 signal save_loaded(info: Dictionary)
 signal fsh_saved
 
+@export_enum("Gear", "Fish") var save_style := "Gear"
+
 @onready var fsh_export_popup: Popup = %FshExportPopup
 @onready var png_export_popup: Popup = %PngExportPopup
 @onready var open_file_dialog: FileDialog = %OpenFileDialog
@@ -34,14 +36,15 @@ func popup_fsh(new_actor: GearwrightActor):
 	_popup(fsh_export_popup, actor.callsign)
 
 func _on_fsh_export_popup_export(filename: String) -> void:
-	var path = "user://Saves/" + filename
+	var folder_path = LocalDataHandler.paths[save_style]["fsh"]
+	var path = folder_path + filename
 	
 	var json := JSON.stringify(actor.marshal(), "  ")
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(json)
 	file.close()
 	
-	global.open_folder("Saves")
+	global.open_folder(folder_path)
 	fsh_saved.emit()
 
 func _on_fsh_export_popup_popup_hide() -> void:
@@ -54,8 +57,9 @@ func popup_png(suggestion: String, new_image: Image):
 	_popup(png_export_popup, suggestion)
 
 func _on_png_export_popup_export(filename: String) -> void:
-	image_to_save.save_png("user://Screenshots/" + filename)
-	global.open_folder("Screenshots")
+	var folder_path = LocalDataHandler.paths[save_style]["png"]
+	image_to_save.save_png(folder_path + filename)
+	global.open_folder(folder_path)
 
 func _on_png_export_popup_popup_hide() -> void:
 	input_context_system.pop_input_context_stack()
@@ -70,6 +74,7 @@ func _popup(popup: Popup, suggestion: String):
 
 
 func popup_load_dialog():
+	open_file_dialog.current_dir = LocalDataHandler.paths[save_style]["fsh"]
 	open_file_dialog.popup()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.POPUP_ACTIVE)
 

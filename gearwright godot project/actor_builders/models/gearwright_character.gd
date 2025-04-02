@@ -48,6 +48,8 @@ var custom_label_info := {}
 
 func _init():
 	internal_inventory.create_character_gear_sections()
+	if not DataHandler.frame_data.keys().is_empty():
+		load_frame(DataHandler.frame_data.keys().front())
 
 #endregion
 
@@ -499,6 +501,7 @@ func manual_stat_change(stat_name: String, change: int):
 		manual_stat_adjustments[stat_name] = new_value
 
 func add_label(label_id: String):
+	global_util.fancy_print("adding label %s" % label_id)
 	labels.append(label_id)
 
 func remove_label(label_id: String):
@@ -543,12 +546,12 @@ func marshal() -> Dictionary:
 		frame = frame_name,
 		background = background_stats.background.to_snake_case(),
 		level = str(level),
-		manual_stat_adjustments = manual_stat_adjustments,
+		manual_stat_adjustments = manual_stat_adjustments.duplicate(),
 		mental_maneuver = mental_maneuver,
 		backlash = backlash,
-		labels = labels,
-		custom_labels = custom_labels,
-		custom_label_info = custom_label_info,
+		labels = labels.duplicate(),
+		custom_labels = custom_labels.duplicate(),
+		custom_label_info = custom_label_info.duplicate(),
 		current_marbles = current_marbles,
 		custom_background_name = custom_background_name,
 	}

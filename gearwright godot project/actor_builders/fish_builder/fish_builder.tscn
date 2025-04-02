@@ -471,6 +471,7 @@ horizontal_alignment = 2
 
 [node name="PopupCollection" parent="." instance=ExtResource("19_pstjp")]
 unique_name_in_owner = true
+save_style = "Fish"
 
 [node name="LostDataPreventer" parent="." instance=ExtResource("16_hj5my")]
 
