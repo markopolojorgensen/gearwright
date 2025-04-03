@@ -56,6 +56,7 @@ func _ready():
 	current_character.initialize()
 	_on_fish_size_selector_fish_size_selected.call_deferred(current_character.size)
 	inventory_system.current_actor = current_character
+	inventory_system.clear_slot_info()
 	
 	for gear_section_control in gear_section_controls.values():
 		gear_section_control.slot_entered.connect(_on_slot_entered)
@@ -218,6 +219,7 @@ func change_fish_size(fish_size: GearwrightFish.SIZE) -> void:
 	current_character.size = fish_size
 	current_character.initialize()
 	inventory_system.current_actor = current_character
+	inventory_system.clear_slot_info()
 	
 	# reinitialize gear section controls
 	for gear_section_id in gear_section_controls.keys():
@@ -467,6 +469,7 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	change_fish_size(new_fish.size) # skip LostDataPreventer
 	current_character = new_fish
 	inventory_system.current_actor = current_character
+	inventory_system.clear_slot_info()
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():
@@ -505,7 +508,15 @@ func _on_main_menu_back_button_pressed() -> void:
 func _on_popup_collection_fsh_saved() -> void:
 	$LostDataPreventer.saved_data = current_character.marshal()
 
+func _on_help_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		%HelpPanel.show()
+	else:
+		%HelpPanel.hide()
+
 #endregion
+
+
 
 
 

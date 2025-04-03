@@ -537,8 +537,8 @@ func collapse_quantum_marbles():
 
 #region save & load
 
-func marshal() -> Dictionary:
-	if are_marbles_quantum():
+func marshal(collapse_marbles := true) -> Dictionary:
+	if collapse_marbles and are_marbles_quantum():
 		collapse_quantum_marbles()
 	
 	var result := {
@@ -676,9 +676,9 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 				if not errors.is_empty():
 					sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
 	
-	ch.enforce_weight_cap = true
-	ch.enforce_hardpoint_cap = false
-	ch.enforce_tags = false
+	#ch.enforce_weight_cap = true
+	#ch.enforce_hardpoint_cap = true
+	#ch.enforce_tags = true
 	
 	finish_unmarshalling_session(sesh)
 	

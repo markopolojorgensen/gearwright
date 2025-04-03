@@ -2626,7 +2626,7 @@
     "weight": 3,
     "willpower": 0
   },
-  "broadside_bladder": {
+  "broadside_engine": {
     "action_data": {
       "ap_cost": 0,
       "attribute": "",
@@ -2649,7 +2649,7 @@
       "[0, 1]"
     ],
     "mental": 0,
-    "name": "Broadside Bladder",
+    "name": "Broadside Engine",
     "power": 0,
     "extra_rules": "",
     "sensors": 0,

@@ -112,7 +112,7 @@
   },
   "vanquisher": {
     "name": "Vanquisher",
-    "description": "Whenever you destroy a Fish you and all Fishers in your Line of Sight gain the Focused Condition.",
+    "description": "Whenever you destroy a Fish roll 1d3.  You and all Fishers in your Line of Sight regain that many Marbles.",
     "repeatable": false
   }
 }

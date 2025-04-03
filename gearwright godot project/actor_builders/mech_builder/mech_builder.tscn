@@ -1124,30 +1124,48 @@ text = "Main Menu
 "
 
 [node name="HelpButton" type="Button" parent="MarginContainer2/VBoxContainer"]
+z_index = 200
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 8
+toggle_mode = true
 text = "?"
 
-[node name="HelpPanel" type="PanelContainer" parent="MarginContainer2/VBoxContainer"]
+[node name="HelpPanel" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+offset_left = -560.0
+offset_top = 68.0
+offset_right = 64.0
+offset_bottom = 626.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1qcb5")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel"]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpPanel/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpPanel/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer2/VBoxContainer/HelpPanel/MarginContainer/PanelContainer/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel/MarginContainer/PanelContainer/MarginContainer"]
 custom_minimum_size = Vector2(0, 512)
 layout_mode = 2
-text = "HERE IS THE TEXT THAT EXPLAINS HOW TO USE THIS PROGRAM"
+text = "Right-Click any Internal, Development, Maneuver or Deep Word to view its stats.
+
+Unlock or re-lock Hardpoints on your Gear by clicking on them while in \"Unlock Hardpoints\" mode. Orange hardpoints are a Gear's base hardpoints and can not be locked.
+
+Left click Internals to pick them up, and left click again while hovering over free hardpoints to install them on the gear. Right click while holding an Internal to remove your selection.
+
+Hover over the “Weight” stat to display the weight for each Internal that is currently installed.
+
+Use “Edit Manual Adjustments” mode to manually modify your stats, useful for when you have suffered an injury or received a Touch of the Deep bonus.
+
+Click the Gear and Fisher buttons to switch between Gear building and narrative modes.
+
+Disable Hardpoint, Weight and Tag (Limited, Bulky, Unwieldy) restrictions using the toggles at the top."
 
 [node name="ModeDebugLabel" type="Label" parent="."]
 visible = false

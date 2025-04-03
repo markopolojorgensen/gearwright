@@ -160,6 +160,15 @@ func item_info_popup() -> bool:
 
 
 
+#region Mutation
+
+# make sure there's no holdovers from e.g. previusly freed slot controls when changing fish size
+func clear_slot_info():
+	current_slot_info = {}
+
+#endregion
+
+
 
 
 

@@ -2,17 +2,30 @@ TODO
 Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
-  json changes (most recent is 25_03_23_00)
-    none right now, yay
+  json changes (most recent is 2025_04_02_01)
+    none, yay
   save format changes
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 ------------------------------------------------------------------------------------------------------- SMOL
   embed pck
 ------------------------------------------------------------------------------------------------------- MEDIOM
+  "Empty Hardpoints: %d" in the fish editor top bar
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
+  no more "import data" button, put the fsh file in the game
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
   fancy custom ux for totd/injuries?
     injuries
@@ -66,8 +79,11 @@ Q1 2025, definitely before May
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  json edits
-    Touch of the Deep: The touch of the Deep has altered your body in some way. Be sure to hide it in polite society. The features you now share with marine life may be beneficial. Are those gills, tentacles, webbed feet?
+  json edits (most recent is 2025_04_02_00)
+    broadside bladder is now broadside engine (and other changes? check discord dm)
+    the nomad background is now called Sailor
+    Vanquisher Developtment final rulest text: "Whenever you destroy a Fish roll 1d3.  You and all Fishers in your Line of Sight regain that many Marbles."
+    Severely Deeptouched: The touch of the Deep has altered your body in some way. Be sure to hide it in polite society. The features you now share with marine life may be beneficial. Are those gills, tentacles, webbed feet?
     burnout ap cost should be 0, not "X"
     galvanic_capacitor ap_cost should be 0, not "0" in item_data.json
     scrubber needs the same "\n" treatment as line linker in item_data.json
@@ -81,10 +97,14 @@ Q1 2025, definitely before May
 
 
 2.4.0
+  new gearwright data: 2025_04_02_01
+  bugfix: loading a save file no longer disables tag enforcement
+  "?" button shows helpful hints for gear & fish editor
+  no longer crashes when confirming you want to change from an unsaved leviathan to a different fish size
   known saves are now shown on main menu
     truncated to 25 characters
     scrollable if there's a lot of them
-  limit custom label name size
+  custom label names get truncated
   fisher/fish saves/exports -> Saves/Fish/ and Saves/Gears
   warn user when data might be lost:
     on program exit
@@ -242,7 +262,8 @@ Q1 2025, definitely before May
 gearwright data
 
 it's a zip file renamed to .fsh
-inside there's a bunch of json files and _assets.pck
+inside there's a bunch of json files
+and _assets.pck
   that's where all the sprites are stored
   need godot gre tools to make that pck, I suppose?
   maybe not, but whatever

@@ -187,6 +187,7 @@ func _ready():
 		gear_section_control.slot_exited.connect(_on_slot_mouse_exited)
 	
 	inventory_system.current_actor = current_character
+	inventory_system.clear_slot_info()
 	
 	register_ic_player()
 	register_ic_base_mech_builder()
@@ -215,8 +216,8 @@ func _ready():
 	await get_tree().process_frame
 	inventory_system.control_scale = gear_section_controls.values().front().scale.x
 	
-	$LostDataPreventer.saved_data = current_character.marshal()
-	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.saved_data = current_character.marshal(false)
+	$LostDataPreventer.current_data = current_character.marshal(false)
 	$LostDataPreventer.checksum()
 	
 	if global.path_to_shortcutted_file != null:
@@ -607,7 +608,7 @@ func _on_diablo_style_inventory_system_something_changed() -> void:
 
 func _on_save_menu_button_button_selected(button_id: int) -> void:
 	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
-		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.current_data = current_character.marshal(false)
 		$LostDataPreventer.check_lost_data(func():
 			input_context_system.clear()
 			get_tree().reload_current_scene()
@@ -626,7 +627,7 @@ func _on_save_menu_button_button_selected(button_id: int) -> void:
 		var image_to_save: Image = get_viewport().get_texture().get_image().get_region(border_rect)
 		popup_collection.popup_png(current_character.callsign, image_to_save)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
-		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.current_data = current_character.marshal(false)
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
 		global.open_folder(LocalDataHandler.paths["Gear"]["fsh"])
@@ -637,14 +638,16 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
 	current_character = GearwrightCharacter.unmarshal(info)
 	inventory_system.current_actor = current_character
+	inventory_system.clear_slot_info()
 	current_character.enforce_weight_cap = enforce_weight_cap
 	current_character.enforce_hardpoint_cap = enforce_hardpoint_cap
+	current_character.enforce_tags = enforce_tags
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():
 			inventory_system.add_scaled_child(internal_info.internal)
 	
-	$LostDataPreventer.saved_data = current_character.marshal()
+	$LostDataPreventer.saved_data = current_character.marshal(false)
 	request_update_controls = true
 
 func _on_weight_cap_check_button_toggled(toggled_on: bool) -> void:
@@ -746,15 +749,15 @@ func _on_custom_background_name_line_edit_text_changed(new_text: String) -> void
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		$LostDataPreventer.current_data = current_character.marshal()
+		$LostDataPreventer.current_data = current_character.marshal(false)
 		$LostDataPreventer.check_lost_data(func(): get_tree().quit())
 
 func _on_main_menu_back_button_pressed() -> void:
-	$LostDataPreventer.current_data = current_character.marshal()
+	$LostDataPreventer.current_data = current_character.marshal(false)
 	$LostDataPreventer.check_lost_data(func(): get_tree().change_scene_to_file("res://main_menu/main_menu.tscn"))
 
 func _on_popup_collection_fsh_saved() -> void:
-	$LostDataPreventer.saved_data = current_character.marshal()
+	$LostDataPreventer.saved_data = current_character.marshal(false)
 
 func _on_help_button_pressed() -> void:
 	%HelpPanel.visible = not %HelpPanel.visible

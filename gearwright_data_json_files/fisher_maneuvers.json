@@ -86,7 +86,7 @@
   "burnout": {
     "name": "Burnout",
     "category": "utility",
-    "ap_cost": "X",
+    "ap_cost": 0,
     "action_text": "Choose an Internal that has not yet been Engaged this turn and that is not destroyed. It gains the Rapid Fire 2 and Unstable Tags until the end of this turn. If it already has Rapid Fire it adds +1 to the tag."
   },
   "right_tool_for_the_job": {

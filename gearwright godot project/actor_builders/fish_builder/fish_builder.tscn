@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://co3tgplgb8ego"]
+[gd_scene load_steps=19 format=3 uid="uid://co3tgplgb8ego"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_5bw67"]
 [ext_resource type="Script" uid="uid://c874bmnoqr3go" path="res://actor_builders/fish_builder/fish_builder.gd" id="2_e7pw6"]
@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://4g7i5o5oyj6n" path="res://actor_builders/floating_explanation_control.tscn" id="16_cfq45"]
 [ext_resource type="PackedScene" uid="uid://bfhqnu6eyngx2" path="res://utility/lost_data_preventer.tscn" id="16_hj5my"]
 [ext_resource type="PackedScene" uid="uid://lsxxhvkd1frg" path="res://actor_builders/popup_collection.tscn" id="19_pstjp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hj5my"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm0fc"]
 bg_color = Color(0.215686, 0.215686, 0.215686, 1)
@@ -89,7 +92,7 @@ script = ExtResource("5_2oj0h")
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -107,6 +110,44 @@ text = "show legend numbers"
 [node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="HelpButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+toggle_mode = true
+text = "?"
+
+[node name="HelpPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/HelpButton"]
+unique_name_in_owner = true
+visible = false
+z_index = 200
+layout_mode = 2
+offset_left = 1.0
+offset_top = 72.0
+offset_right = 433.0
+offset_bottom = 403.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hj5my")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/HelpButton/HelpPanel"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/HelpButton/HelpPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/HelpButton/HelpPanel/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/HelpButton/HelpPanel/MarginContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+text = "Right-Click any Internal to view its stats.
+
+Left click Internals to pick them up, and left click again while hovering over free hardpoints to install them on the Fish. Right click while holding an Internal to remove your selection.
+
+Use the bottom menu to select the Fish type and use the mutations to modify the fish’s base stats.
+
+Hover over the “Weight” stat to display the weight for each Internal that is currently installed."
 
 [node name="InternalsResetButton" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
@@ -480,6 +521,7 @@ save_style = "Fish"
 [connection signal="fish_size_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" to="." method="_on_fish_size_selector_fish_size_selected"]
 [connection signal="item_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/FishSizeSelectContainer/FishSizeSelector" method="_on_item_selected"]
 [connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/LegendNumbersCheckButton" to="." method="_on_legend_numbers_check_button_toggled"]
+[connection signal="toggled" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/HelpButton" to="." method="_on_help_button_toggled"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton" to="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton" method="_on_button_down"]
 [connection signal="confirmed" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/InternalsResetButton/InternalsResetConfirmDialog" to="." method="_on_internals_reset_confirm_dialog_confirmed"]
 [connection signal="button_selected" from="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/MenuHeader/HBoxContainer/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
