@@ -1,0 +1,232 @@
+{
+  "reeler": {
+    "name": "Reeler",
+    "category": "reeling",
+    "ap_cost": 0,
+    "action_text": "Perform the Reel Action. This counts against its 3/turn limit. An Assisted Reel still costs 1 additional AP."
+  },
+  "redline_winches": {
+    "name": "Redline Winches",
+    "category": "reeling",
+    "ap_cost": 0,
+    "action_text": "Gain +2 to your REEL Checks until the end of this turn. This may bring you above 9 Power."
+  },
+  "careful_reeling": {
+    "name": "Careful Reeling",
+    "category": "reeling",
+    "ap_cost": 0,
+    "action_text": "Until the end of this turn Fish are unable to reduce their Hooked Conditions."
+  },
+  "heave_ho": {
+    "name": "Heave Ho",
+    "category": "reeling",
+    "ap_cost": 0,
+    "action_text": "The next Reel Action you perform this turn adds the adjacent Fisher’s POWER during an Assisted Reel instead of +2. This may bring you above 9 POWER."
+  },
+  "defensive_posture": {
+    "name": "Defensive Posture",
+    "category": "mitigation",
+    "ap_cost": 1,
+    "action_text": "Until the start of your next turn you choose the section and column damage is assigned to on your grid, even if the attack would choose where damage is applied."
+  },
+  "emergency_repairs": {
+    "name": "Emergency Repairs",
+    "category": "mitigation",
+    "ap_cost": 1,
+    "action_text": "Remove 1 marked damage from your damage grid."
+  },
+  "damage_control": {
+    "name": "Damage Control",
+    "category": "mitigation",
+    "ap_cost": 0,
+    "action_text": "All of your Internals gain the Armor tag until the start of your next turn."
+  },
+  "duck_and_cover": {
+    "name": "Duck And Cover",
+    "category": "mitigation",
+    "ap_cost": 0,
+    "action_text": "Until the start of your next turn FAR Attacks automatically miss you."
+  },
+  "evasive_maneuvers": {
+    "name": "Evasive Maneuvers",
+    "category": "mitigation",
+    "ap_cost": 1,
+    "action_text": "Gain the Evasive 3 Condition."
+  },
+  "stand stalwart": {
+    "name": "Stand Stalwart",
+    "category": "utility",
+    "ap_cost": 0,
+    "action_text": "You may fully clear any number of Conditions currently affecting you. Gain the Stalwart Condition."
+  },
+  "sprint": {
+    "name": "Sprint",
+    "category": "utility",
+    "ap_cost": 0,
+    "action_text": "Perform the Move Action. This counts against its 2/turn limit."
+  },
+  "exert": {
+    "name": "Overdrive",
+    "category": "utility",
+    "ap_cost": 0,
+    "action_text": "Gain the Wired 1 Condiiton."
+  },
+  "calm,_steady": {
+    "name": "Calm, Steady",
+    "category": "utility",
+    "ap_cost": 0,
+    "action_text": "Gain the Focused Condition."
+  },
+  "lightning_reactions": {
+    "name": "Lightning Reactions",
+    "category": "utility",
+    "ap_cost": 1,
+    "action_text": "Gain the Quickened 3 Condition."
+  },
+  "burnout": {
+    "name": "Burnout",
+    "category": "utility",
+    "ap_cost": 0,
+    "action_text": "Choose an Internal that has not yet been Engaged this turn and that is not destroyed. It gains the Rapid Fire 2 and Unstable Tags until the end of this turn. If it already has Rapid Fire it adds +1 to the tag."
+  },
+  "right_tool_for_the_job": {
+    "name": "Right Tool For The Job",
+    "category": "utility",
+    "ap_cost": 0,
+    "action_text": "Your next attack this turn gains the Precision Tag and one of either the Penetrating, Crushing or Breaching Tags."
+  },
+  "danger_close": {
+    "name": "Danger Close",
+    "category": "far",
+    "ap_cost": 0,
+    "action_text": "All of your FAR weapons gain the Point Blank tag until the end of the turn."
+  },
+  "marksman": {
+    "name": "Marksman",
+    "category": "far",
+    "ap_cost": 0,
+    "action_text": "Your next FAR attack this turn gains the Guided tag."
+  },
+  "galvanic_shock_rounds": {
+    "name": "Galvanic Shock Rounds",
+    "category": "far",
+    "ap_cost": 1,
+    "action_text": "Your next FAR Weapon Attack this turn becomes damage [0] and gains the following effect: “On a hit the target gains the Tranq 3 and Dazed 2 Conditions.” Weapons lose the Blast Tag for the duration of this attack."
+  },
+  "hook_artist": {
+    "name": "Hook Artist",
+    "category": "close",
+    "ap_cost": 0,
+    "action_text": "Until the end of this turn your CLOSE Attacks apply the Hooked 1 Condition on a hit. If they already apply the Hooked Condition they increase the value by 1."
+  },
+  "wrangler": {
+    "name": "Wrangler",
+    "category": "close",
+    "ap_cost": 0,
+    "action_text": "Perform the Wrangle Action. It inflicts Hook 2 or Tranq 2 instead."
+  },
+  "brawler": {
+    "name": "Brawler",
+    "category": "close",
+    "ap_cost": 1,
+    "action_text": "Perform the Bash Action, it gains the Devastating Tag."
+  },
+  "berserk": {
+    "name": "Berserk",
+    "category": "close",
+    "ap_cost": 1,
+    "action_text": "Gain the Berserk Condition."
+  },
+  "rallying_cry": {
+    "name": "Rallying Cry",
+    "category": "support",
+    "ap_cost": 2,
+    "action_text": "Target any number of Allies. They gain the Focused Condition."
+  },
+  "scout": {
+    "name": "Scout",
+    "category": "support",
+    "ap_cost": 0,
+    "action_text": "Perform the Scan Action."
+  },
+  "bulwark_of_steel": {
+    "name": "Bulwark Of Steel",
+    "category": "support",
+    "ap_cost": 1,
+    "action_text": "Target an adjacent Ally. You and the target gain the Ironclad 2 Condition."
+  },
+  "pep_talk": {
+    "name": "Pep Talk",
+    "category": "support",
+    "ap_cost": 1,
+    "action_text": "Target an ally. They regain 1d3 Marbles."
+  },
+  "outmaneuver": {
+    "name": "Outmaneuver",
+    "category": "support",
+    "ap_cost": 1,
+    "action_text": "Target any number of Allies. They may immediately move up to 2 spaces"
+  },
+  "taunt": {
+    "name": "Taunt",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 5,
+    "action_text": "On a hit the target gains the Pulled 4, Drained 1 and Blind Conditions."
+  },
+  "terrorize": {
+    "name": "Terrorize",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 5,
+    "action_text": "On a hit the target gains the Pushed 4 and Drained 1 Conditions."
+  },
+  "dominate": {
+    "name": "Dominate",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 5,
+    "action_text": "On a hit the target gains the Burdened 3 and Slowed 2 Conditions."
+  },
+  "outwit": {
+    "name": "Outwit",
+    "category": "mental",
+    "ap_cost": 0,
+    "action_text": "Your next CLOSE or FAR attack this turn uses MENTAL and targets Willpower instead of Evasion. It is still a Physical Attack and can Critically Hit."
+  },
+  "feint": {
+    "name": "Feint",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 1,
+    "action_text": "On a hit the target gains the Dazed 2 Condition and you do not provoke Reaction Attacks until the end of the turn."
+  },
+  "expose": {
+    "name": "Expose",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 5,
+    "action_text": "On a hit you may remove any number of Conditions of your choice from the target."
+  },
+  "goad": {
+    "name": "Goad",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 5,
+    "action_text": "On a hit the target gains the Frenzy Condition."
+  },
+  "discombobulate": {
+    "name": "Discombobulate",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 1,
+    "action_text": "On a hit the target gains the Restrained 3 Condition."
+  },
+  "distract": {
+    "name": "Distract",
+    "category": "mental",
+    "ap_cost": 1,
+    "range": 5,
+    "action_text": "On a hit you may move the target up to 2 spaces in any direction. It also gains the Doomed 3 Condition."
+  }
+}

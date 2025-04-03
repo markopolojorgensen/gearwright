@@ -510,6 +510,18 @@ func _to_string() -> String:
 				gear_sections.keys(),
 			]
 
+# used for fish validity checks
+func get_empty_hardpoint_count() -> int:
+	var result: int = 0
+	for gsid in gear_sections.keys():
+		var gear_section: GearSection = gear_sections[gsid]
+		for coords in gear_section.grid.get_valid_entries():
+			# coords is a vector2i
+			var grid_slot: GridSlot = gear_section.grid.get_contents_v(coords)
+			if (not grid_slot.is_locked) and (grid_slot.installed_item == null):
+				result += 1
+	return result
+
 #endregion
 
 

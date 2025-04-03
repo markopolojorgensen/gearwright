@@ -31,9 +31,10 @@ func load_item(a_Item_data, a_Item_ID):
 	item_ID = a_Item_ID
 	item_data = a_Item_data.duplicate(true)
 	icon_path = a_Item_data["icon_path"]
-	var image = Image.load_from_file(icon_path)
-	var texture = ImageTexture.create_from_image(image)
-	item_texture.texture = texture
+	#var image = Image.load_from_file(icon_path)
+	#var texture = ImageTexture.create_from_image(image)
+	#item_texture.texture = texture
+	item_texture.texture = load(icon_path)
 	name_label.text = a_Item_data["name"]
 	
 	item_popup.unfocusable = true

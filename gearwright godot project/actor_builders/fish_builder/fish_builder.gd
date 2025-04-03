@@ -27,6 +27,7 @@ const internals_legend_list_item_scene := preload("res://actor_builders/fish_bui
 	"sensors":     %SensorsCustomStatEditControl,
 	"ballast":     %BallastCustomStatEditControl,
 }
+@onready var empty_hardpoints_label: Label = %EmptyHardpointsLabel
 
 var request_update_controls: bool = false
 var current_character := GearwrightFish.new()
@@ -35,7 +36,8 @@ var current_character := GearwrightFish.new()
 var fish_scale: float = 1.0
 var legend_font_size = 21
 
-
+# duplicated in mech_builder, alas
+var enforce_tags := true
 
 func _ready():
 	for tab_name in part_menu_tabs:
@@ -54,6 +56,7 @@ func _ready():
 	part_menu.set_grid_column_count(3)
 	
 	current_character.initialize()
+	current_character.enforce_tags = enforce_tags
 	_on_fish_size_selector_fish_size_selected.call_deferred(current_character.size)
 	inventory_system.current_actor = current_character
 	inventory_system.clear_slot_info()
@@ -171,6 +174,13 @@ func update_controls():
 	
 	fish_name_input.text = current_character.callsign
 	
+	var empty_hardpoint_count := current_character.get_empty_hardpoint_count()
+	empty_hardpoints_label.text = "Empty Hardpoints: %d" % empty_hardpoint_count
+	if empty_hardpoint_count <= 6:
+		empty_hardpoints_label.modulate = Color.LIGHT_GREEN
+	else:
+		empty_hardpoints_label.modulate = Color.LIGHT_CORAL
+	
 	for legend_item in internals_legend_container.get_children():
 		legend_item.set_font_size(legend_font_size)
 	await get_tree().process_frame
@@ -218,6 +228,7 @@ func change_fish_size(fish_size: GearwrightFish.SIZE) -> void:
 	current_character = GearwrightFish.new()
 	current_character.size = fish_size
 	current_character.initialize()
+	current_character.enforce_tags = enforce_tags
 	inventory_system.current_actor = current_character
 	inventory_system.clear_slot_info()
 	
@@ -295,7 +306,7 @@ const FISH_GRID_GAP: float = 32.0
 
 func position_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
-	center.x -= 16
+	center.x -= 4
 	var tail_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_TAIL]
 	var body_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
 	var head_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_HEAD]
@@ -470,10 +481,11 @@ func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character = new_fish
 	inventory_system.current_actor = current_character
 	inventory_system.clear_slot_info()
+	current_character.enforce_tags = enforce_tags
 	var internals := current_character.get_equipped_items()
 	for internal_info in internals:
 		if not internal_info.internal.is_inside_tree():
-			add_child(internal_info.internal)
+			inventory_system.add_scaled_child(internal_info.internal)
 	
 	$LostDataPreventer.saved_data = current_character.marshal()
 	request_update_controls = true
@@ -513,6 +525,13 @@ func _on_help_button_toggled(toggled_on: bool) -> void:
 		%HelpPanel.show()
 	else:
 		%HelpPanel.hide()
+
+func _on_tags_check_button_toggled(toggled_on: bool) -> void:
+	enforce_tags = toggled_on
+	current_character.enforce_tags = toggled_on
+	print("setting enforce tags to %s" % str(toggled_on))
+	request_update_controls = true
+
 
 #endregion
 

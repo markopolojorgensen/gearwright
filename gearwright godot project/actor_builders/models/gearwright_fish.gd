@@ -119,7 +119,7 @@ func get_equipped_items() -> Array:
 func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vector2i) -> Array:
 	var errors := super(item, gear_section_id, primary_cell)
 	if errors.is_empty():
-		return internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell, true)
+		return internal_inventory.check_internal_equip_validity(item, gear_section_id, primary_cell, enforce_tags)
 	else:
 		return errors
 

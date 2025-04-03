@@ -29,8 +29,8 @@ const development_data_path = "user://LocalData/fisher_developments.json"
 const deep_word_data_path = "user://LocalData/deep_words.json"
 const fish_size_data_path = "user://LocalData/fish_size_data.json"
 const fish_type_data_path = "user://LocalData/fish_template_data.json"
-
 const label_data_path    = "user://LocalData/labels.json"
+
 var label_data := {}
 const label_template := {
 	"name": "Label",
@@ -216,19 +216,31 @@ func _ready():
 	load_all_data()
 
 func load_all_data():
-	ProjectSettings.load_resource_pack(update_data_path, true)
+	#ProjectSettings.load_resource_pack(update_data_path, true)
 	
-	item_data        = load_data(item_data_path)
-	fish_item_data   = load_data(fish_item_data_path)
-	frame_data       = load_data(frame_data_path)
-	background_data  = load_data(background_data_path)
-	level_data       = load_data(level_data_path)
-	maneuver_data    = load_data(maneuver_data_path)
-	development_data = load_data(development_data_path)
-	deep_word_data   = load_data(deep_word_data_path)
-	fish_size_data   = load_data(fish_size_data_path)
-	fish_type_data   = load_data(fish_type_data_path)
-	label_data       = load_data(label_data_path)
+	#item_data        = load_data(item_data_path)
+	#fish_item_data   = load_data(fish_item_data_path)
+	#frame_data       = load_data(frame_data_path)
+	#background_data  = load_data(background_data_path)
+	#level_data       = load_data(level_data_path)
+	#maneuver_data    = load_data(maneuver_data_path)
+	#development_data = load_data(development_data_path)
+	#deep_word_data   = load_data(deep_word_data_path)
+	#fish_size_data   = load_data(fish_size_data_path)
+	#fish_type_data   = load_data(fish_type_data_path)
+	#label_data       = load_data(label_data_path)
+	
+	item_data        = load("res://autoloads_globals_and_singletons/data/item_data.json").data
+	fish_item_data   = load("res://autoloads_globals_and_singletons/data/npc_item_data.json").data
+	frame_data       = load("res://autoloads_globals_and_singletons/data/frame_data.json").data
+	background_data  = load("res://autoloads_globals_and_singletons/data/fisher_backgrounds.json").data
+	level_data       = load("res://autoloads_globals_and_singletons/data/level_data.json").data
+	maneuver_data    = load("res://autoloads_globals_and_singletons/data/fisher_maneuvers.json").data
+	development_data = load("res://autoloads_globals_and_singletons/data/fisher_developments.json").data
+	deep_word_data   = load("res://autoloads_globals_and_singletons/data/deep_words.json").data
+	fish_size_data   = load("res://autoloads_globals_and_singletons/data/fish_size_data.json").data
+	fish_type_data   = load("res://autoloads_globals_and_singletons/data/fish_template_data.json").data
+	label_data       = load("res://autoloads_globals_and_singletons/data/labels.json").data
 	
 	set_grid_and_icon_data()
 
@@ -344,7 +356,9 @@ func set_grid_and_icon_data():
 			for point in item_data[item]["grid"]:
 				temp_grid_array.push_back(point.split(","))
 			item_grid_data[item] = temp_grid_array
-			item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
+			#item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
+			# "res://actor_builders/mech_builder/gear_internal_art/Actuators I.png"
+			item_data[item]["icon_path"] = "res://actor_builders/mech_builder/gear_internal_art/" + item_data[item]["name"] + ".png"
 	
 	if fish_item_data:
 		for item in fish_item_data.keys():
@@ -352,7 +366,9 @@ func set_grid_and_icon_data():
 			for point in fish_item_data[item]["grid"]:
 				temp_grid_array.push_back(point.split(","))
 			fish_item_grid_data[item] = temp_grid_array
-			fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
+			#fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
+			# "res://actor_builders/fish_builder/fish_internal_art/Adrenal Engine +3.png"
+			fish_item_data[item]["icon_path"] = "res://actor_builders/fish_builder/fish_internal_art/" + fish_item_data[item]["name"] + ".png"
 
 # returns a dictionary
 # key: perk "id" (snake case name)

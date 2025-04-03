@@ -51,9 +51,10 @@ func load_item(a_itemID : String, is_player_item := true):
 	else:
 		item_data = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.FISH_INTERNAL, a_itemID)
 	
-	var image = Image.load_from_file(item_data.get("icon_path", ""))
-	var texture = ImageTexture.create_from_image(image)
-	icon.texture = texture
+	#var image = Image.load_from_file(item_data.get("icon_path", ""))
+	#var texture = ImageTexture.create_from_image(image)
+	#icon.texture = texture
+	icon.texture = load(item_data.icon_path)
 	
 	var item_grid_data = DataHandler.item_grid_data
 	if not is_player_item:

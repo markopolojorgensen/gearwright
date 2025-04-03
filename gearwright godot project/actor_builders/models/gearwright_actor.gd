@@ -77,6 +77,9 @@ func get_stat_info(_stat_name: String) -> Dictionary:
 	breakpoint
 	return {}
 
+func get_empty_hardpoint_count() -> int:
+	return internal_inventory.get_empty_hardpoint_count()
+
 static func gear_section_id_to_name(id: int) -> String:
 	return GSIDS_TO_NAMES.get(id, "unknown gear section id: %d" % id)
 
