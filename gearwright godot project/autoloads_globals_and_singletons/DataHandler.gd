@@ -1,7 +1,7 @@
 extends Node
 
-var item_grid_data := {} # FIXME make this unnecesary
-var fish_item_grid_data := {} # FIXME make this unnecesary
+#var item_grid_data := {} # FIXME make this unnecesary
+#var fish_item_grid_data := {} # FIXME make this unnecesary
 
 var internal_content := {}
 var external_content := {}
@@ -239,6 +239,20 @@ enum DATA_TYPE {
 	FISHER_LABEL,
 }
 
+const file_name_to_data_type := {
+	"fisher_backgrounds.json": DATA_TYPE.BACKGROUND,
+	"frame_data.json": DATA_TYPE.FRAME,
+	"level_data.json": DATA_TYPE.LEVEL,
+	"fisher_developments.json": DATA_TYPE.DEVELOPMENT,
+	"fisher_maneuvers.json": DATA_TYPE.MANEUVER,
+	"item_data.json": DATA_TYPE.INTERNAL,
+	"deep_words.json": DATA_TYPE.DEEP_WORD,
+	"npc_item_data.json": DATA_TYPE.FISH_INTERNAL,
+	"fish_size_data.json": DATA_TYPE.FISH_SIZE,
+	"fish_template_data.json": DATA_TYPE.FISH_TYPE,
+	"labels.json": DATA_TYPE.FISHER_LABEL,
+}
+
 func _ready():
 	# make sure directories exist
 	var dirs_to_check := [
@@ -268,10 +282,26 @@ func load_all_data():
 	internal_content[DATA_TYPE.FISH_TYPE]     = {}
 	internal_content[DATA_TYPE.FISHER_LABEL]  = load("res://autoloads_globals_and_singletons/data/labels.json").data
 	
+	for data_type in DATA_TYPE.values():
+		external_content[data_type] = {}
+	
+	global_util.verbose = true
 	var external_dir_info := global_util.dir_contents(external_content_path)
 	for dir in external_dir_info.dirs:
-		global_util.fancy_print(external_content_path.path_join(dir))
-		# WHEREWASI TODO FIXME
+		var pack_dir_path = external_content_path.path_join(dir)
+		global_util.fancy_print(pack_dir_path)
+		var pack_dir_info := global_util.dir_contents(pack_dir_path)
+		for filename in pack_dir_info.files:
+			if file_name_to_data_type.has(filename):
+				var data: Dictionary = load(pack_dir_path.path_join(filename)).data
+				if filename == "npc_item_data.json":
+					set_grid_and_icon_data(data, pack_dir_path.path_join("fish_assets"))
+				elif filename == "item_data.json":
+					set_grid_and_icon_data(data, pack_dir_path.path_join("gear_assets"))
+				var data_type: DATA_TYPE = file_name_to_data_type[filename]
+				(external_content[data_type] as Dictionary).merge(data, false)
+			else:
+				print("mystery file in external content pack: %s/%s" % [pack_dir_path, filename])
 	
 	# okay, external content
 	#
@@ -310,21 +340,24 @@ func set_grid_and_icon_data(item_data: Dictionary, icon_dir_path: String):
 	if item_data == null:
 		return
 	for item in item_data.keys():
-		var temp_grid_array := []
-		for point in item_data[item]["grid"]:
-			temp_grid_array.push_back(point.split(","))
-		item_grid_data[item] = temp_grid_array
+		#var temp_grid_array := []
+		#for point in item_data[item]["grid"]:
+			#temp_grid_array.push_back(point.split(","))
+		#item_grid_data[item] = temp_grid_array
 		#item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
 		# "res://actor_builders/mech_builder/gear_internal_art/Actuators I.png"
 		#fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
 		# "res://actor_builders/fish_builder/fish_internal_art/Adrenal Engine +3.png"
-		item_data[item]["icon_path"] = icon_dir_path + item_data[item]["name"] + ".png"
+		var icon_path = icon_dir_path.path_join(item_data[item]["name"] + ".png")
+		if not FileAccess.file_exists(icon_path):
+			printerr("bad path: %s" % icon_path)
+		item_data[item]["icon_path"] = icon_path
 
 func is_gear_data_loaded():
-	return not internal_content[DATA_TYPE.INTERNAL].is_empty()
+	return not get_merged_data(DATA_TYPE.INTERNAL).is_empty()
 
 func is_fish_data_loaded():
-	return not internal_content[DATA_TYPE.FISH_INTERNAL].is_empty()
+	return not get_merged_data(DATA_TYPE.FISH_INTERNAL).is_empty()
 
 func load_data(path):
 	var text := global_util.file_to_string(path)
@@ -449,6 +482,8 @@ func get_perk_info(perk_type: PerkOptionButton.PERK_TYPE) -> Dictionary:
 
 # returns true on success, false on failure
 func load_fsh_file(path: String) -> bool:
+	global_util.verbose = true
+	
 	var zipreader = ZIPReader.new()
 	var _err = zipreader.open(path)
 	var files_to_import = zipreader.get_files()
@@ -457,8 +492,12 @@ func load_fsh_file(path: String) -> bool:
 	
 	var fsh_name: String = path.split("/")[-1]
 	fsh_name = fsh_name.replacen(".fsh", "")
-	var external_content_fsh_dir := external_content_path.path_join(fsh_name)
-	DirAccess.make_dir_recursive_absolute(external_content_fsh_dir)
+	var external_content_pack_dir := external_content_path.path_join(fsh_name)
+	DirAccess.make_dir_recursive_absolute(external_content_pack_dir)
+	var external_content_pack_fish_assets_dir = external_content_pack_dir.path_join("fish_assets")
+	DirAccess.make_dir_recursive_absolute(external_content_pack_fish_assets_dir)
+	var external_content_pack_gear_assets_dir = external_content_pack_dir.path_join("gear_assets")
+	DirAccess.make_dir_recursive_absolute(external_content_pack_gear_assets_dir)
 	
 	for file_name in files_to_import:
 		global_util.fancy_print("looking at %s" % file_name)
@@ -466,6 +505,10 @@ func load_fsh_file(path: String) -> bool:
 		file_name = file_name as String
 		var split_path := file_name.split("/")
 		var split_file_name := split_path[-1] # remove directory
+		if split_file_name.is_empty():
+			global_util.dedent()
+			continue
+		
 		global_util.fancy_print("-> %s" % split_file_name)
 		
 		if file_name.ends_with(".pck"):
@@ -475,17 +518,21 @@ func load_fsh_file(path: String) -> bool:
 			#dest_file.store_buffer(data)
 			#dest_file.close()
 		elif file_name.ends_with(".json"):
-			global_util.fancy_print("json file")
-			var data = zipreader.read_file(file_name).get_string_from_utf8()
-			var dest_file := FileAccess.open(external_content_fsh_dir.path_join(split_file_name), FileAccess.WRITE)
-			if dest_file == null:
-				global_util.popup_warning(error_string(FileAccess.get_open_error()), "Failed to open file for writing: %s" % file_name)
-				return false
-			dest_file.store_string(data)
-			dest_file.close()
+			var dest_path = external_content_pack_dir.path_join(split_file_name)
+			global_util.fancy_print("json file -> %s" % dest_path)
+			copy_from_zip(zipreader, file_name, dest_path)
+		elif file_name.ends_with(".png"):
+			var dir_name = split_path[-2]
+			global_util.fancy_print("asset file (dir: %s)" % dir_name)
+			var dest_path := ""
+			if "fish" in dir_name.to_lower():
+				dest_path = external_content_pack_fish_assets_dir.path_join(split_file_name)
+			elif "gear" in dir_name.to_lower():
+				dest_path = external_content_pack_gear_assets_dir.path_join(split_file_name)
+			if not dest_path.is_empty():
+				copy_from_zip(zipreader, file_name, dest_path)
 		else:
 			global_util.fancy_print("ignoring")
-			# TODO copy assets..?
 		global_util.dedent()
 	
 	global_util.dedent()
@@ -494,7 +541,14 @@ func load_fsh_file(path: String) -> bool:
 	load_all_data()
 	return true
 
-
+func copy_from_zip(zipreader: ZIPReader, file_name, dest_path):
+	var data := zipreader.read_file(file_name)
+	var dest_file := FileAccess.open(dest_path, FileAccess.WRITE)
+	if dest_file == null:
+		global_util.popup_warning(error_string(FileAccess.get_open_error()), "Failed to open file for writing: %s" % file_name)
+		return false
+	dest_file.store_buffer(data)
+	dest_file.close()
 
 
 

@@ -45,3 +45,15 @@ func open_folder(folder_name: String):
 		path = OS.get_user_data_dir().path_join(folder_name)
 	OS.shell_show_in_file_manager(path, true)
 
+func load_item_icon(icon_path: String) -> Texture2D:
+	if icon_path.begins_with("res://"):
+		return load(icon_path)
+	elif icon_path.begins_with("user://"):
+		assert(FileAccess.file_exists(icon_path))
+		var image := Image.load_from_file(icon_path)
+		return ImageTexture.create_from_image(image)
+	
+	printerr("failed to load icon from path: %s" % icon_path)
+	return Texture2D.new()
+
+

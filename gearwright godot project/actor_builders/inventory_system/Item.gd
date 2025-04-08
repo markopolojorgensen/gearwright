@@ -54,15 +54,20 @@ func load_item(a_itemID : String, is_player_item := true):
 	#var image = Image.load_from_file(item_data.get("icon_path", ""))
 	#var texture = ImageTexture.create_from_image(image)
 	#icon.texture = texture
-	icon.texture = load(item_data.icon_path)
+	icon.texture = global.load_item_icon(item_data.icon_path)
 	
-	var item_grid_data = DataHandler.item_grid_data
-	if not is_player_item:
-		item_grid_data = DataHandler.fish_item_grid_data
+	#var item_grid_data = DataHandler.item_grid_data
+	#if not is_player_item:
+		#item_grid_data = DataHandler.fish_item_grid_data
+	
+	var temp_grid_array := []
+	for point in item_data["grid"]:
+		temp_grid_array.push_back(point.split(","))
 	
 	# grid is an array of strings
 	#   e.g. ["[-1", "0]"]
-	for grid in item_grid_data[a_itemID]:
+	#for grid in item_grid_data[a_itemID]:
+	for grid in temp_grid_array:
 		var converter_array := []
 		for i in grid:
 			converter_array.push_back(int(i))

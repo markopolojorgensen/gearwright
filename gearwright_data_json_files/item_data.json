@@ -1390,11 +1390,11 @@
   },
   "maintenance_tools": {
     "action_data": {
-      "ap_cost": 1,
+      "ap_cost": 0,
       "attribute": "",
       "range": 0,
       "damage": 0,
-      "action_text": "Target an adjacent Ally. Remove 1 Marked Damage from their Damage Grid."
+      "action_text": "Target adjacent Ally. Remove 1 marked damage from any of their non-Mitigation Internals."
     },
     "ap": 0,
     "ballast": 0,

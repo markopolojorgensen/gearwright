@@ -2,18 +2,18 @@ TODO
 Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
-  json changes (most recent is 2025_04_02_01)
-    maintenance tools: "Target adjacent Ally. Remove 1 marked damage from any of their non-Mitigation Internals."
+  json changes (most recent is 2025_04_07_00)
+    none, yay
   save format changes
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 ------------------------------------------------------------------------------------------------------- SMOL
-------------------------------------------------------------------------------------------------------- MEDIOM
-------------------------------------------------------------------------------------------------------- LORGE
-------------------------------------------------------------------------------------------------------- MYSTERY
-  restore import button for hardcore homebrew folks
-  use import button for fish content drm
   fish editor button links to itch page if no fish data imported
+------------------------------------------------------------------------------------------------------- MEDIOM
+test homebrew
+  should support regular zips and not just .fsh files probably
+------------------------------------------------------------------------------------------------------- MYSTERY
+------------------------------------------------------------------------------------------------------- LORGE
 
 
 
@@ -79,7 +79,8 @@ Q1 2025, definitely before May
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  json edits (most recent is 2025_04_02_00)
+  json edits (most recent is 2025_04_07_00)
+    maintenance tools text & ap update
     broadside bladder is now broadside engine (and other changes? check discord dm)
     the nomad background is now called Sailor
     Vanquisher Developtment final rulest text: "Whenever you destroy a Fish roll 1d3.  You and all Fishers in your Line of Sight regain that many Marbles."
@@ -97,6 +98,9 @@ Q1 2025, definitely before May
 
 
 2.5.0
+  maintenance tools update
+  use import button with fsh file for fish content
+  gearwright now supports homebrew more easily (very untested!)
   main menu doesn't jump around when you have no saves
 2.4.2
   new fisher help text

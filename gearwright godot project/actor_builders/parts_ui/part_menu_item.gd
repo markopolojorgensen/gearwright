@@ -1,10 +1,10 @@
 extends ColorRect
 
-@onready var item_texture = $Texture
+@onready var item_texture: TextureRect = $Texture
 @onready var name_label = $NameLabel
 @onready var item_popup = $ItemPopup
 
-var icon_path
+var icon_path: String
 var item_ID
 var item_data
 var hovering = false
@@ -34,7 +34,8 @@ func load_item(a_Item_data, a_Item_ID):
 	#var image = Image.load_from_file(icon_path)
 	#var texture = ImageTexture.create_from_image(image)
 	#item_texture.texture = texture
-	item_texture.texture = load(icon_path)
+	icon_path = icon_path as String
+	item_texture.texture = global.load_item_icon(icon_path)
 	name_label.text = a_Item_data["name"]
 	
 	item_popup.unfocusable = true
