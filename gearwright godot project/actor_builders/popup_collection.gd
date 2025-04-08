@@ -36,7 +36,7 @@ func popup_fsh(new_actor: GearwrightActor):
 	_popup(fsh_export_popup, actor.callsign)
 
 func _on_fsh_export_popup_export(filename: String) -> void:
-	var folder_path = LocalDataHandler.paths[save_style]["fsh"]
+	var folder_path = DataHandler.save_paths[save_style]["fsh"]
 	var path = folder_path + filename
 	
 	var json := JSON.stringify(actor.marshal(), "  ")
@@ -57,7 +57,7 @@ func popup_png(suggestion: String, new_image: Image):
 	_popup(png_export_popup, suggestion)
 
 func _on_png_export_popup_export(filename: String) -> void:
-	var folder_path = LocalDataHandler.paths[save_style]["png"]
+	var folder_path = DataHandler.save_paths[save_style]["png"]
 	image_to_save.save_png(folder_path + filename)
 	global.open_folder(folder_path)
 
@@ -74,7 +74,7 @@ func _popup(popup: Popup, suggestion: String):
 
 
 func popup_load_dialog():
-	open_file_dialog.current_dir = LocalDataHandler.paths[save_style]["fsh"]
+	open_file_dialog.current_dir = DataHandler.save_paths[save_style]["fsh"]
 	open_file_dialog.popup()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.POPUP_ACTIVE)
 

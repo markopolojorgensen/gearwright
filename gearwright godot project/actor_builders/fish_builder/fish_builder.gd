@@ -43,7 +43,8 @@ func _ready():
 	for tab_name in part_menu_tabs:
 		part_menu.add_tab(tab_name)
 	
-	for item_id in DataHandler.fish_item_data.keys():
+	var fish_item_data := DataHandler.get_merged_data(DataHandler.DATA_TYPE.FISH_INTERNAL)
+	for item_id in fish_item_data.keys():
 		var item_data = DataHandler.get_fish_internal_data(item_id)
 		var tab_name: String = item_data.type.capitalize()
 		if tab_name in part_menu_tabs:
@@ -470,9 +471,9 @@ func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_I
 		$LostDataPreventer.current_data = current_character.marshal()
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
-		global.open_folder(LocalDataHandler.paths["Fish"]["fsh"])
+		global.open_folder(DataHandler.save_paths["Fish"]["fsh"])
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
-		global.open_folder(LocalDataHandler.paths["Fish"]["png"])
+		global.open_folder(DataHandler.save_paths["Fish"]["png"])
 
 func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items

@@ -48,8 +48,9 @@ var custom_label_info := {}
 
 func _init():
 	internal_inventory.create_character_gear_sections()
-	if not DataHandler.frame_data.keys().is_empty():
-		load_frame(DataHandler.frame_data.keys().front())
+	var frame_data: Dictionary = DataHandler.get_merged_data(DataHandler.DATA_TYPE.FRAME)
+	if not frame_data.is_empty():
+		load_frame(frame_data.keys().front())
 
 #endregion
 

@@ -21,7 +21,6 @@ config/windows_native_icon="res://Assets/icon.ico"
 
 [autoload]
 
-LocalDataHandler="*res://autoloads_globals_and_singletons/LocalDataHandler.gd"
 DataHandler="*res://autoloads_globals_and_singletons/DataHandler.gd"
 global_util="*res://utility/global_util.gd"
 version="*res://utility/version.gd"

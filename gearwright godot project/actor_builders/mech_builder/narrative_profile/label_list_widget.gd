@@ -26,8 +26,9 @@ func _ready() -> void:
 	
 	
 	var all_labels := [custom_label_info]
-	all_labels.append_array(DataHandler.label_data.keys().map(func(label_id: String):
-		var info = DataHandler.label_data[label_id].duplicate()
+	var label_data := DataHandler.get_merged_data(DataHandler.DATA_TYPE.FISHER_LABEL)
+	all_labels.append_array(label_data.keys().map(func(label_id: String):
+		var info = label_data[label_id].duplicate()
 		info.label_id = label_id
 		return info
 		))

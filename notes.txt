@@ -3,7 +3,7 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
   json changes (most recent is 2025_04_02_01)
-    none, yay
+    maintenance tools: "Target adjacent Ally. Remove 1 marked damage from any of their non-Mitigation Internals."
   save format changes
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
@@ -11,6 +11,9 @@ Q1 2025, definitely before May
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
+  restore import button for hardcore homebrew folks
+  use import button for fish content drm
+  fish editor button links to itch page if no fish data imported
 
 
 
@@ -92,7 +95,13 @@ Q1 2025, definitely before May
     abberant -> aberrant (fish template and developments)
 
 
+
+2.5.0
+  main menu doesn't jump around when you have no saves
 2.4.2
+  new fisher help text
+  custom background line edit no longer lets you type too many characters
+  swap equipment & descriptor to be closer to their respective widgets
   loading a fish from file no longer puts its already-equipped internals in front of everything else
 2.4.1
   fish editor now also has an "Enforce Tags" toggle

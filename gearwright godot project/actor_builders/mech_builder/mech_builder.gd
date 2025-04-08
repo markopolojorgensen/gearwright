@@ -146,12 +146,13 @@ func _ready():
 	
 	perk_info_container.hide()
 	
-	var background_ids = DataHandler.background_data.keys()
+	var background_data := DataHandler.get_merged_data(DataHandler.DATA_TYPE.BACKGROUND)
+	var background_ids = background_data.keys()
 	for i in range(background_ids.size()):
 		var background_id = background_ids[i]
 		if background_id == "custom":
 			custom_background_index = i
-		var nice_name: String = DataHandler.background_data[background_id].background
+		var nice_name: String = background_data[background_id].background
 		background_option_button.add_item(nice_name)
 	_on_background_option_button_item_selected.call_deferred(0)
 	
@@ -165,18 +166,19 @@ func _ready():
 		part_menu.add_tab(tab_name)
 	part_menu.add_label_to_tab("Curios", "Only available via\nDevelopment or GM Fiat")
 	
-	for item_id in DataHandler.item_data.keys():
-		var item_data = DataHandler.get_internal_data(item_id)
-		var section_id: String = item_data.section
+	var item_data := DataHandler.get_merged_data(DataHandler.DATA_TYPE.INTERNAL)
+	for item_id in item_data.keys():
+		var item_info = DataHandler.get_internal_data(item_id)
+		var section_id: String = item_info.section
 		if section_id == "any":
 			for tab_name in part_menu_tabs:
 				if tab_name != "Curios":
-					part_menu.add_part_to_tab(tab_name, item_id, item_data)
-		elif is_curio(item_data):
-			part_menu.add_part_to_tab("Curios", item_id, item_data)
+					part_menu.add_part_to_tab(tab_name, item_id, item_info)
+		elif is_curio(item_info):
+			part_menu.add_part_to_tab("Curios", item_id, item_info)
 		elif section_id.capitalize() in part_menu_tabs:
 			var tab_name = section_id.capitalize()
-			part_menu.add_part_to_tab(tab_name, item_id, item_data)
+			part_menu.add_part_to_tab(tab_name, item_id, item_info)
 		else:
 			var error = "unknown tab '%s' for item: %s" % [section_id, item_id]
 			push_error(error)
@@ -321,6 +323,7 @@ func register_ic_base_mech_builder():
 			$DiabloStyleInventorySystem.hide()
 			%GearContainer.hide()
 			$ModeDebugLabel.hide()
+			%GearHelpPanel.hide()
 	ic.handle_input = func(event: InputEvent):
 		if event.is_action_pressed("mouse_leftclick"):
 			if inventory_system.pickup_item():
@@ -394,6 +397,7 @@ func register_ic_fisher_profile():
 	ic.deactivate = func(is_stack_growing: bool):
 		if not is_stack_growing:
 			%FisherContainer.hide()
+			%FisherHelpPanel.hide()
 		request_update_controls = true
 	ic.handle_input = func(_event: InputEvent):
 		pass
@@ -630,9 +634,9 @@ func _on_save_menu_button_button_selected(button_id: int) -> void:
 		$LostDataPreventer.current_data = current_character.marshal(false)
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVES_FOLDER:
-		global.open_folder(LocalDataHandler.paths["Gear"]["fsh"])
+		global.open_folder(DataHandler.save_paths["Gear"]["fsh"])
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.IMAGES_FOLDER:
-		global.open_folder(LocalDataHandler.paths["Gear"]["png"])
+		global.open_folder(DataHandler.save_paths["Gear"]["png"])
 
 func _on_popup_collection_save_loaded(info: Dictionary) -> void:
 	current_character.reset_gear_sections() # prevent lingering items
@@ -760,8 +764,12 @@ func _on_popup_collection_fsh_saved() -> void:
 	$LostDataPreventer.saved_data = current_character.marshal(false)
 
 func _on_help_button_pressed() -> void:
-	%HelpPanel.visible = not %HelpPanel.visible
-
+	if %GearContainer.is_visible_in_tree():
+		%FisherHelpPanel.hide()
+		%GearHelpPanel.visible = not %GearHelpPanel.visible
+	else:
+		%GearHelpPanel.hide()
+		%FisherHelpPanel.visible = not %FisherHelpPanel.visible
 
 
 ## Reactivity - things that reset internals

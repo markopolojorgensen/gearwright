@@ -1026,17 +1026,17 @@ placeholder_text = "Custom Label"
 [node name="HBoxContainer" type="HBoxContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer"]
 layout_mode = 2
 
+[node name="CheckBox2" type="CheckBox" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/HBoxContainer"]
+layout_mode = 2
+button_group = SubResource("ButtonGroup_q2hng")
+text = "Descriptor"
+
 [node name="CustomLabelEquipmentCheckBox" type="CheckBox" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 button_group = SubResource("ButtonGroup_q2hng")
 text = "Equipment"
-
-[node name="CheckBox2" type="CheckBox" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/HBoxContainer"]
-layout_mode = 2
-button_group = SubResource("ButtonGroup_q2hng")
-text = "Descriptor"
 
 [node name="HSeparator2" type="HSeparator" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer"]
 layout_mode = 2
@@ -1131,7 +1131,7 @@ size_flags_horizontal = 8
 toggle_mode = true
 text = "?"
 
-[node name="HelpPanel" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton"]
+[node name="GearHelpPanel" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -1141,16 +1141,16 @@ offset_right = 64.0
 offset_bottom = 626.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1qcb5")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/GearHelpPanel"]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton/GearHelpPanel/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/GearHelpPanel/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer2/VBoxContainer/HelpButton/HelpPanel/MarginContainer/PanelContainer/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer2/VBoxContainer/HelpButton/GearHelpPanel/MarginContainer/PanelContainer/MarginContainer"]
 custom_minimum_size = Vector2(0, 512)
 layout_mode = 2
 text = "Right-Click any Internal, Development, Maneuver or Deep Word to view its stats.
@@ -1166,6 +1166,40 @@ Use “Edit Manual Adjustments” mode to manually modify your stats, useful for
 Click the Gear and Fisher buttons to switch between Gear building and narrative modes.
 
 Disable Hardpoint, Weight and Tag (Limited, Bulky, Unwieldy) restrictions using the toggles at the top."
+
+[node name="FisherHelpPanel" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+offset_left = -560.0
+offset_top = 68.0
+offset_right = 64.0
+offset_bottom = 493.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1qcb5")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/FisherHelpPanel"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/VBoxContainer/HelpButton/FisherHelpPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer/HelpButton/FisherHelpPanel/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer2/VBoxContainer/HelpButton/FisherHelpPanel/MarginContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+text = "You can view your current labels in the “Fisher Descriptor Label” and “Fisher Equipment Label” tabs. 
+
+Switch to the “add” tabs to view a list of all example labels as well as the option to add a self created label.
+
+To add a label simply click on the “+” icon next to it. To remove a label click on the “x” icon next to it.
+
+To create a Custom Label fill out its title and whether it is an equipment or descriptor label. You can also add a flavor text. To save the label and add it to your fisher use the “+” icon.
+
+No two custom labels may have the same name.
+
+You can use the “Marble” and “Backlash” counters to dynamically track your Fisher’s stats over the course of a campaign."
 
 [node name="ModeDebugLabel" type="Label" parent="."]
 visible = false
@@ -1217,6 +1251,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Background Name"
+max_length = 18
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CustomBGPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

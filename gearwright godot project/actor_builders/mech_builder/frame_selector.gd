@@ -3,7 +3,8 @@ extends OptionButton
 signal load_frame(frame_name)
 
 func _ready():
-	for frame in DataHandler.frame_data.keys():
+	var frame_data := DataHandler.get_merged_data(DataHandler.DATA_TYPE.FRAME)
+	for frame in frame_data.keys():
 		add_item(frame.capitalize())
 
 func _on_item_selected(index):

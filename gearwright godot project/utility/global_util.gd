@@ -641,7 +641,7 @@ func dir_contents(path) -> Dictionary:
 				results.files.append(file_name)
 			file_name = dir.get_next()
 	else:
-		print("An error occurred when trying to access the path.")
+		print("An error occurred when trying to access path: %s" % path)
 	return results
 
 

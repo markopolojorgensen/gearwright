@@ -1,37 +1,62 @@
 extends Node
 
-var item_data = {}
 var item_grid_data := {} # FIXME make this unnecesary
-
-var fish_item_data = {}
 var fish_item_grid_data := {} # FIXME make this unnecesary
 
-var frame_data := {}
-var background_data := {}
-var level_data := {}
-var maneuver_data := {}
-var development_data := {}
-var deep_word_data := {}
-var fish_size_data := {}
-var fish_type_data := {}
+var internal_content := {}
+var external_content := {}
 
-const local_data_dir = "user://LocalData"
-const update_path = "user://latest_update.pck"
+#region paths
 
-var item_data_path          = "user://LocalData/item_data.json"
-var fish_item_data_path     = "user://LocalData/npc_item_data.json"
-var update_data_path        = "user://latest_update.pck"
-const frame_data_path       = "user://LocalData/frame_data.json"
-const background_data_path  = "user://LocalData/fisher_backgrounds.json"
-const level_data_path       = "user://LocalData/level_data.json"
-const maneuver_data_path    = "user://LocalData/fisher_maneuvers.json"
-const development_data_path = "user://LocalData/fisher_developments.json"
-const deep_word_data_path = "user://LocalData/deep_words.json"
-const fish_size_data_path = "user://LocalData/fish_size_data.json"
-const fish_type_data_path = "user://LocalData/fish_template_data.json"
-const label_data_path    = "user://LocalData/labels.json"
+const external_content_path = "user://external_content/"
+#const update_path = "user://latest_update.pck"
 
-var label_data := {}
+#var item_data_path          = "user://LocalData/item_data.json"
+#var fish_item_data_path     = "user://LocalData/npc_item_data.json"
+#var update_data_path        = "user://latest_update.pck"
+#const frame_data_path       = "user://LocalData/frame_data.json"
+#const background_data_path  = "user://LocalData/fisher_backgrounds.json"
+#const level_data_path       = "user://LocalData/level_data.json"
+#const maneuver_data_path    = "user://LocalData/fisher_maneuvers.json"
+#const development_data_path = "user://LocalData/fisher_developments.json"
+#const deep_word_data_path = "user://LocalData/deep_words.json"
+#const fish_size_data_path = "user://LocalData/fish_size_data.json"
+#const fish_type_data_path = "user://LocalData/fish_template_data.json"
+#const label_data_path    = "user://LocalData/labels.json"
+
+# external content
+var item_data_path          = "user://external_content/item_data.json"
+var fish_item_data_path     = "user://external_content/npc_item_data.json"
+#var update_data_path        = "user://latest_update.pck"
+const frame_data_path       = "user://external_content/frame_data.json"
+const background_data_path  = "user://external_content/fisher_backgrounds.json"
+const level_data_path       = "user://external_content/level_data.json"
+const maneuver_data_path    = "user://external_content/fisher_maneuvers.json"
+const development_data_path = "user://external_content/fisher_developments.json"
+const deep_word_data_path = "user://external_content/deep_words.json"
+const fish_size_data_path = "user://external_content/fish_size_data.json"
+const fish_type_data_path = "user://external_content/fish_template_data.json"
+const label_data_path    = "user://external_content/labels.json"
+
+const gear_item_icon_dir_path = "res://actor_builders/mech_builder/gear_internal_art/"
+const fish_item_icon_dir_path = "res://actor_builders/fish_builder/fish_internal_art/" 
+
+const save_paths := {
+	"Gear": {
+		"fsh": "user://Saves/Gears/Files/",
+		"png": "user://Saves/Gears/Images/",
+	},
+	"Fish": {
+		"fsh": "user://Saves/Fish/Files/",
+		"png": "user://Saves/Fish/Images/",
+	},
+}
+
+#endregion
+
+
+
+#region templates
 const label_template := {
 	"name": "Label",
 	"description": "I'm homestar and this is a website",
@@ -198,6 +223,8 @@ const fish_type_template := {
 	"extra_rules": "",
 }
 
+#endregion
+
 enum DATA_TYPE {
 	BACKGROUND,
 	FRAME,
@@ -213,9 +240,54 @@ enum DATA_TYPE {
 }
 
 func _ready():
+	# make sure directories exist
+	var dirs_to_check := [
+		external_content_path,
+	]
+	for dict in save_paths.values():
+		dirs_to_check.append_array(dict.values())
+	for directory in dirs_to_check:
+		if !DirAccess.dir_exists_absolute(directory):
+			DirAccess.make_dir_recursive_absolute(directory) 
+	
 	load_all_data()
 
 func load_all_data():
+	internal_content[DATA_TYPE.BACKGROUND]    = load("res://autoloads_globals_and_singletons/data/fisher_backgrounds.json").data
+	internal_content[DATA_TYPE.FRAME]         = load("res://autoloads_globals_and_singletons/data/frame_data.json").data
+	internal_content[DATA_TYPE.LEVEL]         = load("res://autoloads_globals_and_singletons/data/level_data.json").data
+	internal_content[DATA_TYPE.DEVELOPMENT]   = load("res://autoloads_globals_and_singletons/data/fisher_developments.json").data
+	internal_content[DATA_TYPE.MANEUVER]      = load("res://autoloads_globals_and_singletons/data/fisher_maneuvers.json").data
+	internal_content[DATA_TYPE.INTERNAL]      = load("res://autoloads_globals_and_singletons/data/item_data.json").data
+	internal_content[DATA_TYPE.DEEP_WORD]     = load("res://autoloads_globals_and_singletons/data/deep_words.json").data
+	#internal_content[DATA_TYPE.FISH_INTERNAL] = load("res://autoloads_globals_and_singletons/data/npc_item_data.json").data
+	internal_content[DATA_TYPE.FISH_INTERNAL] = {}
+	#internal_content[DATA_TYPE.FISH_SIZE]     = load("res://autoloads_globals_and_singletons/data/fish_size_data.json").data
+	internal_content[DATA_TYPE.FISH_SIZE]     = {}
+	#internal_content[DATA_TYPE.FISH_TYPE]     = load("res://autoloads_globals_and_singletons/data/fish_template_data.json").data
+	internal_content[DATA_TYPE.FISH_TYPE]     = {}
+	internal_content[DATA_TYPE.FISHER_LABEL]  = load("res://autoloads_globals_and_singletons/data/labels.json").data
+	
+	var external_dir_info := global_util.dir_contents(external_content_path)
+	for dir in external_dir_info.dirs:
+		global_util.fancy_print(external_content_path.path_join(dir))
+		# WHEREWASI TODO FIXME
+	
+	# okay, external content
+	#
+	# prefer internal content first
+	# if something isn't there, check the external data
+	# also need a new abstraction layer for getting all data (e.g. for list of internals)
+	#
+	# how does loading multiple externals work
+	#   probably merges their stuff with existing stuff (prefer new stuff)
+	#   homebrew authors should just prevent collisions
+	#   importing needs some thought, since all external 
+	#
+	# no more .pck files for the love of god
+	# just an assets folder with images
+	
+	
 	#ProjectSettings.load_resource_pack(update_data_path, true)
 	
 	#item_data        = load_data(item_data_path)
@@ -230,22 +302,29 @@ func load_all_data():
 	#fish_type_data   = load_data(fish_type_data_path)
 	#label_data       = load_data(label_data_path)
 	
-	item_data        = load("res://autoloads_globals_and_singletons/data/item_data.json").data
-	fish_item_data   = load("res://autoloads_globals_and_singletons/data/npc_item_data.json").data
-	frame_data       = load("res://autoloads_globals_and_singletons/data/frame_data.json").data
-	background_data  = load("res://autoloads_globals_and_singletons/data/fisher_backgrounds.json").data
-	level_data       = load("res://autoloads_globals_and_singletons/data/level_data.json").data
-	maneuver_data    = load("res://autoloads_globals_and_singletons/data/fisher_maneuvers.json").data
-	development_data = load("res://autoloads_globals_and_singletons/data/fisher_developments.json").data
-	deep_word_data   = load("res://autoloads_globals_and_singletons/data/deep_words.json").data
-	fish_size_data   = load("res://autoloads_globals_and_singletons/data/fish_size_data.json").data
-	fish_type_data   = load("res://autoloads_globals_and_singletons/data/fish_template_data.json").data
-	label_data       = load("res://autoloads_globals_and_singletons/data/labels.json").data
-	
-	set_grid_and_icon_data()
+	# set grid and icon data
+	set_grid_and_icon_data(internal_content[DATA_TYPE.INTERNAL], gear_item_icon_dir_path)
+	set_grid_and_icon_data(internal_content[DATA_TYPE.FISH_INTERNAL], fish_item_icon_dir_path)
 
-func is_data_loaded():
-	return not item_data.is_empty()
+func set_grid_and_icon_data(item_data: Dictionary, icon_dir_path: String):
+	if item_data == null:
+		return
+	for item in item_data.keys():
+		var temp_grid_array := []
+		for point in item_data[item]["grid"]:
+			temp_grid_array.push_back(point.split(","))
+		item_grid_data[item] = temp_grid_array
+		#item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
+		# "res://actor_builders/mech_builder/gear_internal_art/Actuators I.png"
+		#fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
+		# "res://actor_builders/fish_builder/fish_internal_art/Adrenal Engine +3.png"
+		item_data[item]["icon_path"] = icon_dir_path + item_data[item]["name"] + ".png"
+
+func is_gear_data_loaded():
+	return not internal_content[DATA_TYPE.INTERNAL].is_empty()
+
+func is_fish_data_loaded():
+	return not internal_content[DATA_TYPE.FISH_INTERNAL].is_empty()
 
 func load_data(path):
 	var text := global_util.file_to_string(path)
@@ -255,57 +334,43 @@ func load_data(path):
 		return {}
 	return JSON.parse_string(text)
 
-func get_gear_template():
-	return gear_data_template.duplicate(true)
-
-func get_fish_template(): # TODO yeet?
-	return fish_data_template.duplicate(true)
-
 # pops up error messages if things go badly
 func get_thing_nicely(data_type: DATA_TYPE, key):
-	var data
 	var default
 	match data_type:
 		DATA_TYPE.BACKGROUND:
-			data = background_data
 			default = background_stats_template.duplicate(true)
 		DATA_TYPE.FRAME:
-			data = frame_data
 			default = frame_stats_template.duplicate(true)
 		DATA_TYPE.LEVEL:
 			key = str(key) # might be an int
-			data = level_data
 			default = level_stats_template.duplicate(true)
 		DATA_TYPE.DEVELOPMENT:
-			data = development_data
 			default = development_stats_template.duplicate(true)
 		DATA_TYPE.MANEUVER:
-			data = maneuver_data
 			default = maneuver_stats_template.duplicate(true)
 		DATA_TYPE.INTERNAL:
-			data = item_data
 			default = item_stats_template.duplicate(true)
 		DATA_TYPE.DEEP_WORD:
-			data = deep_word_data
 			default = deep_word_template.duplicate(true)
 		DATA_TYPE.FISH_INTERNAL:
-			data = fish_item_data
 			default = fish_internal_template
 		DATA_TYPE.FISH_SIZE:
-			data = fish_size_data
 			default = fish_size_template
 		DATA_TYPE.FISH_TYPE:
-			data = fish_type_data
 			default = fish_type_template
 		DATA_TYPE.FISHER_LABEL:
-			data = label_data
 			default = label_template
 		_:
 			push_error("DataHandler: unknown data type: %s '%s'" % [data_type, DATA_TYPE.find_key(data_type)])
 			breakpoint
 	
-	if data.has(key):
-		return data[key]
+	var internal_data: Dictionary = internal_content[data_type]
+	var external_data: Dictionary = external_content.get(data_type, {})
+	if internal_data.has(key):
+		return internal_data[key]
+	elif external_data.has(key):
+		return external_data[key]
 	else:
 		var data_name = DATA_TYPE.find_key(data_type).capitalize()
 		var title := "Bad %s" % data_name
@@ -316,12 +381,19 @@ func get_thing_nicely(data_type: DATA_TYPE, key):
 		#global_util.popup_warning(title, message)
 		return default
 
+# merged internal and external data
+func get_merged_data(data_type: DATA_TYPE) -> Dictionary:
+	var data: Dictionary = internal_content[data_type]
+	data.merge(external_content.get(data_type, {}), false)
+	return data
+
 func get_development_data(dev_name: String):
 	return get_thing_nicely(DATA_TYPE.DEVELOPMENT, dev_name)
 
 func is_development_name(dev_name: String) -> bool:
-	for dev_id in development_data.keys():
-		var dev_info: Dictionary = development_data[dev_id]
+	var dev_data: Dictionary = get_merged_data(DATA_TYPE.DEVELOPMENT)
+	for dev_id in dev_data.keys():
+		var dev_info: Dictionary = dev_data[dev_id]
 		if dev_info.name == dev_name:
 			return true
 	return false
@@ -347,29 +419,6 @@ func get_fish_type_data(type_name: String):
 func get_label_data(label_id: String):
 	return get_thing_nicely(DATA_TYPE.FISHER_LABEL, label_id)
 
-
-
-func set_grid_and_icon_data():
-	if item_data:
-		for item in item_data.keys():
-			var temp_grid_array := []
-			for point in item_data[item]["grid"]:
-				temp_grid_array.push_back(point.split(","))
-			item_grid_data[item] = temp_grid_array
-			#item_data[item]["icon_path"] = "res://Assets/ItemSprites/" + item_data[item]["name"] + ".png"
-			# "res://actor_builders/mech_builder/gear_internal_art/Actuators I.png"
-			item_data[item]["icon_path"] = "res://actor_builders/mech_builder/gear_internal_art/" + item_data[item]["name"] + ".png"
-	
-	if fish_item_data:
-		for item in fish_item_data.keys():
-			var temp_grid_array := []
-			for point in fish_item_data[item]["grid"]:
-				temp_grid_array.push_back(point.split(","))
-			fish_item_grid_data[item] = temp_grid_array
-			#fish_item_data[item]["icon_path"] = "res://Assets/FishItemSprites/" + fish_item_data[item]["name"] + ".png"
-			# "res://actor_builders/fish_builder/fish_internal_art/Adrenal Engine +3.png"
-			fish_item_data[item]["icon_path"] = "res://actor_builders/fish_builder/fish_internal_art/" + fish_item_data[item]["name"] + ".png"
-
 # returns a dictionary
 # key: perk "id" (snake case name)
 # value: perk pretty name
@@ -377,18 +426,21 @@ func get_perk_info(perk_type: PerkOptionButton.PERK_TYPE) -> Dictionary:
 	var result := {}
 	match perk_type:
 		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
-			for key in development_data.keys():
-				result[key] = development_data[key].name
+			var dev_data := get_merged_data(DATA_TYPE.DEVELOPMENT)
+			for key in dev_data.keys():
+				result[key] = dev_data[key].name
 		PerkOptionButton.PERK_TYPE.MANEUVER:
-			for key in maneuver_data.keys():
-				var maneuver: Dictionary = maneuver_data[key]
+			var man_data := get_merged_data(DATA_TYPE.MANEUVER)
+			for key in man_data.keys():
+				var maneuver: Dictionary = man_data[key]
 				var category: String = maneuver.category
 				if not result.has(category):
 					result[category] = []
 				result[category].append({
-					key: maneuver_data[key].name,
+					key: man_data[key].name,
 				})
 		PerkOptionButton.PERK_TYPE.DEEP_WORD:
+			var deep_word_data := get_merged_data(DATA_TYPE.DEEP_WORD)
 			for key in deep_word_data.keys():
 				result[key] = deep_word_data[key].short_name
 		_:
@@ -400,34 +452,46 @@ func load_fsh_file(path: String) -> bool:
 	var zipreader = ZIPReader.new()
 	var _err = zipreader.open(path)
 	var files_to_import = zipreader.get_files()
+	global_util.fancy_print("loading fsh file...")
+	global_util.indent()
+	
+	var fsh_name: String = path.split("/")[-1]
+	fsh_name = fsh_name.replacen(".fsh", "")
+	var external_content_fsh_dir := external_content_path.path_join(fsh_name)
+	DirAccess.make_dir_recursive_absolute(external_content_fsh_dir)
 	
 	for file_name in files_to_import:
-		#print("looking at %s" % file_name)
+		global_util.fancy_print("looking at %s" % file_name)
+		global_util.indent()
 		file_name = file_name as String
 		var split_path := file_name.split("/")
 		var split_file_name := split_path[-1] # remove directory
-		#print("  -> %s" % split_file_name)
+		global_util.fancy_print("-> %s" % split_file_name)
 		
 		if file_name.ends_with(".pck"):
-			#print("  pck file")
-			var data = zipreader.read_file(file_name)
-			var dest_file := FileAccess.open(update_path, FileAccess.WRITE)
-			dest_file.store_buffer(data)
-			dest_file.close()
+			global_util.fancy_print("pck file, ignoring")
+			#var data = zipreader.read_file(file_name)
+			#var dest_file := FileAccess.open(update_path, FileAccess.WRITE)
+			#dest_file.store_buffer(data)
+			#dest_file.close()
 		elif file_name.ends_with(".json"):
-			#print("  json file")
+			global_util.fancy_print("json file")
 			var data = zipreader.read_file(file_name).get_string_from_utf8()
-			var dest_file := FileAccess.open(local_data_dir.path_join(split_file_name), FileAccess.WRITE)
+			var dest_file := FileAccess.open(external_content_fsh_dir.path_join(split_file_name), FileAccess.WRITE)
 			if dest_file == null:
 				global_util.popup_warning(error_string(FileAccess.get_open_error()), "Failed to open file for writing: %s" % file_name)
 				return false
 			dest_file.store_string(data)
 			dest_file.close()
 		else:
-			pass
-			#print("  ignoring")
+			global_util.fancy_print("ignoring")
+			# TODO copy assets..?
+		global_util.dedent()
 	
-	DataHandler.load_all_data()
+	global_util.dedent()
+	global_util.fancy_print("...finished loading fsh file")
+	
+	load_all_data()
 	return true
 
 

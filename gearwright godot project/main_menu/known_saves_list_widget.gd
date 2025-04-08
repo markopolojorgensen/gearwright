@@ -7,7 +7,7 @@ signal file_selected(path)
 func _ready() -> void:
 	%Label.text = "Known %s Saves" % save_type
 	
-	var path: String = LocalDataHandler.paths[save_type]["fsh"]
+	var path: String = DataHandler.save_paths[save_type]["fsh"]
 	
 	var dir_info: Dictionary = global_util.dir_contents(path)
 	# file does not include path
@@ -21,6 +21,6 @@ func _ready() -> void:
 			file_selected.emit(path + file)
 			)
 	
-	if dir_info.files.is_empty():
-		hide()
+	#if dir_info.files.is_empty():
+		#hide()
 
