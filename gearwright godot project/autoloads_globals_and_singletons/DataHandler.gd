@@ -357,7 +357,7 @@ func is_gear_data_loaded():
 	return not get_merged_data(DATA_TYPE.INTERNAL).is_empty()
 
 func is_fish_data_loaded():
-	return not get_merged_data(DATA_TYPE.FISH_INTERNAL).is_empty()
+	return not get_merged_data(DATA_TYPE.FISH_SIZE).is_empty()
 
 func load_data(path):
 	var text := global_util.file_to_string(path)
@@ -492,6 +492,7 @@ func load_fsh_file(path: String) -> bool:
 	
 	var fsh_name: String = path.split("/")[-1]
 	fsh_name = fsh_name.replacen(".fsh", "")
+	fsh_name = fsh_name.replacen(".zip", "")
 	var external_content_pack_dir := external_content_path.path_join(fsh_name)
 	DirAccess.make_dir_recursive_absolute(external_content_pack_dir)
 	var external_content_pack_fish_assets_dir = external_content_pack_dir.path_join("fish_assets")

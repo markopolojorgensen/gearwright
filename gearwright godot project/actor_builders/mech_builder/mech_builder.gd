@@ -429,7 +429,7 @@ func _process(_delta):
 	$ModeDebugLabel.text = "Context: %s" % input_context_system.get_current_input_context_name().capitalize()
 	
 	#%UnsavedChangesLabel.text = "Changes Saved?\n"
-	#var current_data = current_character.marshal()
+	#var current_data = current_character.marshal(false)
 	#if $LostDataPreventer.saved_data == current_data:
 		#%UnsavedChangesLabel.text += "Yes"
 	#else:
@@ -779,12 +779,26 @@ func _on_internals_reset_confirm_dialog_confirmed():
 	request_update_controls = true
 
 func _on_frame_selector_load_frame(frame_name: String):
-	$LostDataPreventer.current_data = current_character.marshal()
-	$LostDataPreventer.check_lost_data(func():
+	# A special case, since the only data that will be lost is unlocks and
+	# internals (and frame, but that doesn't matter).
+	# so if those are unchanged, we can safely change the frame.
+	
+	var followup: Callable = func():
 		current_character.load_frame(frame_name)
 		request_update_controls = true
-		$LostDataPreventer.saved_data = current_character.marshal()
-		)
+		$LostDataPreventer.saved_data = current_character.marshal(false)
+	
+	var saved_unlocks = $LostDataPreventer.saved_data.unlocks
+	var saved_internals = $LostDataPreventer.saved_data.internals
+	var current_marshalled = current_character.marshal(false)
+	var current_unlocks = current_marshalled.unlocks
+	var current_internals = current_marshalled.internals
+	
+	if (saved_unlocks == current_unlocks) and (saved_internals == current_internals):
+		followup.call()
+	else:
+		$LostDataPreventer.current_data = current_character.marshal(false)
+		$LostDataPreventer.check_lost_data(followup)
 
 func _on_hardpoints_reset_confirm_dialog_confirmed():
 	current_character.reset_gear_sections()
@@ -894,7 +908,7 @@ func update_controls():
 	repair_kits_control.update(current_character.get_stat("repair_kits"))
 	
 	# developments
-	if 0 < current_character.get_level_development_count():
+	if 0 < current_character.get_development_count():
 		%DevelopmentPlaceholder.hide()
 	else:
 		%DevelopmentPlaceholder.show()

@@ -11,6 +11,7 @@ signal fsh_saved
 
 var actor: GearwrightActor
 var image_to_save: Image
+var inform_input_context_system := true
 
 func _ready() -> void:
 	register_ic_popup()
@@ -21,9 +22,11 @@ func register_ic_popup():
 	ic.activate = func(_is_stack_growing: bool):
 		pass
 	ic.deactivate = func(_is_stack_growing: bool):
+		inform_input_context_system = false
 		fsh_export_popup.hide()
 		png_export_popup.hide()
 		open_file_dialog.hide()
+		inform_input_context_system = true
 	ic.handle_input = func(_event: InputEvent):
 		pass
 	input_context_system.register_input_context(ic)
@@ -48,7 +51,7 @@ func _on_fsh_export_popup_export(filename: String) -> void:
 	fsh_saved.emit()
 
 func _on_fsh_export_popup_popup_hide() -> void:
-	input_context_system.pop_input_context_stack()
+	conditional_pop()
 
 
 
@@ -62,7 +65,7 @@ func _on_png_export_popup_export(filename: String) -> void:
 	global.open_folder(folder_path)
 
 func _on_png_export_popup_popup_hide() -> void:
-	input_context_system.pop_input_context_stack()
+	conditional_pop()
 
 
 func _popup(popup: Popup, suggestion: String):
@@ -94,7 +97,8 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 	input_context_system.pop_input_context_stack()
 
 func _on_open_file_dialog_canceled() -> void:
-	input_context_system.pop_input_context_stack()
+	conditional_pop()
 
-
-
+func conditional_pop():
+	if inform_input_context_system and (input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.POPUP_ACTIVE):
+		input_context_system.pop_input_context_stack()

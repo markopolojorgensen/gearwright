@@ -55,7 +55,7 @@ func _on_item_selected(index: int) -> void:
 func update(character: GearwrightCharacter):
 	match perk_type:
 		PERK_TYPE.DEVELOPMENT:
-			update_option(character.get_level_development_count(), character.developments)
+			update_option(character.get_development_count(), character.developments)
 		PERK_TYPE.MANEUVER:
 			if not mental_only:
 				update_option(character.get_maneuver_count(false), character.get_maneuvers(false))

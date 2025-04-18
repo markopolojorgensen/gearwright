@@ -1,0 +1,12 @@
+{
+  "ornithologist": {
+    "description": "Bird watcher.",
+    "label_type": "descriptor",
+    "name": "Ornithologist"
+  },
+  "binoculars": {
+    "description": "Good for bird watching.",
+    "label_type": "equipment",
+    "name": "Binoculars"
+  }
+}

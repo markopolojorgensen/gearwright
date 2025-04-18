@@ -1,0 +1,13 @@
+{
+  "ornithologist": {
+    "background": "Ornithologist",
+    "marbles": 4,
+    "mental": 4,
+    "willpower": 10,
+    "deep_words": 1,
+    "weight_cap": 0,
+    "unlocks": 7,
+    "description": "Bird watcher."
+  }
+}
+

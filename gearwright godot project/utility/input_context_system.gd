@@ -55,6 +55,7 @@ func pop_input_context_stack():
 	_activate_input_context(false)
 
 func pop_to(input_context: INPUT_CONTEXT):
+	#global_util.fancy_print("popping to %s   (%s)" % [INPUT_CONTEXT.find_key(input_context), str(current_stack_to_string_list())])
 	if get_current_input_context_id() == input_context:
 		return
 	elif input_context_stack.is_empty():
@@ -105,4 +106,5 @@ func _input(event: InputEvent) -> void:
 	
 	input_context_stack_handle_input(event)
 
-
+func current_stack_to_string_list() -> Array:
+	return input_context_stack.map(func(ic: InputContext): return INPUT_CONTEXT.find_key(ic.id))

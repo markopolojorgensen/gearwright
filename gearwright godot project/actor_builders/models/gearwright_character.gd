@@ -205,7 +205,8 @@ func is_overweight_with_item(item):
 func get_grid_slot(gsid: int, x: int, y: int) -> GridSlot:
 	return internal_inventory.get_grid_slot(gsid, x, y)
 
-func get_level_development_count():
+# includes level and manual adjustments
+func get_development_count():
 	if not level_stats.has("developments"):
 		push_error("GearwrightCharacter: no development info in level: %s" % str(level_stats))
 		return 0
@@ -368,14 +369,14 @@ func set_level(new_level):
 	global_util.fancy_print("applying level: %d" % level)
 	level_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.LEVEL, str(level))
 	
-	while developments.size() < level_stats.developments:
+	while developments.size() < get_development_count():
 		developments.append("")
-	while developments.size() > level_stats.developments:
+	while developments.size() > get_development_count():
 		developments.pop_back()
 	
-	while maneuvers.size() < level_stats.maneuvers:
+	while maneuvers.size() < get_maneuver_count(false):
 		maneuvers.append("")
-	while maneuvers.size() > level_stats.maneuvers:
+	while maneuvers.size() > get_maneuver_count(false):
 		maneuvers.pop_back()
 
 # yeets all equipped internals
@@ -420,7 +421,7 @@ func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String) ->
 			if not name.is_empty():
 				DataHandler.get_development_data(name) # trigger popup
 			if (name in ["", "a_brush_with_the_deep"]) or (not name in developments):
-				_edit_perk(developments, get_level_development_count(), slot, name)
+				_edit_perk(developments, get_development_count(), slot, name)
 			else:
 				# repeat development
 				return "Fisher already has development '%s'" % name.capitalize()

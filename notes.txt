@@ -5,13 +5,9 @@ Q1 2025, definitely before May
   json changes (most recent is 2025_04_07_00)
     none, yay
   save format changes
-    new keys in manual_adjustments: "unlocks" and "weight_cap"
-    new key in characters: "custom_background_name"
+    none, yay
 ------------------------------------------------------------------------------------------------------- SMOL
-  fish editor button links to itch page if no fish data imported
 ------------------------------------------------------------------------------------------------------- MEDIOM
-test homebrew
-  should support regular zips and not just .fsh files probably
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
 
@@ -21,6 +17,7 @@ test homebrew
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
+don't always automatically open the save folder...?
 
 
 
@@ -95,8 +92,18 @@ test homebrew
     siltstalker -> siltstalker_leviathan
     abberant -> aberrant (fish template and developments)
 
+  save format changes
+    new keys in manual_adjustments: "unlocks" and "weight_cap"
+    new key in characters: "custom_background_name"
 
 
+2.5.1
+  no longer lets you open the fish editor if you import a homebrew with fish internals but don't have the fish data imported
+  homebrew import seems to be working
+  fish editor button links to https://interpoint-station.itch.io/ if no fish data has been imported
+  bugfix: doesn't crash when picking up an internal while a popup is visible
+  bugfix: manual development & manuevers no longer get messed up when changing level
+  bugfix: changing frame away from an unmodified gear no longer asks for confirmation
 2.5.0
   maintenance tools update
   use import button with fsh file for fish content
