@@ -2,11 +2,10 @@ TODO
 Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
-  json changes (most recent is 2025_04_07_00)
-    none, yay
+  json changes (most recent fish data is 2025_04_07_00)
   save format changes
-    none, yay
 ------------------------------------------------------------------------------------------------------- SMOL
+  json changes -> 12throot
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -17,13 +16,17 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
-don't always automatically open the save folder...?
 
 
 
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
+  make export smaller to allow google to scan it for viruses? No
+
+
+  non-windows versions?
+
   fancy custom ux for totd/injuries?
     injuries
       todo: list all the stuff injuries can change
@@ -76,7 +79,13 @@ don't always automatically open the save folder...?
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  json edits (most recent is 2025_04_07_00)
+  non-fish json edits
+    jolly roger has more hardpoints
+    derringer's gear ability text update
+    parallel's gear ability text update
+    Redline Winches should be 1 AP in Gearwright
+
+  fish json edits (most recent is 2025_04_07_00)
     maintenance tools text & ap update
     broadside bladder is now broadside engine (and other changes? check discord dm)
     the nomad background is now called Sailor
@@ -98,6 +107,14 @@ don't always automatically open the save folder...?
 
 
 2.5.1
+  new url: https://interpoint-station.itch.io/fathomless-gears
+  leviathan section positioning tweaks
+  player stat manual adjustments change base stat, not bonus
+  file dialog for saving .fsh / .png exports instead of the one-line windows (restricted to correct directory)
+  don't auto-open the saves folder after saving
+  mental should be limited to 9 like the other offensive stats
+  hide debug info in release builds
+  keeps aspect ratio if you resize the window
   no longer lets you open the fish editor if you import a homebrew with fish internals but don't have the fish data imported
   homebrew import seems to be working
   fish editor button links to https://interpoint-station.itch.io/ if no fish data has been imported

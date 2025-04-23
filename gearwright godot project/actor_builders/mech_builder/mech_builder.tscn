@@ -1114,7 +1114,6 @@ tab_1/title = "Fisher"
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 0
-popup/item_0/id = 0
 
 [node name="MainMenuBackButton" type="Button" parent="MarginContainer2/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 64)

@@ -112,8 +112,6 @@ func _ready():
 	get_tree().set_auto_accept_quit(false)
 	
 	global_util.verbose = debug
-	if not debug:
-		$ModeDebugLabel.hide()
 	
 	floating_explanation_control.hide()
 	
@@ -316,7 +314,8 @@ func register_ic_base_mech_builder():
 		stats_list_control.set_mouse_detector_filters(true)
 		$DiabloStyleInventorySystem.show()
 		%GearContainer.show()
-		$ModeDebugLabel.show()
+		if OS.has_feature("editor"):
+			$ModeDebugLabel.show()
 	ic.deactivate = func(is_stack_growing: bool):
 		stats_list_control.set_mouse_detector_filters(false)
 		if not is_stack_growing:
@@ -618,7 +617,7 @@ func _on_save_menu_button_button_selected(button_id: int) -> void:
 			get_tree().reload_current_scene()
 			)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
-		popup_collection.popup_fsh(current_character)
+		popup_collection.popup_fsh_export_dialog(current_character)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
 		# grab image before covering it up with export popup
 		callsign_line_edit.release_focus()
@@ -629,7 +628,7 @@ func _on_save_menu_button_button_selected(button_id: int) -> void:
 		await get_tree().process_frame
 		var border_rect := Rect2i(%MechImageRegion.get_global_rect())
 		var image_to_save: Image = get_viewport().get_texture().get_image().get_region(border_rect)
-		popup_collection.popup_png(current_character.callsign, image_to_save)
+		popup_collection.popup_png_file_dialog(current_character.callsign, image_to_save)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
 		$LostDataPreventer.current_data = current_character.marshal(false)
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())

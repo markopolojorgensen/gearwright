@@ -36,7 +36,7 @@ func _on_fish_builder_button_pressed() -> void:
 		get_tree().change_scene_to_file("res://actor_builders/fish_builder/fish_builder.tscn")
 	else:
 		global_util.popup_warning("No Data Found!", "Please download fish data from the itch page and\nimport it before accessing the fish editor.")
-		OS.shell_open("https://interpoint-station.itch.io/")
+		OS.shell_open("https://interpoint-station.itch.io/fathomless-gears")
 
 func _on_gear_known_saves_list_widget_visibility_changed() -> void:
 	update_menu_center_pillar_container()

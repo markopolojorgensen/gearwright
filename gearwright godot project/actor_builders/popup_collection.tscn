@@ -21,9 +21,26 @@ extension = ".png"
 [node name="OpenFileDialog" parent="." instance=ExtResource("2_oqm70")]
 unique_name_in_owner = true
 
+[node name="FshExportFileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+initial_position = 1
+size = Vector2i(800, 600)
+access = 1
+
+[node name="PngExportFileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+auto_translate_mode = 1
+initial_position = 1
+size = Vector2i(800, 600)
+access = 1
+
 [connection signal="export" from="FshExportPopup" to="." method="_on_fsh_export_popup_export"]
 [connection signal="popup_hide" from="FshExportPopup" to="." method="_on_fsh_export_popup_popup_hide"]
 [connection signal="export" from="PngExportPopup" to="." method="_on_png_export_popup_export"]
 [connection signal="popup_hide" from="PngExportPopup" to="." method="_on_png_export_popup_popup_hide"]
 [connection signal="canceled" from="OpenFileDialog" to="." method="_on_open_file_dialog_canceled"]
 [connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
+[connection signal="canceled" from="FshExportFileDialog" to="." method="_on_fsh_export_file_dialog_canceled"]
+[connection signal="file_selected" from="FshExportFileDialog" to="." method="_on_fsh_export_file_dialog_file_selected"]
+[connection signal="canceled" from="PngExportFileDialog" to="." method="_on_png_export_file_dialog_canceled"]
+[connection signal="file_selected" from="PngExportFileDialog" to="." method="_on_png_export_file_dialog_file_selected"]

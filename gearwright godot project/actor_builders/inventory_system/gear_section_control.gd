@@ -175,6 +175,9 @@ func reset():
 	initialized = false
 	hide_overlays()
 
+func get_grid_container_size() -> Vector2:
+	return grid_container.size
+
 #func _process(delta: float) -> void:
 	#$Label.text = str(position) + " " + str(global_position)
 	#pass

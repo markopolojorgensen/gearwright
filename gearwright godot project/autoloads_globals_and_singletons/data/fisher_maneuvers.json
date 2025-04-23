@@ -8,7 +8,7 @@
   "redline_winches": {
     "name": "Redline Winches",
     "category": "reeling",
-    "ap_cost": 0,
+    "ap_cost": 1,
     "action_text": "Gain +2 to your REEL Checks until the end of this turn. This may bring you above 9 Power."
   },
   "careful_reeling": {

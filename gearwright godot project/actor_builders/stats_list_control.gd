@@ -133,7 +133,7 @@ func update(character: GearwrightActor):
 		
 		var stat_value: int = global_util.sum_array(info.values())
 		# stat caps
-		if stat_name.to_lower() in ["close", "far", "power", "speed"]:
+		if stat_name.to_lower() in ["close", "far", "power", "speed", "mental"]:
 			stat_value = clamp(stat_value, 0, 9)
 		elif stat_name.to_lower() in ["evasion", "willpower"]:
 			stat_value = clamp(stat_value, 0, 16)
@@ -160,6 +160,7 @@ func update(character: GearwrightActor):
 		base += info.get("background", 0)
 		base += info.get("frame", 0)
 		base += info.get("mutations", 0)
+		base += info.get("manual adj", 0)
 		for key in info.keys():
 			if "fish" in key.to_lower():
 				base += info[key]

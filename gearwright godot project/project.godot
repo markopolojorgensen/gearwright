@@ -32,7 +32,6 @@ input_context_system="*res://utility/input_context_system.gd"
 window/size/viewport_width=1650
 window/size/viewport_height=890
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
 window/name="Carp/Con"
 
 [editor]

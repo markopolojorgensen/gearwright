@@ -28,7 +28,7 @@ const external_content_path = "user://external_content/"
 var item_data_path          = "user://external_content/item_data.json"
 var fish_item_data_path     = "user://external_content/npc_item_data.json"
 #var update_data_path        = "user://latest_update.pck"
-const frame_data_path       = "user://external_content/frame_data.json"
+#const frame_data_path       = "user://external_content/frame_data.json"
 const background_data_path  = "user://external_content/fisher_backgrounds.json"
 const level_data_path       = "user://external_content/level_data.json"
 const maneuver_data_path    = "user://external_content/fisher_maneuvers.json"
@@ -317,21 +317,6 @@ func load_all_data():
 	# no more .pck files for the love of god
 	# just an assets folder with images
 	
-	
-	#ProjectSettings.load_resource_pack(update_data_path, true)
-	
-	#item_data        = load_data(item_data_path)
-	#fish_item_data   = load_data(fish_item_data_path)
-	#frame_data       = load_data(frame_data_path)
-	#background_data  = load_data(background_data_path)
-	#level_data       = load_data(level_data_path)
-	#maneuver_data    = load_data(maneuver_data_path)
-	#development_data = load_data(development_data_path)
-	#deep_word_data   = load_data(deep_word_data_path)
-	#fish_size_data   = load_data(fish_size_data_path)
-	#fish_type_data   = load_data(fish_type_data_path)
-	#label_data       = load_data(label_data_path)
-	
 	# set grid and icon data
 	set_grid_and_icon_data(internal_content[DATA_TYPE.INTERNAL], gear_item_icon_dir_path)
 	set_grid_and_icon_data(internal_content[DATA_TYPE.FISH_INTERNAL], fish_item_icon_dir_path)
@@ -351,6 +336,7 @@ func set_grid_and_icon_data(item_data: Dictionary, icon_dir_path: String):
 		var icon_path = icon_dir_path.path_join(item_data[item]["name"] + ".png")
 		if not FileAccess.file_exists(icon_path):
 			printerr("bad path: %s" % icon_path)
+			breakpoint
 		item_data[item]["icon_path"] = icon_path
 
 func is_gear_data_loaded():

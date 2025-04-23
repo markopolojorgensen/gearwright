@@ -40,6 +40,11 @@ var legend_font_size = 21
 var enforce_tags := true
 
 func _ready():
+	if OS.has_feature("editor"):
+		%DebugContainer.show()
+	else:
+		%DebugContainer.hide()
+	
 	for tab_name in part_menu_tabs:
 		part_menu.add_tab(tab_name)
 	
@@ -326,7 +331,6 @@ func position_leviathan():
 
 func position_serpent_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
-	center.y += FISH_GRID_GAP
 	var tip_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_TIP]
 	var tail_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_TAIL]
 	var body_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
@@ -340,29 +344,27 @@ func position_serpent_leviathan():
 	head_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	
 	center_control_manually(body_gsc, center)
-	body_gsc.position.x -= 16
-	body_gsc.position.y -= 18
+	body_gsc.position.y += FISH_GRID_GAP * 0.25
 	
 	neck_gsc.position.x = body_gsc.position.x + (2 * FISH_GRID_GAP)
-	neck_gsc.position.y = body_gsc.position.y - (neck_gsc.size.y * fish_scale) - (FISH_GRID_GAP / 8.0)
+	neck_gsc.position.y = body_gsc.position.y - (neck_gsc.size.y * fish_scale) - (FISH_GRID_GAP * 0.25)
 	
 	head_gsc.position.x = neck_gsc.position.x + (neck_gsc.size.x * fish_scale) + FISH_GRID_GAP
 	head_gsc.position.y = neck_gsc.position.y
 	
 	tail_gsc.position.x = body_gsc.position.x - (2 * FISH_GRID_GAP)
-	tail_gsc.position.y = body_gsc.position.y + (body_gsc.size.y * fish_scale) + (FISH_GRID_GAP / 8.0)
+	tail_gsc.position.y = body_gsc.position.y + (body_gsc.size.y * fish_scale) + (FISH_GRID_GAP * 0.25)
 	
 	tip_gsc.position.x = tail_gsc.position.x - (tip_gsc.size.x * fish_scale) - FISH_GRID_GAP
 	tip_gsc.position.y = tail_gsc.position.y
 
 func position_siltstalker_leviathan():
 	var center := %FreeRangeGearSections.get_global_rect().get_center() as Vector2
-	#center.y += FISH_GRID_GAP
-	var llegs_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_LEFT_LEGS]
-	var body_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
-	var rlegs_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_RIGHT_LEGS]
-	var larm_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_LEFT_ARM]
-	var rarm_gsc: Control = gear_section_controls[GearwrightActor.GSIDS.FISH_RIGHT_ARM]
+	var llegs_gsc: GearSectionControl = gear_section_controls[GearwrightActor.GSIDS.FISH_LEFT_LEGS]
+	var body_gsc: GearSectionControl = gear_section_controls[GearwrightActor.GSIDS.FISH_BODY]
+	var rlegs_gsc: GearSectionControl = gear_section_controls[GearwrightActor.GSIDS.FISH_RIGHT_LEGS]
+	var larm_gsc: GearSectionControl = gear_section_controls[GearwrightActor.GSIDS.FISH_LEFT_ARM]
+	var rarm_gsc: GearSectionControl = gear_section_controls[GearwrightActor.GSIDS.FISH_RIGHT_ARM]
 	
 	llegs_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	body_gsc.scale = Vector2(1.0, 1.0) * fish_scale
@@ -370,23 +372,36 @@ func position_siltstalker_leviathan():
 	larm_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	rarm_gsc.scale = Vector2(1.0, 1.0) * fish_scale
 	
-	#center_control_manually(body_gsc, center)
-	center.x -= 32
-	
-	body_gsc.global_position.x = center.x - (body_gsc.size.x * fish_scale * 0.5)
+	body_gsc.global_position.x = center.x - (body_gsc.get_grid_container_size().x * fish_scale * 0.5)
 	body_gsc.global_position.y = center.y - (body_gsc.size.y * fish_scale) - (FISH_GRID_GAP * 0.25)
 	
-	llegs_gsc.position.x = body_gsc.position.x - (llegs_gsc.size.x * fish_scale) - (FISH_GRID_GAP * 0.5)
+	llegs_gsc.position.x = body_gsc.position.x - (llegs_gsc.get_grid_container_size().x * fish_scale) - FISH_GRID_GAP
 	llegs_gsc.position.y = body_gsc.position.y
 	
-	rlegs_gsc.position.x = body_gsc.position.x + (body_gsc.size.x * fish_scale) + (FISH_GRID_GAP * 1.5)
+	rlegs_gsc.position.x = body_gsc.position.x + (body_gsc.get_grid_container_size().x * fish_scale) + FISH_GRID_GAP
 	rlegs_gsc.position.y = body_gsc.position.y
 	
-	larm_gsc.global_position.x = center.x - (larm_gsc.size.x * fish_scale)# - (FISH_GRID_GAP * 0.5)
+	larm_gsc.global_position.x = center.x - (larm_gsc.get_grid_container_size().x * fish_scale) - (FISH_GRID_GAP * 0.5)
 	larm_gsc.global_position.y = center.y + (FISH_GRID_GAP * 0.25)
 	
-	rarm_gsc.global_position.x = center.x + FISH_GRID_GAP # + (FISH_GRID_GAP * 0.5)
+	rarm_gsc.global_position.x = center.x + (FISH_GRID_GAP * 0.5)
 	rarm_gsc.position.y = larm_gsc.position.y
+	
+	global_util.clear_lines()
+	#debug_box(body_gsc)
+	#debug_box(llegs_gsc)
+	#debug_box(rlegs_gsc)
+	#debug_box(larm_gsc)
+	#debug_box(rarm_gsc)
+
+func debug_box(gsc: GearSectionControl):
+	var top_left := gsc.global_position
+	var box_size := gsc.get_grid_container_size() * fish_scale
+	var bottom_right := top_left + box_size
+	var top_right := Vector2(bottom_right.x, top_left.y)
+	var bottom_left := Vector2(top_left.x, bottom_right.y)
+	var box := [top_left, top_right, bottom_right, bottom_left]
+	global_util.draw_debug_line_2d(box, true)
 
 #endregion
 
@@ -458,7 +473,7 @@ func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_I
 			get_tree().reload_current_scene()
 			)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_FILE:
-		popup_collection.popup_fsh(current_character)
+		popup_collection.popup_fsh_export_dialog(current_character)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.SAVE_TO_PNG:
 		# grab image before covering it up with export popup
 		fish_name_input.release_focus()
@@ -466,7 +481,7 @@ func _on_save_menu_button_button_selected(button_id: SaveLoadMenuButton.BUTTON_I
 		await get_tree().process_frame
 		var border_rect := Rect2i(export_view_container.get_global_rect())
 		var image_to_save: Image = get_viewport().get_texture().get_image().get_region(border_rect)
-		popup_collection.popup_png(current_character.callsign, image_to_save)
+		popup_collection.popup_png_file_dialog(current_character.callsign, image_to_save)
 	elif button_id == SaveLoadMenuButton.BUTTON_IDS.LOAD_FROM_FILE:
 		$LostDataPreventer.current_data = current_character.marshal()
 		$LostDataPreventer.check_lost_data(func(): popup_collection.popup_load_dialog())
