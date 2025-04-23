@@ -5,7 +5,6 @@ Q1 2025, definitely before May
   json changes (most recent fish data is 2025_04_07_00)
   save format changes
 ------------------------------------------------------------------------------------------------------- SMOL
-  json changes -> 12throot
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -79,7 +78,7 @@ Q1 2025, definitely before May
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  non-fish json edits
+  non-fish json edits (most recent is 2025_04_23_00)
     jolly roger has more hardpoints
     derringer's gear ability text update
     parallel's gear ability text update
