@@ -2,9 +2,11 @@ TODO
 Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
-  json changes (most recent fish data is 2025_04_07_00)
-  save format changes
 ------------------------------------------------------------------------------------------------------- SMOL
+json changes
+  stab clamps
+  anemone gear ability
+  derringer trait
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -78,7 +80,9 @@ Q1 2025, definitely before May
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  non-fish json edits (most recent is 2025_04_23_00)
+  non-fish json edits (most recent is 2025_04_24_00)
+    parallel gear ability: "0 AP"
+    derringer gear ability: "Rapid Fire" and "Barrage"
     jolly roger has more hardpoints
     derringer's gear ability text update
     parallel's gear ability text update
@@ -104,7 +108,9 @@ Q1 2025, definitely before May
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
-
+2.5.2
+  hid path bar on fsh & png export file dialogs
+  json changes to derringer and parallel gear abilities
 2.5.1
   new url: https://interpoint-station.itch.io/fathomless-gears
   leviathan section positioning tweaks

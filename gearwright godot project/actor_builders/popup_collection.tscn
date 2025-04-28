@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://lsxxhvkd1frg"]
+[gd_scene load_steps=5 format=3 uid="uid://lsxxhvkd1frg"]
 
 [ext_resource type="PackedScene" uid="uid://bvw486r7metmw" path="res://actor_builders/top_menu/export_popup.tscn" id="1_oyab8"]
 [ext_resource type="Script" uid="uid://bvsnq8s1qmoqh" path="res://actor_builders/popup_collection.gd" id="1_usxd4"]
 [ext_resource type="PackedScene" uid="uid://dblq4eyop75be" path="res://actor_builders/top_menu/file_dialog.tscn" id="2_oqm70"]
+[ext_resource type="Script" uid="uid://bd4jnoj3ear6l" path="res://actor_builders/dialog_nav_hider.gd" id="4_kqat0"]
 
 [node name="PopupCollection" type="Node2D"]
 script = ExtResource("1_usxd4")
@@ -26,6 +27,17 @@ unique_name_in_owner = true
 initial_position = 1
 size = Vector2i(800, 600)
 access = 1
+root_subfolder = "user://Saves/Fish/Files"
+
+[node name="Node2D" type="Node2D" parent="FshExportFileDialog"]
+position = Vector2(-7, 0)
+
+[node name="ColorRect" type="ColorRect" parent="FshExportFileDialog/Node2D" node_paths=PackedStringArray("file_dialog")]
+offset_right = 797.0
+offset_bottom = 45.0
+color = Color(0.25098, 0.25098, 0.25098, 1)
+script = ExtResource("4_kqat0")
+file_dialog = NodePath("../..")
 
 [node name="PngExportFileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
@@ -33,6 +45,17 @@ auto_translate_mode = 1
 initial_position = 1
 size = Vector2i(800, 600)
 access = 1
+
+[node name="Node2D" type="Node2D" parent="PngExportFileDialog"]
+
+[node name="ColorRect" type="ColorRect" parent="PngExportFileDialog/Node2D" node_paths=PackedStringArray("file_dialog")]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 792.0
+offset_bottom = 43.0
+color = Color(0.25098, 0.25098, 0.25098, 1)
+script = ExtResource("4_kqat0")
+file_dialog = NodePath("../..")
 
 [connection signal="export" from="FshExportPopup" to="." method="_on_fsh_export_popup_export"]
 [connection signal="popup_hide" from="FshExportPopup" to="." method="_on_fsh_export_popup_popup_hide"]
