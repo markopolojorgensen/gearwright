@@ -2424,7 +2424,7 @@
       "attribute": "",
       "range": 0,
       "damage": 0,
-      "action_text": "Gain +2 POWER until the start of your next turn and apply the Pulled 2 Condition to a Fish you have currently Hooked."
+      "action_text": "Gain +2 POWER and become unable to take the Move Action until the start of your next turn. Apply the Pulled 2 Condition to a Fish you have currently Hooked."
     },
     "ap": 0,
     "ballast": 0,

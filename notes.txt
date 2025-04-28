@@ -3,10 +3,8 @@ Q1 2025, definitely before May
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
-json changes
-  stab clamps
-  anemone gear ability
-  derringer trait
+json changes (embedded data)
+
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -80,7 +78,10 @@ json changes
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  non-fish json edits (most recent is 2025_04_24_00)
+  embedded (non-fish) json edits (most recent is 2025_04_28_00)
+    stab clamps
+    anemone gear ability
+    derringer trait
     parallel gear ability: "0 AP"
     derringer gear ability: "Rapid Fire" and "Barrage"
     jolly roger has more hardpoints

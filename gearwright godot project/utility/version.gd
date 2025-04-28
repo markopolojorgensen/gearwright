@@ -1,6 +1,8 @@
 extends Node
 
-const VERSION = "2.5.2"
+# Project Settings -> Application -> Config -> Version
+
+const VERSION = "2.5.3"
 
 func _ready():
 	get_window().title += " " + VERSION
