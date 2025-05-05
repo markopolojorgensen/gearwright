@@ -537,5 +537,11 @@ func copy_from_zip(zipreader: ZIPReader, file_name, dest_path):
 	dest_file.store_buffer(data)
 	dest_file.close()
 
-
-
+# TODO: is_curio should go somewhere else
+#   Item should get split into ItemInfo and DiegeticItem
+#   this should go in the info side
+func is_curio(item_data: Dictionary) -> bool:
+	for tag in item_data.tags:
+		if "fathomless" in tag.to_lower():
+			return true
+	return false

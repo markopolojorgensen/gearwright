@@ -3311,7 +3311,7 @@
   },
   "festering_heart": {
     "action_data": {
-      "ap_cost": 0,
+      "ap_cost": 1,
       "attribute": "",
       "range": 0,
       "damage": 0,

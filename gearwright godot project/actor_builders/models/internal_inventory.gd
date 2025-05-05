@@ -299,6 +299,7 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 		elif "unwieldy" in tag:
 			is_unwieldy = true
 	
+	
 	# Limited tag
 	if 1 <= limit:
 		var item_name: String = item.item_data.name.to_snake_case()
@@ -342,6 +343,12 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 						bulky_violation = true
 			if bulky_violation:
 				errors.append("Bulky: Adjacent to %s" % equipped_item_info.internal.item_data.name)
+	
+	if DataHandler.is_curio(item.item_data):
+		for equipped_item_info in get_equipped_items():
+			if DataHandler.is_curio(equipped_item_info.internal.item_data):
+				errors.append("Already has curio %s" % equipped_item_info.internal.item_data.name)
+			var other_tags = equipped_item_info.internal.item_data.tags
 	
 	return errors
 

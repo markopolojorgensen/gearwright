@@ -172,7 +172,7 @@ func _ready():
 			for tab_name in part_menu_tabs:
 				if tab_name != "Curios":
 					part_menu.add_part_to_tab(tab_name, item_id, item_info)
-		elif is_curio(item_info):
+		elif DataHandler.is_curio(item_info):
 			part_menu.add_part_to_tab("Curios", item_id, item_info)
 		elif section_id.capitalize() in part_menu_tabs:
 			var tab_name = section_id.capitalize()
@@ -229,11 +229,7 @@ func _ready():
 		request_update_controls = true
 
 
-func is_curio(item_data: Dictionary):
-	for tag in item_data.tags:
-		if "fathomless" in tag.to_lower():
-			return true
-	return false
+
 
 func update_perk_popup(perk: String, option_button: OptionButton, perk_type: PerkOptionButton.PERK_TYPE):
 	if perk.is_empty():

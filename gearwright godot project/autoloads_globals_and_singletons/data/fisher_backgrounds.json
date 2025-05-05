@@ -21,10 +21,10 @@
   },
   "deep-touched": {
     "background": "Deep-Touched",
-    "marbles": 4,
+    "marbles": 5,
     "mental": 7,
     "willpower": 11,
-    "deep_words": 1,
+    "deep_words": 0,
     "weight_cap": 0,
     "unlocks": 7,
     "description": "Deep-Touched are rare but make up a disproportional amount of Fishers. Innately drawn to the ocean and its creatures they often seek to follow the call that is luring them into the depths. Resilient against the horrors the ocean has to offer they may not be as adept at piloting their Gears as Fishers from different backgrounds."

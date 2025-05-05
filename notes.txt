@@ -1,9 +1,11 @@
 TODO
 Q1 2025, definitely before May
+Release day May 11th
 
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
-json changes (embedded data)
+  json changes (embedded data)
+
 
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
@@ -109,6 +111,16 @@ json changes (embedded data)
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
+2.5.4
+  json changes (embedded data)
+    deeptouched background now has 5 marbles
+    Anemone trait: "At the end of your turn, you may remove one marked damage from one of your Hardpoints that does not contain an Internal."
+    Pridemoor now has a base ballast of 1
+    festering heart curio should be 1 ap
+  fathomless curios are now limited to 1 curio per gear like engines & optics
+    (also disable-able by turning off enforce tags toggle)
+2.5.3
+  json changes: derringer ability, stab. clamps, anemone ability
 2.5.2
   hid path bar on fsh & png export file dialogs
   json changes to derringer and parallel gear abilities
