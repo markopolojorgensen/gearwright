@@ -5,8 +5,6 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
   json changes (embedded data)
-
-
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -80,7 +78,12 @@ Release day May 11th
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  embedded (non-fish) json edits (most recent is 2025_04_28_00)
+  embedded (non-fish) json edits (most recent is 2025_05_08_00)
+    final word needs Breaching tag
+    deeptouched background now has 5 marbles
+    Anemone trait: "At the end of your turn, you may remove one marked damage from one of your Hardpoints that does not contain an Internal."
+    Pridemoor now has a base ballast of 1
+    festering heart curio should be 1 ap
     stab clamps
     anemone gear ability
     derringer trait
@@ -112,11 +115,13 @@ Release day May 11th
     new key in characters: "custom_background_name"
 
 2.5.4
+  deep word fathomless tags now have + after the number ("Fathomless 6+")
   json changes (embedded data)
+    final deep word now has Breaching tag
     deeptouched background now has 5 marbles
     Anemone trait: "At the end of your turn, you may remove one marked damage from one of your Hardpoints that does not contain an Internal."
     Pridemoor now has a base ballast of 1
-    festering heart curio should be 1 ap
+    festering heart curio is now 1 ap
   fathomless curios are now limited to 1 curio per gear like engines & optics
     (also disable-able by turning off enforce tags toggle)
 2.5.3

@@ -285,6 +285,8 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 				text += "\n" + perk_info.extra_rules
 			var tags := []
 			tags = add_tag_string(tags, perk_info, "fathomless")
+			if perk_info.has("tags"):
+				tags.append_array(perk_info.tags)
 			if not tags.is_empty():
 				text += "\n" + ", ".join(tags)
 			perk_info_label.text = text
@@ -298,9 +300,16 @@ func update_perk_popup(perk: String, option_button: OptionButton, perk_type: Per
 	while get_viewport_rect().size.y < perk_info_container.get_global_rect().end.y:
 		perk_info_container.position.y -= 1
 
+# this is very awkward
+# ideally, the deep_words.json would be changed so all the entries have something like
+#   "tags": ["Fathomless 3+"]
+# instead of having fathomless be its own key.
 func add_tag_string(tag_list: Array, info: Dictionary, tag: String) -> Array:
 	if info.has(tag):
-		tag_list.append("%s %d" % [tag.capitalize(), info[tag]])
+		var tag_string := "%s %d" % [tag.capitalize(), info[tag]]
+		if tag.to_lower().begins_with("fathomless"):
+			tag_string += "+"
+		tag_list.append(tag_string)
 	return tag_list
 
 func register_ic_base_mech_builder():

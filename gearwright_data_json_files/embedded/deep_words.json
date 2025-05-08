@@ -67,6 +67,7 @@
     "ap_cost": 3,
     "range": 5,
     "damage": "Your Current Backlash",
+    "tags": ["Breaching"],
     "extra_rules": "You may only choose this Deep Word if you already know 3 other Deep Words. You may only voice this Deepword during the final (10th) Fishing trip. If this attack would kill a fish it is caught instead, removing the Catch Zone closest to itself. If you know this word it becomes impossible for you to retire, the pull of the Deep is too strong and you become one of its denizens after the 10th Fishing Trip."
   }
 }

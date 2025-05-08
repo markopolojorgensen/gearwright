@@ -44,7 +44,7 @@
   },
   "pridemoore": {
 	"ap": 3,
-	"ballast": 0,
+	"ballast": 1,
 	"close": 4,
 	"core_integrity": 3,
 	"default_unlocks": [
@@ -239,7 +239,7 @@
 	],
 	"evasion": 12,
 	"far": 5,
-	"gear_ability": "At the end of your turn you may remove one of your marked damage from one Hardpoint that does not contain an Internal.",
+	"gear_ability": "At the end of your turn, you may remove one marked damage from one of your Hardpoints that does not contain an Internal.",
 	"gear_ability_name": "Living Hull",
 	"power": 4,
 	"repair_kits": 2,
