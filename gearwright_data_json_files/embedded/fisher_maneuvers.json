@@ -9,7 +9,7 @@
     "name": "Redline Winches",
     "category": "reeling",
     "ap_cost": 1,
-    "action_text": "Gain +2 to your REEL Checks until the end of this turn. This may bring you above 9 Power."
+    "action_text": "Gain +2 Power until the start of your next turn. This bonus may bring you above 9 Power."
   },
   "careful_reeling": {
     "name": "Careful Reeling",
@@ -21,7 +21,7 @@
     "name": "Heave Ho",
     "category": "reeling",
     "ap_cost": 0,
-    "action_text": "The next Reel Action you perform this turn adds the adjacent Fisher’s POWER during an Assisted Reel instead of +2. This may bring you above 9 POWER."
+    "action_text": "The next Reel Action you perform this turn adds the adjacent Fisher’s Power during an Assisted Reel instead of +2. This may bring you above 9 Power."
   },
   "defensive_posture": {
     "name": "Defensive Posture",
@@ -39,7 +39,7 @@
     "name": "Damage Control",
     "category": "mitigation",
     "ap_cost": 0,
-    "action_text": "All of your Internals gain the Armor tag until the start of your next turn."
+    "action_text": "All of your Internals gain the Armored Tag until the start of your next turn."
   },
   "duck_and_cover": {
     "name": "Duck And Cover",
@@ -55,7 +55,7 @@
   },
   "stand stalwart": {
     "name": "Stand Stalwart",
-    "category": "utility",
+    "category": "mitigation",
     "ap_cost": 0,
     "action_text": "You may fully clear any number of Conditions currently affecting you. Gain the Stalwart Condition."
   },
@@ -93,31 +93,31 @@
     "name": "Right Tool For The Job",
     "category": "utility",
     "ap_cost": 0,
-    "action_text": "Your next attack this turn gains the Precision Tag and one of either the Penetrating, Crushing or Breaching Tags."
+    "action_text": "Your next Physical Attack this turn gains the Precision Tag. It also gains one of either:\n● Breaching\n● Crushing\n● Penetrating"
   },
   "danger_close": {
     "name": "Danger Close",
     "category": "far",
     "ap_cost": 0,
-    "action_text": "All of your FAR weapons gain the Point Blank tag until the end of the turn."
+    "action_text": "All of your Far weapons gain the Point Blank tag until the end of the turn."
   },
   "marksman": {
     "name": "Marksman",
     "category": "far",
     "ap_cost": 0,
-    "action_text": "Your next FAR attack this turn gains the Guided tag."
+    "action_text": "Your next Far attack this turn gains the Guided tag."
   },
   "galvanic_shock_rounds": {
     "name": "Galvanic Shock Rounds",
     "category": "far",
     "ap_cost": 1,
-    "action_text": "Your next FAR Weapon Attack this turn becomes damage [0] and gains the following effect: “On a hit the target gains the Tranq 3 and Dazed 2 Conditions.” Weapons lose the Blast Tag for the duration of this attack."
+    "action_text": "Your next Far Weapon Attack this turn becomes damage [0] and gains the following effect: “On a hit the target gains the Tranq 3 and Dazed 2 Conditions.” Weapons lose the Blast Tag for the duration of this attack."
   },
   "hook_artist": {
     "name": "Hook Artist",
     "category": "close",
     "ap_cost": 0,
-    "action_text": "Until the end of this turn your CLOSE Attacks apply the Hooked 1 Condition on a hit. If they already apply the Hooked Condition they increase the value by 1."
+    "action_text": "Until the end of this turn your Close Attacks apply the Hooked 1 Condition on a hit. If they already apply the Hooked Condition they increase the value by 1."
   },
   "wrangler": {
     "name": "Wrangler",
@@ -192,7 +192,7 @@
     "name": "Outwit",
     "category": "mental",
     "ap_cost": 0,
-    "action_text": "Your next CLOSE or FAR attack this turn uses MENTAL and targets Willpower instead of Evasion. It is still a Physical Attack and can Critically Hit."
+    "action_text": "Your next Close or Far attack this turn uses Mental and targets Willpower instead of Evasion. It is still a Physical Attack and can Critically Hit."
   },
   "feint": {
     "name": "Feint",

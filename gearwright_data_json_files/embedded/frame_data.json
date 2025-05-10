@@ -33,7 +33,7 @@
 	],
 	"evasion": 12,
 	"far": 5,
-	"gear_ability": "When you spend a Repair Kit you remove 5 marked damage from your Gear instead of 4.",
+	"gear_ability": "When you spend a Repair Kit during a rest you remove 5 marked damage from your Gear instead of 4.",
 	"gear_ability_name": "Jury Rigged",
 	"power": 4,
 	"repair_kits": 3,
@@ -198,7 +198,7 @@
 	],
 	"evasion": 12,
 	"far": 7,
-	"gear_ability": "1/Turn when you critically hit with a FAR attack you may treat it as if it had the Penetrating tag.",
+	"gear_ability": "1/Turn when you critically hit a target with a FAR attack you may assign damage to that target as if the attack had the Penetrating Tag.",
 	"gear_ability_name": "Sniper",
 	"power": 2,
 	"repair_kits": 2,
@@ -467,7 +467,7 @@
 	"sensors": 3,
 	"speed": 6,
 	"weight": 0,
-	"weight_cap": 13
+	"weight_cap": 14
   },
   "parallel": {
 	"ap": 2,

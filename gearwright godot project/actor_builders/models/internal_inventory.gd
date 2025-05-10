@@ -348,7 +348,6 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 		for equipped_item_info in get_equipped_items():
 			if DataHandler.is_curio(equipped_item_info.internal.item_data):
 				errors.append("Already has curio %s" % equipped_item_info.internal.item_data.name)
-			var other_tags = equipped_item_info.internal.item_data.tags
 	
 	return errors
 

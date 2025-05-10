@@ -546,7 +546,9 @@
     "extra_rules": "",
     "sensors": 0,
     "speed": 0,
-    "tags": [],
+    "tags": [
+      "limited 1"
+    ],
     "type": "active",
     "ballast": 0,
     "weight": 3,
@@ -2348,7 +2350,7 @@
   },
   "cognitive_burial": {
     "action_data": {
-      "ap_cost": 2,
+      "ap_cost": 1,
       "attribute": "mental",
       "range": 5,
       "damage": 0,
@@ -2598,7 +2600,7 @@
       "range": 0,
       "damage": 0,
       "marble_damage": 0,
-      "action_text": "Immediately gain +3 AP. After your turn ends you immediately gain the Drained 3 Condition."
+      "action_text": "Immediately gain +3 AP and the Drained 3 Condition."
     },
     "ap": 0,
     "close": 0,

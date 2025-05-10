@@ -5,6 +5,8 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------------------- NEXT VERSION
 ------------------------------------------------------------------------------------------------------- SMOL
   json changes (embedded data)
+  json changes (fsh data)
+
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
@@ -78,7 +80,19 @@ Release day May 11th
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
-  embedded (non-fish) json edits (most recent is 2025_05_08_00)
+  embedded (non-fish) json edits (most recent is 2025_05_10_00)
+    frames
+      Lonestar ability -> "When you spend a Repair Kit during a rest you remove 5 marked damage from your Gear instead of 4."
+      Angler Ability -> "1/Turn when you critically hit a target with a FAR attack you may assign damage to that target as if the attack had the Penetrating Tag."
+      Quadrilateral Weight Cap is now 14
+    Maneuvers
+      Damage Control -> "All of your Internals gain the Armored Tag until the start of your next turn."
+      Redline Winches -> "Gain +2 Power until the start of your next turn. This bonus may bring you above 9 Power."
+      Right Tool for the Job -> "Your next Physical Attack this turn gains the Precision Tag. It also gains one of either: ● Breaching ● Crushing ● Penetrating"
+      Stand Stalwart is now a Mitigation Maneuver, moved from Utility
+    Developments
+      Hardy Physique or Prosthetics is now named correctly
+      Lone Wolf -> "When deploying at the start of an Encounter, you may choose to deploy adjacent to a different battlefield edge than the other Fishers and at least 10 spaces away from them. If you do, your Ballast is 1 during the first Round of the Encounter."
     final word needs Breaching tag
     deeptouched background now has 5 marbles
     Anemone trait: "At the end of your turn, you may remove one marked damage from one of your Hardpoints that does not contain an Internal."
@@ -94,7 +108,10 @@ Release day May 11th
     parallel's gear ability text update
     Redline Winches should be 1 AP in Gearwright
 
-  fish json edits (most recent is 2025_04_07_00)
+  fish json edits (most recent is 2025_05_10_00)
+    Adrenal Engine -> "Immediately gain +3 AP and the Drained 3 Condition."
+    Leadership markings is now Limited 1
+    Cognitive Burial is now 1 AP
     maintenance tools text & ap update
     broadside bladder is now broadside engine (and other changes? check discord dm)
     the nomad background is now called Sailor
@@ -114,6 +131,25 @@ Release day May 11th
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
+2.5.5
+  embedded (non-fish) json edits (most recent is 2025_05_10_00)
+    frames
+      Lonestar ability -> "When you spend a Repair Kit during a rest you remove 5 marked damage from your Gear instead of 4."
+      Angler Ability -> "1/Turn when you critically hit a target with a FAR attack you may assign damage to that target as if the attack had the Penetrating Tag."
+      Quadrilateral Weight Cap is now 14
+    Maneuvers
+      changed a bunch of capitalization (no more ALLCAPS for stats)
+      Damage Control -> "All of your Internals gain the Armored Tag until the start of your next turn."
+      Redline Winches -> "Gain +2 Power until the start of your next turn. This bonus may bring you above 9 Power."
+      Right Tool for the Job -> "Your next Physical Attack this turn gains the Precision Tag. It also gains one of either: ● Breaching ● Crushing ● Penetrating"
+      Stand Stalwart is now a Mitigation Maneuver, moved from Utility
+    Developments
+      Hardy Physique or Prosthetics is now named correctly
+      Lone Wolf -> "When deploying at the start of an Encounter, you may choose to deploy adjacent to a different battlefield edge than the other Fishers and at least 10 spaces away from them. If you do, your Ballast is 1 during the first Round of the Encounter."
+  fish json edits (most recent is 2025_05_10_00)
+    Adrenal Engine -> "Immediately gain +3 AP and the Drained 3 Condition."
+    Leadership markings is now Limited 1
+    Cognitive Burial is now 1 AP
 2.5.4
   deep word fathomless tags now have + after the number ("Fathomless 6+")
   json changes (embedded data)

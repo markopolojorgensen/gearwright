@@ -66,7 +66,7 @@
     "repeatable": false
   },
   "hardy_physique_or_prosthetics": {
-    "name": "Heavy Physique or Prosthetics",
+    "name": "Hardy Physique or Prosthetics",
     "description": "You ignore all results from the “Gear Destruction” table except “Killed in Action” going forward. If your Fisher is suffering any persistent effects from the table already, they are cleared.",
     "repeatable": false
   },
@@ -78,7 +78,7 @@
   },
   "lone_wolf": {
     "name": "Lone Wolf",
-    "description": "When deploying at the start of an Encounter you may choose to deploy adjacent to a different battlefield edge than the other Fishers. If you do, your Ballast is 1 during the first Round of the Encounter.",
+    "description": "When deploying at the start of an Encounter, you may choose to deploy adjacent to a different battlefield edge than the other Fishers and at least 10 spaces away from them. If you do, your Ballast is 1 during the first Round of the Encounter.",
     "repeatable": false
   },
   "lightweight_construction": {
