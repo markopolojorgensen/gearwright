@@ -6,14 +6,23 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------- SMOL
   json changes (embedded data)
   json changes (fsh data)
-
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
 
 
+* Fix: horizontal & vertical armor are actually the same internal and should share their limited tag
+* Fix: Manuevers/Deepwords/Developments a fisher doesn't have any more still get persisted in the save files
+    also, picking a bonus mental maneuver and then losing the bonus locks you out of picking the same manuever normally
+* Fix: wonkiness with gears/fish that you build with tag/weight/unlock limits turned off
+* Request: remove (DEBUG) from window
+* Request: some way to organize fish and fisher saves on the main menu
+* Request: some way to filter fish / fisher saves on the main menu (EL? weight? size?)
+* Request: allow negative mutation numbers in fish editor
+* don't let people save without a callsign? prevents "fisher file doesn't have .fsh" complaint
 
 
+window title: https://docs.godotengine.org/en/stable/classes/class_displayserver.html#class-displayserver-method-window-set-title
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
