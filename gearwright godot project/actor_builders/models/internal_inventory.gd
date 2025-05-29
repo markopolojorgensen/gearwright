@@ -303,14 +303,16 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 	# Limited tag
 	if 1 <= limit:
 		var item_name: String = item.item_data.name.to_snake_case()
+		item_name = collapse_armor_names(item_name)
 		var count: int = 1 # include the one we're adding
 		var equipped_item_infos := get_equipped_items()
 		for equipped_item_info in equipped_item_infos:
 			var equipped_item_name: String = equipped_item_info.internal_name
+			equipped_item_name = collapse_armor_names(equipped_item_name)
 			if equipped_item_name == item_name:
 				count += 1
 		if limit < count:
-			errors.append("Exceeds Limited count")
+			errors.append("Exceeds Limited count (%s: %d)" % [item_name.capitalize(), limit])
 	
 	if is_optics:
 		errors.append_array(check_tag_count("optics", max_optics_count))
@@ -350,6 +352,18 @@ func check_internal_equip_validity(item, gear_section_id: int, primary_cell: Vec
 				errors.append("Already has curio %s" % equipped_item_info.internal.item_data.name)
 	
 	return errors
+
+func collapse_armor_names(item_name: String) -> String:
+	const trouble_names := [
+		"horizontal_armored_scales",
+		"vertical_armored_scales",
+		"horizontal_armor",
+		"vertical_armor",
+	]
+	if item_name in trouble_names:
+		return item_name.replace("horizontal_", "").replace("vertical_", "")
+	else:
+		return item_name
 
 func check_tag_count(tag_name: String, max_count: int) -> Array:
 	var equipped_item_infos := get_equipped_items()

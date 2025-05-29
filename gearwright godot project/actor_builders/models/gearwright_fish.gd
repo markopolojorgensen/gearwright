@@ -327,6 +327,8 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 	var sesh: UnmarshalSession = start_unmarshalling_session(info)
 	
 	var new_fish := GearwrightFish.new()
+	new_fish.enforce_tags = false
+	
 	new_fish.callsign = sesh.get_info("name")
 	new_fish.size = SIZE_NAMES.find_key(sesh.get_info("size", "small"))
 	var template_type = sesh.get_info("template", "common")

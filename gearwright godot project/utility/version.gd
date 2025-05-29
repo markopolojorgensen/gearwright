@@ -2,8 +2,9 @@ extends Node
 
 # Project Settings -> Application -> Config -> Version
 
-const VERSION = "2.5.5"
+const VERSION = "2.5.6"
 
 func _ready():
-	get_window().title += " " + VERSION
+	get_window().title = "Gearwright %s" % VERSION
+
 

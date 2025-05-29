@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://d4c1rk3pk616a"]
+[gd_scene load_steps=41 format=3 uid="uid://d4c1rk3pk616a"]
 
 [ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_j03au"]
 [ext_resource type="Script" uid="uid://eatpbgbpvng8" path="res://actor_builders/mech_builder/mech_builder.gd" id="1_t8ijy"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://c7i2vstthocql" path="res://actor_builders/stat_edit_control/plus_icon.png" id="21_nc0a7"]
 [ext_resource type="Script" uid="uid://mmicvg14rts4" path="res://actor_builders/mech_builder/frame_selector.gd" id="21_yfj5f"]
 [ext_resource type="Texture2D" uid="uid://bd8l507svfa0g" path="res://actor_builders/stat_edit_control/plus_icon_dark.png" id="22_n4val"]
+[ext_resource type="Theme" uid="uid://b20rfstklkoo0" path="res://Assets/big_font_theme.tres" id="23_ein2g"]
 [ext_resource type="Script" uid="uid://btrf8hkko1yne" path="res://actor_builders/mech_builder/internals_reset_button.gd" id="26_hdcjo"]
 [ext_resource type="PackedScene" uid="uid://cojllssnu0db" path="res://actor_builders/top_menu/save_menu_button.tscn" id="26_v0iwd"]
 [ext_resource type="Script" uid="uid://blw4jyb2i6ga" path="res://actor_builders/mech_builder/hardpoints_reset_button.gd" id="27_1gsxs"]
@@ -68,6 +69,7 @@ debug = true
 
 [node name="GearContainer" type="MarginContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -858,7 +860,6 @@ target_label = NodePath("..")
 
 [node name="FisherContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -903,7 +904,43 @@ unique_name_in_owner = true
 layout_mode = 2
 use_max_value = true
 
+[node name="PanelContainer3" type="PanelContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Novok"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "50"
+alignment = 1
+
+[node name="NovokSpinBox" type="SpinBox" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("23_ein2g")
+min_value = -10000.0
+max_value = 1e+07
+value = 50.0
+alignment = 1
+update_on_text_changed = true
+select_all_on_focus = true
+
 [node name="Control" type="Control" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -1427,6 +1464,7 @@ autowrap_mode = 3
 [connection signal="increase" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/WeightCapManualAdjustmentControl" to="." method="_on_weight_cap_manual_adjustment_control_increase"]
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NarrativeMarblesStatEditControl" to="." method="_on_narrative_marbles_stat_edit_control_decrease"]
 [connection signal="increase" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NarrativeMarblesStatEditControl" to="." method="_on_narrative_marbles_stat_edit_control_increase"]
+[connection signal="value_changed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/NovokSpinBox" to="." method="_on_novok_spin_box_value_changed"]
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_decrease"]
 [connection signal="increase" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_increase"]
 [connection signal="pressed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/PanelContainer/MarginContainer/NarrativeCustomLabelAddButton" to="." method="_on_narrative_custom_label_add_button_pressed"]

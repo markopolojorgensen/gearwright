@@ -362,7 +362,7 @@ func register_ic_manual_adjustment():
 		%UnlocksManualAdjustmentControl.show()
 		%WeightCapManualAdjustmentControl.show()
 		manual_button.text = "Save Manual\nAdjustments"
-		manual_button.set_deferred("button_pressed", true)
+		manual_button.set_pressed_no_signal(true)
 		request_update_controls = true
 	ic.deactivate = func(_is_stack_growing: bool):
 		stats_list_control.show_hide_spinboxes(false)
@@ -373,7 +373,7 @@ func register_ic_manual_adjustment():
 		%WeightCapManualAdjustmentControl.hide()
 		manual_button.text = "Edit Manual\nAdjustments"
 		# don't immediately double-pop
-		manual_button.set_deferred("button_pressed", false)
+		manual_button.set_pressed_no_signal(false)
 		request_update_controls = true
 	ic.handle_input = func(event: InputEvent):
 		if event.is_action_pressed("mouse_rightclick"):
@@ -557,6 +557,7 @@ func _on_custom_bg_change(stat_name: String, is_increase: bool):
 
 # toggled_on reflects the new state, not the old one
 func _on_manual_button_toggled(toggled_on: bool) -> void:
+	global_util.fancy_print("manual button toggled signal", true)
 	if (not toggled_on) and (input_context_system.get_current_input_context_id() == input_context_system.INPUT_CONTEXT.MECH_BUILDER_MANUAL_ADJUSTMENT):
 		input_context_system.pop_input_context_stack()
 	elif toggled_on:
@@ -615,6 +616,8 @@ func _on_diablo_style_inventory_system_something_changed() -> void:
 	request_update_controls = true
 
 func _on_save_menu_button_button_selected(button_id: int) -> void:
+	
+	
 	if button_id == SaveLoadMenuButton.BUTTON_IDS.NEW_ACTOR:
 		$LostDataPreventer.current_data = current_character.marshal(false)
 		$LostDataPreventer.check_lost_data(func():
@@ -774,6 +777,10 @@ func _on_help_button_pressed() -> void:
 	else:
 		%GearHelpPanel.hide()
 		%FisherHelpPanel.visible = not %FisherHelpPanel.visible
+
+func _on_novok_spin_box_value_changed(value: float) -> void:
+	global_util.fancy_print("novok changed: %.0f" % value, true)
+	current_character.novok = value
 
 
 ## Reactivity - things that reset internals
@@ -985,8 +992,11 @@ func update_controls():
 	else:
 		%NarrativeMarblesStatEditControl.value = current_character.current_marbles
 	%NarrativeMarblesStatEditControl.max_value = current_character.get_stat("marbles")
+	
+	%NovokSpinBox.value = current_character.novok
 
 #endregion
+
 
 
 

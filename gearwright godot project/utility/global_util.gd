@@ -332,8 +332,8 @@ func clear_children(node: Node):
 	for child in node.get_children():
 		child.queue_free()
 
-func fancy_print(what: String):
-	if verbose:
+func fancy_print(what: String, override_verbose = false):
+	if verbose or override_verbose:
 		print(what.indent(_indentation))
 
 func indent():

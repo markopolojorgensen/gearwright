@@ -11,6 +11,7 @@ var frame_name := ""
 var level: int = 1
 var backlash: int = 0
 var current_marbles: int = -1
+var novok: int = 50
 
 var developments := []
 var maneuvers := []
@@ -369,6 +370,9 @@ func set_level(new_level):
 	global_util.fancy_print("applying level: %d" % level)
 	level_stats = DataHandler.get_thing_nicely(DataHandler.DATA_TYPE.LEVEL, str(level))
 	
+	enforce_perk_counts()
+
+func enforce_perk_counts():
 	while developments.size() < get_development_count():
 		developments.append("")
 	while developments.size() > get_development_count():
@@ -378,6 +382,14 @@ func set_level(new_level):
 		maneuvers.append("")
 	while maneuvers.size() > get_maneuver_count(false):
 		maneuvers.pop_back()
+	
+	while deep_words.size() < get_deep_word_count():
+		deep_words.append("")
+	while deep_words.size() > get_deep_word_count():
+		deep_words.pop_back()
+	
+	if not has_mental_maneuver():
+		mental_maneuver = ""
 
 # yeets all equipped internals
 # resets unlocks to nothing
@@ -416,6 +428,8 @@ func toggle_unlock(gear_section_id: int, x: int, y: int) -> bool:
 
 # returns an error message, or an empty string if everything's fine
 func set_perk(perk_type: PerkOptionButton.PERK_TYPE, slot: int, name: String) -> String:
+	enforce_perk_counts()
+	
 	match perk_type:
 		PerkOptionButton.PERK_TYPE.DEVELOPMENT:
 			if not name.is_empty():
@@ -543,6 +557,14 @@ func marshal(collapse_marbles := true) -> Dictionary:
 	if collapse_marbles and are_marbles_quantum():
 		collapse_quantum_marbles()
 	
+	enforce_perk_counts()
+	
+	assert(developments.size() <= get_development_count())
+	assert(maneuvers.size() <= get_maneuver_count(false))
+	assert(has_mental_maneuver() or mental_maneuver.is_empty())
+	assert(deep_words.size() <= get_deep_word_count())
+	
+	
 	var result := {
 		callsign = callsign,
 		frame = frame_name,
@@ -556,6 +578,7 @@ func marshal(collapse_marbles := true) -> Dictionary:
 		custom_label_info = custom_label_info.duplicate(),
 		current_marbles = current_marbles,
 		custom_background_name = custom_background_name,
+		novok = novok,
 	}
 	
 	result.custom_background = custom_background
@@ -611,6 +634,7 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 	ch.deep_words = sesh.get_info("deep_words", [])
 	ch.custom_background = sesh.get_info("custom_background", [])
 	ch.custom_background_name = sesh.get_info("custom_background_name")
+	ch.novok = sesh.get_info("novok", 50)
 	
 	var unlocks_raw_data = sesh.get_info("unlocks")
 	var unlocks_slot_infos := [] # list of make_slot_info results
@@ -677,10 +701,6 @@ static func unmarshal(info: Dictionary) -> GearwrightCharacter:
 				var errors: Array = ch.equip_internal(new_internal, gsid, primary_cell)
 				if not errors.is_empty():
 					sesh.errors.append("  failed to install internal: %s (%s)" % [internal_info, str(errors)])
-	
-	#ch.enforce_weight_cap = true
-	#ch.enforce_hardpoint_cap = true
-	#ch.enforce_tags = true
 	
 	finish_unmarshalling_session(sesh)
 	

@@ -11,18 +11,6 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------- LORGE
 
 
-* Fix: horizontal & vertical armor are actually the same internal and should share their limited tag
-* Fix: Manuevers/Deepwords/Developments a fisher doesn't have any more still get persisted in the save files
-    also, picking a bonus mental maneuver and then losing the bonus locks you out of picking the same manuever normally
-* Fix: wonkiness with gears/fish that you build with tag/weight/unlock limits turned off
-* Request: remove (DEBUG) from window
-* Request: some way to organize fish and fisher saves on the main menu
-* Request: some way to filter fish / fisher saves on the main menu (EL? weight? size?)
-* Request: allow negative mutation numbers in fish editor
-* don't let people save without a callsign? prevents "fisher file doesn't have .fsh" complaint
-
-
-window title: https://docs.godotengine.org/en/stable/classes/class_displayserver.html#class-displayserver-method-window-set-title
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
@@ -32,6 +20,9 @@ window title: https://docs.godotengine.org/en/stable/classes/class_displayserver
 
 
 ------------------------------------------------------------------------------------------------------------------- wontfix / distant future / nonissues
+* Request: some way to organize fish and fisher saves on the main menu
+* Request: some way to filter fish / fisher saves on the main menu (EL? weight? size?)
+* Request: allow negative mutation numbers in fish editor
   make export smaller to allow google to scan it for viruses? No
 
 
@@ -89,6 +80,7 @@ window title: https://docs.godotengine.org/en/stable/classes/class_displayserver
 
 
 ------------------------------------------------------------------------------------------------------------------- DONE
+JSON & Save format changes
   embedded (non-fish) json edits (most recent is 2025_05_10_00)
     frames
       Lonestar ability -> "When you spend a Repair Kit during a rest you remove 5 marked damage from your Gear instead of 4."
@@ -140,6 +132,15 @@ window title: https://docs.godotengine.org/en/stable/classes/class_displayserver
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
+2.5.6
+  exports now use release templates
+  Novok Counter on narrative fisher profile
+  Manuevers/Deepwords/Developments a fisher doesn't have are no longer persisted in the save file
+    (also, picking a bonus mental maneuver and then losing the bonus no longer locks you out of picking the same manuever normally)
+  vertical/horizontal armor now properly respect their limited tags for both Fish and Fishers
+  save window now adds ".fsh" even if there's no callsign
+  crash fix: loading an invalid fish (made with enforce tags disabled) no longer causes crashes (this had already been fixed for fishers)
+  crash fix: saving/loading a file while in manual adjustment mode no longer crashes
 2.5.5
   embedded (non-fish) json edits (most recent is 2025_05_10_00)
     frames

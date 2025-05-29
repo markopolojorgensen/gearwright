@@ -33,13 +33,6 @@ func register_ic_popup():
 
 
 
-
-
-
-#func old_popup_fsh(new_actor: GearwrightActor):
-	#actor = new_actor
-	#_popup(fsh_export_popup, actor.callsign)
-
 func _on_fsh_export_popup_export(filename: String) -> void:
 	var folder_path = DataHandler.save_paths[save_style]["fsh"]
 	var path = folder_path + filename
@@ -109,10 +102,7 @@ func popup_fsh_export_dialog(new_actor: GearwrightActor):
 	var dir = DataHandler.save_paths[save_style]["fsh"]
 	fsh_export_dialog.current_dir = dir
 	fsh_export_dialog.root_subfolder = dir
-	if actor.callsign.is_empty():
-		fsh_export_dialog.current_file = ""
-	else:
-		fsh_export_dialog.current_file = actor.callsign + ".fsh"
+	fsh_export_dialog.current_file = actor.callsign + ".fsh"
 	fsh_export_dialog.popup()
 	input_context_system.push_input_context(input_context_system.INPUT_CONTEXT.POPUP_ACTIVE)
 
