@@ -132,6 +132,8 @@ JSON & Save format changes
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
+2.5.7
+  switched novok and backlash boxes in fisher view
 2.5.6
   exports now use release templates
   Novok Counter on narrative fisher profile

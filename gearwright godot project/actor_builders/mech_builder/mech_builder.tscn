@@ -904,6 +904,26 @@ unique_name_in_owner = true
 layout_mode = 2
 use_max_value = true
 
+[node name="PanelContainer2" type="PanelContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Current Backlash"
+
+[node name="BacklashStatEditControl" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer" instance=ExtResource("19_q2hng")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="PanelContainer3" type="PanelContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -943,26 +963,6 @@ select_all_on_focus = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="PanelContainer2" type="PanelContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Current Backlash"
-
-[node name="BacklashStatEditControl" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer" instance=ExtResource("19_q2hng")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="FisherContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -1464,9 +1464,9 @@ autowrap_mode = 3
 [connection signal="increase" from="GearContainer/HBoxContainer/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/MarginContainer/MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/WeightCapManualAdjustmentControl" to="." method="_on_weight_cap_manual_adjustment_control_increase"]
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NarrativeMarblesStatEditControl" to="." method="_on_narrative_marbles_stat_edit_control_decrease"]
 [connection signal="increase" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/NarrativeMarblesStatEditControl" to="." method="_on_narrative_marbles_stat_edit_control_increase"]
-[connection signal="value_changed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/NovokSpinBox" to="." method="_on_novok_spin_box_value_changed"]
 [connection signal="decrease" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_decrease"]
 [connection signal="increase" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/BacklashStatEditControl" to="." method="_on_backlash_stat_edit_control_increase"]
+[connection signal="value_changed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/NovokSpinBox" to="." method="_on_novok_spin_box_value_changed"]
 [connection signal="pressed" from="FisherContainer/MarginContainer/VBoxContainer/GridContainer/MiddleVBoxContainer/PanelContainer/MarginContainer/CustomNarrativeLabelContainer/PanelContainer/MarginContainer/NarrativeCustomLabelAddButton" to="." method="_on_narrative_custom_label_add_button_pressed"]
 [connection signal="tab_changed" from="MarginContainer2/VBoxContainer/HBoxContainer2/TabBar" to="." method="_on_tab_bar_tab_changed"]
 [connection signal="button_selected" from="MarginContainer2/VBoxContainer/HBoxContainer2/SaveMenuButton" to="." method="_on_save_menu_button_button_selected"]
