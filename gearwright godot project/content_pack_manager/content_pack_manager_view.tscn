@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=3 uid="uid://wcn3youcxou3"]
+
+[ext_resource type="Theme" uid="uid://cd7mc8phwoln8" path="res://Assets/fathomless_gears_theme.tres" id="1_08evq"]
+[ext_resource type="Script" uid="uid://r6uv4qgo6bd4" path="res://content_pack_manager/content_pack_manager_view.gd" id="2_ald7i"]
+[ext_resource type="PackedScene" uid="uid://dkiv4ctslv22q" path="res://main_menu/file_import_dialog.tscn" id="3_sqaeg"]
+
+[node name="ContentPackManagerView" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_08evq")
+script = ExtResource("2_ald7i")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.0823529, 0.109804, 0.294118, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Content Packs"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+color = Color(0.0823529, 0.109804, 0.294118, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="LinesContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/MarginContainer/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="AddContentPackButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = " Add Content Pack "
+
+[node name="DirectoryButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = " Open Content Pack Directory "
+
+[node name="BackButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = " Back to Main Menu "
+
+[node name="FileDialog" parent="." instance=ExtResource("3_sqaeg")]
+unique_name_in_owner = true
+auto_translate_mode = 1
+
+[node name="YeetConfirmationDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(554, 100)
+dialog_text = "Are you sure you want to consign this to the depths of the abyss, never to return?"
+
+[connection signal="pressed" from="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddContentPackButton" to="." method="_on_add_content_pack_button_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/MarginContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="confirmed" from="YeetConfirmationDialog" to="." method="_on_yeet_confirmation_dialog_confirmed"]

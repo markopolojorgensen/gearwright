@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dfs7lmjjmnx3o"]
+[gd_scene load_steps=9 format=3 uid="uid://dfs7lmjjmnx3o"]
 
 [ext_resource type="Script" uid="uid://dawq5cfwpjv86" path="res://main_menu/main_menu.gd" id="1_aumut"]
 [ext_resource type="Texture2D" uid="uid://dnflbtds3hmsp" path="res://main_menu/assets/HookLineMecha_Lamprey.png" id="2_6at21"]
 [ext_resource type="Texture2D" uid="uid://dxqkghwn4ty16" path="res://main_menu/assets/HookLineMecha_Rhombus_png.png" id="3_6at21"]
 [ext_resource type="Texture2D" uid="uid://d10oudqfpquti" path="res://main_menu/assets/FG_Title_FIN_reFont_a2-blue.png" id="3_ia84y"]
 [ext_resource type="PackedScene" uid="uid://3d73vuqrag75" path="res://main_menu/known_saves_list_widget.tscn" id="3_t6bnd"]
-[ext_resource type="PackedScene" uid="uid://dkiv4ctslv22q" path="res://main_menu/file_import_dialog.tscn" id="5_4h3nc"]
 [ext_resource type="FontFile" uid="uid://krxk4t0donjr" path="res://main_menu/assets/Amarante-Regular.ttf" id="6_ia84y"]
 [ext_resource type="Texture2D" uid="uid://cpoqn1bbuk61w" path="res://main_menu/assets/Shaded_Icon.png" id="7_6at21"]
 
@@ -102,6 +101,7 @@ vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 alignment = 1
@@ -109,7 +109,7 @@ alignment = 1
 [node name="GearBuilderButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 5
 size_flags_vertical = 4
 text = "Gear Builder
 "
@@ -117,17 +117,17 @@ text = "Gear Builder
 [node name="FishBuilderButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 5
 size_flags_vertical = 4
 text = "Fish Builder
 "
 
-[node name="DataImportButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
+[node name="DataManagerButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(110, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Import Data"
+text = " Content Packs "
 
 [node name="CreditsButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer"]
 visible = false
@@ -156,13 +156,10 @@ save_type = "Fish"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FileDialog" parent="." instance=ExtResource("5_4h3nc")]
-
 [connection signal="file_selected" from="HBoxContainer/VBoxContainer/HBoxContainer2/GearKnownSavesListWidget" to="." method="_on_gear_known_saves_list_widget_file_selected"]
 [connection signal="visibility_changed" from="HBoxContainer/VBoxContainer/HBoxContainer2/GearKnownSavesListWidget" to="." method="_on_gear_known_saves_list_widget_visibility_changed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/GearBuilderButton" to="." method="_on_gear_builder_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/FishBuilderButton" to="." method="_on_fish_builder_button_pressed"]
-[connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataImportButton" to="." method="_on_data_import_button_button_down"]
-[connection signal="button_down" from="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataImportButton" to="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataImportButton" method="_on_button_down"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer2/MenuCenterPillarContainer/PanelContainer/MarginContainer2/VBoxContainer/VBoxContainer/DataManagerButton" to="." method="_on_data_manager_button_pressed"]
 [connection signal="file_selected" from="HBoxContainer/VBoxContainer/HBoxContainer2/FishKnownSavesListWidget" to="." method="_on_fish_known_saves_list_widget_file_selected"]
 [connection signal="visibility_changed" from="HBoxContainer/VBoxContainer/HBoxContainer2/FishKnownSavesListWidget" to="." method="_on_fish_known_saves_list_widget_visibility_changed"]

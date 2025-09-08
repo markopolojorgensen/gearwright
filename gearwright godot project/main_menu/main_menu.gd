@@ -1,11 +1,11 @@
 extends Control
 
-@onready var file_dialog := $FileDialog
-
 func _ready() -> void:
+	# only quit via notifications
+	get_tree().set_auto_accept_quit(false)
+	
 	# coming back from some other scene, yeet all history
 	input_context_system.clear()
-	
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -20,10 +20,6 @@ func _on_fish_known_saves_list_widget_file_selected(path: Variant) -> void:
 	if DataHandler.is_fish_data_loaded():
 		global.path_to_shortcutted_file = path
 	_on_fish_builder_button_pressed()
-
-func _on_data_import_button_button_down() -> void:
-	file_dialog.current_path = "user://"
-	file_dialog.popup()
 
 func _on_gear_builder_button_pressed() -> void:
 	if DataHandler.is_gear_data_loaded():
@@ -56,9 +52,5 @@ func update_menu_center_pillar_container():
 	elif not gear_visible and not fish_visible:
 		%MenuCenterPillarContainer.size_flags_horizontal = SIZE_SHRINK_CENTER | SIZE_EXPAND
 
-
-
-
-
-
-
+func _on_data_manager_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://content_pack_manager/content_pack_manager_view.tscn")

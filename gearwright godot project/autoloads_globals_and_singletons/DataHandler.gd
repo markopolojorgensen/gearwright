@@ -8,7 +8,6 @@ var external_content := {}
 
 #region paths
 
-const external_content_path = "user://external_content/"
 #const update_path = "user://latest_update.pck"
 
 #var item_data_path          = "user://LocalData/item_data.json"
@@ -256,7 +255,7 @@ const file_name_to_data_type := {
 func _ready():
 	# make sure directories exist
 	var dirs_to_check := [
-		external_content_path,
+		content_pack_manager.content_packs_path,
 	]
 	for dict in save_paths.values():
 		dirs_to_check.append_array(dict.values())
@@ -286,22 +285,26 @@ func load_all_data():
 		external_content[data_type] = {}
 	
 	global_util.verbose = true
-	var external_dir_info := global_util.dir_contents(external_content_path)
-	for dir in external_dir_info.dirs:
-		var pack_dir_path = external_content_path.path_join(dir)
-		global_util.fancy_print(pack_dir_path)
-		var pack_dir_info := global_util.dir_contents(pack_dir_path)
+	content_pack_manager.load_from_file()
+	content_pack_manager.iterate_over_packs(func(_key: String, content_pack: ContentPack):
+		if not content_pack.is_enabled:
+			return
+		
+		var content_pack_full_path := content_pack.get_full_path()
+		global_util.fancy_print(content_pack_full_path)
+		var pack_dir_info := global_util.dir_contents(content_pack_full_path)
 		for filename in pack_dir_info.files:
 			if file_name_to_data_type.has(filename):
-				var data: Dictionary = load(pack_dir_path.path_join(filename)).data
+				var data: Dictionary = load(content_pack_full_path.path_join(filename)).data
 				if filename == "npc_item_data.json":
-					set_grid_and_icon_data(data, pack_dir_path.path_join("fish_assets"))
+					set_grid_and_icon_data(data, content_pack_full_path.path_join("fish_assets"))
 				elif filename == "item_data.json":
-					set_grid_and_icon_data(data, pack_dir_path.path_join("gear_assets"))
+					set_grid_and_icon_data(data, content_pack_full_path.path_join("gear_assets"))
 				var data_type: DATA_TYPE = file_name_to_data_type[filename]
 				(external_content[data_type] as Dictionary).merge(data, false)
 			else:
-				print("mystery file in external content pack: %s/%s" % [pack_dir_path, filename])
+				print("mystery file in external content pack: %s/%s" % [content_pack_full_path, filename])
+	)
 	
 	# okay, external content
 	#
@@ -479,7 +482,7 @@ func load_fsh_file(path: String) -> bool:
 	var fsh_name: String = path.split("/")[-1]
 	fsh_name = fsh_name.replacen(".fsh", "")
 	fsh_name = fsh_name.replacen(".zip", "")
-	var external_content_pack_dir := external_content_path.path_join(fsh_name)
+	var external_content_pack_dir := content_pack_manager.content_packs_path.path_join(fsh_name)
 	DirAccess.make_dir_recursive_absolute(external_content_pack_dir)
 	var external_content_pack_fish_assets_dir = external_content_pack_dir.path_join("fish_assets")
 	DirAccess.make_dir_recursive_absolute(external_content_pack_fish_assets_dir)
@@ -545,3 +548,4 @@ func is_curio(item_data: Dictionary) -> bool:
 		if "fathomless" in tag.to_lower():
 			return true
 	return false
+

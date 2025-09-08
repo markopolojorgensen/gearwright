@@ -7,10 +7,16 @@ Release day May 11th
   json changes (embedded data)
   json changes (fsh data)
 ------------------------------------------------------------------------------------------------------- MEDIOM
-------------------------------------------------------------------------------------------------------- MYSTERY
 ------------------------------------------------------------------------------------------------------- LORGE
-
-
+------------------------------------------------------------------------------------------------------- MYSTERY
+optics & engine prevent the item popup from displaying extra stat adjustments...?
+add a "this is a curio" data field
+"disable size markers" toggle
+Omni Optics II has sensors 5 in the description and 4 in the stats
+homebrew manager page
+  toggle to enable/disable individual packs a la compcon
+  probably a "load homebrew button"
+  "yeet this homebrew" button
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 

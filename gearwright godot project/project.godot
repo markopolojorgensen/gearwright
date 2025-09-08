@@ -26,6 +26,7 @@ global_util="*res://utility/global_util.gd"
 version="*res://utility/version.gd"
 global="*res://autoloads_globals_and_singletons/global.gd"
 input_context_system="*res://utility/input_context_system.gd"
+content_pack_manager="*res://content_pack_manager.gd"
 
 [display]
 
