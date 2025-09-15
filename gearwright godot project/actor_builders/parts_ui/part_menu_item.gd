@@ -2,29 +2,36 @@ extends ColorRect
 
 @onready var item_texture: TextureRect = $Texture
 @onready var name_label = $NameLabel
-@onready var item_popup = $ItemPopup
+
+var is_item_popup_active := false
+var item_popup
+const item_popup_scene = preload("res://actor_builders/inventory_system/item_popup.tscn")
 
 var icon_path: String
 var item_ID
 var item_data
 var hovering = false
-var popup_loaded = false
 
 signal item_selected(item_id)
 
-func _process(_delta):
-	if not Input.is_action_just_pressed("mouse_rightclick"):
-		return
+func _input(event: InputEvent) -> void:
 	if not hovering:
 		return
-	#if input_context_system.get_current_input_context_id() != input_context_system.INPUT_CONTEXT.MECH_BUILDER:
-		#return
 	
-	if item_popup.visible:
+	if event.is_action_pressed("mouse_rightclick"):
+		toggle_item_popup()
+
+func toggle_item_popup():
+	if is_item_popup_active:
 		item_popup.hide()
+		item_popup.queue_free()
+		is_item_popup_active = false
 	else:
+		item_popup = item_popup_scene.instantiate()
 		item_popup.position = global_position + Vector2(140, 0)
-		item_popup.popup()
+		add_child(item_popup)
+		item_popup.set_data(item_data)
+		is_item_popup_active = true
 
 # must be called after being added to scene tree
 func load_item(a_Item_data, a_Item_ID):
@@ -37,18 +44,14 @@ func load_item(a_Item_data, a_Item_ID):
 	icon_path = icon_path as String
 	item_texture.texture = global.load_item_icon(icon_path)
 	name_label.text = a_Item_data["name"]
-	
-	item_popup.unfocusable = true
 
 func _on_texture_button_button_down():
 	item_selected.emit(item_ID)
 
 func _on_texture_button_mouse_entered():
-	if !popup_loaded:
-		item_popup.set_data(item_data)
-		popup_loaded = true
 	hovering = true
 
 func _on_texture_button_mouse_exited():
 	hovering = false
-	item_popup.hide()
+	if is_item_popup_active:
+		toggle_item_popup()

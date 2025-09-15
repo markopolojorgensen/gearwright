@@ -1,10 +1,13 @@
 class_name Item
 extends Node2D
 
+const item_popup_scene := preload("res://actor_builders/inventory_system/item_popup.tscn")
+var item_popup: Control
+var is_item_popup_active := false
+
 # used to be onready, but items no longer get added to the tree before they
 #  are used.
 var icon: TextureRect
-var item_popup: Popup
 
 var initialized := false
 # list of pairs
@@ -30,8 +33,6 @@ func initialize() -> void:
 	$LegendNumberControl.hide()
 	icon = $Icon
 	world_cell_size = raw_grid_cell_size * icon.scale
-	item_popup = $ItemPopup
-	item_popup.hide()
 	initialized = true
 	hide_weight()
 
@@ -85,8 +86,6 @@ func load_item(a_itemID : String, is_player_item := true):
 	# not necessarily a cell that is part of the internal!
 	top_left_corner_cell = Vector2i(lowest_x, lowest_y)
 	
-	item_popup.unfocusable = true
-	item_popup.set_data.call_deferred(item_data)
 
 func snap_to(destination: Vector2):
 	var tween = get_tree().create_tween()
@@ -95,14 +94,20 @@ func snap_to(destination: Vector2):
 	selected = false
 
 func toggle_popup():
-	if item_popup.visible:
+	if is_item_popup_active:
 		item_popup.hide()
+		item_popup.queue_free()
+		is_item_popup_active = false
 	else:
+		item_popup = item_popup_scene.instantiate()
 		item_popup.position = Vector2(icon.get_global_rect().end.x + 16, icon.get_global_rect().position.y)# + Vector2(140, 0)
-		item_popup.popup()
+		add_child(item_popup)
+		item_popup.set_data(item_data)
+		is_item_popup_active = true
 
 func hide_popup():
-	item_popup.hide()
+	if is_item_popup_active:
+		toggle_popup()
 
 func show_weight():
 	var cell_offset = Vector2(get_filled_cell(false) - top_left_corner_cell)

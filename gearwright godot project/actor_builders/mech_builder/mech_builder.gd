@@ -780,7 +780,7 @@ func _on_help_button_pressed() -> void:
 
 func _on_novok_spin_box_value_changed(value: float) -> void:
 	global_util.fancy_print("novok changed: %.0f" % value, true)
-	current_character.novok = value
+	current_character.novok = int(value)
 
 
 ## Reactivity - things that reset internals

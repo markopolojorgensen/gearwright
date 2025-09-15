@@ -3,6 +3,7 @@ extends RefCounted
 
 var dir_name: String
 var is_enabled := true
+var pack_version := "no version found"
 
 func get_full_path() -> String:
 	return content_pack_manager.content_packs_path.path_join(dir_name)
@@ -23,5 +24,6 @@ static func unmarshal(info: Dictionary) -> ContentPack:
 	var content_pack := ContentPack.new()
 	content_pack.dir_name = info.dir_name
 	content_pack.is_enabled = info.is_enabled
+	content_pack.pack_version = info.get("version", "no version found")
 	return content_pack
 

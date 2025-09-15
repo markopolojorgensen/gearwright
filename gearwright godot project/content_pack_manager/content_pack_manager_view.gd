@@ -16,8 +16,7 @@ func _ready():
 
 func fancy_update():
 	global_util.clear_children(lines_container)
-	content_pack_manager.iterate_over_packs(func(key: String, content_pack: ContentPack):
-		print("adding %s" % key)
+	content_pack_manager.iterate_over_packs(func(_key: String, content_pack: ContentPack):
 		var widget = cp_line_widget_scene.instantiate()
 		lines_container.add_child(widget)
 		widget.toggled.connect(func(is_enabled):

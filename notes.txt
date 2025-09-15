@@ -11,12 +11,8 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------- MYSTERY
 optics & engine prevent the item popup from displaying extra stat adjustments...?
 add a "this is a curio" data field
-"disable size markers" toggle
-Omni Optics II has sensors 5 in the description and 4 in the stats
-homebrew manager page
-  toggle to enable/disable individual packs a la compcon
-  probably a "load homebrew button"
-  "yeet this homebrew" button
+
+"disable size markers" toggle (that's in the LMCT lmao)
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
@@ -138,6 +134,9 @@ JSON & Save format changes
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
+2.6.0
+  homebrew manager page
+  Omni Optics II should have sensors +5
 2.5.7
   switched novok and backlash boxes in fisher view
 2.5.6

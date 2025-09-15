@@ -291,7 +291,7 @@ func load_all_data():
 			return
 		
 		var content_pack_full_path := content_pack.get_full_path()
-		global_util.fancy_print(content_pack_full_path)
+		#global_util.fancy_print(content_pack_full_path)
 		var pack_dir_info := global_util.dir_contents(content_pack_full_path)
 		for filename in pack_dir_info.files:
 			if file_name_to_data_type.has(filename):
@@ -302,6 +302,10 @@ func load_all_data():
 					set_grid_and_icon_data(data, content_pack_full_path.path_join("gear_assets"))
 				var data_type: DATA_TYPE = file_name_to_data_type[filename]
 				(external_content[data_type] as Dictionary).merge(data, false)
+			elif filename == "version.json":
+				var data: Dictionary = load(content_pack_full_path.path_join(filename)).data
+				content_pack.pack_version = data.version
+				print("%s is version %s" % [content_pack.dir_name, content_pack.pack_version])
 			else:
 				print("mystery file in external content pack: %s/%s" % [content_pack_full_path, filename])
 	)

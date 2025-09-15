@@ -2,28 +2,58 @@
 
 [ext_resource type="Script" uid="uid://bs5y5d5gmaxfc" path="res://content_pack_manager/content_pack_line_widget.gd" id="1_ifi48"]
 
-[node name="ContentPackLineWidget" type="HBoxContainer"]
-offset_right = 490.0
+[node name="ContentPackLineWidget" type="MarginContainer"]
+offset_right = 528.0
 offset_bottom = 31.0
-size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 script = ExtResource("1_ifi48")
 
-[node name="CheckButton" type="CheckButton" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.0823529, 0.109804, 0.294118, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.215686, 0.215686, 0.215686, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="MarginContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Content Name"
 
-[node name="Spacer" type="Control" parent="."]
-custom_minimum_size = Vector2(32, 0)
+[node name="Spacer" type="Control" parent="MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="YeetButton" type="Button" parent="."]
+[node name="VersionLabel" type="Label" parent="MarginContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "version goes here"
+
+[node name="YeetButton" type="Button" parent="MarginContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = " X "
 
-[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
-[connection signal="pressed" from="YeetButton" to="." method="_on_yeet_button_pressed"]
+[connection signal="toggled" from="MarginContainer/MarginContainer/HBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/HBoxContainer/YeetButton" to="." method="_on_yeet_button_pressed"]

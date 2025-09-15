@@ -1,20 +1,16 @@
-extends Popup
+extends Container
 
-@onready var engage_text_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/EngageTextLabel
-@onready var range_damage_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/RangeDamageLabel
-@onready var item_description_container = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemDescriptionContainer
-@onready var item_description_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemDescriptionContainer/ItemDescriptionLabel
-@onready var item_tags_container = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect2
-@onready var item_tags_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect2/MarginContainer2/ItemTagsContainer/ItemTagsLabel
-@onready var item_stats_container = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemStatsContainer
-@onready var item_stats_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemStatsContainer/ItemStatsLabel
-@onready var item_rules_container = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemRulesContainer
-@onready var item_rules_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemRulesContainer/ItemRulesLabel
-@onready var middle_text_container = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer
-@onready var item_name_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect/MarginContainer/VBoxContainer/ItemNameLabel
-@onready var item_type_weight_label = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect/MarginContainer/VBoxContainer/ItemTypeLabel
+@onready var header_color_rect: ColorRect = %HeaderColorRect
+@onready var name_label = %NameLabel
+@onready var type_label: Label = %ItemTypeLabel
+@onready var weight_label: Label = %WeightLabel
 
-@onready var internal_color_rect = $ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect
+@onready var middle_text_container = %MiddleContainer
+@onready var middle_text: RichTextLabel = %MiddleText
+
+@onready var footer_container = %FooterContainer
+@onready var footer_color_rect = %FooterColorRect
+@onready var item_tags_label = %ItemTagsLabel
 
 var stats_to_list = [
 	"close",
@@ -30,7 +26,17 @@ var stats_to_list = [
 	"weight_cap",
 	"ballast"]
 
-var stats_to_capitalize = [
+var optics_ignore_tags := [
+	"close",
+	"far",
+	"sensors",
+]
+
+var engine_ignore_tags := [
+	"ap",
+]
+
+var stats_to_use_allcaps_for = [
 	"close",
 	"far",
 	"power",
@@ -39,84 +45,117 @@ var stats_to_capitalize = [
 
 var weapon_internals = ["close", "far", "mental"]
 
+const max_widget_width: float = 600.0
+
+func _process(_delta: float) -> void:
+	if max_widget_width < size.x:
+		middle_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		custom_minimum_size.x = max_widget_width
+		return # wait for resize
+	
+	var viewport_rect: Rect2 = get_viewport_rect()
+	if not get_viewport_rect().encloses(get_rect()):
+		position.x = clamp(position.x, viewport_rect.position.x, viewport_rect.end.x - size.x)
+		position.y = clamp(position.y, viewport_rect.position.y, viewport_rect.end.y - size.y)
+
+func _ready():
+	if global_util.was_run_directly(self):
+		set_data(DataHandler.get_internal_data("close_optics_i"))
+		position = Vector2(100, 100)
+
+
 func set_data(a_Item_Data):
-	internal_color_rect.color = global.colors[a_Item_Data["type"]]
-	item_tags_container.color = global.colors[a_Item_Data["type"]]
+	var item_type = a_Item_Data["type"]
+	header_color_rect.color = global.colors[item_type]
+	footer_color_rect.color = global.colors[item_type]
 	
-	item_name_label.text = a_Item_Data["name"]
+	name_label.text = a_Item_Data["name"]
 	
-	if a_Item_Data["type"] in weapon_internals:
-		item_type_weight_label.text = "%s Weapon" % a_Item_Data["type"].to_upper()
+	var is_weapon = item_type in weapon_internals
+	if is_weapon:
+		type_label.text = "%s Weapon" % item_type.to_upper()
 	else:
-		item_type_weight_label.text = "%s Internal" % a_Item_Data["type"].capitalize()
+		type_label.text = "%s Internal" % item_type.capitalize()
 	
-	item_type_weight_label.text += " - Weight %d" % a_Item_Data["weight"]
+	weight_label.text = "Weight %d" % a_Item_Data["weight"]
 	
-	if a_Item_Data["tags"]:
-		var temp_tags = "Tags: "
-		for tag in a_Item_Data["tags"]:
-			temp_tags += "%s, " % tag.capitalize()
-		
-		temp_tags = temp_tags.erase(temp_tags.length() - 2, 2)
-		item_tags_label.text = "[center]%s[/center]" % temp_tags
-		item_tags_container.visible = true
-		size.y = size.y + 33
 	
-	var temp_stats = ""
-	if "optics" in a_Item_Data["tags"] or "engine" in a_Item_Data["tags"]:
-		pass
-	else:
-		for stat in a_Item_Data:
-			if stat in stats_to_list && a_Item_Data[stat] != 0:
-				temp_stats += ("%s +%d, " if a_Item_Data[stat] > 0 else "%s %d, ") % [stat.to_upper() if stat in stats_to_capitalize else stat.capitalize(), a_Item_Data[stat]]
-	if temp_stats:
-		temp_stats = temp_stats.erase(temp_stats.length() - 2, 2)
-		item_stats_label.text = "[center]%s[/center]" % temp_stats
-		item_stats_container.visible = true
-		size.y = size.y + 43
-		if a_Item_Data["tags"]:
-			size.y = size.y + 10
+	var action_data: Dictionary = a_Item_Data.get("action_data", {})
+	var tags: Array = a_Item_Data.get("tags", [])
 	
-	if a_Item_Data["extra_rules"]:
-		item_rules_label.text = a_Item_Data["extra_rules"]
-		item_rules_container.visible = true
+	var middle_text_lines := []
+	if not action_data.is_empty():
+		# engage line
+		if item_type != "passive":
+			var engage_line := "Engage (%dAP)" % int(action_data.get("ap_cost", 0))
+			if is_weapon:
+				engage_line += ": %s Attack" % item_type.to_upper()
+			middle_text_lines.append(engage_line)
 		
-		var min_x = item_rules_label.size.x
-		var temp_font_size = get_theme_default_font_size()
-		var text_height = get_theme_default_font().get_multiline_string_size(a_Item_Data["extra_rules"], HORIZONTAL_ALIGNMENT_CENTER, min_x, temp_font_size).y
-		
-		size.y = size.y + int(text_height/8.0) + 30
-	
-	if a_Item_Data["action_data"]:
-		var action_data = a_Item_Data["action_data"]
-		
-		if a_Item_Data["type"] != "passive":
-			engage_text_label.text = "Engage (%dAP)" % int(action_data.get("ap_cost", 0))
-			engage_text_label.visible = true
-			
-			size.y = size.y + 23
-		
-		if a_Item_Data["type"] in weapon_internals:
-			engage_text_label.text += ": %s Attack" % a_Item_Data["type"].to_upper()
-			
+		# range line
+		if is_weapon:
+			var range_line := ""
 			if action_data.has("marble_damage") && action_data["marble_damage"] != 0:
-				range_damage_label.text = "Range %d - Marble Damage [%d]" % [action_data["range"], action_data["marble_damage"]]
+				range_line = "Range %d - Marble Damage [%d]" % [action_data["range"], action_data["marble_damage"]]
 			else:
-				range_damage_label.text = "Range %d - Damage [%d]" % [action_data["range"], action_data["damage"]]
-			
-			range_damage_label.visible = true
-			size.y = size.y + 23
+				range_line = "Range %d - Damage [%d]" % [action_data["range"], action_data["damage"]]
+			if not range_line.is_empty():
+				middle_text_lines.append(range_line)
 		
-		if action_data["action_text"]:
-			item_description_label.text = "Effect: %s" % action_data["action_text"]
-			item_description_container.visible = true
-			
-			var min_x = item_description_label.size.x
-			var temp_font_size = get_theme_default_font_size()
-			var text_height = get_theme_default_font().get_multiline_string_size(action_data["action_text"], HORIZONTAL_ALIGNMENT_CENTER, min_x, temp_font_size).y
-			
-			size.y = size.y + int(text_height/8.0) + 50
+		# Effect
+		if action_data.has("action_text") and not action_data["action_text"].is_empty():
+			var effect_text: String = action_data["action_text"]
+			effect_text = effect_text.replacen(". ", ".\n")
+			effect_text = effect_text.replacen("\n ", "\n")
+			middle_text_lines.append("Effect: %s" % effect_text)
+	
+	if a_Item_Data.has("extra_rules") and not a_Item_Data["extra_rules"].is_empty():
+		middle_text_lines.append(a_Item_Data["extra_rules"])
+	
+	
+	var is_optics = "optics" in tags
+	var is_engine = "engine" in tags
+	var temp_stat_quips := []
+	for stat in a_Item_Data:
+		if not stat in stats_to_list:
+			continue
+		if a_Item_Data[stat] == 0:
+			continue
+		if is_optics and (stat in optics_ignore_tags):
+			continue
+		if is_engine and (stat in engine_ignore_tags):
+			continue
 		
-	if !(item_description_container.visible or item_rules_container.visible or range_damage_label.visible or engage_text_label.visible or temp_stats):
+		var stat_string := "%s +%d"
+		var value = a_Item_Data[stat]
+		if value < 0:
+			stat_string = "%s %d"
+		var stat_name: String
+		if stat in stats_to_use_allcaps_for:
+			stat_name = stat.to_upper()
+		else:
+			stat_name = stat.capitalize()
+		stat_string = stat_string % [stat_name, value]
+		temp_stat_quips.append(stat_string)
+	if not temp_stat_quips.is_empty():
+		var temp_stats := ", ".join(temp_stat_quips)
+		var full_stats_line := "[center]%s[/center]" % temp_stats
+		middle_text_lines.append(full_stats_line)
+	
+	if middle_text_lines.is_empty():
 		middle_text_container.visible = false
-		size.y = size.y - (middle_text_container.size.y)
+	else:
+		middle_text.text = "\n".join(middle_text_lines)
+	
+	
+	if tags.is_empty():
+		footer_container.hide()
+	else:
+		footer_container.show()
+		var temp_tags = "Tags: "
+		var pretty_tags = tags.map(func(tag: String): return tag.capitalize())
+		temp_tags += ", ".join(pretty_tags)
+		item_tags_label.text = "[center]%s[/center]" % temp_tags
+
+
+

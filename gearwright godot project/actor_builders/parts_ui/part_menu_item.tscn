@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cx8s4iaox16a2"]
+[gd_scene load_steps=2 format=3 uid="uid://cx8s4iaox16a2"]
 
 [ext_resource type="Script" uid="uid://uski11ldy8ka" path="res://actor_builders/parts_ui/part_menu_item.gd" id="1_hhkp4"]
-[ext_resource type="Script" uid="uid://dovonmbw3vymd" path="res://actor_builders/inventory_system/item_popup.gd" id="2_makmb"]
 
 [node name="PartMenuItem" type="ColorRect"]
 custom_minimum_size = Vector2(130, 120)
@@ -29,6 +28,7 @@ anchor_bottom = 1.0
 offset_top = -23.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 1
 theme_override_font_sizes/font_size = 15
 horizontal_alignment = 1
 autowrap_mode = 2
@@ -40,167 +40,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="ItemPopup" type="Popup" parent="."]
-position = Vector2i(200, 100)
-size = Vector2i(400, 120)
-mouse_passthrough = true
-min_size = Vector2i(400, 120)
-script = ExtResource("2_makmb")
-
-[node name="ColorRect2" type="ColorRect" parent="ItemPopup"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="ItemPopup/ColorRect2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
-
-[node name="ColorRect" type="ColorRect" parent="ItemPopup/ColorRect2/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0.333333, 0.333333, 0.333333, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
-
-[node name="ColorRect" type="ColorRect" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer"]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-color = Color(0.239216, 0.568627, 0.862745, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="ItemNameLabel" type="Label" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "Big Gun"
-
-[node name="ItemTypeLabel" type="Label" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Ranged Weapon"
-
-[node name="MarginContainer" type="MarginContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="EngageTextLabel" type="Label" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="RangeDamageLabel" type="Label" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "pog"
-
-[node name="ItemDescriptionContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Control2" type="Control" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemDescriptionContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="ItemDescriptionLabel" type="RichTextLabel" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemDescriptionContainer"]
-layout_mode = 2
-bbcode_enabled = true
-fit_content = true
-
-[node name="ItemRulesContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Control2" type="Control" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemRulesContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="ItemRulesLabel" type="RichTextLabel" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemRulesContainer"]
-layout_mode = 2
-bbcode_enabled = true
-fit_content = true
-
-[node name="ItemStatsContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Control4" type="Control" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemStatsContainer"]
-custom_minimum_size = Vector2(0, 15)
-layout_mode = 2
-
-[node name="ItemStatsLabel" type="RichTextLabel" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/MarginContainer/VBoxContainer/ItemStatsContainer"]
-layout_mode = 2
-bbcode_enabled = true
-fit_content = true
-
-[node name="ColorRect2" type="ColorRect" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_vertical = 10
-color = Color(0.239216, 0.568627, 0.862745, 1)
-
-[node name="MarginContainer2" type="MarginContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="ItemTagsContainer" type="VBoxContainer" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect2/MarginContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="ItemTagsLabel" type="RichTextLabel" parent="ItemPopup/ColorRect2/MarginContainer/ColorRect/VBoxContainer/ColorRect2/MarginContainer2/ItemTagsContainer"]
-layout_mode = 2
-bbcode_enabled = true
-text = "sfjihfkjsdhfkjah"
-fit_content = true
+mouse_filter = 1
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
