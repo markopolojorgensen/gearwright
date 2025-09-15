@@ -1,8 +1,0 @@
-{
-  "bird_up": {
-    "name": "Bird Up",
-    "category": "mental",
-    "ap_cost": 2,
-    "action_text": "Perform the BIRD UP action."
-  }
-}

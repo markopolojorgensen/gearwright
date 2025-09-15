@@ -3256,6 +3256,7 @@
 			"[0, -1]",
 			"[0, -2]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Drowned Hellengine",
 		"power": 0.0,
@@ -3294,6 +3295,7 @@
 			"[0, 1]",
 			"[1, 0]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Shapeless Lighthouse",
 		"power": 0.0,
@@ -3333,6 +3335,7 @@
 			"[1, 0]",
 			"[1, 1]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Hoist of the Demented",
 		"power": 0.0,
@@ -3367,6 +3370,7 @@
 		"grid": [
 			"[0, 0]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Festering Heart",
 		"power": 0.0,
@@ -3410,6 +3414,7 @@
 			"[2, -1]",
 			"[3, -1]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Ad Astra",
 		"power": 0.0,
@@ -3457,6 +3462,7 @@
 			"[2, -1]",
 			"[3, -1]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Eisenfaust's Coffin",
 		"power": 0.0,
@@ -3499,6 +3505,7 @@
 			"[-1, 0]",
 			"[0, 1]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Wave Razor",
 		"power": 0.0,
@@ -3544,6 +3551,7 @@
 			"[1, 1]",
 			"[3, 0]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Graveburrow Trident",
 		"power": 0.0,
@@ -3582,6 +3590,7 @@
 			"[-1, -1]",
 			"[0, -1]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Fathomless Lurestone",
 		"power": 0.0,
@@ -3615,6 +3624,7 @@
 		"grid": [
 			"[0, 0]"
 		],
+		"is_curio": true,
 		"mental": 0.0,
 		"name": "Eye of Termina",
 		"power": 0.0,

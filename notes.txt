@@ -9,9 +9,6 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
-optics & engine prevent the item popup from displaying extra stat adjustments...?
-add a "this is a curio" data field
-
 "disable size markers" toggle (that's in the LMCT lmao)
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
@@ -136,6 +133,9 @@ JSON & Save format changes
 
 2.6.0
   homebrew manager page
+  new item popup (now with variable width)
+  optics & engines no longer prevent item popup from displaying extra stat adjustments
+  added "is_curio" field to item_data.json, quit using fathomless tag to deterimine whether something is a curio or not
   Omni Optics II should have sensors +5
 2.5.7
   switched novok and backlash boxes in fisher view

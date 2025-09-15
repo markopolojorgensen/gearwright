@@ -545,11 +545,10 @@ func copy_from_zip(zipreader: ZIPReader, file_name, dest_path):
 	dest_file.close()
 
 # TODO: is_curio should go somewhere else
-#   Item should get split into ItemInfo and DiegeticItem
+#   Item should get split into ItemInfo and DiegeticItem (or maybe ItemWidget)
 #   this should go in the info side
+# this used to use the presence or absence of the fathomless tag to determine
+#   if something was a curio
 func is_curio(item_data: Dictionary) -> bool:
-	for tag in item_data.tags:
-		if "fathomless" in tag.to_lower():
-			return true
-	return false
+	return item_data.get("is_curio", false)
 
