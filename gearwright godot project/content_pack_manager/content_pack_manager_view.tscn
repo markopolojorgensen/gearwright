@@ -49,6 +49,7 @@ layout_mode = 2
 color = Color(0.0823529, 0.109804, 0.294118, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]

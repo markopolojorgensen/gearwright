@@ -6,7 +6,14 @@ signal yeet
 func fancy_update(content_pack: ContentPack):
 	%NameLabel.text = content_pack.dir_name
 	#%NameLabel.text += "     (%s)" % ProjectSettings.globalize_path(info.path)
-	%CheckButton.set_pressed_no_signal(content_pack.is_enabled)
+	
+	if content_pack.is_perma_enabled():
+		%CheckButton.set_pressed_no_signal(true)
+		%CheckButton.disabled = true
+	else:
+		%CheckButton.disabled = false
+		%CheckButton.set_pressed_no_signal(content_pack.is_enabled)
+	
 	%VersionLabel.text = content_pack.pack_version
 
 func _on_check_button_toggled(toggled_on: bool) -> void:

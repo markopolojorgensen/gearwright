@@ -5,6 +5,9 @@ var dir_name: String
 var is_enabled := true
 var pack_version := "no version found"
 
+func is_perma_enabled() -> bool:
+	return "gearwright fish data" in dir_name.to_lower()
+
 func get_full_path() -> String:
 	return content_pack_manager.content_packs_path.path_join(dir_name)
 

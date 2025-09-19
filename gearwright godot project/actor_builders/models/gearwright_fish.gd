@@ -1,7 +1,14 @@
 extends GearwrightActor
 class_name GearwrightFish
 
-const non_cyclic_item_scene = preload("res://actor_builders/inventory_system/Item.tscn")
+# FIXME loading the item scene has had a couple of problems
+# I think there was a cyclic reference problem (a -> b -> c -> a) that godot
+#   somehow couldn't resolve, I don't remember what that was about.
+# now trying to instantiate gives
+#   E 0:00:04:236   gearwright_fish.gd:368 @ unmarshal():
+#     Failed to instantiate scene state of "", node count is 0.
+#     Make sure the PackedScene resource is valid.
+#const non_cyclic_item_scene = preload("res://actor_builders/inventory_system/Item.tscn")
 
 const LEVIATHAN_FISH_GSIDS := [
 	GSIDS.FISH_TAIL,
@@ -338,6 +345,8 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 	new_fish.mutations = sesh.get_info("mutations", [])
 	
 	new_fish.initialize()
+	# see comment at the top of this file, no idea why this has to be here like this
+	var non_cyclic_item_scene = load("res://actor_builders/inventory_system/Item.tscn")
 	
 	var internals := sesh.get_info("internals", {}) as Dictionary
 	if internals.is_empty():
@@ -366,6 +375,7 @@ static func unmarshal(info: Dictionary) -> GearwrightFish:
 					# internal_info.internal: string
 					var internal_info: Dictionary = gs_internals_list[i]
 					var new_internal = non_cyclic_item_scene.instantiate()
+					assert(new_internal != null)
 					new_internal.load_item(internal_info.internal_name, false)
 					var primary_cell := global.dictionary_to_vector2i(internal_info.slot) # fuck json
 					var errors: Array = new_fish.equip_internal(new_internal, gsid, primary_cell)

@@ -9,7 +9,6 @@ Release day May 11th
 ------------------------------------------------------------------------------------------------------- MEDIOM
 ------------------------------------------------------------------------------------------------------- LORGE
 ------------------------------------------------------------------------------------------------------- MYSTERY
-"disable size markers" toggle (that's in the LMCT lmao)
 
 ------------------------------------------------------------------------------------------------------------------- SOME FUTURE VERSION
 
@@ -131,6 +130,13 @@ JSON & Save format changes
     new keys in manual_adjustments: "unlocks" and "weight_cap"
     new key in characters: "custom_background_name"
 
+2.6.1
+  content pack list stays a little wide even when empty
+  upgraded godot -> 4.5
+  any .fsh content pack with "gearwright fish data" in the folder name will be permanently enabled.
+    not case sensitive
+    has to be those exact words with spaces
+    there can be other stuff in the name, that string just has to appear somewhere
 2.6.0
   homebrew manager page
   new item popup (now with variable width)
